@@ -43,3 +43,12 @@ div {
 p {
 	margin: 0.5em 2em;
 }
+
+.node {
+	fill: var(--accent-color);
+}
+
+.link {
+	stroke: var(--accent-color);
+	stroke-width: 0.5em;
+}
