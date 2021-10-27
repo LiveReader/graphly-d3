@@ -47,12 +47,12 @@ let graph = {
 const drag = d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
 
 const simulation = d3
-	.forceSimulation(graph.nodes)
+	.forceSimulation()
 	.force(
 		"link",
 		d3.forceLink().id((d) => d.id)
 	)
-	.force("charge", d3.forceManyBody().strength(-100))
+	.force("change", d3.forceManyBody().strength(-100))
 	.force("center", d3.forceCenter(width / 2, height / 2))
 	.force("collide", d3.forceCollide(25))
 	.on("tick", ticked);
@@ -60,8 +60,8 @@ const simulation = d3
 const nodeGroup = svg.append("g").attr("id", "nodes");
 const linkGroup = svg.append("g").attr("id", "links");
 const graphElements = {
-	nodes,
-	links,
+	nodes: null,
+	links: null,
 };
 
 render();
@@ -69,6 +69,19 @@ render();
 function ticked() {
 	// console.log(graphElements);
 	if (!graphElements.links || !graphElements.nodes) return;
+
+	graphElements.links
+		// .select("line")
+		.attr("x1", (d) => {
+			return d.from.x;
+		})
+		.attr("y1", (d) => d.from.y)
+		.attr("x2", (d) => d.to.x)
+		.attr("y2", (d) => d.to.y);
+
+	graphElements.nodes.attr("transform", (d) => {
+		return `translate(${d.x}, ${d.y})`;
+	});
 }
 
 function render() {
