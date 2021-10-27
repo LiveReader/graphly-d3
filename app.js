@@ -66,6 +66,11 @@ const graphElements = {
 
 render();
 
+function ticked() {
+	// console.log(graphElements);
+	if (!graphElements.links || !graphElements.nodes) return;
+}
+
 function render() {
 	const links = svg
 		.append("g")
