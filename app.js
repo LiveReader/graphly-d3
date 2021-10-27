@@ -67,12 +67,39 @@ const graphElements = {
 render();
 
 function render() {
-	const dataPoint = container.selectAll("p").data(list_data);
-	dataPoint
+	const links = svg
+		.append("g")
+		.selectAll("g")
+		.data(graph.links)
+
 		.enter()
-		.append("p")
-		.text((d) => d);
-	dataPoint.exit().remove();
+		.append("g")
+		.call((d) => {
+			graphElements.links = d;
+		})
+		.classed("link", true)
+		.append("line")
+
+		.exit()
+		.remove();
+
+	const nodes = svg
+		.append("g")
+		.selectAll("g")
+		.data(graph.nodes)
+
+		.enter()
+		.append("g")
+		.call((d) => {
+			graphElements.nodes = d;
+		})
+		.classed("node", true)
+		.append("circle")
+		.attr("r", (d) => d.value)
+		.call(drag)
+
+		.exit()
+		.remove();
 }
 
 function dragstarted(e, d) {
