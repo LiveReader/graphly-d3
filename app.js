@@ -92,3 +92,8 @@ function dragended(e, d) {
 	d.fx = null;
 	d.fy = null;
 }
+
+fetch("./graph.json")
+	.then((data) => data.json())
+	.then((data) => (graph = data.graph))
+	.then(render);
