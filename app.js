@@ -72,8 +72,11 @@ function ticked() {
 }
 
 function render() {
-	const links = svg
-		.append("g")
+	simulation.nodes(graph.nodes);
+	// simulation.force("link").links(graph.links);
+	simulation.alpha(1).restart();
+
+	const links = linkGroup
 		.selectAll("g")
 		.data(graph.links)
 
@@ -88,20 +91,19 @@ function render() {
 		.exit()
 		.remove();
 
-	const nodes = svg
-		.append("g")
+	const nodes = nodeGroup
 		.selectAll("g")
 		.data(graph.nodes)
 
 		.enter()
 		.append("g")
+		.call(drag)
 		.call((d) => {
 			graphElements.nodes = d;
 		})
 		.classed("node", true)
 		.append("circle")
 		.attr("r", (d) => d.value)
-		.call(drag)
 
 		.exit()
 		.remove();
@@ -112,13 +114,10 @@ function dragstarted(e, d) {
 	d.fx = e.x;
 	d.fy = e.y;
 }
-
 function dragged(e, d) {
-	console.log(e);
 	d.fx = e.x;
 	d.fy = e.y;
 }
-
 function dragended(e, d) {
 	simulation.alphaTarget(0);
 	d.fx = null;
@@ -128,4 +127,14 @@ function dragended(e, d) {
 fetch("./graph.json")
 	.then((data) => data.json())
 	.then((data) => (graph = data.graph))
-	.then(render);
+	.then(render)
+	.then(() => {
+		// setTimeout(() => {
+		// 	graph.nodes.push({
+		// 		id: graph.nodes.length,
+		// 		value: 50,
+		// 		label: "FUCK YOU",
+		// 	});
+		// 	render();
+		// }, 100);
+	});
