@@ -38,11 +38,17 @@ h1 {
 	margin: 1em;
 }
 
-.button {
+#buttons {
+	position: absolute;
+}
+button {
 	background-color: var(--light-background);
-	padding: 0.5em;
+	color: var(--text-color);
+	border: none;
 	border-radius: 0.5em;
-	width: 100%;
+	margin: 5em 1em;
+	font-size: 1em;
+	padding: 0.5em;
 	cursor: pointer;
 }
 

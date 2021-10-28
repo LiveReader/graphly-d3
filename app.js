@@ -145,3 +145,31 @@ window.onload = () => {
 	loadData();
 };
 window.onresize = resize;
+
+///
+/// HELPER BUTTONS
+///
+
+const addNodeButton = document.getElementById("add-node");
+const removeNodeButton = document.getElementById("remove-node");
+
+addNodeButton.addEventListener("click", () => {
+	graph.nodes.push({
+		id: Math.random(),
+		value: Math.floor(Math.random() * 100) + 10,
+		label: Math.random().toString(36).substring(7),
+	});
+	graph.links.push({
+		source: graph.nodes[Math.floor(Math.random() * graph.nodes.length)].id,
+		target: graph.nodes[graph.nodes.length - 1].id,
+	});
+	render();
+});
+
+removeNodeButton.addEventListener("click", () => {
+	// find random node and remove it as well as all links to it
+	const node = graph.nodes[Math.floor(Math.random() * graph.nodes.length)];
+	graph.nodes = graph.nodes.filter((n) => n.id !== node.id);
+	graph.links = graph.links.filter((l) => l.source !== node.id || l.target !== node.id);
+	render();
+});
