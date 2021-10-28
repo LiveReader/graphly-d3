@@ -1,39 +1,5 @@
 let container = d3.select("#list_data");
 
-let incrementButton = d3.select("#list_increment");
-let decrementButton = d3.select("#list_decrement");
-
-// ========================================================
-// ========================= LIST =========================
-// ========================================================
-
-// let list_data = [1, 2, 3, 4, 5];
-
-// incrementButton.on("click", function () {
-// 	list_data.push(list_data.length + 1);
-// 	render();
-// });
-
-// decrementButton.on("click", function () {
-// 	list_data.pop();
-// 	render();
-// });
-
-// function render() {
-// 	const dataPoint = container.selectAll("p").data(list_data);
-// 	dataPoint
-// 		.enter()
-// 		.append("p")
-// 		.text((d) => d);
-// 	dataPoint.exit().remove();
-// }
-
-// render();
-
-// =========================================================
-// ========================= GRAPH =========================
-// =========================================================
-
 const svg = d3.select("svg");
 const width = window.innerWidth;
 const height = window.innerHeight;
@@ -87,7 +53,10 @@ function ticked() {
 function render() {
 	simulation.nodes(graph.nodes);
 	simulation.force("link").links(graph.links);
-	simulation.alpha(0.1).restart();
+	simulation.alpha(0.5).restart();
+
+	nodeGroup.selectAll("*").remove();
+	linkGroup.selectAll("*").remove();
 
 	const links = linkGroup
 		.selectAll("g")
@@ -145,12 +114,16 @@ fetch("./graph.json")
 	.then((data) => (graph = data.graph))
 	.then(render)
 	.then(() => {
-		// setTimeout(() => {
-		// 	graph.nodes.push({
-		// 		id: graph.nodes.length,
-		// 		value: 50,
-		// 		label: "FUCK YOU",
-		// 	});
-		// 	render();
-		// }, 100);
+		setTimeout(() => {
+			graph.nodes.push({
+				id: graph.nodes.length,
+				value: 50,
+				label: "FUCK YOU",
+			});
+			graph.links.push({
+				source: 0,
+				target: graph.nodes.length - 1,
+			});
+			render();
+		}, 1000);
 	});
