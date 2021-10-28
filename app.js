@@ -31,9 +31,9 @@ const simulation = d3
 		"link",
 		d3.forceLink().id((d) => d.id)
 	)
-	.force("change", d3.forceManyBody().strength(-5000))
+	.force("change", d3.forceManyBody().strength(-20))
 	.force("center", d3.forceCenter(width / 2, height / 2))
-	.force("collide", d3.forceCollide(80))
+	.force("collide", d3.forceCollide(30))
 	.on("tick", ticked);
 
 const linkGroup = svg.append("g").attr("id", "links");
@@ -64,13 +64,16 @@ function ticked() {
 }
 
 function render() {
+	// update data in graph
 	simulation.nodes(graph.nodes);
 	simulation.force("link").links(graph.links);
 	simulation.alpha(0.5).restart();
 
+	// clear graph
 	nodeGroup.selectAll("*").remove();
 	linkGroup.selectAll("*").remove();
 
+	// links
 	const links = linkGroup
 		.selectAll("g")
 		.data(graph.links)
@@ -86,6 +89,7 @@ function render() {
 		.exit()
 		.remove();
 
+	// nodes
 	const nodes = nodeGroup
 		.selectAll("g")
 		.data(graph.nodes)
@@ -113,18 +117,18 @@ function loadData() {
 		.then((data) => (graph = data.graph))
 		.then(render)
 		.then(() => {
-			setTimeout(() => {
+			for (let i = 0; i < 200; i++) {
 				graph.nodes.push({
-					id: graph.nodes.length,
-					value: 50,
-					label: "FUCK YOU",
+					id: Math.random(),
+					value: Math.floor(Math.random() * 100) + 10,
+					label: Math.random().toString(36).substring(7),
 				});
 				graph.links.push({
-					source: 0,
-					target: graph.nodes.length - 1,
+					source: graph.nodes[Math.floor(Math.random() * graph.nodes.length)].id,
+					target: graph.nodes[graph.nodes.length - 1].id,
 				});
-				render();
-			}, 1000);
+			}
+			render();
 		});
 }
 
