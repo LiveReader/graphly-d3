@@ -77,17 +77,15 @@ function render() {
 	const links = linkGroup
 		.selectAll("g")
 		.data(graph.links)
-
 		.enter()
 		.append("g")
 		.call((d) => {
 			graphElements.links = d;
 		})
 		.classed("link", true)
-		.append("line")
+		.append("line");
 
-		.exit()
-		.remove();
+	links.exit().remove();
 
 	// nodes
 	const nodes = nodeGroup
@@ -170,6 +168,6 @@ removeNodeButton.addEventListener("click", () => {
 	// find random node and remove it as well as all links to it
 	const node = graph.nodes[Math.floor(Math.random() * graph.nodes.length)];
 	graph.nodes = graph.nodes.filter((n) => n.id !== node.id);
-	graph.links = graph.links.filter((l) => l.source !== node.id || l.target !== node.id);
+	graph.links = graph.links.filter((l) => l.source.id !== node.id && l.target.id !== node.id);
 	render();
 });

@@ -61,7 +61,7 @@ p {
 }
 
 .node {
-	fill: var(--accent-red);
+	fill: var(--accent-color);
 }
 .node text {
 	fill: var(--text-color);
@@ -69,6 +69,6 @@ p {
 }
 
 .link {
-	stroke: var(--accent-orange);
+	stroke: var(--accent-red);
 	stroke-width: 0.5em;
 }

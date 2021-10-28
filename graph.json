@@ -4,37 +4,37 @@
 			{
 				"id": 0,
 				"value": 50,
-				"label": "A"
+				"label": "Anne"
 			},
 			{
 				"id": 1,
 				"value": 30,
-				"label": "B"
+				"label": "Bert"
 			},
 			{
 				"id": 2,
 				"value": 70,
-				"label": "C"
+				"label": "Carsten"
 			},
 			{
 				"id": 3,
-				"value": 10,
-				"label": "D"
+				"value": 35,
+				"label": "Dennis"
 			},
 			{
 				"id": 4,
 				"value": 40,
-				"label": "E"
+				"label": "Eric"
 			},
 			{
 				"id": 5,
 				"value": 60,
-				"label": "F"
+				"label": "Frida"
 			},
 			{
 				"id": 6,
-				"value": 20,
-				"label": "G"
+				"value": 25,
+				"label": "Gina"
 			}
 		],
 		"links": [
@@ -61,6 +61,14 @@
 			{
 				"source": 2,
 				"target": 6
+			},
+			{
+				"source": 4,
+				"target": 6
+			},
+			{
+				"source": 3,
+				"target": 5
 			}
 		]
 	}
