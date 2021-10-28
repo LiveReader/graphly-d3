@@ -52,7 +52,7 @@ const simulation = d3
 		"link",
 		d3.forceLink().id((d) => d.id)
 	)
-	.force("change", d3.forceManyBody().strength(-100))
+	.force("change", d3.forceManyBody().strength(-5000))
 	.force("center", d3.forceCenter(width / 2, height / 2))
 	.force("collide", d3.forceCollide(25))
 	.on("tick", ticked);
@@ -71,13 +71,13 @@ function ticked() {
 	if (!graphElements.links || !graphElements.nodes) return;
 
 	graphElements.links
-		// .select("line")
+		.select("line")
 		.attr("x1", (d) => {
-			return d.from.x;
+			return d.source.x;
 		})
-		.attr("y1", (d) => d.from.y)
-		.attr("x2", (d) => d.to.x)
-		.attr("y2", (d) => d.to.y);
+		.attr("y1", (d) => d.source.y)
+		.attr("x2", (d) => d.target.x)
+		.attr("y2", (d) => d.target.y);
 
 	graphElements.nodes.attr("transform", (d) => {
 		return `translate(${d.x}, ${d.y})`;
@@ -85,9 +85,14 @@ function ticked() {
 }
 
 function render() {
-	simulation.nodes(graph.nodes);
-	// simulation.force("link").links(graph.links);
-	simulation.alpha(1).restart();
+	simulation
+		.nodes(graph.nodes)
+		.force(
+			"link",
+			d3.forceLink(graph.links).id((d) => d.id)
+		)
+		.alpha(1)
+		.restart();
 
 	const links = linkGroup
 		.selectAll("g")
