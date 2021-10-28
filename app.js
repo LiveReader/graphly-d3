@@ -99,12 +99,33 @@ function render() {
 		})
 		.classed("node", true);
 
-	nodes.append("circle").attr("r", (d) => d.value);
+	// node content
+	nodes.append("circle").attr("r", (d) => d.value / 2);
 	nodes
 		.append("text")
+		.classed("noselect", true)
 		.attr("text-anchor", "middle")
 		.attr("dy", "0.35em")
 		.text((d) => d.label);
+
+	// Tooltip
+	nodes.on("click", (e, d) => {
+		const currentNode = d3.select(e.currentTarget);
+		if (currentNode.classed("selected")) {
+			currentNode.classed("selected", false);
+			currentNode.select(".tooltip").remove();
+			return;
+		}
+		currentNode
+			.append("g")
+			.classed("tooltip", true)
+			.append("rect")
+			.attr("width", "100px")
+			.attr("height", "100px")
+			.attr("y", "-50px")
+			.attr("x", "0px");
+		currentNode.classed("selected", true);
+	});
 
 	nodes.exit().remove();
 }

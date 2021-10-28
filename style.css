@@ -72,3 +72,13 @@ p {
 	stroke: var(--accent-red);
 	stroke-width: 0.5em;
 }
+
+.selected {
+	fill: var(--accent-blue);
+	stroke: var(--accent-color);
+	stroke-width: 0.2em;
+}
+.selected text {
+	fill: var(--text-color);
+	stroke: none;
+}
