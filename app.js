@@ -57,8 +57,8 @@ const simulation = d3
 	.force("collide", d3.forceCollide(25))
 	.on("tick", ticked);
 
-const nodeGroup = svg.append("g").attr("id", "nodes");
 const linkGroup = svg.append("g").attr("id", "links");
+const nodeGroup = svg.append("g").attr("id", "nodes");
 const graphElements = {
 	nodes: null,
 	links: null,
@@ -85,14 +85,9 @@ function ticked() {
 }
 
 function render() {
-	simulation
-		.nodes(graph.nodes)
-		.force(
-			"link",
-			d3.forceLink(graph.links).id((d) => d.id)
-		)
-		.alpha(1)
-		.restart();
+	simulation.nodes(graph.nodes);
+	simulation.force("link").links(graph.links);
+	simulation.alpha(0.1).restart();
 
 	const links = linkGroup
 		.selectAll("g")
@@ -112,19 +107,22 @@ function render() {
 	const nodes = nodeGroup
 		.selectAll("g")
 		.data(graph.nodes)
-
 		.enter()
 		.append("g")
 		.call(drag)
 		.call((d) => {
 			graphElements.nodes = d;
 		})
-		.classed("node", true)
-		.append("circle")
-		.attr("r", (d) => d.value)
+		.classed("node", true);
 
-		.exit()
-		.remove();
+	nodes.append("circle").attr("r", (d) => d.value);
+	nodes
+		.append("text")
+		.attr("text-anchor", "middle")
+		.attr("dy", "0.35em")
+		.text((d) => d.label);
+
+	nodes.exit().remove();
 }
 
 function dragstarted(e, d) {

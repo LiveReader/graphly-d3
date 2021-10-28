@@ -2,6 +2,14 @@
 	--background-color: #161d27;
 	--light-background: #1f2d3d;
 	--text-color: #d4e0f1;
+
+	--accent-color: #94a8ff;
+
+	--accent-red: #ff5f6d;
+	--accent-green: #a8ff78;
+	--accent-blue: #78d6ff;
+	--accent-yellow: #ffff78;
+	--accent-orange: #ffa878;
 }
 
 body {
@@ -45,10 +53,13 @@ p {
 }
 
 .node {
-	fill: var(--accent-color);
+	fill: var(--accent-red);
+}
+.node text {
+	fill: var(--text-color);
 }
 
 .link {
-	stroke: var(--accent-color);
+	stroke: var(--accent-blue);
 	stroke-width: 0.5em;
 }
