@@ -1,9 +1,8 @@
 let container = d3.select("#list_data");
 
 const svg = d3.select("svg");
-const width = window.innerWidth;
-const height = window.innerHeight;
-svg.attr("width", width).attr("height", height);
+let width = window.innerWidth;
+let height = window.innerHeight;
 
 let graph = {
 	nodes: [],
@@ -11,6 +10,20 @@ let graph = {
 };
 
 const drag = d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
+function dragstarted(e, d) {
+	simulation.alphaTarget(0.3).restart();
+	d.fx = e.x;
+	d.fy = e.y;
+}
+function dragged(e, d) {
+	d.fx = e.x;
+	d.fy = e.y;
+}
+function dragended(e, d) {
+	simulation.alphaTarget(0);
+	d.fx = null;
+	d.fy = null;
+}
 
 const simulation = d3
 	.forceSimulation()
@@ -20,7 +33,7 @@ const simulation = d3
 	)
 	.force("change", d3.forceManyBody().strength(-5000))
 	.force("center", d3.forceCenter(width / 2, height / 2))
-	.force("collide", d3.forceCollide(25))
+	.force("collide", d3.forceCollide(80))
 	.on("tick", ticked);
 
 const linkGroup = svg.append("g").attr("id", "links");
@@ -94,36 +107,37 @@ function render() {
 	nodes.exit().remove();
 }
 
-function dragstarted(e, d) {
-	simulation.alphaTarget(0.3).restart();
-	d.fx = e.x;
-	d.fy = e.y;
-}
-function dragged(e, d) {
-	d.fx = e.x;
-	d.fy = e.y;
-}
-function dragended(e, d) {
-	simulation.alphaTarget(0);
-	d.fx = null;
-	d.fy = null;
+function loadData() {
+	fetch("./graph.json")
+		.then((data) => data.json())
+		.then((data) => (graph = data.graph))
+		.then(render)
+		.then(() => {
+			setTimeout(() => {
+				graph.nodes.push({
+					id: graph.nodes.length,
+					value: 50,
+					label: "FUCK YOU",
+				});
+				graph.links.push({
+					source: 0,
+					target: graph.nodes.length - 1,
+				});
+				render();
+			}, 1000);
+		});
 }
 
-fetch("./graph.json")
-	.then((data) => data.json())
-	.then((data) => (graph = data.graph))
-	.then(render)
-	.then(() => {
-		setTimeout(() => {
-			graph.nodes.push({
-				id: graph.nodes.length,
-				value: 50,
-				label: "FUCK YOU",
-			});
-			graph.links.push({
-				source: 0,
-				target: graph.nodes.length - 1,
-			});
-			render();
-		}, 1000);
-	});
+function resize() {
+	width = window.innerWidth;
+	height = window.innerHeight;
+	svg.attr("width", width).attr("height", height);
+	simulation.force("center", d3.forceCenter(width / 2, height / 2));
+	simulation.alpha(0.1).restart();
+}
+
+window.onload = () => {
+	resize();
+	loadData();
+};
+window.onresize = resize;
