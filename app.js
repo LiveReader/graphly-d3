@@ -11,7 +11,7 @@ let graph = {
 
 const drag = d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
 function dragstarted(e, d) {
-	simulation.alphaTarget(0.3).restart();
+	simulation.alphaTarget(0.1).restart();
 	d.fx = e.x;
 	d.fy = e.y;
 }
@@ -38,6 +38,7 @@ const simulation = d3
 
 const linkGroup = svg.append("g").attr("id", "links");
 const nodeGroup = svg.append("g").attr("id", "nodes");
+const contextGroup = svg.append("g").attr("id", "context");
 const graphElements = {
 	nodes: null,
 	links: null,
@@ -67,9 +68,10 @@ function render() {
 	// update data in graph
 	simulation.nodes(graph.nodes);
 	simulation.force("link").links(graph.links);
-	simulation.alpha(0.5).restart();
+	simulation.alpha(0.1).restart();
 
 	// clear graph
+	contextGroup.selectAll("*").remove();
 	nodeGroup.selectAll("*").remove();
 	linkGroup.selectAll("*").remove();
 
@@ -113,17 +115,34 @@ function render() {
 		const currentNode = d3.select(e.currentTarget);
 		if (currentNode.classed("selected")) {
 			currentNode.classed("selected", false);
-			currentNode.select(".tooltip").remove();
+			// currentNode.select(".tooltip").remove();
+			contextGroup.selectAll("*").remove();
 			return;
 		}
-		currentNode
-			.append("g")
-			.classed("tooltip", true)
+		const tooltip = contextGroup.append("g").classed("tooltip", true);
+		tooltip
 			.append("rect")
 			.attr("width", "100px")
-			.attr("height", "100px")
-			.attr("y", "-50px")
-			.attr("x", "0px");
+			.attr("height", "25px")
+			.attr("y", e.y - 10)
+			.attr("x", e.x - 50)
+			.on("mouseout", (e, d) => {
+				contextGroup.selectAll("*").remove();
+				currentNode.classed("selected", false);
+			});
+		tooltip
+			.append("text")
+			.classed("noselect", true)
+			.attr("text-anchor", "middle")
+			.attr("dy", "0.35em")
+			.attr("x", e.x)
+			.attr("y", e.y)
+			.text("remove")
+			.on("click", (ev, da) => {
+				graph.nodes = graph.nodes.filter((n) => n.id !== d.id);
+				graph.links = graph.links.filter((l) => l.source.id !== d.id && l.target.id !== d.id);
+				render();
+			});
 		currentNode.classed("selected", true);
 	});
 
@@ -156,7 +175,7 @@ function resize() {
 	height = window.innerHeight;
 	svg.attr("width", width).attr("height", height);
 	simulation.force("center", d3.forceCenter(width / 2, height / 2));
-	simulation.alpha(0.1).restart();
+	simulation.alpha(1).restart();
 }
 
 window.onload = () => {

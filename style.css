@@ -73,6 +73,13 @@ p {
 	stroke-width: 0.5em;
 }
 
+.tooltip {
+	fill: var(--accent-red);
+}
+.tooltip text {
+	fill: var(--text-color);
+}
+
 .selected {
 	fill: var(--accent-blue);
 	stroke: var(--accent-color);
