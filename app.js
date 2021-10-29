@@ -36,13 +36,36 @@ const simulation = d3
 	.force("collide", d3.forceCollide(30))
 	.on("tick", ticked);
 
-const linkGroup = svg.append("g").attr("id", "links");
-const nodeGroup = svg.append("g").attr("id", "nodes");
-const contextGroup = svg.append("g").attr("id", "context");
+const world = svg.append("g").attr("id", "world");
+const linkGroup = world.append("g").attr("id", "links");
+const nodeGroup = world.append("g").attr("id", "nodes");
+const contextGroup = world.append("g").attr("id", "context");
+
 const graphElements = {
 	nodes: null,
 	links: null,
 };
+
+// scrolling within the graph
+const worldOffset = { x: 0, y: 0 };
+function updateWorldPositon() {
+	world.attr("transform", `translate(${worldOffset.x}, ${worldOffset.y})`);
+}
+window.addEventListener("wheel", (e) => {
+	worldOffset.x -= e.deltaX;
+	worldOffset.y -= e.deltaY;
+	updateWorldPositon();
+});
+const worldDrag = d3
+	.drag()
+	.on("start", (e, d) => {})
+	.on("drag", (e, d) => {
+		worldOffset.x += e.dx;
+		worldOffset.y += e.dy;
+		updateWorldPositon();
+	})
+	.on("end", (e, d) => {});
+svg.call(worldDrag);
 
 render();
 
@@ -119,24 +142,22 @@ function render() {
 			contextGroup.selectAll("*").remove();
 			return;
 		}
-		const tooltip = contextGroup.append("g").classed("tooltip", true);
-		tooltip
-			.append("rect")
-			.attr("width", "100px")
-			.attr("height", "25px")
-			.attr("y", e.y - 10)
-			.attr("x", e.x - 50)
+		const tooltip = contextGroup
+			.append("g")
+			.classed("tooltip", true)
+			.attr("transform", `translate(${e.x - 50 - worldOffset.x}, ${e.y - 10 - worldOffset.y})`)
 			.on("mouseout", (e, d) => {
 				contextGroup.selectAll("*").remove();
 				currentNode.classed("selected", false);
 			});
+		tooltip.append("rect").attr("width", "100px").attr("height", "25px");
 		tooltip
 			.append("text")
 			.classed("noselect", true)
 			.attr("text-anchor", "middle")
 			.attr("dy", "0.35em")
-			.attr("x", e.x)
-			.attr("y", e.y)
+			.attr("x", "50px")
+			.attr("y", "10px")
 			.text("remove")
 			.on("click", (ev, da) => {
 				graph.nodes = graph.nodes.filter((n) => n.id !== d.id);
