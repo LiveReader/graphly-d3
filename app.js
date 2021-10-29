@@ -46,26 +46,27 @@ const graphElements = {
 	links: null,
 };
 
-// scrolling within the graph
-const worldOffset = { x: 0, y: 0 };
-function updateWorldPositon() {
-	world.attr("transform", `translate(${worldOffset.x}, ${worldOffset.y})`);
+// zooming and panning within the graph
+const worldTransform = { k: 1, x: 0, y: 0 };
+function updateWorldTransform() {
+	world.attr("transform", `translate(${worldTransform.x}, ${worldTransform.y}) scale(${worldTransform.k})`);
 }
-window.addEventListener("wheel", (e) => {
-	worldOffset.x -= e.deltaX;
-	worldOffset.y -= e.deltaY;
-	updateWorldPositon();
-});
-const worldDrag = d3
-	.drag()
-	.on("start", (e, d) => {})
-	.on("drag", (e, d) => {
-		worldOffset.x += e.dx;
-		worldOffset.y += e.dy;
-		updateWorldPositon();
-	})
-	.on("end", (e, d) => {});
-svg.call(worldDrag);
+svg.call(
+	d3
+		.zoom()
+		.extent([
+			[-100, -100],
+			[width + 100, height + 100],
+		])
+		.scaleExtent([0.1, 10])
+		.on("zoom", ({ transform }) => {
+			console.log(transform);
+			worldTransform.k = transform.k;
+			worldTransform.x = transform.x;
+			worldTransform.y = transform.y;
+			updateWorldTransform();
+		})
+);
 
 render();
 
@@ -145,7 +146,7 @@ function render() {
 		const tooltip = contextGroup
 			.append("g")
 			.classed("tooltip", true)
-			.attr("transform", `translate(${e.x - 50 - worldOffset.x}, ${e.y - 10 - worldOffset.y})`)
+			.attr("transform", `translate(${e.x - 50 - worldTransform.x}, ${e.y - 10 - worldTransform.y})`)
 			.on("mouseout", (e, d) => {
 				contextGroup.selectAll("*").remove();
 				currentNode.classed("selected", false);
