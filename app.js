@@ -31,9 +31,12 @@ const simulation = d3
 		"link",
 		d3.forceLink().id((d) => d.id)
 	)
-	.force("change", d3.forceManyBody().strength(-20))
+	.force("change", d3.forceManyBody().strength(-100))
 	.force("center", d3.forceCenter(width / 2, height / 2))
-	.force("collide", d3.forceCollide(30))
+	.force(
+		"collide",
+		d3.forceCollide(1).radius((d) => d.value / 2)
+	)
 	.on("tick", ticked);
 
 const world = svg.append("g").attr("id", "world");
@@ -60,7 +63,6 @@ svg.call(
 		])
 		.scaleExtent([0.1, 10])
 		.on("zoom", ({ transform }) => {
-			console.log(transform);
 			worldTransform.k = transform.k;
 			worldTransform.x = transform.x;
 			worldTransform.y = transform.y;
