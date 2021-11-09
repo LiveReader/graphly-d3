@@ -4,37 +4,37 @@
 			{
 				"id": 0,
 				"value": 50,
-				"label": "Anne"
+				"label": "A"
 			},
 			{
 				"id": 1,
 				"value": 30,
-				"label": "Bert"
+				"label": "B"
 			},
 			{
 				"id": 2,
 				"value": 70,
-				"label": "Carsten"
+				"label": "C"
 			},
 			{
 				"id": 3,
 				"value": 35,
-				"label": "Dennis"
+				"label": "D"
 			},
 			{
 				"id": 4,
 				"value": 40,
-				"label": "Eric"
+				"label": "E"
 			},
 			{
 				"id": 5,
 				"value": 60,
-				"label": "Frida"
+				"label": "F"
 			},
 			{
 				"id": 6,
 				"value": 25,
-				"label": "Gina"
+				"label": "G"
 			}
 		],
 		"links": [

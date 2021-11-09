@@ -1,5 +1,7 @@
 let container = d3.select("#list_data");
 
+let testSVG = null;
+
 const svg = d3.select("svg");
 let width = window.innerWidth;
 let height = window.innerHeight;
@@ -31,7 +33,7 @@ const simulation = d3
 		"link",
 		d3.forceLink().id((d) => d.id)
 	)
-	.force("change", d3.forceManyBody().strength(-100))
+	.force("change", d3.forceManyBody().strength(-100000))
 	.force("center", d3.forceCenter(width / 2, height / 2))
 	.force(
 		"collide",
@@ -61,7 +63,7 @@ svg.call(
 			[-100, -100],
 			[width + 100, height + 100],
 		])
-		.scaleExtent([0.1, 10])
+		.scaleExtent([0.05, 50])
 		.on("zoom", ({ transform }) => {
 			worldTransform.k = transform.k;
 			worldTransform.x = transform.x;
@@ -69,6 +71,11 @@ svg.call(
 			updateWorldTransform();
 		})
 );
+
+worldTransform.k = 0.3;
+worldTransform.x = width / 2.5;
+worldTransform.y = height / 2.5;
+updateWorldTransform();
 
 render();
 
@@ -94,7 +101,7 @@ function render() {
 	// update data in graph
 	simulation.nodes(graph.nodes);
 	simulation.force("link").links(graph.links);
-	simulation.alpha(0.1).restart();
+	simulation.alpha(0.6).restart();
 
 	// clear graph
 	contextGroup.selectAll("*").remove();
@@ -127,48 +134,24 @@ function render() {
 		})
 		.classed("node", true);
 
-	// node content
-	nodes.append("circle").attr("r", (d) => d.value / 2);
-	nodes
-		.append("text")
-		.classed("noselect", true)
-		.attr("text-anchor", "middle")
-		.attr("dy", "0.35em")
-		.text((d) => d.label);
-
-	// Tooltip
-	nodes.on("click", (e, d) => {
-		const currentNode = d3.select(e.currentTarget);
-		if (currentNode.classed("selected")) {
-			currentNode.classed("selected", false);
-			// currentNode.select(".tooltip").remove();
-			contextGroup.selectAll("*").remove();
-			return;
-		}
-		const tooltip = contextGroup
+	// add shape as node
+	if (testSVG) {
+		console.log(testSVG);
+		nodes
 			.append("g")
-			.classed("tooltip", true)
-			.attr("transform", `translate(${e.x - 50 - worldTransform.x}, ${e.y - 10 - worldTransform.y})`)
-			.on("mouseout", (e, d) => {
-				contextGroup.selectAll("*").remove();
-				currentNode.classed("selected", false);
+			.call((d) => {
+				console.log(testSVG.getAttribute("width"));
+				for (let i = 0; i < testSVG.children.length; i++) {
+					d.html(testSVG.children[i].outerHTML);
+				}
+			})
+			.attr("transform", (d) => {
+				const widthOffset = parseInt(testSVG.getAttribute("width")) / 2;
+				const heightOffset = parseInt(testSVG.getAttribute("height")) / 2;
+				console.log(widthOffset, heightOffset);
+				return `translate(${-widthOffset}, ${-heightOffset})`;
 			});
-		tooltip.append("rect").attr("width", "100px").attr("height", "25px");
-		tooltip
-			.append("text")
-			.classed("noselect", true)
-			.attr("text-anchor", "middle")
-			.attr("dy", "0.35em")
-			.attr("x", "50px")
-			.attr("y", "10px")
-			.text("remove")
-			.on("click", (ev, da) => {
-				graph.nodes = graph.nodes.filter((n) => n.id !== d.id);
-				graph.links = graph.links.filter((l) => l.source.id !== d.id && l.target.id !== d.id);
-				render();
-			});
-		currentNode.classed("selected", true);
-	});
+	}
 
 	nodes.exit().remove();
 }
@@ -177,20 +160,33 @@ function loadData() {
 	fetch("./graph.json")
 		.then((data) => data.json())
 		.then((data) => (graph = data.graph))
-		.then(render)
-		.then(() => {
-			for (let i = 0; i < 200; i++) {
-				graph.nodes.push({
-					id: Math.random(),
-					value: Math.floor(Math.random() * 100) + 10,
-					label: Math.random().toString(36).substring(7),
-				});
-				graph.links.push({
-					source: graph.nodes[Math.floor(Math.random() * graph.nodes.length)].id,
-					target: graph.nodes[graph.nodes.length - 1].id,
-				});
-			}
-			render();
+		.then(render);
+	// .then(() => {
+	// 	for (let i = 0; i < 5000; i++) {
+	// 		graph.nodes.push({
+	// 			id: Math.random(),
+	// 			value: Math.floor(Math.random() * 100) + 10,
+	// 			label: Math.random().toString(36).substring(7),
+	// 		});
+	// 		graph.links.push({
+	// 			source: graph.nodes[Math.floor(Math.random() * graph.nodes.length)].id,
+	// 			target: graph.nodes[graph.nodes.length - 1].id,
+	// 		});
+	// 	}
+	// 	render();
+	// });
+}
+
+function loadSVG() {
+	fetch("./test.svg")
+		.then((data) => data.text())
+		.then((data) => {
+			const parser = new DOMParser();
+			const doc = parser.parseFromString(data, "image/svg+xml");
+			const svg = doc.getElementsByTagName("svg")[0];
+			console.log(svg);
+
+			testSVG = doc.documentElement;
 		});
 }
 
@@ -204,6 +200,7 @@ function resize() {
 
 window.onload = () => {
 	resize();
+	loadSVG();
 	loadData();
 };
 window.onresize = resize;

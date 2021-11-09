@@ -8,7 +8,7 @@
 	--accent-color: #94a8ff;
 
 	--accent-red: #ff5f6d;
-	--accent-green: #a8ff78;
+	--accent-green: rgb(117, 213, 151);
 	--accent-blue: #78d6ff;
 	--accent-yellow: #ffff78;
 	--accent-orange: #ffa878;
@@ -88,4 +88,26 @@ p {
 .selected text {
 	fill: var(--text-color);
 	stroke: none;
+}
+
+/* test svg style */
+
+.executable {
+}
+.executable .background {
+	fill: rgb(255, 255, 255);
+}
+.executable .tick {
+	stroke: var(--accent-green);
+	fill: var(--accent-green);
+}
+
+.unexecutable {
+}
+.unexecutable .background {
+	fill: rgb(149, 166, 185);
+}
+.unexecutable .tick {
+	stroke: var(--accent-red);
+	fill: var(--accent-red);
 }
