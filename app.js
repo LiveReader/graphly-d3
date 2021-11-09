@@ -33,7 +33,7 @@ const simulation = d3
 		"link",
 		d3.forceLink().id((d) => d.id)
 	)
-	.force("change", d3.forceManyBody().strength(-100000))
+	.force("change", d3.forceManyBody().strength(-40000))
 	.force("center", d3.forceCenter(width / 2, height / 2))
 	.force(
 		"collide",
@@ -72,15 +72,9 @@ svg.call(
 		})
 );
 
-worldTransform.k = 0.3;
-worldTransform.x = width / 2.5;
-worldTransform.y = height / 2.5;
-updateWorldTransform();
-
 render();
 
 function ticked() {
-	// console.log(graphElements);
 	if (!graphElements.links || !graphElements.nodes) return;
 
 	graphElements.links
@@ -136,11 +130,9 @@ function render() {
 
 	// add shape as node
 	if (testSVG) {
-		console.log(testSVG);
 		nodes
 			.append("g")
 			.call((d) => {
-				console.log(testSVG.getAttribute("width"));
 				for (let i = 0; i < testSVG.children.length; i++) {
 					d.html(testSVG.children[i].outerHTML);
 				}
@@ -148,7 +140,6 @@ function render() {
 			.attr("transform", (d) => {
 				const widthOffset = parseInt(testSVG.getAttribute("width")) / 2;
 				const heightOffset = parseInt(testSVG.getAttribute("height")) / 2;
-				console.log(widthOffset, heightOffset);
 				return `translate(${-widthOffset}, ${-heightOffset})`;
 			});
 	}
@@ -177,15 +168,12 @@ function loadData() {
 	// });
 }
 
-function loadSVG() {
-	fetch("./test.svg")
+async function loadSVG() {
+	fetch("./hex.svg")
 		.then((data) => data.text())
 		.then((data) => {
 			const parser = new DOMParser();
 			const doc = parser.parseFromString(data, "image/svg+xml");
-			const svg = doc.getElementsByTagName("svg")[0];
-			console.log(svg);
-
 			testSVG = doc.documentElement;
 		});
 }
@@ -200,8 +188,7 @@ function resize() {
 
 window.onload = () => {
 	resize();
-	loadSVG();
-	loadData();
+	loadSVG().then(loadData);
 };
 window.onresize = resize;
 

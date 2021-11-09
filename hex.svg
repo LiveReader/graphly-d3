@@ -1,0 +1,38 @@
+<svg width="541px" height="478px" viewBox="0 0 541 478" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-miterlimit:1;">
+    <g id="ArtBoard1" transform="matrix(1,0,0,1,-325.358,-284.025)">
+        <rect x="325.358" y="284.025" width="540.284" height="477.95" style="fill:none;"/>
+        <g transform="matrix(0.797669,0,0,0.796658,125.896,-62.503)">
+            <g id="hexagon">
+                <g id="shape">
+                    <path id="body" d="M732.139,452.76C744.643,452.76 756.196,458.746 762.449,469.573L905.413,717.135C911.667,727.966 911.667,741.311 905.413,752.141L762.449,999.703C756.196,1010.53 744.643,1017.2 732.139,1017.2L446.197,1017.2C433.694,1017.2 422.141,1010.53 415.888,999.703L272.924,752.141C266.67,741.311 266.67,727.966 272.924,717.135L415.888,469.573C422.141,458.746 433.694,452.76 446.197,452.76L732.139,452.76Z" style="fill:rgb(232,237,237);stroke:rgb(255,99,118);stroke-width:25.09px;"/>
+                    <path id="screen" d="M355.336,574.427L415.888,469.573C422.141,458.746 433.694,452.76 446.197,452.76L732.139,452.76C744.643,452.76 756.196,458.746 762.449,469.573L824.005,576.165C753.153,591.226 675.332,599.547 593.66,599.547C508.872,599.547 428.25,590.579 355.336,574.427Z" style="fill:rgb(255,99,118);stroke:rgb(255,99,118);stroke-width:1.25px;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:2;"/>
+                </g>
+                <g id="label" transform="matrix(0.524401,0,0,0.524503,468.6,760.785)">
+                    <text x="0px" y="0px" style="font-family:'Roboto-Regular', 'Roboto';font-size:74.304px;fill:rgb(34,102,112);">männlich (58)</text>
+                </g>
+                <g id="title" transform="matrix(0.882187,2.3101e-16,0,0.882359,462.245,690.769)">
+                    <g>
+                        <text x="0px" y="0px" style="font-family:'Roboto-Regular', 'Roboto';font-size:74.304px;fill:rgb(34,102,112);">P</text>
+                        <g transform="matrix(1,0,0,1,46.404,0)">
+                            <text x="0px" y="0px" style="font-family:'Roboto-Regular', 'Roboto';font-size:74.304px;fill:rgb(34,102,112);">erson 1</text>
+                        </g>
+                    </g>
+                </g>
+                <g id="details" transform="matrix(0.559258,0,0,0.559367,462.652,854.976)">
+                    <g>
+                        <text x="0px" y="0px" style="font-family:'Roboto-Regular', 'Roboto';font-size:58.333px;fill:rgb(255,99,118);">stark</text>
+                        <g transform="matrix(1,0,0,1,129.597,0)">
+                            <text x="0px" y="0px" style="font-family:'Roboto-Regular', 'Roboto';font-size:58.333px;fill:rgb(255,99,118);">e Schmerz</text>
+                        </g>
+                        <g transform="matrix(1,0,0,1,402.435,0)">
+                            <text x="0px" y="0px" style="font-family:'Roboto-Regular', 'Roboto';font-size:58.333px;fill:rgb(255,99,118);">en,</text>
+                        </g>
+                    </g>
+                    <g transform="matrix(1,0,0,1,169.815,58.333)">
+                        <text x="0px" y="0px" style="font-family:'Roboto-Regular', 'Roboto';font-size:58.333px;fill:rgb(255,99,118);">Brust</text>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
