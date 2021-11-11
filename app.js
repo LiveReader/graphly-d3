@@ -130,18 +130,11 @@ function render() {
 
 	// add shape as node
 	if (testSVG) {
-		nodes
-			.append("g")
-			.call((d) => {
-				for (let i = 0; i < testSVG.children.length; i++) {
-					d.html(testSVG.children[i].outerHTML);
-				}
-			})
-			.attr("transform", (d) => {
-				const widthOffset = parseInt(testSVG.getAttribute("width")) / 2;
-				const heightOffset = parseInt(testSVG.getAttribute("height")) / 2;
-				return `translate(${-widthOffset}, ${-heightOffset})`;
-			});
+		nodes.append("g").call((d) => {
+			for (let i = 0; i < testSVG.children.length; i++) {
+				d.html(testSVG.children[i].outerHTML);
+			}
+		});
 	}
 
 	nodes.exit().remove();
@@ -169,7 +162,7 @@ function loadData() {
 }
 
 async function loadSVG() {
-	fetch("./hex.svg")
+	fetch("./TestHexGroup.svg")
 		.then((data) => data.text())
 		.then((data) => {
 			const parser = new DOMParser();
