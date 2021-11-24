@@ -1,25 +1,19 @@
-@import url("https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 * {
-	--background-color: #161d27;
-	--light-background: #1f2d3d;
-	--text-color: #d4e0f1;
+	--background-color: #f2f2f2;
+	--foreground-color: #000000;
 
-	--accent-color: #94a8ff;
-
-	--accent-red: #ff5f6d;
-	--accent-green: rgb(117, 213, 151);
-	--accent-blue: #78d6ff;
-	--accent-yellow: #ffff78;
-	--accent-orange: #ffa878;
+	--node-fill-color: #ffffff;
+	--light-gray: #b1b4b4;
 }
 
 body {
 	margin: 0;
 	padding: 0;
 	background-color: var(--background-color);
-	color: var(--text-color);
-	font-family: "Titillium Web";
+	color: var(--foreground-color);
+	font-family: "Roboto Light";
 	overflow: hidden;
 }
 
@@ -32,82 +26,13 @@ body {
 	user-select: none;
 }
 
-h1 {
-	font-weight: 400;
-	position: absolute;
-	margin: 1em;
-}
-
-#buttons {
-	position: absolute;
-}
-button {
-	background-color: var(--light-background);
-	color: var(--text-color);
-	border: none;
-	border-radius: 0.5em;
-	margin: 5em 1em;
-	font-size: 1em;
-	padding: 0.5em;
-	cursor: pointer;
-}
-
-div {
-	margin: 1em;
-}
-
-p {
-	margin: 0.5em 2em;
-}
-
 .node {
-	fill: var(--accent-color);
-}
-.node text {
-	fill: var(--text-color);
-	font-weight: 600;
+	fill: var(--node-fill-color);
+	stroke: var(--light-gray);
+	stroke-width: 1;
 }
 
 .link {
-	stroke: var(--accent-red);
-	stroke-width: 0.5em;
-}
-
-.tooltip {
-	fill: var(--accent-red);
-}
-.tooltip text {
-	fill: var(--text-color);
-}
-
-.selected {
-	fill: var(--accent-blue);
-	stroke: var(--accent-color);
-	stroke-width: 0.2em;
-}
-.selected text {
-	fill: var(--text-color);
-	stroke: none;
-}
-
-/* test svg style */
-
-.executable {
-}
-.executable .background {
-	fill: rgb(255, 255, 255);
-}
-.executable .tick {
-	stroke: var(--accent-green);
-	fill: var(--accent-green);
-}
-
-.unexecutable {
-}
-.unexecutable .background {
-	fill: rgb(149, 166, 185);
-}
-.unexecutable .tick {
-	stroke: var(--accent-red);
-	fill: var(--accent-red);
+	stroke: var(--light-gray);
+	stroke-width: 1;
 }
