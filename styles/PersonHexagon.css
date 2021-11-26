@@ -1,0 +1,24 @@
+.hexagon-person.background {
+	fill: var(--node-fill-color);
+	stroke: var(--node-stroke-color);
+	stroke-miterlimit: 10;
+}
+
+.hexagon-person.status {
+	fill: #00000000;
+	stroke: var(--node-stroke-color);
+	stroke-miterlimit: 10;
+}
+
+.hexagon-person.status.deceased {
+	fill: var(--state-black);
+}
+.hexagon-person.status.immediate {
+	fill: var(--state-red);
+}
+.hexagon-person.status.delayed {
+	fill: var(--state-yellow);
+}
+.hexagon-person.status.minor {
+	fill: var(--state-green);
+}
