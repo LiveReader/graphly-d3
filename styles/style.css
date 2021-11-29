@@ -18,7 +18,7 @@ body {
 	padding: 0;
 	background-color: var(--background-color);
 	color: var(--foreground-color);
-	font-family: "Roboto Light";
+	font-family: "Roboto";
 	overflow: hidden;
 }
 

@@ -27,5 +27,16 @@
 	text-anchor: middle;
 	fill: var(--foreground-color);
 	stroke: none;
+	font-family: "Roboto";
+	font-weight: 300;
 	font-size: 120px;
+}
+
+.hexagon-person.tag text {
+	text-anchor: middle;
+	fill: var(--node-fill-color);
+	stroke: none;
+	font-family: "Roboto";
+	font-weight: 500;
+	font-size: 36px;
 }

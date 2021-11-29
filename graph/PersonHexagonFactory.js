@@ -31,15 +31,36 @@ class PersonHexagonFactory {
 			d.status = d.status ?? this.statusOptions.immediate;
 		});
 
+		this.renderShape(hexagon);
+		this.renderTitle(hexagon);
+		this.renderTags(hexagon);
+
+		// get bounding box of hexagon
+		const bbox = hexagon.node().getBBox();
+
+		// scale hexagon to be 300px wide
+		const size = 300;
+		const scale = size / bbox.width;
+
+		// translate hexagon to be centered
+		hexagon.attr(
+			"transform",
+			`translate(${-bbox.x * scale - size / 2}, ${-bbox.y * scale - size / 2}) scale(${scale})`
+		);
+
+		return hexagon;
+	}
+
+	renderShape(shape) {
 		// background shape
-		hexagon
+		shape
 			.append("path")
 			.attr("d", this.shapes.background)
 			.classed("hexagon-person", true)
 			.classed("background", true);
 
 		// status shape
-		hexagon
+		shape
 			.append("path")
 			.attr("d", this.shapes.status)
 			.classed("hexagon-person", true)
@@ -48,13 +69,12 @@ class PersonHexagonFactory {
 			.classed("immediate", (d) => d.status === this.statusOptions.immediate)
 			.classed("delayed", (d) => d.status === this.statusOptions.delayed)
 			.classed("minor", (d) => d.status === this.statusOptions.minor);
+	}
 
-		
-		// get bounding box of hexagon
-		const bbox = hexagon.node().getBBox();
+	renderTitle(shape) {
+		const bbox = shape.node().getBBox();
 
-		// append title
-		hexagon
+		shape
 			.append("text")
 			.attr("x", (d) => {
 				return bbox.width / 2;
@@ -68,25 +88,102 @@ class PersonHexagonFactory {
 			.text((d) => {
 				const inicials = d.name.first.charAt(0) + d.name.last.charAt(0);
 				return inicials;
-			})
+			});
+	}
 
-		// change status on click to loop through them
-		hexagon.on("click", (e, d) => {
-			d.status = (d.status + 1) % 4;
-			this.render();
+	renderTags(shape) {
+		const bbox = shape.node().getBBox();
+		const margin = 80;
+
+		const allTagShapes = [];
+
+		shape.select((d) => {
+
+			const tagShapes = [];
+
+			d.tags.forEach((tag) => {
+
+				const tagShape = shape
+					.append("g")
+					.classed("hexagon-person", true)
+					.classed("tag", true);
+
+				const tagText = tagShape
+					.append("text")
+					.classed("hexagon-person", true)
+					.classed("tag", true)
+					.text(tag)
+					.attr("dy", "0.65em");
+
+				const tagBackground = tagShape
+					.append("rect")
+					.attr("rx", 35)
+					.attr("ry", 35)
+					.attr("height", 70)
+					.attr("width", () => {
+						const textBBox = tagText.node().getBBox();
+						return textBBox.width + margin;
+					})
+					.attr("x", () => {
+						const textBBox = tagText.node().getBBox();
+						return (-textBBox.width / 2) - margin / 2;
+					})
+					.attr("y", () => {
+						const textBBox = tagText.node().getBBox();
+						return -textBBox.height / 2;
+					})
+					.classed("hexagon-person", true)
+					.classed("status", true)
+					.classed("deceased", d.status === this.statusOptions.deceased)
+					.classed("immediate", d.status === this.statusOptions.immediate)
+					.classed("delayed", d.status === this.statusOptions.delayed)
+					.classed("minor", d.status === this.statusOptions.minor)
+					.attr("style", "stroke: none");
+
+				tagShape.attr("transform", () => {
+					const tagBBox = tagShape.node().getBBox();
+					return `translate(${-tagBBox.x - tagBBox.width / 2}, ${-tagBBox.y - tagBBox.height / 2})`;
+				});
+
+				// move tagText to the front
+				tagText.node().parentNode.appendChild(tagText.node());
+
+				tagShapes.push(tagShape.node());
+
+				tagShape.remove();
+			});
+
+			allTagShapes.push({
+				parent: d,
+				shapes: tagShapes,
+			});
 		});
 
+		allTagShapes.forEach((tagShapes) => {
+			// sort tagShapes by width of the element
+			const sortedShapes = tagShapes.shapes
+			// .sort((a, b) => {
+			// 	return a.getBBox().width - b.getBBox().width;
+			// });
+			// console.log(sortedShapes);
 
-		// scale hexagon to be 300px wide
-		const size = 300;
-		const scale = size / bbox.width;
+			const currentNode = shape
+			.filter((d) => d.id === tagShapes.parent.id);
 
-		// translate hexagon to be centered
-		hexagon.attr(
-			"transform",
-			`translate(${-bbox.x * scale - size / 2}, ${-bbox.y * scale - size / 2}) scale(${scale})`
-		);
+			const tagsGroup = currentNode
+				.append("g")
+				.classed("tags", true)
 
-		return hexagon;
+			for (let i = 0; i < sortedShapes.length; i++) {
+				tagsGroup
+					.append(() => {
+						return sortedShapes[i];
+					})
+					.attr("transform", () => {
+						const tagBBox = sortedShapes[i].getBBox();
+						return `translate(${bbox.width / 2}, ${(bbox.height * 0.55) + ((tagBBox.height + 5) * i)})`;
+					});
+			}
+		});
 	}
 }
