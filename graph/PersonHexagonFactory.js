@@ -6,10 +6,10 @@ class PersonHexagonFactory {
 		this.defineShapes();
 
 		this.statusOptions = {
-			minor: 0,
-			delayed: 1,
-			immediate: 2,
-			deceased: 3,
+			minor: "minor",
+			delayed: "delayed",
+			immediate: "immediate",
+			deceased: "deceased",
 		};
 
 		this.render();
@@ -28,7 +28,6 @@ class PersonHexagonFactory {
 
 		// set status if not available yet
 		hexagon.select((d) => {
-			console.log(d);
 			d.status = d.status ?? this.statusOptions.immediate;
 		});
 
@@ -50,14 +49,33 @@ class PersonHexagonFactory {
 			.classed("delayed", (d) => d.status === this.statusOptions.delayed)
 			.classed("minor", (d) => d.status === this.statusOptions.minor);
 
+		
+		// get bounding box of hexagon
+		const bbox = hexagon.node().getBBox();
+
+		// append title
+		hexagon
+			.append("text")
+			.attr("x", (d) => {
+				return bbox.width / 2;
+			})
+			.attr("y", (d) => {
+				return bbox.height * 0.45;
+			})
+			.attr("dy", "0.35em")
+			.classed("hexagon-person", true)
+			.classed("title", true)
+			.text((d) => {
+				const inicials = d.name.first.charAt(0) + d.name.last.charAt(0);
+				return inicials;
+			})
+
 		// change status on click to loop through them
 		hexagon.on("click", (e, d) => {
 			d.status = (d.status + 1) % 4;
 			this.render();
 		});
 
-		// get bounding box of hexagon
-		const bbox = hexagon.node().getBBox();
 
 		// scale hexagon to be 300px wide
 		const size = 300;

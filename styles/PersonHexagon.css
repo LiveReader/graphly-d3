@@ -22,3 +22,10 @@
 .hexagon-person.status.minor {
 	fill: var(--state-green);
 }
+
+.hexagon-person.title {
+	text-anchor: middle;
+	fill: var(--foreground-color);
+	stroke: none;
+	font-size: 120px;
+}

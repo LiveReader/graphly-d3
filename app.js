@@ -3,12 +3,27 @@ const graph = {
 	nodes: [
 		{
 			id: "n0",
+			status: "minor",
+			name: {
+				first: "Luisa",
+				last: "Schmidt",
+			}
 		},
 		{
 			id: "n1",
+			status: "delayed",
+			name: {
+				first: "Jason",
+				last: "Rietzke",
+			}
 		},
 		{
 			id: "n2",
+			status: "immediate",
+			name: {
+				first: "Eric",
+				last: "Rietzke",
+			}
 		},
 	],
 	links: [
