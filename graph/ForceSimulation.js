@@ -23,12 +23,9 @@ class ForceSimulation {
 				"link",
 				d3.forceLink().id((d) => d.id)
 			)
-			.force("gravity", d3.forceManyBody().strength(-10000))
+			.force("gravity", d3.forceManyBody().strength(-50000))
 			.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
-			.force(
-				"collide",
-				d3.forceCollide().radius((d) => d.r)
-			)
+			.force("collide", d3.forceCollide().radius(100))
 			.on("tick", this.ticked.bind(this));
 	}
 
@@ -36,7 +33,7 @@ class ForceSimulation {
 		this.graph = graph;
 		this.simulation.nodes(graph.nodes);
 		this.simulation.force("link").links(graph.links);
-		this.simulation.alphaTarget(0.1).restart();
+		this.simulation.alphaTarget(0).restart();
 	}
 
 	setZoom() {
@@ -55,12 +52,9 @@ class ForceSimulation {
 	}
 
 	ticked() {
-		this.nodeGroup
-			.selectAll("circle")
-			.attr("cx", (d) => d.x)
-			.attr("cy", (d) => d.y);
+		this.nodeGroup.selectAll("g.node").attr("transform", (d) => `translate(${d.x},${d.y})`);
 		this.linkGroup
-			.selectAll("line")
+			.selectAll("line.link")
 			.attr("x1", (d) => d.source.x)
 			.attr("y1", (d) => d.source.y)
 			.attr("x2", (d) => d.target.x)
@@ -69,12 +63,16 @@ class ForceSimulation {
 
 	render() {
 		this.nodeGroup
-			.selectAll("circle")
+			.selectAll("g.node")
 			.data(graph.nodes)
 			.enter()
-			.append("circle")
-			.attr("r", (d) => d.r)
+			.append("g")
 			.classed("node", true)
+			.attr("id", (d) => d.id)
+			.call((d) => {
+				// Build all person hexagon nodes
+				new PersonHexagonFactory(d);
+			})
 			.call(this.dragNode());
 
 		this.linkGroup.selectAll("line").data(graph.links).enter().append("line").classed("link", true);
@@ -87,7 +85,7 @@ class ForceSimulation {
 			.on("drag", dragged.bind(this))
 			.on("end", dragended.bind(this));
 		function dragstarted(e, d) {
-			this.simulation.alphaTarget(0.1).restart();
+			this.simulation.alphaTarget(0.05).restart();
 			d.fx = e.x;
 			d.fy = e.y;
 		}

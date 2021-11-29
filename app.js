@@ -3,15 +3,12 @@ const graph = {
 	nodes: [
 		{
 			id: "n0",
-			r: 50,
 		},
 		{
 			id: "n1",
-			r: 70,
 		},
 		{
 			id: "n2",
-			r: 30,
 		},
 	],
 	links: [
