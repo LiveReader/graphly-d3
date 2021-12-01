@@ -100,4 +100,37 @@ class ForceSimulation {
 		}
 		return drag;
 	}
+
+	displayCrossHair() {
+		if (this.corsshairGroup) {
+			return;
+		}
+		// centered crosshair in the middle of the screen
+		this.corsshairGroup = this.world.append("g").attr("id", "crosshair");
+
+		this.corsshairGroup
+			.append("line")
+			.attr("x1", window.innerWidth / 2 + 400)
+			.attr("x2", window.innerWidth / 2 - 400)
+			.attr("y1", window.innerHeight / 2)
+			.attr("y2", window.innerHeight / 2)
+			.attr("stroke", "#6c6d8d")
+			.attr("stroke-width", 1);
+
+		this.corsshairGroup
+			.append("line")
+			.attr("x1", window.innerWidth / 2)
+			.attr("x2", window.innerWidth / 2)
+			.attr("y1", window.innerHeight / 2 + 400)
+			.attr("y2", window.innerHeight / 2 - 400)
+			.attr("stroke", "#6c6d8d")
+			.attr("stroke-width", 1);
+	}
+
+	hideCrossHair() {
+		if (!this.corsshairGroup) {
+			return;
+		}
+		this.corsshairGroup.remove();
+	}
 }
