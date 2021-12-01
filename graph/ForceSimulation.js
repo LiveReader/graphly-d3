@@ -71,7 +71,8 @@ class ForceSimulation {
 			.attr("id", (d) => d.id)
 			.call((d) => {
 				// Build all person hexagon nodes
-				new PersonHexagonFactory(d);
+				const personHexagon = new PersonHexagonFactory(d);
+				personHexagon.setSize(300);
 			})
 			.call(this.dragNode());
 

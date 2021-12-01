@@ -1,6 +1,7 @@
 class PersonHexagonFactory {
 	constructor(data) {
 		this.data = data;
+		this.size = 100;
 
 		this.shapes = {};
 		this.defineShapes();
@@ -12,6 +13,11 @@ class PersonHexagonFactory {
 			deceased: "deceased",
 		};
 
+		this.render();
+	}
+
+	setSize(size) {
+		this.size = size;
 		this.render();
 	}
 
@@ -39,13 +45,12 @@ class PersonHexagonFactory {
 		const bbox = hexagon.node().getBBox();
 
 		// scale hexagon to be 300px wide
-		const size = 300;
-		const scale = size / bbox.width;
+		const scale = this.size / bbox.width;
 
 		// translate hexagon to be centered
 		hexagon.attr(
 			"transform",
-			`translate(${-bbox.x * scale - size / 2}, ${-bbox.y * scale - size / 2}) scale(${scale})`
+			`translate(${-(bbox.width * scale) / 2}, ${-(bbox.height * scale) / 2}) scale(${scale})`
 		);
 
 		return hexagon;
