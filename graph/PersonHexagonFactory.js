@@ -1,7 +1,7 @@
 class PersonHexagonFactory {
-	constructor(data) {
+	constructor(data, size = 100) {
 		this.data = data;
-		this.size = 100;
+		this.size = size;
 
 		this.shapes = {};
 		this.defineShapes();
@@ -48,10 +48,10 @@ class PersonHexagonFactory {
 		const scale = this.size / bbox.width;
 
 		// translate hexagon to be centered
-		hexagon.attr(
-			"transform",
-			`translate(${-(bbox.width * scale) / 2}, ${-(bbox.height * scale) / 2}) scale(${scale})`
-		);
+		// hexagon.attr(
+		// 	"transform",
+		// 	`translate(${-(bbox.width * scale) / 2}, ${-(bbox.height * scale) / 2}) scale(${scale})`
+		// );
 
 		return hexagon;
 	}
@@ -103,15 +103,10 @@ class PersonHexagonFactory {
 		const allTagShapes = [];
 
 		shape.select((d) => {
-
 			const tagShapes = [];
 
 			d.tags.forEach((tag) => {
-
-				const tagShape = shape
-					.append("g")
-					.classed("hexagon-person", true)
-					.classed("tag", true);
+				const tagShape = shape.append("g").classed("hexagon-person", true).classed("tag", true);
 
 				const tagText = tagShape
 					.append("text")
@@ -131,7 +126,7 @@ class PersonHexagonFactory {
 					})
 					.attr("x", () => {
 						const textBBox = tagText.node().getBBox();
-						return (-textBBox.width / 2) - margin / 2;
+						return -textBBox.width / 2 - margin / 2;
 					})
 					.attr("y", () => {
 						const textBBox = tagText.node().getBBox();
@@ -145,10 +140,7 @@ class PersonHexagonFactory {
 					.classed("minor", d.status === this.statusOptions.minor)
 					.attr("style", "stroke: none");
 
-				tagShape.attr("transform", () => {
-					const tagBBox = tagShape.node().getBBox();
-					return `translate(${-tagBBox.x - tagBBox.width / 2}, ${-tagBBox.y - tagBBox.height / 2})`;
-				});
+				tagShape.attr("transform", `translate(${0}, ${0})`);
 
 				// move tagText to the front
 				tagText.node().parentNode.appendChild(tagText.node());
@@ -166,29 +158,88 @@ class PersonHexagonFactory {
 
 		allTagShapes.forEach((tagShapes) => {
 			// sort tagShapes by width of the element
-			const sortedShapes = tagShapes.shapes
+			const sortedShapes = tagShapes.shapes;
 			// .sort((a, b) => {
 			// 	return a.getBBox().width - b.getBBox().width;
 			// });
 			// console.log(sortedShapes);
 
-			const currentNode = shape
-			.filter((d) => d.id === tagShapes.parent.id);
+			const currentNode = shape.filter((d) => d.id === tagShapes.parent.id);
 
-			const tagsGroup = currentNode
-				.append("g")
-				.classed("tags", true)
+			const spacing = 20;
+			const groups = this.buildTagGroups(currentNode);
+			const tagGroups = [[]];
 
 			for (let i = 0; i < sortedShapes.length; i++) {
-				tagsGroup
-					.append(() => {
-						return sortedShapes[i];
-					})
-					.attr("transform", () => {
-						const tagBBox = sortedShapes[i].getBBox();
-						return `translate(${bbox.width / 2}, ${(bbox.height * 0.55) + ((tagBBox.height + 5) * i)})`;
-					});
+				const shape = sortedShapes[i];
+				const line = groups[tagGroups.length - 1];
+				if (line == undefined) {
+					return;
+				}
+
+				currentNode.node().appendChild(shape);
+
+				const group = tagGroups[tagGroups.length - 1];
+				const maxWidth = line.width;
+				const shapeWidth = shape.getBBox().width;
+
+				let currentWidthSum = 0;
+				if (group.length > 0) {
+					for (let j = 0; j < group.length; j++) {
+						currentWidthSum += group[j].getBBox().width + spacing;
+					}
+				}
+
+				if (currentWidthSum + shapeWidth < maxWidth) {
+					// let sum = 0;
+					// for (let j = 0; j < group.length; j++) {
+					// 	sum = group[j].getBBox().width;
+					// 	console.log(group[j] ?? "Nope", group[j].getBBox().width);
+					// }
+					shape.setAttribute("transform", `translate(${currentWidthSum + spacing}, ${0})`);
+					group.push(shape);
+				} else {
+					tagGroups.push([shape]);
+				}
+			}
+
+			// append shapes to proper group
+			for (let i = 0; i < tagGroups.length; i++) {
+				const group = tagGroups[i];
+				for (let j = 0; j < group.length; j++) {
+					const shape = group[j];
+					groups[i].parent.node().appendChild(shape);
+				}
 			}
 		});
+	}
+
+	buildTagGroups(shape) {
+		const bbox = shape.node().getBBox();
+		const line_height = 70;
+		const line_spacing = 10;
+		const line_margins = [80, 140, 200];
+
+		const tagGroups = [];
+
+		const groups = shape
+			.append("g")
+			.classed("tag-groups", true)
+			.attr("transform", `translate(${0}, ${bbox.height * 0.55})`);
+
+		for (let i = 0; i < line_margins.length; i++) {
+			groups
+				.append("g")
+				.classed("tag-group", true)
+				.attr("transform", `translate(${line_margins[i] * 2}, ${(line_height + line_spacing) * i})`)
+				.call((d) => {
+					tagGroups.push({
+						parent: d,
+						width: bbox.width - line_margins[i] * 2,
+					});
+				});
+		}
+
+		return tagGroups;
 	}
 }

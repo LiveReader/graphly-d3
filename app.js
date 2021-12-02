@@ -43,8 +43,6 @@ const graph = {
 
 const simulation = new ForceSimulation(svg, graph);
 
-simulation.displayCrossHair();
-
 function resize() {
 	const width = window.innerWidth;
 	const height = window.innerHeight;
