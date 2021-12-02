@@ -2,10 +2,15 @@
 
 * {
 	--background-color: #f2f2f2;
-	--foreground-color: #000000;
+	--foreground-color: #383838;
 
 	--node-fill-color: #ffffff;
-	--light-gray: #b1b4b4;
+	--node-stroke-color: #b3b3b3;
+
+	--state-black: #383838;
+	--state-red: #ff6376;
+	--state-yellow: #fbd97c;
+	--state-green: #7fe4a0;
 }
 
 body {
@@ -13,7 +18,7 @@ body {
 	padding: 0;
 	background-color: var(--background-color);
 	color: var(--foreground-color);
-	font-family: "Roboto Light";
+	font-family: "Roboto";
 	overflow: hidden;
 }
 
@@ -28,11 +33,11 @@ body {
 
 .node {
 	fill: var(--node-fill-color);
-	stroke: var(--light-gray);
-	stroke-width: 1;
+	stroke: var(--node-stroke-color);
+	stroke-miterlimit: 10;
 }
 
 .link {
-	stroke: var(--light-gray);
+	stroke: var(--node-stroke-color);
 	stroke-width: 1;
 }

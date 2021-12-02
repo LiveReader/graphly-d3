@@ -1,0 +1,42 @@
+.hexagon-person.background {
+	fill: var(--node-fill-color);
+	stroke: var(--node-stroke-color);
+	stroke-miterlimit: 10;
+}
+
+.hexagon-person.status {
+	fill: #00000000;
+	stroke: var(--node-stroke-color);
+	stroke-miterlimit: 10;
+}
+
+.hexagon-person.status.deceased {
+	fill: var(--state-black);
+}
+.hexagon-person.status.immediate {
+	fill: var(--state-red);
+}
+.hexagon-person.status.delayed {
+	fill: var(--state-yellow);
+}
+.hexagon-person.status.minor {
+	fill: var(--state-green);
+}
+
+.hexagon-person.title {
+	text-anchor: middle;
+	fill: var(--foreground-color);
+	stroke: none;
+	font-family: "Roboto";
+	font-weight: 300;
+	font-size: 120px;
+}
+
+.hexagon-person.tag text {
+	text-anchor: middle;
+	fill: var(--node-fill-color);
+	stroke: none;
+	font-family: "Roboto";
+	font-weight: 500;
+	font-size: 48px;
+}

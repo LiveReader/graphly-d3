@@ -3,15 +3,30 @@ const graph = {
 	nodes: [
 		{
 			id: "n0",
-			r: 50,
+			status: "minor",
+			name: {
+				first: "Luisa",
+				last: "Schmidt",
+			},
+			tags: ["verwirrt", "nerd", "geeky", "programmierend", "fotografierend"]
 		},
 		{
 			id: "n1",
-			r: 70,
+			status: "delayed",
+			name: {
+				first: "Jason",
+				last: "Rietzke",
+			},
+			tags: ["verwirrt", "nerd", "geeky", "programmierend"],
 		},
 		{
 			id: "n2",
-			r: 30,
+			status: "immediate",
+			name: {
+				first: "Eric",
+				last: "Rietzke",
+			},
+			tags: ["bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"],
 		},
 	],
 	links: [
