@@ -48,10 +48,10 @@ class PersonHexagonFactory {
 		const scale = this.size / bbox.width;
 
 		// translate hexagon to be centered
-		// hexagon.attr(
-		// 	"transform",
-		// 	`translate(${-(bbox.width * scale) / 2}, ${-(bbox.height * scale) / 2}) scale(${scale})`
-		// );
+		hexagon.attr(
+			"transform",
+			`translate(${-(bbox.width * scale) / 2}, ${-(bbox.height * scale) / 2}) scale(${scale})`
+		);
 
 		return hexagon;
 	}
@@ -117,9 +117,9 @@ class PersonHexagonFactory {
 
 				const tagBackground = tagShape
 					.append("rect")
-					.attr("rx", 35)
-					.attr("ry", 35)
-					.attr("height", 70)
+					.attr("rx", 45)
+					.attr("ry", 45)
+					.attr("height", 90)
 					.attr("width", () => {
 						const textBBox = tagText.node().getBBox();
 						return textBBox.width + margin;
@@ -140,12 +140,12 @@ class PersonHexagonFactory {
 					.classed("minor", d.status === this.statusOptions.minor)
 					.attr("style", "stroke: none");
 
-				tagShape.attr("transform", `translate(${0}, ${0})`);
+				// tagShape.attr("transform", `translate(${50}, ${0})`);
 
 				// move tagText to the front
 				tagText.node().parentNode.appendChild(tagText.node());
 
-				tagShapes.push(tagShape.node());
+				tagShapes.push(tagShape);
 
 				tagShape.remove();
 			});
@@ -167,71 +167,82 @@ class PersonHexagonFactory {
 			const currentNode = shape.filter((d) => d.id === tagShapes.parent.id);
 
 			const spacing = 20;
-			const groups = this.buildTagGroups(currentNode);
+			const groups = this.buildTagGroups(currentNode, spacing);
+			console.log(groups);
 			const tagGroups = [[]];
 
 			for (let i = 0; i < sortedShapes.length; i++) {
 				const shape = sortedShapes[i];
 				const line = groups[tagGroups.length - 1];
 				if (line == undefined) {
-					return;
+					continue;
 				}
 
-				currentNode.node().appendChild(shape);
+				currentNode.node().appendChild(shape.node());
 
 				const group = tagGroups[tagGroups.length - 1];
 				const maxWidth = line.width;
-				const shapeWidth = shape.getBBox().width;
+				const tagWidth = shape.node().getBBox().width;
 
-				let currentWidthSum = 0;
-				if (group.length > 0) {
-					for (let j = 0; j < group.length; j++) {
-						currentWidthSum += group[j].getBBox().width + spacing;
-					}
-				}
+				let sumWidth = 0;
+				group.forEach((tag) => {
+					sumWidth += tag.node().getBBox().width + spacing;
+				});
 
-				if (currentWidthSum + shapeWidth < maxWidth) {
-					// let sum = 0;
-					// for (let j = 0; j < group.length; j++) {
-					// 	sum = group[j].getBBox().width;
-					// 	console.log(group[j] ?? "Nope", group[j].getBBox().width);
-					// }
-					shape.setAttribute("transform", `translate(${currentWidthSum + spacing}, ${0})`);
-					group.push(shape);
-				} else {
+				if (sumWidth + tagWidth > maxWidth) {
+					console.log(sumWidth, maxWidth);
 					tagGroups.push([shape]);
+				} else {
+					tagGroups[tagGroups.length - 1].push(shape);
 				}
 			}
 
-			// append shapes to proper group
+			// append shapes to proper group and position
 			for (let i = 0; i < tagGroups.length; i++) {
 				const group = tagGroups[i];
+				if (groups[i] == undefined) {
+					group.forEach((shape) => {
+						shape.remove();
+					});
+					return;
+				}
+				let lineWidth = groups[i].width;
+				let groupWidth = 0;
+				group.forEach((tag) => {
+					groupWidth += tag.node().getBBox().width;
+				});
+				let offset = (lineWidth - groupWidth) / 2;
+
+				let sumWidth = 0;
 				for (let j = 0; j < group.length; j++) {
-					const shape = group[j];
-					groups[i].parent.node().appendChild(shape);
+					const tagShape = group[j];
+					groups[i].parent.node().appendChild(tagShape.node());
+					let position = sumWidth + (tagShape.node().getBBox().width / 2) - spacing / 2;
+					tagShape.attr("transform", `translate(${position + offset}, ${0})`);
+
+					sumWidth += tagShape.node().getBBox().width + spacing;
 				}
 			}
 		});
 	}
 
-	buildTagGroups(shape) {
+	buildTagGroups(shape, lineSpacing) {
 		const bbox = shape.node().getBBox();
-		const line_height = 70;
-		const line_spacing = 10;
-		const line_margins = [80, 140, 200];
+		const line_height = 90;
+		const line_margins = [60, 110, 160];
 
 		const tagGroups = [];
 
 		const groups = shape
 			.append("g")
 			.classed("tag-groups", true)
-			.attr("transform", `translate(${0}, ${bbox.height * 0.55})`);
+			.attr("transform", `translate(${0}, ${bbox.height * 0.6})`);
 
 		for (let i = 0; i < line_margins.length; i++) {
 			groups
 				.append("g")
 				.classed("tag-group", true)
-				.attr("transform", `translate(${line_margins[i] * 2}, ${(line_height + line_spacing) * i})`)
+				.attr("transform", `translate(${line_margins[i]}, ${(line_height + lineSpacing) * i})`)
 				.call((d) => {
 					tagGroups.push({
 						parent: d,

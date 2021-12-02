@@ -17,7 +17,7 @@ const graph = {
 				first: "Jason",
 				last: "Rietzke",
 			},
-			tags: ["verwirrt", "nerd", "geeky", "programmierend"]
+			tags: ["verwirrt", "nerd", "geeky", "programmierend"],
 		},
 		{
 			id: "n2",
@@ -26,7 +26,7 @@ const graph = {
 				first: "Eric",
 				last: "Rietzke",
 			},
-			tags: [ "bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"]
+			tags: ["bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"],
 		},
 	],
 	links: [
