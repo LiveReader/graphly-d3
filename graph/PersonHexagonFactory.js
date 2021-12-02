@@ -229,7 +229,7 @@ class PersonHexagonFactory {
 	buildTagGroups(shape, lineSpacing) {
 		const bbox = shape.node().getBBox();
 		const line_height = 90;
-		const line_margins = [60, 110, 160];
+		const line_margins = [70, 120, 170];
 
 		const tagGroups = [];
 
