@@ -1,6 +1,6 @@
 class PersonHexagonFactory extends ShapeFactory {
 	constructor(data, size = 100) {
-		super();
+		super(size);
 
 		this.data = data;
 		this.size = size;
@@ -30,35 +30,13 @@ class PersonHexagonFactory extends ShapeFactory {
 		this.render();
 	}
 
-	setSize(size) {
-		this.size = size;
-		this.render();
-	}
-
 	render() {
-		this.data.selectAll("g").remove();
-		const hexagon = this.data.append("g");
-
-		// set status if not available yet
-		hexagon.select((d) => {
+		const hexagon = super.render(this.data, (d) => {
 			d.status = d.status ?? this.statusOptions.immediate;
 		});
 
-		this.assamble(hexagon);
 		this.renderTitle(hexagon);
 		this.renderTags(hexagon);
-
-		// get bounding box of hexagon
-		const bbox = hexagon.node().getBBox();
-
-		// scale hexagon to be 300px wide
-		const scale = this.size / bbox.width;
-
-		// translate hexagon to be centered
-		hexagon.attr(
-			"transform",
-			`translate(${-(bbox.width * scale) / 2}, ${-(bbox.height * scale) / 2}) scale(${scale})`
-		);
 
 		return hexagon;
 	}

@@ -13,8 +13,14 @@ function ShapeStyle(className, condition) {
 class ShapeFactory {
 	#pathComponents;
 
-	constructor() {
+	constructor(shapeSize) {
+		this.shapeSize = shapeSize;
 		this.#pathComponents = [];
+		return this;
+	}
+
+	setShapeSize(shapeSize) {
+		this.shapeSize = shapeSize;
 		return this;
 	}
 
@@ -44,5 +50,30 @@ class ShapeFactory {
 			});
 		});
 		return this;
+	}
+
+	resizeShape(shape) {
+		const bbox = shape.node().getBBox();
+		const scale = this.size / bbox.width;
+		shape.attr(
+			"transform",
+			`translate(${-(bbox.width * scale) / 2}, ${-(bbox.height * scale) / 2}) scale(${scale})`
+		);
+		return shape;
+	}
+
+	/** render the shape
+	 * @param  {Object} data D3 data object
+	 * @param  {Function} onElement function to be called on each element created on data
+	 */
+	render(data, onElement = {}) {
+		data.selectAll("g").remove();
+		const shape = data.append("g");
+		shape.select((d) => {
+			onElement(d);
+		});
+		this.assamble(shape);
+		this.resizeShape(shape);
+		return shape;
 	}
 }
