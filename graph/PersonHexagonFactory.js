@@ -1,10 +1,9 @@
-class PersonHexagonFactory {
+class PersonHexagonFactory extends ShapeFactory {
 	constructor(data, size = 100) {
+		super();
+
 		this.data = data;
 		this.size = size;
-
-		this.shapes = {};
-		this.defineShapes();
 
 		this.statusOptions = {
 			minor: "minor",
@@ -13,19 +12,27 @@ class PersonHexagonFactory {
 			deceased: "deceased",
 		};
 
+		this.addPathComponent(
+			"M268.62,884a31,31,0,0,1-26.76-15.45L4.64,457.72a31,31,0,0,1,0-30.9L241.86,16A31,31,0,0,1,268.62.5H743.05A31,31,0,0,1,769.81,16L1007,426.82a31,31,0,0,1,0,30.9L769.81,868.59A31,31,0,0,1,743.05,884Z",
+			[ShapeStyle("hexagon-person", true), ShapeStyle("background", true), ShapeStyle("shadow", true)]
+		).addPathComponent(
+			"M506.08,253.5C643,253.5,774.2,246.6,895.77,234L770.34,16.7A31.4,31.4,0,0,0,743.15,1H268.71a31.38,31.38,0,0,0-27.19,15.7L116.1,233.93C237.75,246.59,369.09,253.5,506.08,253.5Z",
+			[
+				ShapeStyle("hexagon-person", true),
+				ShapeStyle("status", true),
+				ShapeStyle("deceased", (el) => el.status === this.statusOptions.deceased),
+				ShapeStyle("immediate", (el) => el.status === this.statusOptions.immediate),
+				ShapeStyle("delayed", (el) => el.status === this.statusOptions.delayed),
+				ShapeStyle("minor", (el) => el.status === this.statusOptions.minor),
+			]
+		);
+
 		this.render();
 	}
 
 	setSize(size) {
 		this.size = size;
 		this.render();
-	}
-
-	defineShapes() {
-		this.shapes.background =
-			"M268.62,884a31,31,0,0,1-26.76-15.45L4.64,457.72a31,31,0,0,1,0-30.9L241.86,16A31,31,0,0,1,268.62.5H743.05A31,31,0,0,1,769.81,16L1007,426.82a31,31,0,0,1,0,30.9L769.81,868.59A31,31,0,0,1,743.05,884Z";
-		this.shapes.status =
-			"M506.08,253.5C643,253.5,774.2,246.6,895.77,234L770.34,16.7A31.4,31.4,0,0,0,743.15,1H268.71a31.38,31.38,0,0,0-27.19,15.7L116.1,233.93C237.75,246.59,369.09,253.5,506.08,253.5Z";
 	}
 
 	render() {
@@ -37,7 +44,7 @@ class PersonHexagonFactory {
 			d.status = d.status ?? this.statusOptions.immediate;
 		});
 
-		this.renderShape(hexagon);
+		this.assamble(hexagon);
 		this.renderTitle(hexagon);
 		this.renderTags(hexagon);
 
@@ -54,26 +61,6 @@ class PersonHexagonFactory {
 		);
 
 		return hexagon;
-	}
-
-	renderShape(shape) {
-		// background shape
-		shape
-			.append("path")
-			.attr("d", this.shapes.background)
-			.classed("hexagon-person", true)
-			.classed("background", true);
-
-		// status shape
-		shape
-			.append("path")
-			.attr("d", this.shapes.status)
-			.classed("hexagon-person", true)
-			.classed("status", true)
-			.classed("deceased", (d) => d.status === this.statusOptions.deceased)
-			.classed("immediate", (d) => d.status === this.statusOptions.immediate)
-			.classed("delayed", (d) => d.status === this.statusOptions.delayed)
-			.classed("minor", (d) => d.status === this.statusOptions.minor);
 	}
 
 	renderTitle(shape) {
@@ -157,22 +144,16 @@ class PersonHexagonFactory {
 		});
 
 		allTagShapes.forEach((tagShapes) => {
-			// sort tagShapes by width of the element
-			const sortedShapes = tagShapes.shapes;
-			// .sort((a, b) => {
-			// 	return a.getBBox().width - b.getBBox().width;
-			// });
-			// console.log(sortedShapes);
+			const shapes = tagShapes.shapes;
 
 			const currentNode = shape.filter((d) => d.id === tagShapes.parent.id);
 
 			const spacing = 20;
 			const groups = this.buildTagGroups(currentNode, spacing);
-			console.log(groups);
 			const tagGroups = [[]];
 
-			for (let i = 0; i < sortedShapes.length; i++) {
-				const shape = sortedShapes[i];
+			for (let i = 0; i < shapes.length; i++) {
+				const shape = shapes[i];
 				const line = groups[tagGroups.length - 1];
 				if (line == undefined) {
 					continue;
@@ -190,7 +171,6 @@ class PersonHexagonFactory {
 				});
 
 				if (sumWidth + tagWidth > maxWidth) {
-					console.log(sumWidth, maxWidth);
 					tagGroups.push([shape]);
 				} else {
 					tagGroups[tagGroups.length - 1].push(shape);
@@ -217,7 +197,7 @@ class PersonHexagonFactory {
 				for (let j = 0; j < group.length; j++) {
 					const tagShape = group[j];
 					groups[i].parent.node().appendChild(tagShape.node());
-					let position = sumWidth + (tagShape.node().getBBox().width / 2) - spacing / 2;
+					let position = sumWidth + tagShape.node().getBBox().width / 2 - spacing / 2;
 					tagShape.attr("transform", `translate(${position + offset}, ${0})`);
 
 					sumWidth += tagShape.node().getBBox().width + spacing;
