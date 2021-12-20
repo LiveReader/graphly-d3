@@ -1,7 +1,7 @@
 /**
  * @param  {Object} parent D3 parent object
  * @param  {string} text the text within the tag
- * @param  {number[]} padding x and y padding [x, y]
+ * @param  {number[]} padding x and y padding [x, y]
  * @param  {ShapeStyle[]} styles the styles for the tag
  * @param  {ShapeStyle[]} textStyles the styles for the text
  * @param  {ShapeStyle[]} backgroundStyles the styles for the background
@@ -17,7 +17,7 @@ function Tag(parent, text, padding, styles = [], textStyles = [], backgroundStyl
 	textStyles.forEach((style) => {
 		textShape.classed(style.className, (d) => style.condition(d));
 	});
-	textShape.text(text).attr("dy", "0.55em");
+	textShape.text(text).attr("dy", "0.5em");
 
 	const backgroundShape = shape
 		.append("rect")

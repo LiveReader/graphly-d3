@@ -34,12 +34,14 @@ class PersonHexagonFactory extends ShapeFactory {
 	}
 
 	render() {
-		const hexagon = super.render(this.data, (el) => {
-			el.status = el.status ?? this.statusOptions.immediate;
-		});
+		let hexagon = super.render(this.data);
+		this.addTags(hexagon);
 
 		this.renderTitle(hexagon);
-		this.renderTags(hexagon);
+
+		hexagon = super.render(this.data, (el) => {
+			el.status = el.status ?? this.statusOptions.immediate;
+		});
 
 		return hexagon;
 	}
@@ -64,154 +66,36 @@ class PersonHexagonFactory extends ShapeFactory {
 			});
 	}
 
-	renderTags(shape) {
+	addTags(shape) {
 		const bbox = shape.node().getBBox();
-		const margin = 80;
-
-		const allTagShapes = [];
+		const tagCollection = new CollectionFactory(
+			CollectionStyle(310, bbox.width, 0, bbox.height * 0.6, 20, 20, 3, "center", [70, 120, 170])
+		);
+		super.addSubShape(tagCollection);
 
 		shape.select((d) => {
-			const tagShapes = [];
-
-			d.tags.forEach((tag) => {
-				const tagShape = shape.append("g").classed("hexagon-person", true).classed("tag", true);
-
-				const tagText = tagShape
-					.append("text")
-					.classed("hexagon-person", true)
-					.classed("tag", true)
-					.text(tag)
-					.attr("dy", "0.65em");
-
-				const tagBackground = tagShape
-					.append("rect")
-					.attr("rx", 45)
-					.attr("ry", 45)
-					.attr("height", 90)
-					.attr("width", () => {
-						const textBBox = tagText.node().getBBox();
-						return textBBox.width + margin;
-					})
-					.attr("x", () => {
-						const textBBox = tagText.node().getBBox();
-						return -textBBox.width / 2 - margin / 2;
-					})
-					.attr("y", () => {
-						const textBBox = tagText.node().getBBox();
-						return -textBBox.height / 2;
-					})
-					.classed("hexagon-person", true)
-					.classed("status", true)
-					.classed("deceased", d.status === this.statusOptions.deceased)
-					.classed("immediate", d.status === this.statusOptions.immediate)
-					.classed("delayed", d.status === this.statusOptions.delayed)
-					.classed("minor", d.status === this.statusOptions.minor)
-					.attr("style", "stroke: none");
-
-				// tagShape.attr("transform", `translate(${50}, ${0})`);
-
-				// move tagText to the front
-				tagText.node().parentNode.appendChild(tagText.node());
-
-				tagShapes.push(tagShape);
-
-				tagShape.remove();
-			});
-
-			allTagShapes.push({
-				parent: d,
-				shapes: tagShapes,
+			const currentNode = shape.filter((el) => el.id === d.id);
+			currentNode.select((el) => {
+				el.tags.forEach((tag) => {
+					const tagShape = Tag(
+						currentNode,
+						tag,
+						[40, 15],
+						[ShapeStyle("tag", false)],
+						[ShapeStyle("hexagon-person", true), ShapeStyle("tag-text", true)],
+						[
+							ShapeStyle("hexagon-person", true),
+							ShapeStyle("status", true),
+							ShapeStyle("tag-background", true),
+							ShapeStyle("deceased", (el) => el.status === this.statusOptions.deceased),
+							ShapeStyle("immediate", (el) => el.status === this.statusOptions.immediate),
+							ShapeStyle("delayed", (el) => el.status === this.statusOptions.delayed),
+							ShapeStyle("minor", (el) => el.status === this.statusOptions.minor),
+						]
+					);
+					tagCollection.addItem(tagShape, currentNode);
+				});
 			});
 		});
-
-		allTagShapes.forEach((tagShapes) => {
-			const shapes = tagShapes.shapes;
-
-			const currentNode = shape.filter((d) => d.id === tagShapes.parent.id);
-
-			const spacing = 20;
-			const groups = this.buildTagGroups(currentNode, spacing);
-			const tagGroups = [[]];
-
-			for (let i = 0; i < shapes.length; i++) {
-				const shape = shapes[i];
-				const line = groups[tagGroups.length - 1];
-				if (line == undefined) {
-					continue;
-				}
-
-				currentNode.node().appendChild(shape.node());
-
-				const group = tagGroups[tagGroups.length - 1];
-				const maxWidth = line.width;
-				const tagWidth = shape.node().getBBox().width;
-
-				let sumWidth = 0;
-				group.forEach((tag) => {
-					sumWidth += tag.node().getBBox().width + spacing;
-				});
-
-				if (sumWidth + tagWidth > maxWidth) {
-					tagGroups.push([shape]);
-				} else {
-					tagGroups[tagGroups.length - 1].push(shape);
-				}
-			}
-
-			// append shapes to proper group and position
-			for (let i = 0; i < tagGroups.length; i++) {
-				const group = tagGroups[i];
-				if (groups[i] == undefined) {
-					group.forEach((shape) => {
-						shape.remove();
-					});
-					return;
-				}
-				let lineWidth = groups[i].width;
-				let groupWidth = 0;
-				group.forEach((tag) => {
-					groupWidth += tag.node().getBBox().width;
-				});
-				let offset = (lineWidth - groupWidth) / 2;
-
-				let sumWidth = 0;
-				for (let j = 0; j < group.length; j++) {
-					const tagShape = group[j];
-					groups[i].parent.node().appendChild(tagShape.node());
-					let position = sumWidth + tagShape.node().getBBox().width / 2 - spacing / 2;
-					tagShape.attr("transform", `translate(${position + offset}, ${0})`);
-
-					sumWidth += tagShape.node().getBBox().width + spacing;
-				}
-			}
-		});
-	}
-
-	buildTagGroups(shape, lineSpacing) {
-		const bbox = shape.node().getBBox();
-		const line_height = 90;
-		const line_margins = [70, 120, 170];
-
-		const tagGroups = [];
-
-		const groups = shape
-			.append("g")
-			.classed("tag-groups", true)
-			.attr("transform", `translate(${0}, ${bbox.height * 0.6})`);
-
-		for (let i = 0; i < line_margins.length; i++) {
-			groups
-				.append("g")
-				.classed("tag-group", true)
-				.attr("transform", `translate(${line_margins[i]}, ${(line_height + lineSpacing) * i})`)
-				.call((d) => {
-					tagGroups.push({
-						parent: d,
-						width: bbox.width - line_margins[i] * 2,
-					});
-				});
-		}
-
-		return tagGroups;
 	}
 }
