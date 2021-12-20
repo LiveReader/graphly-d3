@@ -61,7 +61,7 @@ class ShapeFactory {
 	 * @param  {} element
 	 * @return {ShapeFactory}
 	 */
-	#assamble(element) {
+	assamble(element) {
 		this.#pathComponents.forEach((component) => {
 			const shape = element.append("path");
 			shape.attr("d", component.path);
@@ -69,10 +69,7 @@ class ShapeFactory {
 				shape.classed(style.className, (d) => style.condition(d));
 			});
 		});
-		this.#subShapes.forEach((subShape) => {
-			subShape.render(element);
-		});
-		return this;
+		return element;
 	}
 
 	/** render the shape
@@ -85,7 +82,10 @@ class ShapeFactory {
 		shape.select((d) => {
 			onElement(d);
 		});
-		this.#assamble(shape);
+		this.assamble(shape);
+		this.#subShapes.forEach((subShape) => {
+			subShape.render(shape);
+		});
 		this.#resizeShape(shape);
 		return shape;
 	}
