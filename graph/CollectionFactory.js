@@ -37,51 +37,54 @@ class CollectionFactory extends ShapeFactory {
 		return this;
 	}
 
-	addItem(shape) {
-		this.#items.push(shape);
+	addItem(shape, parent) {
+		this.#items.push({
+			shape: shape,
+			parent: parent,
+		});
 		return this;
 	}
 
-	#buildRows(collection) {
+	#buildRows(shape, items) {
 		const rowHeight = (this.#style.height - this.#style.dy * (this.#style.rowCount - 1)) / this.#style.rowCount;
 
-		const container = collection.append("g");
 		let itemStartIndex = 0;
 
 		for (let i = 0; i < this.#style.rowCount; i++) {
 			const rowMargin = this.#style.rowMargins[i] || 0;
 			const rowWidth = this.#style.width - rowMargin * 2;
-			const row = container
+			const row = shape
 				.append("g")
 				.attr("transform", `translate(${rowMargin}, ${(rowHeight + this.#style.dy) * i})`);
-			itemStartIndex = this.#assambleRow(row, rowWidth, itemStartIndex);
+			itemStartIndex = this.#assambleRow(row, rowWidth, itemStartIndex, items);
 		}
 
 		return this;
 	}
 
-	#assambleRow(row, rowWidth, itemStartIndex) {
-		const items = [];
+	#assambleRow(row, rowWidth, itemStartIndex, items) {
+		const usedItems = [];
 		let sumWidth = 0;
 		let itemIndex = itemStartIndex;
 		while (sumWidth < rowWidth) {
-			const item = this.#items[itemIndex];
+			let item = items[itemIndex];
 			if (item == undefined) {
 				break;
 			}
+			item = item.shape;
 			const itemShape = row.node().appendChild(item);
 			const itemWidth = itemShape.getBBox().width;
 			if (sumWidth + itemWidth > rowWidth) {
 				itemShape.remove();
 				break;
 			}
-			items.push(itemShape);
+			usedItems.push(itemShape);
 			sumWidth += itemWidth + this.#style.dx;
 			itemIndex++;
 		}
 
 		let sumItemWidth = 0;
-		items.forEach((item) => {
+		usedItems.forEach((item) => {
 			let position = 0;
 			if (this.#style.align === "left") {
 				position = sumItemWidth;
@@ -97,8 +100,8 @@ class CollectionFactory extends ShapeFactory {
 		return itemIndex;
 	}
 
-	#assamble(collection) {
-		this.#buildRows(collection);
+	#assamble(shape, items) {
+		this.#buildRows(shape, items);
 		return this;
 	}
 
@@ -107,13 +110,25 @@ class CollectionFactory extends ShapeFactory {
 	 * @param  {Function} onElement function to be called on each element created on data
 	 */
 	render(data, onElement = () => {}) {
-		data.selectAll("g").remove();
-		const collection = data.append("g");
+		data.select("g.collection").remove();
+		const collection = data
+			.append("g")
+			.classed("collection", true)
+			.attr("transform", `translate(${this.#style.x}, ${this.#style.y})`);
 		collection.select((d) => {
 			onElement(d);
 		});
-		this.#assamble(collection);
-		collection.attr("transform", `translate(${this.#style.x}, ${this.#style.y})`);
+		const sortedItems = this.#items.map((item) => item.parent);
+		const parents = [...new Set(sortedItems)];
+		parents.forEach((parent) => {
+			let id = "0";
+			parent.select((d) => {
+				id = d.id;
+			});
+			const parentNode = collection.filter((d) => d.id === id);
+			const items = this.#items.filter((item) => item.parent === parent);
+			this.#assamble(parentNode, items);
+		});
 		return collection;
 	}
 }
