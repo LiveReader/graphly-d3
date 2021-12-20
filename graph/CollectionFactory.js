@@ -69,8 +69,8 @@ class CollectionFactory extends ShapeFactory {
 			if (item == undefined) {
 				break;
 			}
-			const itemShape = row.appendChild(item);
-			const itemWidth = itemShape.node().getBBox().width;
+			const itemShape = row.node().appendChild(item);
+			const itemWidth = itemShape.getBBox().width;
 			if (sumWidth + itemWidth > rowWidth) {
 				itemShape.remove();
 				break;
@@ -86,12 +86,12 @@ class CollectionFactory extends ShapeFactory {
 			if (this.#style.align === "left") {
 				position = sumItemWidth;
 			} else if (this.#style.align == "center") {
-				position = sumItemWidth + item.node().getBBox().width / 2 + (rowWidth - sumWidth) / 2;
+				position = sumItemWidth + item.getBBox().width / 2 + (rowWidth - sumWidth) / 2;
 			} else if (this.#style.align == "right") {
 				position = rowWidth - sumItemWidth;
 			}
-			item.attr("transform", `translate(${position}, 0)`);
-			sumItemWidth += item.node().getBBox().width + this.#style.dx;
+			item.setAttribute("transform", `translate(${position}, 0)`);
+			sumItemWidth += item.getBBox().width + this.#style.dx;
 		});
 
 		return itemIndex;
