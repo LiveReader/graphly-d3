@@ -13,7 +13,7 @@ class ShapeFactory {
 	#pathComponents;
 	#subShapes;
 
-	constructor(shapeSize) {
+	constructor(shapeSize = null) {
 		this.shapeSize = shapeSize;
 		this.#pathComponents = [];
 		this.#subShapes = [];
@@ -27,7 +27,7 @@ class ShapeFactory {
 
 	#resizeShape(element) {
 		const bbox = element.node().getBBox();
-		const scale = this.shapeSize / bbox.width;
+		const scale = (this.shapeSize != null ? this.shapeSize : bbox.width) / bbox.width;
 		element.attr(
 			"transform",
 			`translate(${-(bbox.width * scale) / 2}, ${-(bbox.height * scale) / 2}) scale(${scale})`
@@ -69,7 +69,9 @@ class ShapeFactory {
 				shape.classed(style.className, (d) => style.condition(d));
 			});
 		});
-		// TODO assamble sub shapes
+		this.#subShapes.forEach((subShape) => {
+			subShape.render(element);
+		});
 		return this;
 	}
 
