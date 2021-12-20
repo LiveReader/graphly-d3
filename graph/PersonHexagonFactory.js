@@ -35,9 +35,8 @@ class PersonHexagonFactory extends ShapeFactory {
 
 	render() {
 		let hexagon = super.render(this.data);
+		this.addTitle(hexagon);
 		this.addTags(hexagon);
-
-		this.renderTitle(hexagon);
 
 		hexagon = super.render(this.data, (el) => {
 			el.status = el.status ?? this.statusOptions.immediate;
@@ -46,24 +45,22 @@ class PersonHexagonFactory extends ShapeFactory {
 		return hexagon;
 	}
 
-	renderTitle(shape) {
+	addTitle(shape) {
 		const bbox = shape.node().getBBox();
+		const title = new CollectionFactory(CollectionStyle(80, bbox.width, 0, bbox.height * 0.47, 10, 10, 2));
+		super.addSubShape(title);
 
-		shape
-			.append("text")
-			.attr("x", (d) => {
-				return bbox.width / 2;
-			})
-			.attr("y", (d) => {
-				return bbox.height * 0.45;
-			})
-			.attr("dy", "0.35em")
-			.classed("hexagon-person", true)
-			.classed("title", true)
-			.text((d) => {
-				const inicials = d.name.first.charAt(0) + d.name.last.charAt(0);
-				return inicials;
+		shape.select((d) => {
+			const currentNode = shape.filter((el) => el.id === d.id);
+			currentNode.select((el) => {
+				const inicials = el.name.first.charAt(0) + el.name.last.charAt(0);
+				const text = Text(currentNode, inicials, [
+					ShapeStyle("hexagon-person", true),
+					ShapeStyle("title", true),
+				]);
+				title.addItem(text, currentNode)
 			});
+		});
 	}
 
 	addTags(shape) {

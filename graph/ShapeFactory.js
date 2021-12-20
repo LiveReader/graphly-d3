@@ -86,7 +86,7 @@ class ShapeFactory {
 				subShape.render(shape);
 			});
 		});
-		
+
 		this.#resizeShape(shape);
 		return shape;
 	}

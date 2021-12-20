@@ -110,7 +110,6 @@ class CollectionFactory extends ShapeFactory {
 	 * @param  {Function} onElement function to be called on each element created on data
 	 */
 	render(data, onElement = () => {}) {
-		data.select("g.collection").remove();
 		const collection = data
 			.append("g")
 			.classed("collection", true)
