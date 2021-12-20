@@ -32,13 +32,18 @@
 	font-size: 120px;
 }
 
-.hexagon-person.tag text {
+.hexagon-person.tag-text {
 	text-anchor: middle;
 	fill: var(--node-fill-color);
 	stroke: none;
 	font-family: "Roboto";
 	font-weight: 500;
 	font-size: 48px;
+}
+.hexagon-person.tag-background {
+	rx: 45;
+	ry: 45;
+	stroke: none;
 }
 
 .shadow {

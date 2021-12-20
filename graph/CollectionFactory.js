@@ -113,6 +113,7 @@ class CollectionFactory extends ShapeFactory {
 			onElement(d);
 		});
 		this.#assamble(collection);
+		collection.attr("transform", `translate(${this.#style.x}, ${this.#style.y})`);
 		return collection;
 	}
 }
