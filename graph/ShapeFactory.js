@@ -77,15 +77,16 @@ class ShapeFactory {
 	 * @param  {Function} onElement function to be called on each element created on data
 	 */
 	render(data, onElement = () => {}) {
-		data.selectAll("g").remove();
-		const shape = data.append("g");
+		data.selectAll("g.shape").remove();
+		const shape = data.append("g").classed("shape", true);
+		this.assamble(shape);
 		shape.select((d) => {
 			onElement(d);
+			this.#subShapes.forEach((subShape) => {
+				subShape.render(shape);
+			});
 		});
-		this.assamble(shape);
-		this.#subShapes.forEach((subShape) => {
-			subShape.render(shape);
-		});
+		
 		this.#resizeShape(shape);
 		return shape;
 	}
