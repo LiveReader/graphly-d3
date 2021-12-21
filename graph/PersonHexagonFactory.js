@@ -28,8 +28,6 @@ class PersonHexagonFactory extends ShapeFactory {
 					ShapeStyle("minor", (el) => el.status === this.statusOptions.minor),
 				]
 			);
-
-		this.render();
 	}
 
 	render() {
@@ -39,7 +37,7 @@ class PersonHexagonFactory extends ShapeFactory {
 		// Title: person initials
 		const titlField = new TextFieldFactory(
 			shape,
-			CollectionStyle(300, bbox.width, 0, bbox.height * 0.47, 40, 40, 2),
+			CollectionStyle(300, bbox.width, 0, bbox.height * 0.47, 40, 40, 1),
 			[ShapeStyle("hexagon-person", true), ShapeStyle("title", true)],
 			(el) => {
 				const initials = el.name.first.charAt(0) + el.name.last.charAt(0);
