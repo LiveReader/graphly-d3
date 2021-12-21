@@ -8,7 +8,7 @@ const graph = {
 				first: "Luisa",
 				last: "Schmidt",
 			},
-			tags: ["verwirrt", "nerd", "geeky", "programmierend", "fotografierend"]
+			tags: ["unter Schock", "unverletzt", "Puls normal"],
 		},
 		{
 			id: "n1",
@@ -17,7 +17,7 @@ const graph = {
 				first: "Jason",
 				last: "Rietzke",
 			},
-			tags: ["verwirrt", "nerd", "geeky", "programmierend"],
+			tags: ["Knochenbruch: Arm", "atmend", "Schnittwunde: Fuß"],
 		},
 		{
 			id: "n2",

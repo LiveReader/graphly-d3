@@ -87,11 +87,11 @@ class CollectionFactory extends ShapeFactory {
 		usedItems.forEach((item) => {
 			let position = 0;
 			if (this.#style.align === "left") {
-				position = sumItemWidth;
+				position = sumItemWidth + item.getBBox().width / 2;
 			} else if (this.#style.align == "center") {
 				position = sumItemWidth + item.getBBox().width / 2 + (rowWidth - sumWidth) / 2;
 			} else if (this.#style.align == "right") {
-				position = rowWidth - sumItemWidth;
+				position = rowWidth - sumItemWidth - item.getBBox().width / 2;
 			}
 			item.setAttribute("transform", `translate(${position}, 0)`);
 			sumItemWidth += item.getBBox().width + this.#style.dx;

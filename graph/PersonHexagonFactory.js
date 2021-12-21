@@ -44,7 +44,6 @@ class PersonHexagonFactory extends ShapeFactory {
 			(el) => {
 				const initials = el.name.first.charAt(0) + el.name.last.charAt(0);
 				return initials;
-				// return "Hello World, how are you doing";
 			}
 		);
 		super.addSubShape(titlField);
