@@ -29,70 +29,51 @@ class PersonHexagonFactory extends ShapeFactory {
 				]
 			);
 
-		return this.render();
-		// return super.render(this.data);
+		this.render();
 	}
 
 	render() {
-		let hexagon = super.render(this.data);
-		this.addTitle(hexagon);
-		this.addTags(hexagon);
-
-		hexagon = super.render(this.data, (el) => {
-			el.status = el.status ?? this.statusOptions.immediate;
-		});
-
-		return hexagon;
-	}
-
-	addTitle(shape) {
+		let shape = super.render(this.data);
 		const bbox = shape.node().getBBox();
-		const title = new CollectionFactory(CollectionStyle(80, bbox.width, 0, bbox.height * 0.47, 10, 10, 2));
-		super.addSubShape(title);
 
-		shape.select((d) => {
-			const currentNode = shape.filter((el) => el.id === d.id);
-			currentNode.select((el) => {
-				const inicials = el.name.first.charAt(0) + el.name.last.charAt(0);
-				const text = Text(currentNode, inicials, [
+		// Title: person initials
+		const titlField = new TextFieldFactory(
+			shape,
+			CollectionStyle(300, bbox.width, 0, bbox.height * 0.47, 40, 40, 2),
+			[ShapeStyle("hexagon-person", true), ShapeStyle("title", true)],
+			(el) => {
+				const initials = el.name.first.charAt(0) + el.name.last.charAt(0);
+				return initials;
+				// return "Hello World, how are you doing";
+			}
+		);
+		super.addSubShape(titlField);
+
+		// Tags: person related status tags
+		const tagCollection = new TagCollectionFactory(
+			shape,
+			CollectionStyle(310, bbox.width, 0, bbox.height * 0.6, 20, 20, 3, "center", [110, 170, 230]),
+			TagStyle(
+				[40, 15],
+				[ShapeStyle("hexagon-person", true), ShapeStyle("tag-text", true)],
+				[
 					ShapeStyle("hexagon-person", true),
-					ShapeStyle("title", true),
-				]);
-				title.addItem(text, currentNode)
-			});
-		});
-	}
-
-	addTags(shape) {
-		const bbox = shape.node().getBBox();
-		const tagCollection = new CollectionFactory(
-			CollectionStyle(310, bbox.width, 0, bbox.height * 0.6, 20, 20, 3, "center", [70, 120, 170])
+					ShapeStyle("tag-background", true),
+					ShapeStyle("status", true),
+					ShapeStyle("deceased", (el) => el.status === this.statusOptions.deceased),
+					ShapeStyle("immediate", (el) => el.status === this.statusOptions.immediate),
+					ShapeStyle("delayed", (el) => el.status === this.statusOptions.delayed),
+					ShapeStyle("minor", (el) => el.status === this.statusOptions.minor),
+				]
+			),
+			(el) => {
+				return el.tags;
+			}
 		);
 		super.addSubShape(tagCollection);
 
-		shape.select((d) => {
-			const currentNode = shape.filter((el) => el.id === d.id);
-			currentNode.select((el) => {
-				el.tags.forEach((tag) => {
-					const tagShape = Tag(
-						currentNode,
-						tag,
-						[40, 15],
-						[ShapeStyle("tag", false)],
-						[ShapeStyle("hexagon-person", true), ShapeStyle("tag-text", true)],
-						[
-							ShapeStyle("hexagon-person", true),
-							ShapeStyle("status", true),
-							ShapeStyle("tag-background", true),
-							ShapeStyle("deceased", (el) => el.status === this.statusOptions.deceased),
-							ShapeStyle("immediate", (el) => el.status === this.statusOptions.immediate),
-							ShapeStyle("delayed", (el) => el.status === this.statusOptions.delayed),
-							ShapeStyle("minor", (el) => el.status === this.statusOptions.minor),
-						]
-					);
-					tagCollection.addItem(tagShape, currentNode);
-				});
-			});
+		return super.render(this.data, (el) => {
+			el.status = el.status ?? this.statusOptions.immediate;
 		});
 	}
 }
