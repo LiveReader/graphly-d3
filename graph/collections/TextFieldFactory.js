@@ -45,6 +45,8 @@ class TextFieldFactory extends CollectionFactory {
 					const textElement = Text(currentNode, word, textStyles);
 					super.addItem(textElement, currentNode);
 				});
+				const ellipsis = Text(currentNode, "...", textStyles);
+				super.addEllipsis(ellipsis, currentNode);
 			});
 		});
 	}

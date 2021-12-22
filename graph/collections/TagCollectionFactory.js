@@ -72,6 +72,8 @@ class TagCollectionFactory extends CollectionFactory {
 					const tagElement = Tag(currentNode, tag, tagStyle);
 					super.addItem(tagElement, currentNode);
 				});
+				const ellipsis = Tag(currentNode, "...", tagStyle);
+				super.addEllipsis(ellipsis, currentNode);
 			});
 		});
 	}
