@@ -1,3 +1,7 @@
+.hexagon-person {
+	transition: fill 0.3s ease-in-out;
+}
+
 .hexagon-person.background {
 	fill: var(--node-fill-color);
 	stroke: var(--node-stroke-color);
@@ -44,6 +48,10 @@
 	rx: 45;
 	ry: 45;
 	stroke: none;
+}
+
+.hexagon-person.timer {
+	fill: var(--node-fill-color)
 }
 
 .shadow {

@@ -62,6 +62,9 @@ class ForceSimulation {
 	}
 
 	render() {
+		this.nodeGroup.selectAll("g.node").remove();
+		this.linkGroup.selectAll("line.link").remove();
+
 		this.nodeGroup
 			.selectAll("g.node")
 			.data(graph.nodes)
@@ -71,7 +74,7 @@ class ForceSimulation {
 			.attr("id", (d) => d.id)
 			.call((d) => {
 				// Build all person hexagon nodes
-				const personHexagon = new PersonHexagonFactory(d, 300);
+				new PersonHexagonFactory(d, 300).render();
 			})
 			.call(this.dragNode());
 
