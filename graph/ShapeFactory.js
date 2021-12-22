@@ -95,6 +95,15 @@ class ShapeFactory {
 		return this;
 	}
 
+	#refresh(d, elementID, element) {
+		if (document.getElementById(elementID)) {
+			this.#refreshRoutine.callback(d, element.node());
+			setTimeout(() => {
+				this.#refresh(d, elementID, element);
+			}, this.#refreshRoutine.interval(d));
+		}
+	}
+
 	/** assamble the element with the factory components
 	 * @param  {object} element d3 data object
 	 * @return {object} d3 data object
@@ -141,12 +150,7 @@ class ShapeFactory {
 
 			// refresh routine cycle
 			if (this.#refreshRoutine.condition(d)) {
-				const intervalID = setInterval(() => {
-					if (!document.getElementById(elementID)) {
-						clearInterval(intervalID);
-					}
-					this.#refreshRoutine.callback(d, currentNode.node());
-				}, this.#refreshRoutine.interval(d));
+				this.#refresh(d, elementID, currentNode)
 			}
 
 			onElement(d);
