@@ -94,6 +94,22 @@ class PersonHexagonFactory extends ShapeFactory {
 			)
 		);
 
+		super.setOnClick((e, d, el) => {
+			const statusShape = el.select(".status");
+			const tagShapes = el.selectAll(".tag-background");
+			statusShape.classed(d.status, false);
+			tagShapes.classed(d.status, false);
+
+			const statusIndex = Object.keys(this.statusOptions).indexOf(d.status);
+			const nextStatus = Object.keys(this.statusOptions)[
+				(statusIndex + 1) % Object.keys(this.statusOptions).length
+			];
+			d.status = nextStatus;
+
+			statusShape.classed(d.status, true);
+			tagShapes.classed(d.status, true);
+		});
+
 		return super.render(this.data, (el) => {
 			el.status = el.status ?? this.statusOptions.immediate;
 		});
