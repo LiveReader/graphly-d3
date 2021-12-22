@@ -69,6 +69,25 @@ class PersonHexagonFactory extends ShapeFactory {
 		);
 		super.addSubShape(tagCollection);
 
+		super.setRefreshRoutine(
+			RefreshRoutine(
+				(d) => {
+					return d.name.first == "Jason" || d.name.first == "Luisa";
+				},
+				(d, el) => {
+					const element = el.getElementsByClassName("title")[0];
+					element.textContent = (parseFloat(element.textContent) || 0) + (d.name.first == "Jason" ? 1 : 0.5);
+				},
+				(d) => {
+					if (d.name.first == "Jason") {
+						return 1000;
+					} else if (d.name.first == "Luisa") {
+						return 500;
+					}
+				}
+			)
+		);
+
 		return super.render(this.data, (el) => {
 			el.status = el.status ?? this.statusOptions.immediate;
 		});

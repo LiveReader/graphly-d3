@@ -9,14 +9,44 @@ function ShapeStyle(className, condition) {
 	};
 }
 
+/**
+ * @callback condition 
+ * @param    {object} d d3 data object
+ * @returns  {boolean} true if the condition is met
+ */
+/**
+ * @callback callback 
+ * @param    {object} d d3 data object
+ * @param    {object} el html element reference
+ */
+/**
+ * @callback interval
+ * @param    {object} d d3 data object
+ * @returns  {number} the interval in milliseconds
+ */
+/**
+ * @callback condition check whether the routine should be applied
+ * @callback callback the routine to be applied
+ * @callback interval the interval in milliseconds
+ */
+function RefreshRoutine(condition = (d) => {}, callback = (d, el) => {}, interval = (d) => {}) {
+	return {
+		condition: typeof condition === "function" ? condition : () => condition,
+		callback: callback,
+		interval: typeof interval === "function" ? interval : () => interval,
+	};
+}
+
 class ShapeFactory {
 	#pathComponents;
 	#subShapes;
+	#refreshRoutine;
 
 	constructor(shapeSize = null) {
 		this.shapeSize = shapeSize;
 		this.#pathComponents = [];
 		this.#subShapes = [];
+		this.#refreshRoutine = RefreshRoutine(false, () => {}, 0);
 		return this;
 	}
 
@@ -57,9 +87,17 @@ class ShapeFactory {
 		return this;
 	}
 
+	/**
+	 * @param  {RefreshRoutine} routine the refresh routine
+	 */
+	setRefreshRoutine(routine) {
+		this.#refreshRoutine = routine;
+		return this;
+	}
+
 	/** assamble the element with the factory components
-	 * @param  {} element
-	 * @return {ShapeFactory}
+	 * @param  {object} element d3 data object
+	 * @return {object} d3 data object
 	 */
 	assamble(element) {
 		this.#pathComponents.forEach((component) => {
@@ -80,7 +118,7 @@ class ShapeFactory {
 		this.#subShapes.forEach((subShape) => {
 			subShape.render(element);
 		});
-		return element
+		return element;
 	}
 
 	#randomUUID() {
@@ -98,7 +136,19 @@ class ShapeFactory {
 		this.assambleSubShapes(shape);
 		shape.select((d) => {
 			const currentNode = shape.filter((el) => el.id === d.id);
-			currentNode.attr("id", this.#randomUUID());
+			const elementID = this.#randomUUID();
+			currentNode.attr("id", elementID);
+
+			// refresh routine cycle
+			if (this.#refreshRoutine.condition(d)) {
+				const intervalID = setInterval(() => {
+					if (!document.getElementById(elementID)) {
+						clearInterval(intervalID);
+					}
+					this.#refreshRoutine.callback(d, currentNode.node());
+				}, this.#refreshRoutine.interval(d));
+			}
+
 			onElement(d);
 		});
 		this.#resizeShape(shape);
