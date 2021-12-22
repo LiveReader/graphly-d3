@@ -72,6 +72,21 @@ class ShapeFactory {
 		return element;
 	}
 
+	/**
+	 * @param  {object} element d3 data object
+	 * @return {object} d3 data object
+	 */
+	assambleSubShapes(element) {
+		this.#subShapes.forEach((subShape) => {
+			subShape.render(element);
+		});
+		return element
+	}
+
+	#randomUUID() {
+		return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+	}
+
 	/** render the shape
 	 * @param  {Object} data D3 data object
 	 * @param  {Function} onElement function to be called on each element created on data
@@ -80,13 +95,12 @@ class ShapeFactory {
 		data.selectAll("g.shape").remove();
 		const shape = data.append("g").classed("shape", true);
 		this.assamble(shape);
+		this.assambleSubShapes(shape);
 		shape.select((d) => {
+			const currentNode = shape.filter((el) => el.id === d.id);
+			currentNode.attr("id", this.#randomUUID());
 			onElement(d);
-			this.#subShapes.forEach((subShape) => {
-				subShape.render(shape);
-			});
 		});
-
 		this.#resizeShape(shape);
 		return shape;
 	}
