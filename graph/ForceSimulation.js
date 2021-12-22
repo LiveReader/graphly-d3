@@ -62,6 +62,9 @@ class ForceSimulation {
 	}
 
 	render() {
+		this.nodeGroup.selectAll("g.node").remove();
+		this.linkGroup.selectAll("line.link").remove();
+
 		this.nodeGroup
 			.selectAll("g.node")
 			.data(graph.nodes)
