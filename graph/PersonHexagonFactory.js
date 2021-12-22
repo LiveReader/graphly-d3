@@ -81,7 +81,7 @@ class PersonHexagonFactory extends ShapeFactory {
 			RefreshRoutine(
 				(d) => !!d.countdown,
 				(d, el, data) => {
-					const element = el.getElementsByClassName("title")[0];
+					const element = el.node().getElementsByClassName("title")[0];
 					const elapsed = Date.now() - data.previousTimeStamp ?? Date.now();
 					let countdown = data.countdown ?? d.countdown;
 					countdown < 0 ? (countdown = 0) : {};

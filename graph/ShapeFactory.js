@@ -41,6 +41,7 @@ class ShapeFactory {
 	#pathComponents;
 	#subShapes;
 	#refreshRoutine;
+	#onClick;
 
 	constructor(shapeSize = null) {
 		this.shapeSize = shapeSize;
@@ -97,11 +98,16 @@ class ShapeFactory {
 
 	#refresh(d, elementID, element, data = {}) {
 		if (document.getElementById(elementID)) {
-			const proceed = this.#refreshRoutine.callback(d, element.node(), data) ?? true;
+			const proceed = this.#refreshRoutine.callback(d, element, data) ?? true;
 			setTimeout(() => {
 				if (proceed) this.#refresh(d, elementID, element, data);
 			}, this.#refreshRoutine.interval(d));
 		}
+	}
+
+	setOnClick(callback = (e, d, el) => {}) {
+		this.#onClick = callback;
+		return this;
 	}
 
 	/** assamble the element with the factory components
@@ -155,6 +161,13 @@ class ShapeFactory {
 
 			onElement(d);
 		});
+
+		// on click
+		shape.on("click", (e, d) => {
+			const currentNode = shape.filter((el) => el.id === d.id);
+			this.#onClick(e, d, currentNode);
+		});
+
 		this.#resizeShape(shape);
 		return shape;
 	}
