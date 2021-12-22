@@ -34,10 +34,18 @@ class PersonHexagonFactory extends ShapeFactory {
 		let shape = super.render(this.data);
 		const bbox = shape.node().getBBox();
 
+		// Timer
+		const timerField = new TextFieldFactory(
+			shape,
+			CollectionStyle(100, bbox.width, 0, bbox.height * 0.2, 40, 40, 1),
+			[ShapeStyle("timer", true), ShapeStyle("hexagon-person", true), ShapeStyle("title", true)]
+		);
+		super.addSubShape(timerField);
+
 		// Title: person initials
 		const titlField = new TextFieldFactory(
 			shape,
-			CollectionStyle(300, bbox.width, 0, bbox.height * 0.47, 40, 40, 1),
+			CollectionStyle(100, bbox.width, 0, bbox.height * 0.47, 40, 40, 1),
 			[ShapeStyle("hexagon-person", true), ShapeStyle("title", true)],
 			(el) => {
 				const initials = el.name.first.charAt(0) + el.name.last.charAt(0);
@@ -71,20 +79,18 @@ class PersonHexagonFactory extends ShapeFactory {
 
 		super.setRefreshRoutine(
 			RefreshRoutine(
-				(d) => {
-					return d.name.first == "Jason" || d.name.first == "Luisa";
-				},
-				(d, el) => {
+				(d) => !!d.countdown,
+				(d, el, data) => {
 					const element = el.getElementsByClassName("title")[0];
-					element.textContent = (parseFloat(element.textContent) || 0) + (d.name.first == "Jason" ? 1 : 0.5);
+					const elapsed = Date.now() - data.previousTimeStamp ?? Date.now();
+					let countdown = data.countdown ?? d.countdown;
+					countdown < 0 ? (countdown = 0) : {};
+					data.countdown = countdown - (elapsed || 0) / 1000;
+					data.previousTimeStamp = Date.now();
+					element.textContent = countdown.toFixed(1);
+					if (countdown <= 0) return false;
 				},
-				(d) => {
-					if (d.name.first == "Jason") {
-						return 1000;
-					} else if (d.name.first == "Luisa") {
-						return 500;
-					}
-				}
+				100
 			)
 		);
 

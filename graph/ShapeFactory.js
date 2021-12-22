@@ -10,12 +10,12 @@ function ShapeStyle(className, condition) {
 }
 
 /**
- * @callback condition 
+ * @callback condition
  * @param    {object} d d3 data object
  * @returns  {boolean} true if the condition is met
  */
 /**
- * @callback callback 
+ * @callback callback
  * @param    {object} d d3 data object
  * @param    {object} el html element reference
  */
@@ -95,11 +95,11 @@ class ShapeFactory {
 		return this;
 	}
 
-	#refresh(d, elementID, element) {
+	#refresh(d, elementID, element, data = {}) {
 		if (document.getElementById(elementID)) {
-			this.#refreshRoutine.callback(d, element.node());
+			const proceed = this.#refreshRoutine.callback(d, element.node(), data) ?? true;
 			setTimeout(() => {
-				this.#refresh(d, elementID, element);
+				if (proceed) this.#refresh(d, elementID, element, data);
 			}, this.#refreshRoutine.interval(d));
 		}
 	}
@@ -150,7 +150,7 @@ class ShapeFactory {
 
 			// refresh routine cycle
 			if (this.#refreshRoutine.condition(d)) {
-				this.#refresh(d, elementID, currentNode)
+				this.#refresh(d, elementID, currentNode);
 			}
 
 			onElement(d);
