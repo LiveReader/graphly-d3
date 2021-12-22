@@ -59,7 +59,7 @@ class CollectionFactory extends ShapeFactory {
 		const rowHeight = (this.#style.height - this.#style.dy * (this.#style.rowCount - 1)) / this.#style.rowCount;
 
 		let itemStartIndex = 0;
-		let skipedItems = [];
+		let skippedItems = [];
 
 		for (let i = 0; i < this.#style.rowCount; i++) {
 			const rowMargin = this.#style.rowMargins[i] || 0;
@@ -72,7 +72,7 @@ class CollectionFactory extends ShapeFactory {
 				rowWidth,
 				itemStartIndex,
 				items,
-				skipedItems,
+				skippedItems,
 				i == this.#style.rowCount - 1
 			);
 		}
@@ -80,7 +80,7 @@ class CollectionFactory extends ShapeFactory {
 		return this;
 	}
 
-	#assambleRow(row, rowWidth, itemStartIndex, items, skipedItems, isLastRow) {
+	#assambleRow(row, rowWidth, itemStartIndex, items, skippedItems, isLastRow) {
 		const usedItems = [];
 		let sumWidth = 0;
 		let itemIndex = itemStartIndex;
@@ -96,13 +96,13 @@ class CollectionFactory extends ShapeFactory {
 			if (itemWidth > rowWidth) {
 				itemShape.remove();
 				itemIndex++;
-				skipedItems.push(item);
+				skippedItems.push(item);
 				continue;
 			}
 			if (sumWidth + itemWidth > rowWidth) {
 				itemShape.remove();
 				if (isLastRow) {
-					skipedItems.push(item);
+					skippedItems.push(item);
 				}
 				break;
 			}
@@ -111,7 +111,7 @@ class CollectionFactory extends ShapeFactory {
 			itemIndex++;
 		}
 
-		if (isLastRow && skipedItems.length > 0 && this.#ellipsis.shape) {
+		if (isLastRow && skippedItems.length > 0 && this.#ellipsis.shape) {
 			row.node().appendChild(this.#ellipsis.shape);
 			usedItems.push(this.#ellipsis.shape);
 			sumWidth += this.#ellipsis.shape.getBBox().width + this.#style.dx;
