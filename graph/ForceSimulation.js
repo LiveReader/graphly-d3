@@ -2,6 +2,8 @@ class ForceSimulation {
 	constructor(svg, graph) {
 		this.svg = svg;
 		this.graph = graph;
+		this.worldTransform = { k: 1, x: 0, y: 0 };
+		this.zoomRoutines = [];
 
 		this.createWorld();
 		this.createSimulation();
@@ -47,8 +49,16 @@ class ForceSimulation {
 				.scaleExtent([0.1, 5])
 				.on("zoom", ({ transform }) => {
 					this.world.attr("transform", transform);
+					if (this.worldTransform.k !== transform.k) {
+						this.zoomRoutines.forEach((method) => method(transform.k));
+					}
+					this.worldTransform = transform;
 				})
 		);
+	}
+
+	onZoom(callback = (k) => {}) {
+		this.zoomRoutines.push(callback);
 	}
 
 	ticked() {
@@ -62,6 +72,7 @@ class ForceSimulation {
 	}
 
 	render() {
+		this.zoomRoutines = [];
 		this.nodeGroup.selectAll("g.node").remove();
 		this.linkGroup.selectAll("line.link").remove();
 
@@ -79,6 +90,8 @@ class ForceSimulation {
 			.call(this.dragNode());
 
 		this.linkGroup.selectAll("line").data(graph.links).enter().append("line").classed("link", true);
+
+		this.zoomRoutines.forEach((method) => method(this.worldTransform.k));
 	}
 
 	dragNode() {
