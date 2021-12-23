@@ -2,6 +2,7 @@ class PersonHexagonFactory extends ShapeFactory {
 	constructor(simulation, data, size = 100) {
 		super(simulation, size);
 
+		this.simulation = simulation;
 		this.data = data;
 		this.statusOptions = {
 			minor: "minor",
@@ -14,7 +15,18 @@ class PersonHexagonFactory extends ShapeFactory {
 			.addPathComponent(
 				// body shape
 				"M268.62,884a31,31,0,0,1-26.76-15.45L4.64,457.72a31,31,0,0,1,0-30.9L241.86,16A31,31,0,0,1,268.62.5H743.05A31,31,0,0,1,769.81,16L1007,426.82a31,31,0,0,1,0,30.9L769.81,868.59A31,31,0,0,1,743.05,884Z",
-				[ShapeStyle("hexagon-person", true), ShapeStyle("background", true), ShapeStyle("shadow", true)]
+				[
+					ShapeStyle("hexagon-person", true),
+					LODStyle("background", (el, k) => k > 0.2),
+					ShapeStyle("shadow", true),
+					LODStyle("status", (el, k) => k < 0.2),
+					LODStyle("deceased", (el, k) => el.status === this.statusOptions.deceased && k < 0.2),
+					LODStyle("immediate", (el, k) => el.status === this.statusOptions.immediate && k < 0.2),
+					LODStyle("delayed", (el, k) => el.status === this.statusOptions.delayed && k < 0.2),
+					LODStyle("minor", (el, k) => {
+						return (el.status === this.statusOptions.minor) && k < 0.2;
+					}),
+				]
 			)
 			.addPathComponent(
 				// status head shape
@@ -34,48 +46,13 @@ class PersonHexagonFactory extends ShapeFactory {
 		let shape = super.render(this.data);
 		const bbox = shape.node().getBBox();
 
-		// Timer
-		const timerField = new TextFieldFactory(
-			shape,
-			CollectionStyle(100, bbox.width, 0, bbox.height * 0.2, 40, 40, 1),
-			[ShapeStyle("timer", true), ShapeStyle("hexagon-person", true), ShapeStyle("title", true)]
-		);
-		super.addSubShape(timerField);
+		// default > 60% zoom
+		this.renderTimer(shape, bbox);
+		this.renderTitle(shape, bbox);
+		this.renderTagCollection(shape, bbox);
 
-		// Title: person initials
-		const titlField = new TextFieldFactory(
-			shape,
-			CollectionStyle(100, bbox.width, 0, bbox.height * 0.47, 40, 40, 1),
-			[ShapeStyle("hexagon-person", true), ShapeStyle("title", true)],
-			(el) => {
-				const initials = el.name.first.charAt(0) + el.name.last.charAt(0);
-				return initials;
-			}
-		);
-		super.addSubShape(titlField);
-
-		// Tags: person related status tags
-		const tagCollection = new TagCollectionFactory(
-			shape,
-			CollectionStyle(310, bbox.width, 0, bbox.height * 0.6, 20, 20, 3, "center", [110, 170, 230]),
-			TagStyle(
-				[40, 15],
-				[ShapeStyle("hexagon-person", true), ShapeStyle("tag-text", true)],
-				[
-					ShapeStyle("hexagon-person", true),
-					ShapeStyle("tag-background", true),
-					ShapeStyle("status", true),
-					ShapeStyle("deceased", (el) => el.status === this.statusOptions.deceased),
-					ShapeStyle("immediate", (el) => el.status === this.statusOptions.immediate),
-					ShapeStyle("delayed", (el) => el.status === this.statusOptions.delayed),
-					ShapeStyle("minor", (el) => el.status === this.statusOptions.minor),
-				]
-			),
-			(el) => {
-				return el.tags;
-			}
-		);
-		super.addSubShape(tagCollection);
+		// zoom < 60%
+		this.renderLargeTitle(shape, bbox);
 
 		super.setRefreshRoutine(
 			RefreshRoutine(
@@ -95,7 +72,7 @@ class PersonHexagonFactory extends ShapeFactory {
 		);
 
 		super.setOnClick((e, d, el) => {
-			const statusShape = el.select(".status");
+			const statusShape = el.selectAll(".status");
 			const tagShapes = el.selectAll(".tag-background");
 			statusShape.classed(d.status, false);
 			tagShapes.classed(d.status, false);
@@ -113,5 +90,77 @@ class PersonHexagonFactory extends ShapeFactory {
 		return super.render(this.data, (el) => {
 			el.status = el.status ?? this.statusOptions.immediate;
 		});
+	}
+
+	renderTimer(shape, bbox) {
+		const timerField = new TextFieldFactory(
+			this.simulation,
+			shape,
+			CollectionStyle(100, bbox.width, 0, bbox.height * 0.2, 40, 40, 1),
+			[ShapeStyle("timer", true), ShapeStyle("hexagon-person", true), ShapeStyle("title", true)]
+		);
+		timerField.addLODstyle(LODStyle("hidden", (el, k) => k < 0.6));
+		super.addSubShape(timerField);
+	}
+
+	renderTitle(shape, bbox) {
+		const titleField = new TextFieldFactory(
+			this.simulation,
+			shape,
+			CollectionStyle(100, bbox.width, 0, bbox.height * 0.47, 40, 40, 1, "center", [60]),
+			[ShapeStyle("hexagon-person", true), ShapeStyle("title", true)],
+			(el) => {
+				const initials = el.name.first.charAt(0) + el.name.last.charAt(0);
+				return initials;
+			}
+		);
+		titleField.addLODstyle(LODStyle("hidden", (el, k) => k < 0.6));
+		super.addSubShape(titleField);
+	}
+
+	renderLargeTitle(shape, bbox) {
+		const largeTitleField = new TextFieldFactory(
+			this.simulation,
+			shape,
+			CollectionStyle(100, bbox.width, 0, bbox.height * 0.65, 40, 40, 1),
+			[ShapeStyle("hexagon-person", true), ShapeStyle("title", true), ShapeStyle("large", true)],
+			(el) => {
+				const initials = el.name.first.charAt(0) + el.name.last.charAt(0);
+				return initials;
+			}
+		);
+		largeTitleField.addLODstyle(LODStyle("hidden", (el, k) => k >= 0.6 || k < 0.2));
+		super.addSubShape(largeTitleField);
+	}
+
+	renderTagCollection(shape, bbox) {
+		const tagCollection = new TagCollectionFactory(
+			this.simulation,
+			shape,
+			CollectionStyle(310, bbox.width, 0, bbox.height * 0.6, 20, 20, 3, "center", [110, 170, 230]),
+			TagStyle(
+				[40, 15],
+				[
+					ShapeStyle("hexagon-person", true),
+					ShapeStyle("tag-text", true),
+					LODStyle("hidden", (el, k) => k < 0.6),
+				],
+				[
+					ShapeStyle("hexagon-person", true),
+					ShapeStyle("tag-background", true),
+					ShapeStyle("status", true),
+					ShapeStyle("deceased", (el) => el.status === this.statusOptions.deceased),
+					ShapeStyle("immediate", (el) => el.status === this.statusOptions.immediate),
+					ShapeStyle("delayed", (el) => el.status === this.statusOptions.delayed),
+					ShapeStyle("minor", (el) => el.status === this.statusOptions.minor),
+					LODStyle("hidden", (el, k) => k < 0.6),
+				]
+			),
+			(el) => {
+				return el.tags;
+			}
+		);
+		tagCollection.addLODstyle(LODStyle("hidden", (el, k) => k < 0.6));
+		super.addSubShape(tagCollection);
 	}
 }
