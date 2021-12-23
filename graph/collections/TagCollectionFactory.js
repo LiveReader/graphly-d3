@@ -9,7 +9,7 @@ function TagStyle(padding, textStyles = [], backgroundStyles = []) {
 		padding: padding,
 		textStyles: textStyles,
 		backgroundStyles: backgroundStyles,
-	}
+	};
 }
 
 /**
@@ -54,7 +54,8 @@ class TagCollectionFactory extends CollectionFactory {
 	 * @param  {TagStyle} tagStyle the styles for each tag
 	 * @callback onElement onElement function to be called on each element created on data
 	 */
-	 constructor(
+	constructor(
+		simulation,
 		shape,
 		collectionStyle,
 		tagStyle,
@@ -62,7 +63,7 @@ class TagCollectionFactory extends CollectionFactory {
 			return [];
 		}
 	) {
-		super(collectionStyle);
+		super(simulation, collectionStyle);
 
 		shape.select((d) => {
 			const currentNode = shape.filter((el) => el.id === d.id);
