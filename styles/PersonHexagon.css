@@ -1,5 +1,11 @@
+.hidden {
+	opacity: 0;
+	transition: opacity 0.1s ease-in-out;
+}
+
 .hexagon-person {
 	transition: fill 0.3s ease-in-out;
+
 }
 
 .hexagon-person.background {
@@ -36,6 +42,10 @@
 	font-size: 120px;
 }
 
+.hexagon-person.title.large {
+	font-size: 240px;
+}
+
 .hexagon-person.tag-text {
 	text-anchor: middle;
 	fill: var(--node-fill-color);
@@ -51,7 +61,7 @@
 }
 
 .hexagon-person.timer {
-	fill: var(--node-fill-color)
+	fill: var(--node-fill-color);
 }
 
 .shadow {
