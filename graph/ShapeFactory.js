@@ -6,6 +6,19 @@ function ShapeStyle(className, condition) {
 	return {
 		className: className,
 		condition: typeof condition === "function" ? condition : () => condition,
+		type: "style",
+	};
+}
+
+/**
+ * @param  {string} className the css class name
+ * @param  {object} condition the condition to check whether the style should be applied
+ */
+function LODStyle(className, condition) {
+	return {
+		className: className,
+		condition: typeof condition === "function" ? condition : () => condition,
+		type: "lod",
 	};
 }
 
@@ -38,18 +51,18 @@ function RefreshRoutine(condition = (d) => {}, callback = (d, el) => {}, interva
 }
 
 class ShapeFactory {
-	#shape;
 	#pathComponents;
 	#subShapes;
+	#lodStyles;
 	#refreshRoutine;
 	#onClick;
 
-	constructor(simulation = {}, shapeSize = null) {
+	constructor(simulation, shapeSize = null) {
 		this.simulation = simulation;
-		this.#shape = {};
 		this.shapeSize = shapeSize;
 		this.#pathComponents = [];
 		this.#subShapes = [];
+		this.#lodStyles = [];
 		this.#refreshRoutine = RefreshRoutine(false, () => {}, 0);
 		return this;
 	}
@@ -91,6 +104,19 @@ class ShapeFactory {
 		return this;
 	}
 
+	addLODstyle(style) {
+		this.#lodStyles.push(style);
+	}
+
+	assignLODRoutine(shape) {
+		this.#lodStyles.forEach((style) => {
+			this.simulation.onZoom((k) => {
+				shape.classed(style.className, (d) => style.condition(d, k));
+			});
+		});
+		return this;
+	}
+
 	/**
 	 * @param  {RefreshRoutine} routine the refresh routine
 	 */
@@ -122,7 +148,13 @@ class ShapeFactory {
 			const shape = element.append("path");
 			shape.attr("d", component.path);
 			component.styles.forEach((style) => {
-				shape.classed(style.className, (d) => style.condition(d));
+				if (style.type === "lod") {
+					this.simulation.onZoom((k) => {
+						shape.classed(style.className, (d) => style.condition(d, k));
+					});
+				} else {
+					shape.classed(style.className, (d) => style.condition(d));
+				}
 			});
 		});
 		return element;
@@ -150,6 +182,7 @@ class ShapeFactory {
 	render(data, onElement = () => {}) {
 		data.selectAll("g.shape").remove();
 		const shape = data.append("g").classed("shape", true);
+		this.assignLODRoutine(shape);
 		this.assamble(shape);
 		this.assambleSubShapes(shape);
 		shape.select((d) => {
@@ -174,7 +207,6 @@ class ShapeFactory {
 		}
 
 		this.#resizeShape(shape);
-		this.#shape = shape;
 		return shape;
 	}
 }
