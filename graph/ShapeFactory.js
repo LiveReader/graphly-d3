@@ -38,12 +38,15 @@ function RefreshRoutine(condition = (d) => {}, callback = (d, el) => {}, interva
 }
 
 class ShapeFactory {
+	#shape;
 	#pathComponents;
 	#subShapes;
 	#refreshRoutine;
 	#onClick;
 
-	constructor(shapeSize = null) {
+	constructor(simulation = {}, shapeSize = null) {
+		this.simulation = simulation;
+		this.#shape = {};
 		this.shapeSize = shapeSize;
 		this.#pathComponents = [];
 		this.#subShapes = [];
@@ -163,12 +166,15 @@ class ShapeFactory {
 		});
 
 		// on click
-		shape.on("click", (e, d) => {
-			const currentNode = shape.filter((el) => el.id === d.id);
-			this.#onClick(e, d, currentNode);
-		});
+		if (typeof this.#onClick === "function") {
+			shape.on("click", (e, d) => {
+				const currentNode = shape.filter((el) => el.id === d.id);
+				this.#onClick(e, d, currentNode);
+			});
+		}
 
 		this.#resizeShape(shape);
+		this.#shape = shape;
 		return shape;
 	}
 }

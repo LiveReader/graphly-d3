@@ -1,6 +1,6 @@
 class PersonHexagonFactory extends ShapeFactory {
-	constructor(data, size = 100) {
-		super(size);
+	constructor(simulation, data, size = 100) {
+		super(simulation, size);
 
 		this.data = data;
 		this.statusOptions = {
