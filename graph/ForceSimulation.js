@@ -25,9 +25,9 @@ class ForceSimulation {
 				"link",
 				d3.forceLink().id((d) => d.id)
 			)
-			.force("gravity", d3.forceManyBody().strength(-50000))
+			.force("gravity", d3.forceManyBody().strength(-45000))
 			.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
-			.force("collide", d3.forceCollide().radius(100))
+			.force("collide", d3.forceCollide().radius(150))
 			.on("tick", this.ticked.bind(this));
 	}
 
@@ -46,7 +46,7 @@ class ForceSimulation {
 					[-100, -100],
 					[window.innerWidth + 100, window.innerHeight + 100],
 				])
-				.scaleExtent([0.1, 5])
+				.scaleExtent([0.1, 2])
 				.on("zoom", ({ transform }) => {
 					this.world.attr("transform", transform);
 					if (this.worldTransform.k !== transform.k) {
