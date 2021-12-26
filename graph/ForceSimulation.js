@@ -2,6 +2,8 @@ class ForceSimulation {
 	constructor(svg, graph) {
 		this.svg = svg;
 		this.graph = graph;
+		this.worldTransform = { k: 1, x: 0, y: 0 };
+		this.zoomRoutines = [];
 
 		this.createWorld();
 		this.createSimulation();
@@ -23,9 +25,9 @@ class ForceSimulation {
 				"link",
 				d3.forceLink().id((d) => d.id)
 			)
-			.force("gravity", d3.forceManyBody().strength(-50000))
+			.force("gravity", d3.forceManyBody().strength(-45000))
 			.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
-			.force("collide", d3.forceCollide().radius(100))
+			.force("collide", d3.forceCollide().radius(150))
 			.on("tick", this.ticked.bind(this));
 	}
 
@@ -44,11 +46,19 @@ class ForceSimulation {
 					[-100, -100],
 					[window.innerWidth + 100, window.innerHeight + 100],
 				])
-				.scaleExtent([0.1, 5])
+				.scaleExtent([0.1, 3])
 				.on("zoom", ({ transform }) => {
 					this.world.attr("transform", transform);
+					if (this.worldTransform.k !== transform.k) {
+						this.zoomRoutines.forEach((method) => method(transform.k));
+					}
+					this.worldTransform = transform;
 				})
 		);
+	}
+
+	onZoom(callback = (k) => {}) {
+		this.zoomRoutines.push(callback);
 	}
 
 	ticked() {
@@ -62,6 +72,7 @@ class ForceSimulation {
 	}
 
 	render() {
+		this.zoomRoutines = [];
 		this.nodeGroup.selectAll("g.node").remove();
 		this.linkGroup.selectAll("line.link").remove();
 
@@ -74,11 +85,13 @@ class ForceSimulation {
 			.attr("id", (d) => d.id)
 			.call((d) => {
 				// Build all person hexagon nodes
-				new PersonHexagonFactory(d, 300).render();
+				new PersonHexagonFactory(this, d, 300).render();
 			})
 			.call(this.dragNode());
 
 		this.linkGroup.selectAll("line").data(graph.links).enter().append("line").classed("link", true);
+
+		this.zoomRoutines.forEach((method) => method(this.worldTransform.k));
 	}
 
 	dragNode() {

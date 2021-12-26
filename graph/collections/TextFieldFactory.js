@@ -27,6 +27,7 @@ class TextFieldFactory extends CollectionFactory {
 	 * @callback onElement onElement function to be called on each element created on data
 	 */
 	constructor(
+		simulation,
 		shape,
 		collectionStyle,
 		textStyles,
@@ -34,7 +35,7 @@ class TextFieldFactory extends CollectionFactory {
 			return "";
 		}
 	) {
-		super(collectionStyle);
+		super(simulation, collectionStyle);
 
 		shape.select((d) => {
 			const currentNode = shape.filter((el) => el.id === d.id);

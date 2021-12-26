@@ -6,6 +6,19 @@ function ShapeStyle(className, condition) {
 	return {
 		className: className,
 		condition: typeof condition === "function" ? condition : () => condition,
+		type: "style",
+	};
+}
+
+/**
+ * @param  {string} className the css class name
+ * @param  {object} condition the condition to check whether the style should be applied
+ */
+function LODStyle(className, condition) {
+	return {
+		className: className,
+		condition: typeof condition === "function" ? condition : () => condition,
+		type: "lod",
 	};
 }
 
@@ -40,13 +53,16 @@ function RefreshRoutine(condition = (d) => {}, callback = (d, el) => {}, interva
 class ShapeFactory {
 	#pathComponents;
 	#subShapes;
+	#lodStyles;
 	#refreshRoutine;
 	#onClick;
 
-	constructor(shapeSize = null) {
+	constructor(simulation, shapeSize = null) {
+		this.simulation = simulation;
 		this.shapeSize = shapeSize;
 		this.#pathComponents = [];
 		this.#subShapes = [];
+		this.#lodStyles = [];
 		this.#refreshRoutine = RefreshRoutine(false, () => {}, 0);
 		return this;
 	}
@@ -56,9 +72,11 @@ class ShapeFactory {
 		return this;
 	}
 
-	#resizeShape(element) {
+	#resizeShape(element, shapeScale) {
 		const bbox = element.node().getBBox();
-		const scale = (this.shapeSize != null ? this.shapeSize : bbox.width) / bbox.width;
+		const scale =
+			((this.shapeSize != null ? this.shapeSize : bbox.width) / bbox.width) *
+			(isNaN(shapeScale) ? 1 : shapeScale);
 		element.attr(
 			"transform",
 			`translate(${-(bbox.width * scale) / 2}, ${-(bbox.height * scale) / 2}) scale(${scale})`
@@ -85,6 +103,22 @@ class ShapeFactory {
 	 */
 	addSubShape(subShape) {
 		this.#subShapes.push(subShape);
+		return this;
+	}
+
+	addLODstyle(style) {
+		this.#lodStyles.push(style);
+	}
+
+	assignLODRoutine(shape) {
+		this.#lodStyles.forEach((style) => {
+			this.simulation.onZoom((k) => {
+				shape.classed(style.className, (d) => {
+					const scaled_k = k * (isNaN(d.shapeScale) ? 1 : d.shapeScale);
+					return style.condition(d, scaled_k);
+				});
+			});
+		});
 		return this;
 	}
 
@@ -119,7 +153,16 @@ class ShapeFactory {
 			const shape = element.append("path");
 			shape.attr("d", component.path);
 			component.styles.forEach((style) => {
-				shape.classed(style.className, (d) => style.condition(d));
+				if (style.type === "lod") {
+					this.simulation.onZoom((k) => {
+						shape.classed(style.className, (d) => {
+							const scaled_k = k * (isNaN(d.shapeScale) ? 1 : d.shapeScale);
+							return style.condition(d, scaled_k);
+						});
+					});
+				} else {
+					shape.classed(style.className, (d) => style.condition(d));
+				}
 			});
 		});
 		return element;
@@ -147,6 +190,7 @@ class ShapeFactory {
 	render(data, onElement = () => {}) {
 		data.selectAll("g.shape").remove();
 		const shape = data.append("g").classed("shape", true);
+		this.assignLODRoutine(shape);
 		this.assamble(shape);
 		this.assambleSubShapes(shape);
 		shape.select((d) => {
@@ -159,16 +203,18 @@ class ShapeFactory {
 				this.#refresh(d, elementID, currentNode);
 			}
 
+			this.#resizeShape(currentNode, d.shapeScale);
 			onElement(d);
 		});
 
 		// on click
-		shape.on("click", (e, d) => {
-			const currentNode = shape.filter((el) => el.id === d.id);
-			this.#onClick(e, d, currentNode);
-		});
+		if (typeof this.#onClick === "function") {
+			shape.on("click", (e, d) => {
+				const currentNode = shape.filter((el) => el.id === d.id);
+				this.#onClick(e, d, currentNode);
+			});
+		}
 
-		this.#resizeShape(shape);
 		return shape;
 	}
 }

@@ -31,8 +31,8 @@ class CollectionFactory extends ShapeFactory {
 	/**
 	 * @param  {CollectionStyle} style
 	 */
-	constructor(style) {
-		super();
+	constructor(simulation, style) {
+		super(simulation);
 		this.#style = style;
 		this.#items = [];
 		this.#ellipsis = {};
@@ -148,6 +148,7 @@ class CollectionFactory extends ShapeFactory {
 			.append("g")
 			.classed("collection", true)
 			.attr("transform", `translate(${this.#style.x}, ${this.#style.y})`);
+		super.assignLODRoutine(collection)
 		collection.select((d) => {
 			onElement(d);
 		});
