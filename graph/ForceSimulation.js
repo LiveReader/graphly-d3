@@ -46,7 +46,7 @@ class ForceSimulation {
 					[-100, -100],
 					[window.innerWidth + 100, window.innerHeight + 100],
 				])
-				.scaleExtent([0.1, 2])
+				.scaleExtent([0.1, 3])
 				.on("zoom", ({ transform }) => {
 					this.world.attr("transform", transform);
 					if (this.worldTransform.k !== transform.k) {

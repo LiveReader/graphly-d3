@@ -23,9 +23,7 @@ class PersonHexagonFactory extends ShapeFactory {
 					LODStyle("deceased", (el, k) => el.status === this.statusOptions.deceased && k < 0.2),
 					LODStyle("immediate", (el, k) => el.status === this.statusOptions.immediate && k < 0.2),
 					LODStyle("delayed", (el, k) => el.status === this.statusOptions.delayed && k < 0.2),
-					LODStyle("minor", (el, k) => {
-						return (el.status === this.statusOptions.minor) && k < 0.2;
-					}),
+					LODStyle("minor", (el, k) => el.status === this.statusOptions.minor && k < 0.2),
 				]
 			)
 			.addPathComponent(

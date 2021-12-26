@@ -72,9 +72,11 @@ class ShapeFactory {
 		return this;
 	}
 
-	#resizeShape(element) {
+	#resizeShape(element, shapeScale) {
 		const bbox = element.node().getBBox();
-		const scale = (this.shapeSize != null ? this.shapeSize : bbox.width) / bbox.width;
+		const scale =
+			((this.shapeSize != null ? this.shapeSize : bbox.width) / bbox.width) *
+			(isNaN(shapeScale) ? 1 : shapeScale);
 		element.attr(
 			"transform",
 			`translate(${-(bbox.width * scale) / 2}, ${-(bbox.height * scale) / 2}) scale(${scale})`
@@ -111,7 +113,10 @@ class ShapeFactory {
 	assignLODRoutine(shape) {
 		this.#lodStyles.forEach((style) => {
 			this.simulation.onZoom((k) => {
-				shape.classed(style.className, (d) => style.condition(d, k));
+				shape.classed(style.className, (d) => {
+					const scaled_k = k * d.shapeScale;
+					return style.condition(d, scaled_k);
+				});
 			});
 		});
 		return this;
@@ -150,7 +155,10 @@ class ShapeFactory {
 			component.styles.forEach((style) => {
 				if (style.type === "lod") {
 					this.simulation.onZoom((k) => {
-						shape.classed(style.className, (d) => style.condition(d, k));
+						shape.classed(style.className, (d) => {
+							const scaled_k = k * d.shapeScale;
+							return style.condition(d, scaled_k);
+						});
 					});
 				} else {
 					shape.classed(style.className, (d) => style.condition(d));
@@ -195,6 +203,7 @@ class ShapeFactory {
 				this.#refresh(d, elementID, currentNode);
 			}
 
+			this.#resizeShape(currentNode, d.shapeScale);
 			onElement(d);
 		});
 
@@ -206,7 +215,6 @@ class ShapeFactory {
 			});
 		}
 
-		this.#resizeShape(shape);
 		return shape;
 	}
 }
