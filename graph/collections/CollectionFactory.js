@@ -117,6 +117,8 @@ class CollectionFactory extends ShapeFactory {
 			sumWidth += this.#ellipsis.shape.getBBox().width + this.#style.dx;
 		}
 
+		sumWidth -= this.#style.dx;
+
 		let sumItemWidth = 0;
 		usedItems.forEach((item) => {
 			let position = 0;
