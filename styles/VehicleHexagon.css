@@ -16,17 +16,17 @@
 
 .hexagon-vehicle.title {
 	text-anchor: middle;
-	fill: var(--foreground-color);
+	fill: var(--node-fill-color);
 	stroke: none;
 	font-family: "Roboto";
-	font-weight: 300;
-	font-size: 120px;
+	font-weight: 200;
+	font-size: 220px;
 }
 .hexagon-vehicle.headline {
 	text-anchor: middle;
-	fill: var(--foreground-color);
+	fill: var(--node-fill-color);
 	stroke: none;
 	font-family: "Orbitron";
 	font-weight: 300;
-	font-size: 90px;
+	font-size: 140px;
 }

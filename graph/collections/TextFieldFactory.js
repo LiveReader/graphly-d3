@@ -40,7 +40,7 @@ class TextFieldFactory extends CollectionFactory {
 		shape.select((d) => {
 			const currentNode = shape.filter((el) => el.id === d.id);
 			currentNode.select((el) => {
-				const text = onElement(el);
+				const text = typeof onElement(el) === "string" ? onElement(el) : "";
 				const words = text.split(" ");
 				words.forEach((word) => {
 					const textElement = Text(currentNode, word, textStyles);
