@@ -5,7 +5,6 @@
 
 .hexagon-person {
 	transition: fill 0.3s ease-in-out;
-
 }
 
 .hexagon-person.background {

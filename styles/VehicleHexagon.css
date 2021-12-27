@@ -1,0 +1,32 @@
+.hexagon-vehicle {
+	transition: fill 0.3s ease-in-out;
+}
+
+.hexagon-vehicle.background {
+	fill: rgb(101, 156, 164);
+	stroke: var(--node-stroke-color);
+	stroke-miterlimit: 10;
+}
+
+.hexagon-vehicle.header {
+	fill: rgb(33, 104, 113);
+	stroke: var(--node-stroke-color);
+	stroke-miterlimit: 10;
+}
+
+.hexagon-vehicle.title {
+	text-anchor: middle;
+	fill: var(--foreground-color);
+	stroke: none;
+	font-family: "Roboto";
+	font-weight: 300;
+	font-size: 120px;
+}
+.hexagon-vehicle.headline {
+	text-anchor: middle;
+	fill: var(--foreground-color);
+	stroke: none;
+	font-family: "Orbitron";
+	font-weight: 300;
+	font-size: 90px;
+}
