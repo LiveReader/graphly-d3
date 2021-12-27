@@ -114,7 +114,7 @@ class ShapeFactory {
 		this.#lodStyles.forEach((style) => {
 			this.simulation.onZoom((k) => {
 				shape.classed(style.className, (d) => {
-					const scaled_k = k * (isNaN(d.shapeScale) ? 1 : d.shapeScale);
+					const scaled_k = k * (isNaN(d.shape.scale) ? 1 : d.shape.scale);
 					return style.condition(d, scaled_k);
 				});
 			});
@@ -156,7 +156,7 @@ class ShapeFactory {
 				if (style.type === "lod") {
 					this.simulation.onZoom((k) => {
 						shape.classed(style.className, (d) => {
-							const scaled_k = k * (isNaN(d.shapeScale) ? 1 : d.shapeScale);
+							const scaled_k = k * (isNaN(d.shape.scale) ? 1 : d.shape.scale);
 							return style.condition(d, scaled_k);
 						});
 					});
@@ -203,7 +203,7 @@ class ShapeFactory {
 				this.#refresh(d, elementID, currentNode);
 			}
 
-			this.#resizeShape(currentNode, d.shapeScale);
+			this.#resizeShape(currentNode, d.shape.scale);
 			onElement(d);
 		});
 
