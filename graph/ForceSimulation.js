@@ -25,9 +25,9 @@ class ForceSimulation {
 				"link",
 				d3.forceLink().id((d) => d.id)
 			)
-			.force("gravity", d3.forceManyBody().strength(-45000))
+			.force("gravity", d3.forceManyBody().strength(-20000))
 			.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
-			.force("collide", d3.forceCollide().radius(150))
+			.force("collide", d3.forceCollide().radius((d) => 150 * d.shape.scale))
 			.on("tick", this.ticked.bind(this));
 	}
 
@@ -84,8 +84,8 @@ class ForceSimulation {
 			.classed("node", true)
 			.attr("id", (d) => d.id)
 			.call((d) => {
-				// Build all person hexagon nodes
-				new PersonHexagonFactory(this, d, 300).render();
+				// Build nodes
+				new NodeFactory(this, d, 300).render();
 			})
 			.call(this.dragNode());
 

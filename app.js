@@ -4,7 +4,7 @@ const graph = {
 		{
 			id: "n0",
 			shape: {
-				type: 1,
+				type: PersonHexagonFactory,
 				scale: 0.5,
 			},
 			status: "minor",
@@ -18,7 +18,7 @@ const graph = {
 		{
 			id: "n1",
 			shape: {
-				type: 1,
+				type: PersonHexagonFactory,
 				scale: 1,
 			},
 			status: "delayed",
@@ -32,7 +32,7 @@ const graph = {
 		{
 			id: "n2",
 			shape: {
-				type: 1,
+				type: PersonHexagonFactory,
 				scale: 1,
 			},
 			status: "immediate",
@@ -43,6 +43,24 @@ const graph = {
 			tags: ["bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"],
 			countdown: 2,
 		},
+		{
+			id: "n3",
+			shape: {
+				type: VehicleHexagonFactory,
+				scale: 0.5,
+			},
+			status: "4",
+			label: "RTW",
+		},
+		{
+			id: "n4",
+			shape: {
+				type: VehicleHexagonFactory,
+				scale: 0.5,
+			},
+			status: "3",
+			label: "RTW",
+		},
 	],
 	links: [
 		{
@@ -52,6 +70,14 @@ const graph = {
 		{
 			source: "n1",
 			target: "n2",
+		},
+		{
+			source: "n2",
+			target: "n3",
+		},
+		{
+			source: "n2",
+			target: "n4",
 		},
 	],
 };
