@@ -1,3 +1,9 @@
+const Alignment = {
+	Left: "left",
+	Center: "center",
+	Right: "right",
+};
+
 /**
  * @param  {Number} height height of the text field
  * @param  {Number} width width of the text field
@@ -6,10 +12,10 @@
  * @param  {Number} dx x spacing between text elements
  * @param  {Number} dy y spacing between text elements
  * @param  {Number} rowCount number of rows
- * @param  {string} align item alignment (left, center, right)
+ * @param  {Allignment} align item alignment (left, center, right)
  * @param  {Number[]} rowMargins optional margins for each row
  */
-function CollectionStyle(height, width, x, y, dx, dy, rowCount, align = "center", rowMargins = []) {
+function CollectionStyle(height, width, x, y, dx, dy, rowCount, align = Alignment.Center, rowMargins = []) {
 	return {
 		height: height,
 		width: width,
@@ -18,7 +24,7 @@ function CollectionStyle(height, width, x, y, dx, dy, rowCount, align = "center"
 		dx: dx,
 		dy: dy,
 		rowCount: rowCount,
-		align: align,
+		align: Object.values(Alignment).includes(align) ? align : Alignment.Center,
 		rowMargins: rowMargins,
 	};
 }
@@ -122,11 +128,11 @@ class CollectionFactory extends ShapeFactory {
 		let sumItemWidth = 0;
 		usedItems.forEach((item) => {
 			let position = 0;
-			if (this.#style.align === "left") {
+			if (this.#style.align === Alignment.Left) {
 				position = sumItemWidth + item.getBBox().width / 2;
-			} else if (this.#style.align == "center") {
+			} else if (this.#style.align == Alignment.Center) {
 				position = sumItemWidth + item.getBBox().width / 2 + (rowWidth - sumWidth) / 2;
-			} else if (this.#style.align == "right") {
+			} else if (this.#style.align == Alignment.Right) {
 				position = rowWidth - sumItemWidth - item.getBBox().width / 2;
 			}
 			item.setAttribute("transform", `translate(${position}, 0)`);
@@ -145,12 +151,12 @@ class CollectionFactory extends ShapeFactory {
 	 * @param  {Object} data D3 data object
 	 * @param  {Function} onElement function to be called on each element created on data
 	 */
-	render(data, onElement = () => {}) {
+	render(data, onElement = (d) => {}) {
 		const collection = data
 			.append("g")
 			.classed("collection", true)
 			.attr("transform", `translate(${this.#style.x}, ${this.#style.y})`);
-		super.assignLODRoutine(collection)
+		super.assignLODRoutine(collection);
 		collection.select((d) => {
 			onElement(d);
 		});

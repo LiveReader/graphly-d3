@@ -69,7 +69,7 @@ class PersonHexagonFactory extends ShapeFactory {
 			)
 		);
 
-		super.setOnClick((e, d, el) => {
+		super.on("click", (e, d, el) => {
 			const statusShape = el.selectAll(".status");
 			const tagShapes = el.selectAll(".tag-background");
 			statusShape.classed(d.status, false);
@@ -105,7 +105,7 @@ class PersonHexagonFactory extends ShapeFactory {
 		const titleField = new TextFieldFactory(
 			this.simulation,
 			shape,
-			CollectionStyle(100, bbox.width, 0, bbox.height * 0.47, 40, 40, 1, "center", [60]),
+			CollectionStyle(100, bbox.width, 0, bbox.height * 0.47, 40, 40, 1, Alignment.Center, [60]),
 			[ShapeStyle("hexagon-person", true), ShapeStyle("title", true)],
 			(el) => {
 				const initials = el.name.first.charAt(0) + el.name.last.charAt(0);
@@ -135,7 +135,7 @@ class PersonHexagonFactory extends ShapeFactory {
 		const tagCollection = new TagCollectionFactory(
 			this.simulation,
 			shape,
-			CollectionStyle(310, bbox.width, 0, bbox.height * 0.6, 20, 20, 3, "center", [110, 170, 230]),
+			CollectionStyle(310, bbox.width, 0, bbox.height * 0.6, 20, 20, 3, Alignment.Center, [110, 170, 230]),
 			TagStyle(
 				[40, 15],
 				[
@@ -162,3 +162,5 @@ class PersonHexagonFactory extends ShapeFactory {
 		super.addSubShape(tagCollection);
 	}
 }
+
+Templates.add("shape_01", PersonHexagonFactory);

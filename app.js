@@ -4,7 +4,7 @@ const graph = {
 		{
 			id: "n0",
 			shape: {
-				type: PersonHexagonFactory,
+				type: "shape_01",
 				scale: 0.5,
 			},
 			status: "minor",
@@ -18,7 +18,7 @@ const graph = {
 		{
 			id: "n1",
 			shape: {
-				type: PersonHexagonFactory,
+				type: "shape_01",
 				scale: 1,
 			},
 			status: "delayed",
@@ -32,7 +32,7 @@ const graph = {
 		{
 			id: "n2",
 			shape: {
-				type: PersonHexagonFactory,
+				type: "shape_01",
 				scale: 1,
 			},
 			status: "immediate",
@@ -46,7 +46,7 @@ const graph = {
 		{
 			id: "n3",
 			shape: {
-				type: VehicleHexagonFactory,
+				type: "shape_02",
 				scale: 0.5,
 			},
 			status: "4",
@@ -55,7 +55,7 @@ const graph = {
 		{
 			id: "n4",
 			shape: {
-				type: VehicleHexagonFactory,
+				type: "shape_02",
 				scale: 0.5,
 			},
 			status: "3",
