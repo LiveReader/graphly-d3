@@ -162,3 +162,5 @@ class PersonHexagonFactory extends ShapeFactory {
 		super.addSubShape(tagCollection);
 	}
 }
+
+Templates.add("shape_01", PersonHexagonFactory);

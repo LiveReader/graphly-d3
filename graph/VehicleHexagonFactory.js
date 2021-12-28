@@ -55,3 +55,5 @@ class VehicleHexagonFactory extends ShapeFactory {
 		super.addSubShape(titleField);
 	}
 }
+
+Templates.add("shape_02", VehicleHexagonFactory);
