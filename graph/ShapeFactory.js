@@ -55,7 +55,7 @@ class ShapeFactory {
 	#subShapes;
 	#lodStyles;
 	#refreshRoutine;
-	#onClick;
+	#onEvents;
 
 	constructor(simulation, shapeSize = null) {
 		this.simulation = simulation;
@@ -64,6 +64,7 @@ class ShapeFactory {
 		this.#subShapes = [];
 		this.#lodStyles = [];
 		this.#refreshRoutine = RefreshRoutine(false, () => {}, 0);
+		this.#onEvents = [];
 		return this;
 	}
 
@@ -108,6 +109,7 @@ class ShapeFactory {
 
 	addLODstyle(style) {
 		this.#lodStyles.push(style);
+		return this;
 	}
 
 	assignLODRoutine(shape) {
@@ -139,8 +141,15 @@ class ShapeFactory {
 		}
 	}
 
-	setOnClick(callback = (e, d, el) => {}) {
-		this.#onClick = callback;
+	/**
+	 * @param  {string} key the event key to listen to
+	 * @callback  callback the callback to be called
+	 */
+	on(key, callback = (e, d, el) => {}) {
+		this.#onEvents.push({
+			key: typeof key === "string" ? key : "",
+			callback: typeof callback === "function" ? callback : () => callback,
+		});
 		return this;
 	}
 
@@ -203,17 +212,16 @@ class ShapeFactory {
 				this.#refresh(d, elementID, currentNode);
 			}
 
+			// on events
+			this.#onEvents.forEach((event) => {
+				currentNode.on(event.key, (e, d) => {
+					event.callback(e, d, currentNode);
+				});
+			});
+
 			this.#resizeShape(currentNode, d.shape.scale);
 			onElement(d);
 		});
-
-		// on click
-		if (typeof this.#onClick === "function") {
-			shape.on("click", (e, d) => {
-				const currentNode = shape.filter((el) => el.id === d.id);
-				this.#onClick(e, d, currentNode);
-			});
-		}
 
 		return shape;
 	}

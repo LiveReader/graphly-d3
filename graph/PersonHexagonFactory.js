@@ -69,7 +69,7 @@ class PersonHexagonFactory extends ShapeFactory {
 			)
 		);
 
-		super.setOnClick((e, d, el) => {
+		super.on("click", (e, d, el) => {
 			const statusShape = el.selectAll(".status");
 			const tagShapes = el.selectAll(".tag-background");
 			statusShape.classed(d.status, false);

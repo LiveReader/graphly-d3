@@ -48,7 +48,7 @@ class VehicleHexagonFactory extends ShapeFactory {
 		const titleField = new TextFieldFactory(
 			this.simulation,
 			shape,
-			CollectionStyle(100, bbox.width, 0, bbox.height * 0.68, 40, 40, 1, "center", [60]),
+			CollectionStyle(100, bbox.width, 0, bbox.height * 0.68, 40, 40, 1),
 			[ShapeStyle("hexagon-vehicle", true), ShapeStyle("title", true)],
 			(el) => el.label
 		);
