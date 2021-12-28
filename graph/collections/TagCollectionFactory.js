@@ -6,7 +6,7 @@
  */
 function TagStyle(padding, textStyles = [], backgroundStyles = []) {
 	return {
-		padding: padding,
+		padding: typeof padding === "number" ? [padding, padding] : padding,
 		textStyles: textStyles,
 		backgroundStyles: backgroundStyles,
 	};
@@ -46,7 +46,7 @@ class TagCollectionFactory extends CollectionFactory {
 	/**
 	 * @callback onElement
 	 * @param    {object} data D3 data object
-	 * @return   {string} tag texts as array to be rendered
+	 * @return   {string[]} tag texts as array to be rendered
 	 */
 	/**
 	 * @param  {Object} shape d3 data object
@@ -68,9 +68,10 @@ class TagCollectionFactory extends CollectionFactory {
 		shape.select((d) => {
 			const currentNode = shape.filter((el) => el.id === d.id);
 			currentNode.select((el) => {
-				const tags = onElement(el);
+				const onEl = onElement(el);
+				const tags = Array.isArray(onEl) ? onEl : [];
 				tags.forEach((tag) => {
-					const tagElement = Tag(currentNode, tag, tagStyle);
+					const tagElement = Tag(currentNode, typeof tag === "string" ? tag : " ", tagStyle);
 					super.addItem(tagElement, currentNode);
 				});
 				const ellipsis = Tag(currentNode, "...", tagStyle);
