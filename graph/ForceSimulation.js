@@ -27,7 +27,10 @@ class ForceSimulation {
 			)
 			.force("gravity", d3.forceManyBody().strength(-20000))
 			.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
-			.force("collide", d3.forceCollide().radius((d) => 150 * d.shape.scale))
+			.force(
+				"collide",
+				d3.forceCollide().radius((d) => 150 * d.shape.scale)
+			)
 			.on("tick", this.ticked.bind(this));
 	}
 
@@ -63,18 +66,38 @@ class ForceSimulation {
 
 	ticked() {
 		this.nodeGroup.selectAll("g.node").attr("transform", (d) => `translate(${d.x},${d.y})`);
-		this.linkGroup
-			.selectAll("line.link")
-			.attr("x1", (d) => d.source.x)
-			.attr("y1", (d) => d.source.y)
-			.attr("x2", (d) => d.target.x)
-			.attr("y2", (d) => d.target.y);
+		this.linkGroup.selectAll("path.link").attr("d", (d) => positionLink(d));
+
+		function positionLink(d) {
+			var midpoint_x = (d.source.x + d.target.x) / 2;
+			var midpoint_y = (d.source.y + d.target.y) / 2;
+
+			var dx = d.target.x - d.source.x;
+			var dy = d.target.y - d.source.y;
+
+			var normalise = Math.sqrt(dx * dx + dy * dy);
+			var offset = 80;
+
+			let hash = 0;
+			let str = d.source.id + d.target.id;
+			str.split("").forEach((char) => {
+				hash += char.charCodeAt(0);
+			});
+			if (hash % 2 === 0) {
+				offset = -offset;
+			}
+
+			var offSetX = midpoint_x + offset * (dy / normalise);
+			var offSetY = midpoint_y - offset * (dx / normalise);
+
+			return `M${d.source.x},${d.source.y}S${offSetX},${offSetY} ${d.target.x},${d.target.y}`;
+		}
 	}
 
 	render() {
 		this.zoomRoutines = [];
 		this.nodeGroup.selectAll("g.node").remove();
-		this.linkGroup.selectAll("line.link").remove();
+		this.linkGroup.selectAll("path.link").remove();
 
 		this.nodeGroup
 			.selectAll("g.node")
@@ -89,12 +112,14 @@ class ForceSimulation {
 			})
 			.call(this.dragNode());
 
-		this.linkGroup.selectAll("line").data(graph.links).enter().append("line").classed("link", true);
+		this.linkGroup.selectAll("path").data(graph.links).enter().append("path").classed("link", true);
 
 		this.zoomRoutines.forEach((method) => method(this.worldTransform.k));
 	}
 
 	dragNode() {
+		let nodeIndex = 0;
+
 		const drag = d3
 			.drag()
 			.on("start", dragstarted.bind(this))
@@ -104,6 +129,11 @@ class ForceSimulation {
 			this.simulation.alphaTarget(0.05).restart();
 			d.fx = e.x;
 			d.fy = e.y;
+
+			// move node to the front
+			const currentNode = this.nodeGroup.select(`#${d.id}`).node();
+			nodeIndex = Array.from(currentNode.parentNode.childNodes).indexOf(currentNode);
+			currentNode.parentNode.appendChild(currentNode);
 		}
 		function dragged(e, d) {
 			d.fx = e.x;
@@ -113,6 +143,10 @@ class ForceSimulation {
 			this.simulation.alphaTarget(0);
 			d.fx = null;
 			d.fy = null;
+
+			// move node back to its original index
+			const currentNode = this.nodeGroup.select(`#${d.id}`).node();
+			currentNode.parentNode.insertBefore(currentNode, currentNode.parentNode.childNodes[nodeIndex]);
 		}
 		return drag;
 	}

@@ -39,5 +39,6 @@ body {
 
 .link {
 	stroke: var(--node-stroke-color);
-	stroke-width: 1;
+	fill: none;
+	stroke-width: 1.5;
 }
