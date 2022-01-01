@@ -1,15 +1,15 @@
 class ForceSimulation {
-	constructor(svg, graph) {
+	constructor(svg) {
 		this.svg = svg;
-		this.graph = graph;
+		this.graph = { nodes: [], links: [] };
 		this.worldTransform = { k: 1, x: 0, y: 0 };
 		this.zoomRoutines = [];
+
+		this.nodeFactory = new NodeFactory(this, 300);
 
 		this.createWorld();
 		this.createSimulation();
 		this.setZoom();
-		this.setData(graph);
-		this.render();
 	}
 
 	createWorld() {
@@ -94,25 +94,41 @@ class ForceSimulation {
 		}
 	}
 
-	render() {
-		this.zoomRoutines = [];
-		this.nodeGroup.selectAll("g.node").remove();
-		this.linkGroup.selectAll("path.link").remove();
+	render(graph) {
+		this.setData(graph);
+		// this.zoomRoutines = [];
+		// this.nodeGroup.selectAll("g.node").remove();
+		// this.linkGroup.selectAll("path.link").remove();
 
-		this.nodeGroup
-			.selectAll("g.node")
-			.data(graph.nodes)
+		const nodes = this.nodeGroup.selectAll("g.node").data(eval(this.graph.nodes));
+		nodes
 			.enter()
-			.append("g")
-			.classed("node", true)
-			.attr("id", (d) => d.id)
-			.call((d) => {
-				// Build nodes
-				new NodeFactory(this, d, 300).render();
-			})
-			.call(this.dragNode());
+			.append(TestShape)
+			.call(this.dragNode())
+			.attr("opacity", 0)
+			.transition()
+			.duration(300)
+			.attr("opacity", 1);
+		nodes.exit().transition().duration(300).attr("opacity", 0).remove();
+		nodes
+			.transition()
+			.duration(300)
+			.select((d) => {
+				let node = nodes.filter((n) => n.id === d.id);
+				node.select(TestShape);
+			});
 
-		this.linkGroup.selectAll("path").data(graph.links).enter().append("path").classed("link", true);
+		const edges = this.linkGroup.selectAll("path").data(this.graph.links);
+		edges
+			.enter()
+			.append("path")
+			.classed("link", true)
+			.attr("opacity", 0)
+			.transition()
+			.duration(300)
+			.attr("opacity", 1);
+		edges.exit().transition().duration(300).attr("opacity", 0).remove();
+		edges.transition().duration(300);
 
 		this.zoomRoutines.forEach((method) => method(this.worldTransform.k));
 	}
@@ -146,41 +162,9 @@ class ForceSimulation {
 
 			// move node back to its original index
 			const currentNode = this.nodeGroup.select(`#${d.id}`).node();
+			if (!currentNode) return;
 			currentNode.parentNode.insertBefore(currentNode, currentNode.parentNode.childNodes[nodeIndex]);
 		}
 		return drag;
-	}
-
-	displayCrossHair() {
-		if (this.corsshairGroup) {
-			return;
-		}
-		// centered crosshair in the middle of the screen
-		this.corsshairGroup = this.world.append("g").attr("id", "crosshair");
-
-		this.corsshairGroup
-			.append("line")
-			.attr("x1", window.innerWidth / 2 + 400)
-			.attr("x2", window.innerWidth / 2 - 400)
-			.attr("y1", window.innerHeight / 2)
-			.attr("y2", window.innerHeight / 2)
-			.attr("stroke", "#6c6d8d")
-			.attr("stroke-width", 1);
-
-		this.corsshairGroup
-			.append("line")
-			.attr("x1", window.innerWidth / 2)
-			.attr("x2", window.innerWidth / 2)
-			.attr("y1", window.innerHeight / 2 + 400)
-			.attr("y2", window.innerHeight / 2 - 400)
-			.attr("stroke", "#6c6d8d")
-			.attr("stroke-width", 1);
-	}
-
-	hideCrossHair() {
-		if (!this.corsshairGroup) {
-			return;
-		}
-		this.corsshairGroup.remove();
 	}
 }

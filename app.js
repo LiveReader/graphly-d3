@@ -82,7 +82,8 @@ const graph = {
 	],
 };
 
-const simulation = new ForceSimulation(svg, graph);
+const simulation = new ForceSimulation(svg);
+simulation.render(graph);
 
 function resize() {
 	const width = window.innerWidth;

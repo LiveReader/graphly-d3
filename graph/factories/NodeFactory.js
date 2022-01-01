@@ -4,19 +4,19 @@ const Templates = {
 			Templates[id] = shape;
 		}
 		return this;
-	}
-}
+	},
+};
 
 class NodeFactory {
-	constructor(simulation, data, shapeSize = 100) {
+	constructor(simulation, shapeSize = 100) {
 		this.simulation = simulation;
-		this.data = data;
+		this.data = {};
 		this.shapeSize = shapeSize;
 	}
 
-	render() {
-		this.data.select((d) => {
-			const currentNode = this.data.filter((el) => el.id === d.id);
+	render(data) {
+		data.select((d) => {
+			const currentNode = data.filter((el) => el.id === d.id);
 			const template = Templates[d.shape.type];
 			if (!template) {
 				console.error(`Template \"${d.shape.type}\" not founnd`);
@@ -28,5 +28,6 @@ class NodeFactory {
 				console.error(e);
 			}
 		});
+		this.data = data;
 	}
 }
