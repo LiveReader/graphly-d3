@@ -103,7 +103,7 @@ class ForceSimulation {
 		const nodes = this.nodeGroup.selectAll("g.node").data(eval(this.graph.nodes));
 		nodes
 			.enter()
-			.append(PersonHexagon)
+			.append(Node)
 			.call(this.dragNode())
 			.attr("opacity", 0)
 			.transition()
@@ -115,7 +115,7 @@ class ForceSimulation {
 			.duration(300)
 			.select((d) => {
 				let node = nodes.filter((n) => n.id === d.id);
-				node.select(PersonHexagon);
+				node.select(Node);
 			});
 
 		const edges = this.linkGroup.selectAll("path").data(this.graph.links);

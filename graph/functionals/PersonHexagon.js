@@ -1,8 +1,4 @@
 function PersonHexagon(data) {
-	// TODO extract node to NodeFactory class
-	const node = Shape.create("g");
-	node.classed("node", true).attr("id", data.id);
-
 	const rndColor = () => {
 		const r = Math.floor(Math.random() * 255);
 		const g = Math.floor(Math.random() * 255);
@@ -10,7 +6,7 @@ function PersonHexagon(data) {
 		return `rgb(${r}, ${g}, ${b})`;
 	};
 
-	const shape = node.append("g");
+	const shape = Shape.create("g");
 	shape.append(() =>
 		ShapePath(
 			// body shape
@@ -44,5 +40,7 @@ function PersonHexagon(data) {
 
 	Shape.resize(shape, data.shape.scale * 300);
 
-	return node.node();
+	return shape.node();
 }
+
+Templates.add("shape_01", PersonHexagon);
