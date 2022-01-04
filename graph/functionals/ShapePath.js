@@ -1,8 +1,5 @@
-function ShapePath(path, styles) {
+function ShapePath(path) {
 	const shape = Shape.create("path");
 	shape.attr("d", path);
-	styles.forEach((style) => {
-		shape.classed(style.className, style.condition);
-	});
-	return shape.node();
+	return shape;
 }

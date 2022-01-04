@@ -7,42 +7,43 @@ function PersonHexagon(data, initialShape) {
 	};
 
 	const shape = initialShape ? initialShape : Shape.create("g");
-	shape.selectAll("*").remove();
+	// shape.selectAll("*").remove();
 
-	shape.append(() =>
-		ShapePath(
-			// body shape
-			"M268.62,884a31,31,0,0,1-26.76-15.45L4.64,457.72a31,31,0,0,1,0-30.9L241.86,16A31,31,0,0,1,268.62.5H743.05A31,31,0,0,1,769.81,16L1007,426.82a31,31,0,0,1,0,30.9L769.81,868.59A31,31,0,0,1,743.05,884Z",
-			[
-				ShapeStyle("hexagon-person", true),
-				ShapeStyle("shadow", true),
-				// LODStyle("background", (el, k) => k > 0.2),
-				// LODStyle("status", (el, k) => k < 0.2),
-				// LODStyle("deceased", (el, k) => data.status === "deceased" && k < 0.2),
-				// LODStyle("immediate", (el, k) => data.status === "immediate" && k < 0.2),
-				// LODStyle("delayed", (el, k) => data.status === "delayed" && k < 0.2),
-				// LODStyle("minor", (el, k) => data.status === "minor" && k < 0.2),
-			]
-		)
-	);
-	shape.append(() =>
-		ShapePath(
-			// status head shape
-			"M506.08,253.5C643,253.5,774.2,246.6,895.77,234L770.34,16.7A31.4,31.4,0,0,0,743.15,1H268.71a31.38,31.38,0,0,0-27.19,15.7L116.1,233.93C237.75,246.59,369.09,253.5,506.08,253.5Z",
-			[
-				ShapeStyle("hexagon-person", true),
-				ShapeStyle("status", true),
-				ShapeStyle("deceased", data.status === "deceased"),
-				ShapeStyle("immediate", data.status === "immediate"),
-				ShapeStyle("delayed", data.status === "delayed"),
-				ShapeStyle("minor", data.status === "minor"),
-			]
-		)
-	)
+	const bodyShape = initialShape
+		? shape.select("path.background")
+		: ShapePath(
+				"M268.62,884a31,31,0,0,1-26.76-15.45L4.64,457.72a31,31,0,0,1,0-30.9L241.86,16A31,31,0,0,1,268.62.5H743.05A31,31,0,0,1,769.81,16L1007,426.82a31,31,0,0,1,0,30.9L769.81,868.59A31,31,0,0,1,743.05,884Z"
+		  );
 
-	Shape.resize(shape, data.shape.scale * 300);
+	bodyShape.classed("hexagon-person", true).classed("background", true).classed("shadow", true);
+	// .classed("status", true)
+	// .classed("deceased", true)
+	// .classed("immediate", true)
+	// .classed("delayed", true)
+	// .classed("minor", true)
 
-	return shape.node();
+	const headShape = initialShape
+		? shape.select("path.status")
+		: ShapePath(
+				"M506.08,253.5C643,253.5,774.2,246.6,895.77,234L770.34,16.7A31.4,31.4,0,0,0,743.15,1H268.71a31.38,31.38,0,0,0-27.19,15.7L116.1,233.93C237.75,246.59,369.09,253.5,506.08,253.5Z"
+		  );
+
+	headShape
+		.classed("hexagon-person", true)
+		.classed("status", true)
+		.classed("deceased", data.status === "deceased")
+		.classed("immediate", data.status === "immediate")
+		.classed("delayed", data.status === "delayed")
+		.classed("minor", data.status === "minor")
+
+	if (!initialShape) {
+		console.log("RENDER", bodyShape, headShape);
+		shape.append(() => bodyShape.node());
+		shape.append(() => headShape.node());
+		Shape.resize(shape, data.shape.scale * 300);
+	}
+
+	return shape;
 }
 
 Templates.add("shape_01", PersonHexagon);

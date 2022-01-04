@@ -32,7 +32,7 @@ function Node(data) {
 		return throwError(`Template \"${data.shape.type}\" not founnd`);
 	}
 	try {
-		node.append(() => template.bind(this)(data, initialShape)).classed("shape", true);
+		node.append(() => template.bind(this)(data, initialShape).node()).classed("shape", true);
 	} catch (e) {
 		return throwError(e);
 	}
