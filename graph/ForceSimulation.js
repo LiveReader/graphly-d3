@@ -25,7 +25,7 @@ class ForceSimulation {
 				"link",
 				d3.forceLink().id((d) => d.id)
 			)
-			.force("gravity", d3.forceManyBody().strength(-20000))
+			.force("gravity", d3.forceManyBody().strength(-50000))
 			.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
 			.force(
 				"collide",
@@ -103,7 +103,7 @@ class ForceSimulation {
 		const nodes = this.nodeGroup.selectAll("g.node").data(eval(this.graph.nodes));
 		nodes
 			.enter()
-			.append(TestShape)
+			.append(PersonHexagon)
 			.call(this.dragNode())
 			.attr("opacity", 0)
 			.transition()
@@ -115,7 +115,7 @@ class ForceSimulation {
 			.duration(300)
 			.select((d) => {
 				let node = nodes.filter((n) => n.id === d.id);
-				node.select(TestShape);
+				node.select(PersonHexagon);
 			});
 
 		const edges = this.linkGroup.selectAll("path").data(this.graph.links);
