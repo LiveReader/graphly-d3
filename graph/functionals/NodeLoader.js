@@ -15,7 +15,16 @@ const Templates = {
  * @param  {object} data data object
  */
 function Node(data) {
-	const node = Shape.create("g");
+	const alreadyExists = Shape.alreadyExists(this);
+	const node = alreadyExists ? d3.select(this) : Shape.create("g");
+
+	let initialShape = null;
+	if (!Shape.dataChanged(node, data)) return node.node();
+	if (alreadyExists) {
+		initialShape = node.select(".shape");
+		// node.selectAll("*").remove();
+	}
+
 	node.classed("node", true).attr("id", data.id);
 
 	let template = Templates[data.shape.type];
@@ -23,8 +32,7 @@ function Node(data) {
 		return throwError(`Template \"${data.shape.type}\" not founnd`);
 	}
 	try {
-		template = template.bind(this);
-		node.append(() => template(data));
+		node.append(() => template.bind(this)(data, initialShape)).classed("shape", true);
 	} catch (e) {
 		return throwError(e);
 	}
@@ -33,8 +41,7 @@ function Node(data) {
 
 	function throwError(message) {
 		console.error(message);
-		const errorNode = ErrorNode.bind(this);
-		node.append(() => errorNode(data));
+		node.append(() => ErrorNode.bind(this)(data));
 		return node.node();
 	}
 }

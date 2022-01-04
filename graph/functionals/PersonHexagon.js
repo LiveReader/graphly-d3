@@ -1,4 +1,4 @@
-function PersonHexagon(data) {
+function PersonHexagon(data, initialShape) {
 	const rndColor = () => {
 		const r = Math.floor(Math.random() * 255);
 		const g = Math.floor(Math.random() * 255);
@@ -6,7 +6,9 @@ function PersonHexagon(data) {
 		return `rgb(${r}, ${g}, ${b})`;
 	};
 
-	const shape = Shape.create("g");
+	const shape = initialShape ? initialShape : Shape.create("g");
+	shape.selectAll("*").remove();
+
 	shape.append(() =>
 		ShapePath(
 			// body shape
