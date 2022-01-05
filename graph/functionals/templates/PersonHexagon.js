@@ -1,11 +1,4 @@
 function PersonHexagon(data, initialShape) {
-	const rndColor = () => {
-		const r = Math.floor(Math.random() * 255);
-		const g = Math.floor(Math.random() * 255);
-		const b = Math.floor(Math.random() * 255);
-		return `rgb(${r}, ${g}, ${b})`;
-	};
-
 	const shape = initialShape ? initialShape : Shape.create("g");
 	// shape.selectAll("*").remove();
 
@@ -35,9 +28,10 @@ function PersonHexagon(data, initialShape) {
 		.classed("immediate", data.status === "immediate")
 		.classed("delayed", data.status === "delayed")
 		.classed("minor", data.status === "minor")
+	
+	const test = ShapeCollection([], CollectionStyle(0, 0, 0, 0, 0, 0, 0))
 
 	if (!initialShape) {
-		console.log("RENDER", bodyShape, headShape);
 		shape.append(() => bodyShape.node());
 		shape.append(() => headShape.node());
 		Shape.resize(shape, data.shape.scale * 300);

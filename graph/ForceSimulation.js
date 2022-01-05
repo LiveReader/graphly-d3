@@ -5,8 +5,6 @@ class ForceSimulation {
 		this.worldTransform = { k: 1, x: 0, y: 0 };
 		this.zoomRoutines = [];
 
-		this.nodeFactory = new NodeFactory(this, 300);
-
 		this.createWorld();
 		this.createSimulation();
 		this.setZoom();
@@ -97,8 +95,6 @@ class ForceSimulation {
 	render(graph) {
 		this.setData(graph);
 		// this.zoomRoutines = [];
-		// this.nodeGroup.selectAll("g.node").remove();
-		// this.linkGroup.selectAll("path.link").remove();
 
 		const nodes = this.nodeGroup.selectAll("g.node").data(eval(this.graph.nodes));
 		nodes
