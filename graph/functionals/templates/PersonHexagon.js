@@ -27,13 +27,37 @@ function PersonHexagon(data, initialShape) {
 		.classed("deceased", data.status === "deceased")
 		.classed("immediate", data.status === "immediate")
 		.classed("delayed", data.status === "delayed")
-		.classed("minor", data.status === "minor")
-	
-	const test = ShapeCollection([], CollectionStyle(0, 0, 0, 0, 0, 0, 0))
+		.classed("minor", data.status === "minor");
 
 	if (!initialShape) {
 		shape.append(() => bodyShape.node());
 		shape.append(() => headShape.node());
+	}
+
+	shape.select("g.tags").remove();
+	const bbox = Shape.getBBox(shape);
+	const tagCollection = TagCollection(
+		data.tags,
+		CollectionStyle(310, bbox.width, 0, bbox.height * 0.6, 20, 20, 3, Alignment.Center, [110, 170, 230]),
+		TagStyle(
+			[40, 15],
+			[ShapeStyle("hexagon-person", true), ShapeStyle("tag-text", true)],
+			[
+				ShapeStyle("hexagon-person", true),
+				ShapeStyle("tag-background", true),
+				ShapeStyle("status", true),
+				ShapeStyle("deceased", data.status === "deceased"),
+				ShapeStyle("immediate", data.status === "immediate"),
+				ShapeStyle("delayed", data.status === "delayed"),
+				ShapeStyle("minor", data.status === "minor")
+			],
+			45
+		)
+	);
+	tagCollection.attr("id", "tags");
+	shape.append(() => tagCollection.node());
+
+	if (!initialShape) {
 		Shape.resize(shape, data.shape.scale * 300);
 	}
 
