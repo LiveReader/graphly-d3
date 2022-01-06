@@ -1,4 +1,4 @@
-function PersonHexagon(data, initialShape) {
+function PersonHexagon(data, initialShape, changes) {
 	const shape = initialShape ? initialShape : Shape.create("g");
 	// shape.selectAll("*").remove();
 
@@ -47,6 +47,7 @@ function PersonHexagon(data, initialShape) {
 	}
 
 	function addTags() {
+		if (!(changes.tags || changes.status)) return;
 		shape.select("g.tags").remove();
 		const bbox = Shape.getBBox(shape);
 		const tagCollection = TagCollection(
@@ -67,12 +68,14 @@ function PersonHexagon(data, initialShape) {
 				45
 			)
 		);
-		tagCollection.attr("id", "tags");
+		tagCollection.classed("tags", true);
 		shape.append(() => tagCollection.node());
 	}
 
 	function addTitle() {
-		shape.select("text.title").remove();
+		console.log(changes.name);
+		if (!changes.name) return;
+		shape.select("g.title").remove();
 		const bbox = Shape.getBBox(shape);
 		const initials = data.name.first.charAt(0) + data.name.last.charAt(0);
 		const title = TextCollection(

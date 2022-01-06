@@ -2,10 +2,10 @@ const Shape = {};
 
 /**
  * @callback onElement
- * @param {object} el HTML element
+ * @param {Object} el HTML element
  */
 /**
- * @param  {object} shape D3 selection
+ * @param  {Object} shape D3 selection
  * @callback  onElement
  */
 Shape.prerender = function (shape, onElement = (el) => {}) {
@@ -24,8 +24,8 @@ Shape.prerender = function (shape, onElement = (el) => {}) {
 };
 
 /**
- * @param  {object} shape D3 selection
- * @return {object}       Bounding box
+ * @param  {Object} shape D3 selection
+ * @return {Object}       Bounding box
  */
 Shape.getBBox = function (shape) {
 	let bbox = null;
@@ -36,16 +36,16 @@ Shape.getBBox = function (shape) {
 };
 
 /**
- * @param  {string} type svg element type
- * @return {object}      D3 selection
+ * @param  {String} type svg element type
+ * @return {Object}      D3 selection
  */
 Shape.create = function (type) {
 	return d3.select(document.createElementNS("http://www.w3.org/2000/svg", type));
 };
 
 /**
- * @param  {object} shape D3 selection
- * @param  {object} size width of the shape
+ * @param  {Object} shape D3 selection
+ * @param  {Object} size width of the shape
  */
 Shape.resize = function (shape, size) {
 	const bbox = Shape.getBBox(shape);
@@ -57,13 +57,18 @@ Shape.resize = function (shape, size) {
 };
 
 /**
- * @param  {object} reference to the shape
+ * @param  {Object} reference to the shape
+ * @return {Boolean}          true if the shape is already rendered
  */
 Shape.alreadyExists = function (reference) {
 	return typeof d3.select(reference).node().getAttribute === "function";
 };
 
-Shape.cleanData = function(data) {
+/**
+ * @param  {Object} data data object
+ * @return {Object}      cleaned data object
+ */
+Shape.cleanData = function (data) {
 	const bind = Object.assign({}, data);
 	delete bind.x;
 	delete bind.y;
@@ -71,43 +76,65 @@ Shape.cleanData = function(data) {
 	delete bind.vy;
 	delete bind.index;
 	return bind;
-}
+};
 
 /**
- * @param  {object} shape D3 selection
- * @param  {object} data data object
+ * @param  {Object} shape D3 selection
+ * @param  {Object} data data object
  */
 Shape.bind = function (shape, data) {
 	shape.attr("data-bind", JSON.stringify(Shape.cleanData(data)));
 };
 
 /**
- * @param  {object} shape D3 selection
+ * @param  {Object} shape D3 selection
+ * @return {Object}       data object
  */
 Shape.getData = function (shape) {
 	return JSON.parse(shape.attr("data-bind"));
 };
 
 /**
- * @param  {object} shape D3 selection
+ * @param  {Object} shape D3 selection
+ * @return {Boolean}      true if the shape has data
  */
 Shape.hasData = function (shape) {
-	return shape.attr("data-bind") !== undefined;
+	return !!shape.attr("data-bind");
 };
 
 /**
- * @param  {object} shape D3 selection
- * @param  {object} data data object
+ * @param  {Object} shape D3 selection
+ * @param  {Object} data data object
+ * @return {Object}      changes object
  */
-Shape.dataChanged = function (shape, data) {
+Shape.dataChanges = function (shape, data) {
 	if (!Shape.hasData(shape)) {
-		Shape.bind(shape, data);
-		return true;
+		return Object.assign({}, data);
 	}
 	const prevData = Shape.getData(shape);
 	if (JSON.stringify(Shape.cleanData(prevData)) !== JSON.stringify(Shape.cleanData(data))) {
-		Shape.bind(shape, data);
-		return true;
+		return Shape.getChanges(Shape.cleanData(data), prevData);
 	}
-	return false;
+	return null;
+};
+
+/**
+ * @param  {Object} a current data
+ * @param  {Object} b previous data
+ * @return {Object}   changes object
+ */
+Shape.getChanges = function (a, b) {
+	const changes = {};
+	Object.keys(a).forEach((key) => {
+		if (typeof a[key] == "object" && !Array.isArray(a[key])) {
+			const c = Shape.getChanges(a[key], b[key]);
+			Object.keys(c).length > 0 ? (changes[key] = c) : null;
+		} else if (Array.isArray(a[key])) {
+			const c = JSON.stringify(a[key]) !== JSON.stringify(b[key]) ? a[key] : [];
+			c.length > 0 ? (changes[key] = c) : null;
+		} else if (JSON.stringify(a[key]) !== JSON.stringify(b[key])) {
+			changes[key] = a[key];
+		}
+	});
+	return changes;
 };
