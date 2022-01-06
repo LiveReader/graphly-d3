@@ -1,13 +1,14 @@
 /**
- * @param  {String[]} texts array of strings
+ * @param  {String} text
  * @param  {CollectionStyle} style collection style
  * @param  {ShapeStyle[]} textStyles array of text styles
  * @return {Object} shape
  */
 function TextCollection(texts, style, textStyles = []) {
 	const textShapes = [];
-	texts.forEach((text) => {
-		const textShape = TextShape(text, textStyles);
+	const words = texts.split(" ");
+	words.forEach((word) => {
+		const textShape = TextShape(word, textStyles);
 		textShapes.push(textShape);
 	});
 	const ellipsis = TextShape("...", textStyles);
