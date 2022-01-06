@@ -1,7 +1,7 @@
 /**
  * @param  {Number[]} padding padding of tag [x,y]
- * @param  {String[]} textStyles array of css classes
- * @param  {String[]} backgroundStyles array of css classes
+ * @param  {ShapeStyle[]} textStyles array of css classes
+ * @param  {ShapeStyle[]} backgroundStyles array of css classes
  * @param  {Number} cornerRadius radius of the corners
  */
 function TagStyle(padding = [0, 0], textStyles = [], backgroundStyles = [], cornerRadius = 0) {
@@ -23,7 +23,7 @@ function TagShape(text, style) {
 
 	const textShape = shape.append("text").text(text).attr("dy", "0.35em");
 	style.textStyles.forEach((style) => {
-		textShape.classed(style, true);
+		textShape.classed(style.className, style.condition());
 	});
 	const textBBox = Shape.getBBox(shape);
 
@@ -46,7 +46,7 @@ function TagShape(text, style) {
 				`Z`
 		);
 	style.backgroundStyles.forEach((style) => {
-		backgroundShape.classed(style, true);
+		backgroundShape.classed(style.className, style.condition());
 	});
 
 	textShape.remove();
