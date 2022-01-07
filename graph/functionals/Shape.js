@@ -124,9 +124,8 @@ Shape.dataChanges = function (shape, data) {
  * @return {Object}   changes object
  */
 Shape.getChanges = function (a, b) {
-	if (typeof a !== "object" || typeof b !== "object") {
-		return {};
-	}
+	if (!a || !b) return {};
+	if (typeof a !== "object" || typeof b !== "object") return {};
 	const changes = {};
 	Object.keys(a).forEach((key) => {
 		if (typeof a[key] == "object" && !Array.isArray(a[key])) {
