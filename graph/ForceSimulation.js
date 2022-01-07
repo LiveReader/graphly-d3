@@ -1,9 +1,15 @@
 class ForceSimulation {
 	constructor(svg) {
+		if (ForceSimulation.instance) {
+			return ForceSimulation.instance;
+		}
+		ForceSimulation.instance = this;
+
 		this.svg = svg;
 		this.graph = { nodes: [], links: [] };
 		this.worldTransform = { k: 1, x: 0, y: 0 };
-		this.zoomRoutines = [];
+		this.onZoomRegistrations = [];
+		this.onZoomRoutines = {};
 
 		this.createWorld();
 		this.createSimulation();
@@ -51,15 +57,45 @@ class ForceSimulation {
 				.on("zoom", ({ transform }) => {
 					this.world.attr("transform", transform);
 					if (this.worldTransform.k !== transform.k) {
-						this.zoomRoutines.forEach((method) => method(transform.k));
+						Object.keys(this.onZoomRoutines).forEach((threshold) => {
+							const movedRange = [this.worldTransform.k, transform.k].sort();
+							if (movedRange[0] < threshold && movedRange[1] > threshold) {
+								this.onZoomRoutines[threshold].forEach((routine) => {
+									routine(transform.k);
+								});
+							}
+						});
 					}
 					this.worldTransform = transform;
 				})
 		);
 	}
 
-	onZoom(callback = (k) => {}) {
-		this.zoomRoutines.push(callback);
+	registerOnZoom(id, threshold, callback = (k) => {}) {
+		this.deregisterOnZoom(id);
+		this.onZoomRegistrations.push({
+			id: id,
+			threshold: threshold,
+			callback: callback,
+		});
+		this.orderOnZoomRoutines();
+	}
+
+	deregisterOnZoom(id) {
+		console.log(id);
+		this.onZoomRegistrations = this.onZoomRegistrations.filter((routine) => routine.id !== id);
+		console.log(this.onZoomRegistrations);
+		this.orderOnZoomRoutines();
+	}
+
+	orderOnZoomRoutines() {
+		this.onZoomRoutines = {};
+		this.onZoomRegistrations.forEach((routine) => {
+			if (!this.onZoomRoutines[routine.threshold]) {
+				this.onZoomRoutines[routine.threshold] = [];
+			}
+			this.onZoomRoutines[routine.threshold].push(routine.callback);
+		});
 	}
 
 	ticked() {
@@ -94,7 +130,6 @@ class ForceSimulation {
 
 	render(graph) {
 		this.setData(graph);
-		// this.zoomRoutines = [];
 
 		const nodes = this.nodeGroup.selectAll("g.node").data(eval(this.graph.nodes));
 		nodes
@@ -126,7 +161,7 @@ class ForceSimulation {
 		edges.exit().transition().duration(300).attr("opacity", 0).remove();
 		edges.transition().duration(300);
 
-		this.zoomRoutines.forEach((method) => method(this.worldTransform.k));
+		this.onZoomRegistrations.forEach((routine) => routine.callback(this.worldTransform.k));
 	}
 
 	dragNode() {
