@@ -8,6 +8,20 @@ function PersonHexagon(data, initialShape, changes) {
 	const titleShape = addTitle();
 	const largeTitleShape = addLargeTitle();
 
+	OnZoom(data, 0.2, [
+		LODStyle(bodyShape, "background", (k) => k > 0.2),
+		LODStyle(bodyShape, "status", (k) => k < 0.2),
+		LODStyle(bodyShape, "deceased", (k) => data.status === "deceased" && k < 0.2),
+		LODStyle(bodyShape, "immediate", (k) => data.status === "immediate" && k < 0.2),
+		LODStyle(bodyShape, "delayed", (k) => data.status === "delayed" && k < 0.2),
+		LODStyle(bodyShape, "minor", (k) => data.status === "minor" && k < 0.2),
+		LODStyle(largeTitleShape, "hidden", (k) => k < 0.2),
+	]);
+	OnZoom(data, 0.6, [
+		LODStyle(tagCollection, "hidden", (k) => k < 0.6),
+		LODStyle(titleShape, "hidden", (k) => k < 0.6),
+		LODStyle(largeTitleShape, "hidden", (k) => k > 0.6),
+	]);
 
 	Shape.resize(shape, data.shape.scale * 300);
 
