@@ -15,12 +15,12 @@ function PersonHexagon(data, initialShape, changes) {
 		LODStyle(bodyShape, "immediate", (k) => data.status === "immediate" && k < 0.2),
 		LODStyle(bodyShape, "delayed", (k) => data.status === "delayed" && k < 0.2),
 		LODStyle(bodyShape, "minor", (k) => data.status === "minor" && k < 0.2),
-		LODStyle(largeTitleShape, "hidden", (k) => k < 0.2),
+		LODStyle(largeTitleShape, "hidden", (k) => k > 0.6 || k < 0.2),
 	]);
 	OnZoom(data, 0.6, [
 		LODStyle(tagCollection, "hidden", (k) => k < 0.6),
 		LODStyle(titleShape, "hidden", (k) => k < 0.6),
-		LODStyle(largeTitleShape, "hidden", (k) => k > 0.6),
+		LODStyle(largeTitleShape, "hidden", (k) => k > 0.6 || k < 0.2),
 	]);
 
 	Shape.resize(shape, data.shape.scale * 300);
@@ -29,11 +29,11 @@ function PersonHexagon(data, initialShape, changes) {
 
 	function addBody() {
 		const bodyShape = initialShape
-			? shape.select("path.background")
+			? shape.select("path.body")
 			: PathShape(
 					"M268.62,884a31,31,0,0,1-26.76-15.45L4.64,457.72a31,31,0,0,1,0-30.9L241.86,16A31,31,0,0,1,268.62.5H743.05A31,31,0,0,1,769.81,16L1007,426.82a31,31,0,0,1,0,30.9L769.81,868.59A31,31,0,0,1,743.05,884Z"
 			  );
-		bodyShape.classed("hexagon-person", true).classed("shadow", true);
+		bodyShape.classed("body", true).classed("hexagon-person", true).classed("shadow", true);
 		if (!initialShape) {
 			shape.append(() => bodyShape.node());
 		}
@@ -42,11 +42,12 @@ function PersonHexagon(data, initialShape, changes) {
 
 	function addHead() {
 		const headShape = initialShape
-			? shape.select("path.status")
+			? shape.select("path.head")
 			: PathShape(
 					"M506.08,253.5C643,253.5,774.2,246.6,895.77,234L770.34,16.7A31.4,31.4,0,0,0,743.15,1H268.71a31.38,31.38,0,0,0-27.19,15.7L116.1,233.93C237.75,246.59,369.09,253.5,506.08,253.5Z"
 			  );
 		headShape
+			.classed("head", true)
 			.classed("hexagon-person", true)
 			.classed("status", true)
 			.classed("deceased", data.status === "deceased")

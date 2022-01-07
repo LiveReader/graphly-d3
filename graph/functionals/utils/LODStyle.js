@@ -28,7 +28,6 @@ function OnZoom(data, threshold, styles = []) {
  */
 function LODStyle(shape, className, condition = (k) => {}) {
 	if (!shape) {
-		console.log(shape, className, condition);
 		return undefined
 	}
 	return {

@@ -82,9 +82,7 @@ class ForceSimulation {
 	}
 
 	deregisterOnZoom(id) {
-		console.log(id);
 		this.onZoomRegistrations = this.onZoomRegistrations.filter((routine) => routine.id !== id);
-		console.log(this.onZoomRegistrations);
 		this.orderOnZoomRoutines();
 	}
 
