@@ -1,4 +1,5 @@
 function PersonHexagon(data, initialShape, changes) {
+	const shapeSize = 300;
 	const shape = initialShape ? initialShape : Shape.create("g");
 	// shape.selectAll("*").remove();
 
@@ -41,8 +42,7 @@ function PersonHexagon(data, initialShape, changes) {
 		LODStyle(timerShape, "hidden", (k) => k < 0.6),
 	]);
 
-	Shape.resize(shape, data.shape.scale * 300);
-
+	Shape.resize(shape, data.shape.scale * shapeSize);
 	return shape;
 
 	function addBody() {
