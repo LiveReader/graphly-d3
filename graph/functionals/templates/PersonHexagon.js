@@ -7,6 +7,7 @@ function PersonHexagon(data, initialShape, changes) {
 	const tagCollection = addTags();
 	const titleShape = addTitle();
 	const largeTitleShape = addLargeTitle();
+	const timerShape = addTimer();
 
 	OnZoom(data, 0.2, [
 		LODStyle(bodyShape, "background", (k) => k > 0.2),
@@ -21,7 +22,24 @@ function PersonHexagon(data, initialShape, changes) {
 		LODStyle(tagCollection, "hidden", (k) => k < 0.6),
 		LODStyle(titleShape, "hidden", (k) => k < 0.6),
 		LODStyle(largeTitleShape, "hidden", (k) => k > 0.6 || k < 0.2),
+		LODStyle(timerShape, "hidden", (k) => k < 0.6),
 	]);
+
+	// Timer Shape
+	if (data.countdown && data.countdown > 0) {
+		let previousTimeStamp = Date.now();
+		const timerID = setInterval(() => {
+			const elapsed = Date.now() - previousTimeStamp;
+			let countdown = data.countdown - elapsed / 1000;
+			if (countdown <= 0) {
+				countdown = 0;
+				timerShape.select("text").text(countdown.toFixed(1));
+				clearInterval(timerID);
+				return;
+			}
+			timerShape.select("text").text(countdown.toFixed(1));
+		}, 100);
+	}
 
 	Shape.resize(shape, data.shape.scale * 300);
 
@@ -115,6 +133,18 @@ function PersonHexagon(data, initialShape, changes) {
 		largeTitleShape.classed("largeTitle", true);
 		shape.append(() => largeTitleShape.node());
 		return largeTitleShape;
+	}
+
+	function addTimer() {
+		if (initialShape) return shape.select("g.timer");
+		const bbox = Shape.getBBox(shape);
+		const timerShape = TextCollection("", CollectionStyle(100, bbox.width, 0, bbox.height * 0.2, 40, 40, 1), [
+			ShapeStyle("timer", true),
+			ShapeStyle("hexagon-person", true),
+			ShapeStyle("title", true),
+		]);
+		shape.append(() => timerShape.node());
+		return timerShape;
 	}
 }
 
