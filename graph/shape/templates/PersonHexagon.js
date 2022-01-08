@@ -42,7 +42,7 @@ function PersonHexagon(data, initialShape, changes) {
 		LODStyle(timerShape, "hidden", (k) => k < 0.6),
 	]);
 
-	Shape.resize(shape, data.shape.scale * shapeSize);
+	Shape.transform(shape, true, data.shape.scale * shapeSize);
 	return shape;
 
 	function addBody() {

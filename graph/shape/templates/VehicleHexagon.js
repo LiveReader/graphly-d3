@@ -9,7 +9,7 @@ function VehicleHexagon(data, initialShape, changes) {
 
 	OnZoom(data, 0.4, [LODStyle(headlineShape, "hidden", (k) => k < 0.4)]);
 
-	Shape.resize(shape, data.shape.scale * shapeSize);
+	Shape.transform(shape, true, data.shape.scale * shapeSize);
 	return shape;
 
 	function addBody() {

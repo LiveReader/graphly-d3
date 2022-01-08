@@ -45,15 +45,16 @@ Shape.create = function (type) {
 
 /**
  * @param  {Object} shape D3 selection
+ * @param  {Boolean} centered whether the shape is centered
  * @param  {Object} size width of the shape
  */
-Shape.resize = function (shape, size) {
+Shape.transform = function (shape, centered, size) {
 	const bbox = Shape.getBBox(shape);
 	const scale = size / Math.max(bbox.width, bbox.height);
-	shape.attr(
-		"transform",
-		`translate(${(-bbox.width * scale) / 2 || 0}, ${(-bbox.height * scale) / 2 || 0}) scale(${scale || 1})`
-	);
+	const translate = centered
+		? { x: (-bbox.width * scale) / 2 || 0, y: (-bbox.height * scale) / 2 || 0 }
+		: { x: 0, y: 0 };
+	shape.attr("transform", `translate(${translate.x}, ${translate.y}) scale(${scale || 1})`);
 };
 
 /**
