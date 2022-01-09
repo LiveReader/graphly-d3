@@ -18,7 +18,7 @@ class ForceSimulation {
 
 	createWorld() {
 		this.world = this.svg.append("g").attr("id", "world");
-		this.linkGroup = this.world.append("g").attr("id", "links");
+		this.edgeGroup = this.world.append("g").attr("id", "edges");
 		this.nodeGroup = this.world.append("g").attr("id", "nodes");
 	}
 
@@ -98,7 +98,7 @@ class ForceSimulation {
 
 	ticked() {
 		this.nodeGroup.selectAll("g.node").attr("transform", (d) => `translate(${d.x},${d.y})`);
-		this.linkGroup.selectAll("path.link").attr("d", (d) => positionLink(d));
+		this.edgeGroup.selectAll("path.edge").attr("d", (d) => positionLink(d));
 
 		function positionLink(d) {
 			var midpoint_x = (d.source.x + d.target.x) / 2;
@@ -148,11 +148,14 @@ class ForceSimulation {
 				node.select(Node);
 			});
 
-		const edges = this.linkGroup.selectAll("path").data(this.graph.links);
+		const edges = this.edgeGroup.selectAll("path").data(this.graph.links);
 		edges
 			.enter()
 			.append("path")
-			.classed("link", true)
+			.classed("edge", true)
+			.classed("solid", (d) => !d.type ? true : d.type === "solid")
+			.classed("dotted", (d) => d.type === "dotted")
+			.classed("dashed", (d) => d.type === "dashed")
 			.attr("opacity", 0)
 			.transition()
 			.duration(300)

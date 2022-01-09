@@ -37,8 +37,20 @@ body {
 	stroke-miterlimit: 10;
 }
 
-.link {
+.edge {
 	stroke: var(--node-stroke-color);
 	fill: none;
+	stroke-width: 2.5;
+}
+.edge.solid {
 	stroke-width: 1.5;
+	stroke-dasharray: none;
+}
+.edge.dotted {
+	stroke-width: 2.5;
+	stroke-dasharray: 4, 10;
+}
+.edge.dashed {
+	stroke-width: 2.5;
+	stroke-dasharray: 10, 10;
 }

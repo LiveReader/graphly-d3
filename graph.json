@@ -65,19 +65,35 @@
 		"links": [
 			{
 				"source": "n0",
-				"target": "n1"
+				"target": "n1",
+				"type": "solid",
+				"directed:": true,
+				"animated": false,
+				"label": ""
 			},
 			{
 				"source": "n1",
-				"target": "n2"
+				"target": "n2",
+				"type": "dashed",
+				"directed:": true,
+				"animated": false,
+				"label": ""
 			},
 			{
 				"source": "n2",
-				"target": "n3"
+				"target": "n3",
+				"type": "dotted",
+				"directed:": true,
+				"animated": false,
+				"label": ""
 			},
 			{
 				"source": "n2",
-				"target": "n4"
+				"target": "n4",
+				"type": "dotted",
+				"directed:": true,
+				"animated": false,
+				"label": ""
 			}
 		]
 	}
