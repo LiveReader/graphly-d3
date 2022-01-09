@@ -18,7 +18,7 @@ class ForceSimulation {
 
 	createWorld() {
 		this.world = this.svg.append("g").attr("id", "world");
-		this.edgeGroup = this.world.append("g").attr("id", "edges");
+		this.linkGroup = this.world.append("g").attr("id", "links");
 		this.nodeGroup = this.world.append("g").attr("id", "nodes");
 	}
 
@@ -98,31 +98,25 @@ class ForceSimulation {
 
 	ticked() {
 		this.nodeGroup.selectAll("g.node").attr("transform", (d) => `translate(${d.x},${d.y})`);
-		this.edgeGroup.selectAll("path.edge").attr("d", (d) => positionLink(d));
+		this.linkGroup.selectAll("g.link").call((d) => {
+			const edge = d.select(".edge");
+			edge.attr("d", renderEdge)
+		});
 
-		function positionLink(d) {
-			var midpoint_x = (d.source.x + d.target.x) / 2;
-			var midpoint_y = (d.source.y + d.target.y) / 2;
-
-			var dx = d.target.x - d.source.x;
-			var dy = d.target.y - d.source.y;
-
-			var normalise = Math.sqrt(dx * dx + dy * dy);
-			var offset = 80;
-
-			let hash = 0;
-			let str = d.source.id + d.target.id;
-			str.split("").forEach((char) => {
-				hash += char.charCodeAt(0);
-			});
-			if (hash % 2 === 0) {
-				offset = -offset;
-			}
-
-			var offSetX = midpoint_x + offset * (dy / normalise);
-			var offSetY = midpoint_y - offset * (dx / normalise);
-
-			return `M${d.source.x},${d.source.y}S${offSetX},${offSetY} ${d.target.x},${d.target.y}`;
+		function renderEdge(d) {
+			// curved edge with anchor points at the node centers but just been drawn 200 pixels away from the node center
+			const dx = d.target.x - d.source.x;
+			const dy = d.target.y - d.source.y;
+			const dr = Math.sqrt(dx * dx + dy * dy);
+			const r = dr - 200;
+			const sourceSpace = 150 * d.source.shape.scale + 1;
+			const targetSpace = 150 * d.target.shape.scale + 1;
+			const theta = Math.atan2(dy, dx);
+			const x1 = d.source.x + sourceSpace * Math.cos(theta);
+			const y1 = d.source.y + sourceSpace * Math.sin(theta);
+			const x2 = d.target.x - targetSpace * Math.cos(theta);
+			const y2 = d.target.y - targetSpace * Math.sin(theta);
+			return `M ${x1} ${y1} A ${r} ${r} 0 0 ${d.directed ? 1 : 0} ${x2} ${y2}`;
 		}
 	}
 
@@ -148,20 +142,24 @@ class ForceSimulation {
 				node.select(Node);
 			});
 
-		const edges = this.edgeGroup.selectAll("path").data(this.graph.links);
-		edges
-			.enter()
-			.append("path")
+		const links = this.linkGroup.selectAll("path").data(this.graph.links);
+		const link = links.enter().append("g").classed("link", true);
+		link.append("path")
 			.classed("edge", true)
-			.classed("solid", (d) => !d.type ? true : d.type === "solid")
+			.classed("solid", (d) => (!d.type ? true : d.type === "solid"))
 			.classed("dotted", (d) => d.type === "dotted")
-			.classed("dashed", (d) => d.type === "dashed")
-			.attr("opacity", 0)
-			.transition()
-			.duration(300)
-			.attr("opacity", 1);
-		edges.exit().transition().duration(300).attr("opacity", 0).remove();
-		edges.transition().duration(300);
+			.classed("dashed", (d) => d.type === "dashed");
+		link.append("path")
+			.classed("arrow", true)
+			.attr("opacity", (d) => (d.directed ? 1 : 0));
+		link.append("text")
+			.text((d) => d.label)
+			.attr("text-anchor", "middle")
+			.attr("dy", "0.35em")
+			.classed("label", true);
+		link.attr("opacity", 0).transition().duration(300).attr("opacity", 1);
+		links.exit().transition().duration(300).attr("opacity", 0).remove();
+		links.transition().duration(300);
 
 		this.onZoomRegistrations.forEach((routine) => routine.callback(this.worldTransform.k));
 	}
