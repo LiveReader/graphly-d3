@@ -51,7 +51,7 @@ function PersonHexagon(data, initialShape, changes) {
 			: PathShape(
 					"M268.62,884a31,31,0,0,1-26.76-15.45L4.64,457.72a31,31,0,0,1,0-30.9L241.86,16A31,31,0,0,1,268.62.5H743.05A31,31,0,0,1,769.81,16L1007,426.82a31,31,0,0,1,0,30.9L769.81,868.59A31,31,0,0,1,743.05,884Z"
 			  );
-		bodyShape.classed("body", true).classed("hexagon-person", true).classed("shadow", true);
+		bodyShape.classed("body", true).classed("hexagon-person", true);
 		if (!initialShape) {
 			shape.append(() => bodyShape.node());
 		}

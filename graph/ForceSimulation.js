@@ -129,10 +129,11 @@ class ForceSimulation {
 	render(graph) {
 		this.setData(graph);
 
-		const nodes = this.nodeGroup.selectAll("g.node").data(eval(this.graph.nodes));
+		const nodes = this.nodeGroup.selectAll("g.node").data(this.graph.nodes);
 		nodes
 			.enter()
 			.append(Node)
+			.classed("shadow", true)
 			.call(this.dragNode())
 			.attr("opacity", 0)
 			.transition()
