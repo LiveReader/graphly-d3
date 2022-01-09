@@ -29,7 +29,7 @@ class ForceSimulation {
 				"link",
 				d3.forceLink().id((d) => d.id)
 			)
-			.force("gravity", d3.forceManyBody().strength(-20000))
+			.force("gravity", d3.forceManyBody().strength(-30000))
 			.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
 			.force(
 				"collide",
@@ -100,7 +100,7 @@ class ForceSimulation {
 		this.nodeGroup.selectAll("g.node").attr("transform", (d) => `translate(${d.x},${d.y})`);
 		this.linkGroup.selectAll("g.link").call((d) => {
 			const edge = d.select(".edge");
-			edge.attr("d", renderEdge)
+			edge.attr("d", renderEdge);
 		});
 
 		function renderEdge(d) {
