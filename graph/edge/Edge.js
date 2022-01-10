@@ -4,12 +4,12 @@ const Edge = {};
  * @param  {Object} edge D3 link object
  */
 Edge.line = function (edge) {
-	const lineStart = Edge.lineStart(edge);
-	const lineEnd = Edge.lineEnd(edge);
-	const offset = Edge.offset(lineStart, lineEnd, 0.1);
-	const lineCenter = Edge.lineCenterWithOffset(lineStart, lineEnd, offset);
-
-	return `M ${lineStart.x} ${lineStart.y}` + `Q ${lineCenter.x}, ${lineCenter.y}` + ` ${lineEnd.x} ${lineEnd.y}`;
+	const points = Edge.getSurfacePoints(edge, 10);
+	return (
+		`M ${points.start.x} ${points.start.y}` +
+		`Q ${points.center.x}, ${points.center.y}` +
+		` ${points.end.x} ${points.end.y}`
+	);
 };
 
 /**
@@ -19,23 +19,20 @@ Edge.arrow = function (edge) {
 	if (!edge.directed) {
 		return "";
 	}
-	const lineStart = Edge.lineStart(edge);
-	const lineEnd = Edge.lineEnd(edge);
-	const dx = Edge.dx(lineStart, lineEnd);
-	const dy = Edge.dy(lineStart, lineEnd);
-	const arrowAngle = Math.atan2(dy, dx);
+	const points = Edge.getSurfacePoints(edge, 10);
+	const arrowAngle = Math.atan2(points.end.y - points.center.y, points.end.x - points.center.x);
 	const arrowRadius = 10;
 	const arrowStart = {
-		x: lineEnd.x + arrowRadius * Math.cos(arrowAngle + Math.PI / 2),
-		y: lineEnd.y + arrowRadius * Math.sin(arrowAngle + Math.PI / 2),
+		x: points.end.x + arrowRadius * Math.cos(arrowAngle + Math.PI / 2),
+		y: points.end.y + arrowRadius * Math.sin(arrowAngle + Math.PI / 2),
 	};
 	const arrowTip = {
-		x: lineEnd.x + arrowRadius * Math.cos(arrowAngle),
-		y: lineEnd.y + arrowRadius * Math.sin(arrowAngle),
+		x: points.end.x + arrowRadius * Math.cos(arrowAngle),
+		y: points.end.y + arrowRadius * Math.sin(arrowAngle),
 	};
 	const arrowEnd = {
-		x: lineEnd.x + arrowRadius * Math.cos(arrowAngle - Math.PI / 2),
-		y: lineEnd.y + arrowRadius * Math.sin(arrowAngle - Math.PI / 2),
+		x: points.end.x + arrowRadius * Math.cos(arrowAngle - Math.PI / 2),
+		y: points.end.y + arrowRadius * Math.sin(arrowAngle - Math.PI / 2),
 	};
 	return `M ${arrowStart.x} ${arrowStart.y}` + `L ${arrowTip.x} ${arrowTip.y}` + `L ${arrowEnd.x} ${arrowEnd.y}`;
 };
@@ -44,13 +41,10 @@ Edge.arrow = function (edge) {
  * @param  {Object} edge D3 link object
  */
 Edge.labelPosition = function (edge) {
-	const lineStart = Edge.lineStart(edge);
-	const lineEnd = Edge.lineEnd(edge);
-	const offset = Edge.offset(lineStart, lineEnd, 0.1);
-	const lineCeter = Edge.lineCenter(lineStart, lineEnd);
-	const lineCenterWithOffset = Edge.lineCenterWithOffset(lineStart, lineEnd, offset);
-	const x = lineCenterWithOffset.x + (lineCeter.x - lineCenterWithOffset.x) / 2;
-	const y = lineCenterWithOffset.y + (lineCeter.y - lineCenterWithOffset.y) / 2;
+	const points = Edge.getSurfacePoints(edge, 10);
+	const edgeCenter = Edge.lineCenter(points.start, points.end);
+	const x = points.center.x + (edgeCenter.x - points.center.x) / 2;
+	const y = points.center.y + (edgeCenter.y - points.center.y) / 2;
 	return "translate(" + x + "," + y + ")";
 };
 
@@ -58,16 +52,14 @@ Edge.labelPosition = function (edge) {
  * @param  {Object} edge D3 link object
  */
 Edge.lineStart = function (edge) {
-	return calculateIntersection(edge.target, edge.source, 5);
+	return calculateIntersection(edge.target, edge.source);
 };
 
 /**
  * @param  {Object} edge D3 link object
  */
 Edge.lineEnd = function (edge) {
-	const distance = edge.target.shape.scale ?? 1 * (Templates[edge.target.shape.type].shapeSize / 2 ?? 150);
-	const arrowDistance = edge.directed ? 20 : 0;
-	return calculateIntersection(edge.source, edge.target, distance + arrowDistance);
+	return calculateIntersection(edge.source, edge.target);
 };
 
 /**
@@ -93,12 +85,12 @@ Edge.lineCenterWithOffset = function (start, end, offset) {
  * @param  {Object} end
  * @param  {Number} bezierCurveFactor
  */
-Edge.offset = function (start, end, bezierCurveFactor) {
+Edge.offset = function (edge, start, end, bezierCurveFactor) {
 	const dx = Edge.dx(start, end);
 	const dy = Edge.dy(start, end);
 	const normal = Edge.normalize(dx, dy);
-	const x = bezierCurveFactor * (dy / normal) * normal;
-	const y = bezierCurveFactor * (dx / normal) * normal;
+	const x = bezierCurveFactor * (dy / normal) * normal * (edge.i + 1);
+	const y = bezierCurveFactor * (dx / normal) * normal * (edge.i + 1);
 	return { x: x, y: y };
 };
 
@@ -130,17 +122,40 @@ Edge.normalize = function (dx, dy) {
  * @param additionalDistance additional distance the
  * @returns {{x: number, y: number}}
  */
-function calculateIntersection(source, target, additionalDistance) {
+function calculateIntersection(source, target) {
 	const dx = target.x - source.x;
 	const dy = target.y - source.y;
 	const length = Math.sqrt(dx * dx + dy * dy);
 	if (length === 0) {
 		return { x: source.x, y: source.y };
 	}
-	const innerDistance = (target.shape.scale ?? 1) * (Templates[target.shape.type].shapeSize / 2 ?? 150);
-	const ratio = (length - (innerDistance + additionalDistance)) / length,
-		x = dx * ratio + source.x,
-		y = dy * ratio + source.y;
-
-	return { x: x, y: y };
+	return { x: dx + source.x, y: dy + source.y };
 }
+
+/**
+ * @param  {Object} edge D3 link object
+ * @param  {Number} distance additional distance
+ */
+Edge.getSurfacePoints = function (edge, distance = 0) {
+	const start = Edge.lineStart(edge);
+	const end = Edge.lineEnd(edge);
+	const offset = Edge.offset(edge, start, end, 0.1);
+	const center = Edge.lineCenterWithOffset(edge.source, edge.target, offset);
+
+	const arrowDistance = edge.directed ? 20 : 0;
+	const path = Shape.create("g")
+		.append("path")
+		.attr("d", `M ${start.x} ${start.y}` + `Q ${center.x}, ${center.y}` + ` ${end.x} ${end.y}`)
+		.node();
+	const startDistance = (edge.source.shape.scale ?? 1) * (Templates[edge.source.shape.type].shapeSize / 2 ?? 150);
+	const endDistance = (edge.target.shape.scale ?? 1) * (Templates[edge.target.shape.type].shapeSize / 2 ?? 150);
+	const surfaceStart = path.getPointAtLength(startDistance + distance);
+	const surfaceEnd = path.getPointAtLength(path.getTotalLength() - endDistance - distance - arrowDistance);
+	const surfaceOffset = Edge.offset(edge, surfaceStart, surfaceEnd, 0.1);
+	const surfaceCenter = Edge.lineCenterWithOffset(surfaceStart, surfaceEnd, surfaceOffset);
+	return {
+		start: { x: surfaceStart.x, y: surfaceStart.y },
+		center: { x: surfaceCenter.x, y: surfaceCenter.y },
+		end: { x: surfaceEnd.x, y: surfaceEnd.y },
+	};
+};

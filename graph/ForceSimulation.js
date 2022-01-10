@@ -39,10 +39,40 @@ class ForceSimulation {
 	}
 
 	setData(graph) {
-		this.graph = graph;
+		this.graph = this.sortGraph(graph);
 		this.simulation.nodes(graph.nodes);
 		this.simulation.force("link").links(graph.links);
 		this.simulation.alphaTarget(0).restart();
+	}
+
+	sortGraph(graph) {
+		// go through each node and get all links having that node as source
+		graph.nodes.forEach((node) => {
+			const links = [];
+			graph.links.forEach((link) => {
+				if (link.source == node.id) {
+					links.push(link);
+				}
+			});
+			// sort the links in groups if they have the same target
+			const groupedLinks = {};
+			links.forEach((link) => {
+				if (!groupedLinks[link.target]) {
+					groupedLinks[link.target] = [];
+				}
+				groupedLinks[link.target].push(link);
+			});
+			// run through each group
+			Object.keys(groupedLinks).forEach((targetId) => {
+				// assign incrementing index to each link
+				groupedLinks[targetId].forEach((link, index) => {
+					link.i = index;
+				});
+				// sort the links by index
+				groupedLinks[targetId].sort((a, b) => a.index - b.index);
+			});
+		});
+		return graph;
 	}
 
 	setZoom() {
