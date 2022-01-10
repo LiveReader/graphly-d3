@@ -104,22 +104,6 @@ class ForceSimulation {
 			const arrow = d.select(".arrow");
 			arrow.attr("d", Edge.arrow);
 		});
-
-		function renderEdge(d) {
-			// curved edge with anchor points at the node centers but just been drawn 200 pixels away from the node center
-			const dx = d.target.x - d.source.x;
-			const dy = d.target.y - d.source.y;
-			const dr = Math.sqrt(dx * dx + dy * dy);
-			const r = dr - 200;
-			const sourceSpace = 150 * d.source.shape.scale + 1;
-			const targetSpace = 150 * d.target.shape.scale + 1;
-			const theta = Math.atan2(dy, dx);
-			const x1 = d.source.x + sourceSpace * Math.cos(theta);
-			const y1 = d.source.y + sourceSpace * Math.sin(theta);
-			const x2 = d.target.x - targetSpace * Math.cos(theta);
-			const y2 = d.target.y - targetSpace * Math.sin(theta);
-			return `M ${x1} ${y1} A ${r} ${r} 0 0 ${d.directed ? 1 : 0} ${x2} ${y2}`;
-		}
 	}
 
 	render(graph) {
@@ -137,8 +121,6 @@ class ForceSimulation {
 			.attr("opacity", 1);
 		nodes.exit().transition().duration(300).attr("opacity", 0).remove();
 		nodes
-			.transition()
-			.duration(300)
 			.select((d) => {
 				let node = nodes.filter((n) => n.id === d.id);
 				node.select(Node);
