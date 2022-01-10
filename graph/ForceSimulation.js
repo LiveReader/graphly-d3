@@ -7,13 +7,19 @@ class ForceSimulation {
 
 		this.svg = svg;
 		this.graph = { nodes: [], links: [] };
-		this.worldTransform = { k: 1, x: 0, y: 0 };
+		this.worldTransform = { k: 1, x: svg.attr("width") / 2, y: svg.attr("height") / 2 };
 		this.onZoomRegistrations = [];
 		this.onZoomRoutines = {};
+
+		this.onNodeEvents = [];
 
 		this.createWorld();
 		this.createSimulation();
 		this.setZoom();
+		svg.call(
+			this.zoom.transform,
+			d3.zoomIdentity.translate(this.svg.attr("width") / 2, this.svg.attr("height") / 2).scale(1)
+		);
 	}
 
 	createWorld() {
@@ -29,8 +35,14 @@ class ForceSimulation {
 				"link",
 				d3.forceLink().id((d) => d.id)
 			)
-			.force("gravity", d3.forceManyBody().strength(-35000))
-			.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
+			.force(
+				"gravity",
+				d3.forceManyBody().strength((d) => {
+					console.log(d);
+					return -35000;
+				})
+			)
+			.force("center", d3.forceCenter(0, 0))
 			.force(
 				"collide",
 				d3.forceCollide().radius((d) => (Templates[d.shape.type].shapeSize / 2 ?? 150) * d.shape.scale)
@@ -76,29 +88,28 @@ class ForceSimulation {
 	}
 
 	setZoom() {
-		this.svg.call(
-			d3
-				.zoom()
-				.extent([
-					[-100, -100],
-					[window.innerWidth + 100, window.innerHeight + 100],
-				])
-				.scaleExtent([0.1, 3])
-				.on("zoom", ({ transform }) => {
-					this.world.attr("transform", transform);
-					if (this.worldTransform.k !== transform.k) {
-						Object.keys(this.onZoomRoutines).forEach((threshold) => {
-							const movedRange = [this.worldTransform.k, transform.k].sort();
-							if (movedRange[0] < threshold && movedRange[1] > threshold) {
-								this.onZoomRoutines[threshold].forEach((routine) => {
-									routine(transform.k);
-								});
-							}
-						});
-					}
-					this.worldTransform = transform;
-				})
-		);
+		this.zoom = d3
+			.zoom()
+			.extent([
+				[-100, -100],
+				[window.innerWidth + 100, window.innerHeight + 100],
+			])
+			.scaleExtent([0.1, 3])
+			.on("zoom", ({ transform }) => {
+				this.world.attr("transform", transform);
+				if (this.worldTransform.k !== transform.k) {
+					Object.keys(this.onZoomRoutines).forEach((threshold) => {
+						const movedRange = [this.worldTransform.k, transform.k].sort();
+						if (movedRange[0] < threshold && movedRange[1] > threshold) {
+							this.onZoomRoutines[threshold].forEach((routine) => {
+								routine(transform.k);
+							});
+						}
+					});
+				}
+				this.worldTransform = transform;
+			});
+		this.svg.call(this.zoom);
 	}
 
 	registerOnZoom(id, threshold, callback = (k) => {}) {

@@ -1,4 +1,5 @@
 const svg = d3.select("svg");
+resize();
 let graph = {
 	nodes: [],
 	links: [],
@@ -20,5 +21,4 @@ function resize() {
 	svg.attr("width", width).attr("height", height);
 }
 
-window.onload = resize;
 window.onresize = resize;
