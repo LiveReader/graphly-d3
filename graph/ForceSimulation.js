@@ -33,7 +33,7 @@ class ForceSimulation {
 			.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
 			.force(
 				"collide",
-				d3.forceCollide().radius((d) => 150 * d.shape.scale)
+				d3.forceCollide().radius((d) => (Templates[d.shape.type].shapeSize / 2 ?? 150) * d.shape.scale)
 			)
 			.on("tick", this.ticked.bind(this));
 	}
