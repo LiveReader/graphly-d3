@@ -43,6 +43,20 @@ Edge.arrow = function (edge) {
 /**
  * @param  {Object} edge D3 link object
  */
+Edge.labelPosition = function (edge) {
+	const lineStart = Edge.lineStart(edge);
+	const lineEnd = Edge.lineEnd(edge);
+	const offset = Edge.offset(lineStart, lineEnd, 0.1);
+	const lineCeter = Edge.lineCenter(lineStart, lineEnd);
+	const lineCenterWithOffset = Edge.lineCenterWithOffset(lineStart, lineEnd, offset);
+	const x = lineCenterWithOffset.x + (lineCeter.x - lineCenterWithOffset.x) / 2;
+	const y = lineCenterWithOffset.y + (lineCeter.y - lineCenterWithOffset.y) / 2;
+	return "translate(" + x + "," + y + ")";
+};
+
+/**
+ * @param  {Object} edge D3 link object
+ */
 Edge.lineStart = function (edge) {
 	return calculateIntersection(edge.target, edge.source, 5);
 };
@@ -51,7 +65,7 @@ Edge.lineStart = function (edge) {
  * @param  {Object} edge D3 link object
  */
 Edge.lineEnd = function (edge) {
-	const distance = edge.target.shape.scale ?? 1 * ((Templates[edge.target.shape.type].shapeSize / 2) ?? 150);
+	const distance = edge.target.shape.scale ?? 1 * (Templates[edge.target.shape.type].shapeSize / 2 ?? 150);
 	const arrowDistance = edge.directed ? 20 : 0;
 	return calculateIntersection(edge.source, edge.target, distance + arrowDistance);
 };
@@ -123,7 +137,7 @@ function calculateIntersection(source, target, additionalDistance) {
 	if (length === 0) {
 		return { x: source.x, y: source.y };
 	}
-	const innerDistance = (target.shape.scale ?? 1) * ((Templates[target.shape.type].shapeSize / 2) ?? 150);
+	const innerDistance = (target.shape.scale ?? 1) * (Templates[target.shape.type].shapeSize / 2 ?? 150);
 	const ratio = (length - (innerDistance + additionalDistance)) / length,
 		x = dx * ratio + source.x,
 		y = dy * ratio + source.y;

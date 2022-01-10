@@ -103,6 +103,8 @@ class ForceSimulation {
 			edge.attr("d", Edge.line);
 			const arrow = d.select(".arrow");
 			arrow.attr("d", Edge.arrow);
+			const label = d.select(".label");
+			label.attr("transform", Edge.labelPosition);
 		});
 	}
 
@@ -120,11 +122,10 @@ class ForceSimulation {
 			.duration(300)
 			.attr("opacity", 1);
 		nodes.exit().transition().duration(300).attr("opacity", 0).remove();
-		nodes
-			.select((d) => {
-				let node = nodes.filter((n) => n.id === d.id);
-				node.select(Node);
-			});
+		nodes.select((d) => {
+			let node = nodes.filter((n) => n.id === d.id);
+			node.select(Node);
+		});
 
 		const links = this.linkGroup.selectAll("path").data(this.graph.links);
 		const link = links.enter().append("g").classed("link", true);

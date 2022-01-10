@@ -37,6 +37,12 @@ body {
 	stroke-miterlimit: 10;
 }
 
+.link .label {
+	font-size: 0.8em;
+	font-family: "Roboto";
+	font-weight: 400;
+	fill: var(--foreground-color);
+}
 .edge {
 	stroke: var(--node-stroke-color);
 	fill: none;
