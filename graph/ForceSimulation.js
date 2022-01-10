@@ -29,7 +29,7 @@ class ForceSimulation {
 				"link",
 				d3.forceLink().id((d) => d.id)
 			)
-			.force("gravity", d3.forceManyBody().strength(-30000))
+			.force("gravity", d3.forceManyBody().strength(-35000))
 			.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
 			.force(
 				"collide",

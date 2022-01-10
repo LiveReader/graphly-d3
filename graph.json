@@ -68,7 +68,6 @@
 				"target": "n1",
 				"type": "solid",
 				"directed": true,
-				"animated": false,
 				"label": ""
 			},
 			{
@@ -76,7 +75,13 @@
 				"target": "n2",
 				"type": "dashed",
 				"directed": true,
-				"animated": false,
+				"label": ""
+			},
+			{
+				"source": "n2",
+				"target": "n1",
+				"type": "solif",
+				"directed": true,
 				"label": ""
 			},
 			{
@@ -84,7 +89,6 @@
 				"target": "n3",
 				"type": "dotted",
 				"directed": true,
-				"animated": false,
 				"label": ""
 			},
 			{
@@ -92,7 +96,6 @@
 				"target": "n4",
 				"type": "dotted",
 				"directed": true,
-				"animated": false,
 				"label": ""
 			}
 		]
