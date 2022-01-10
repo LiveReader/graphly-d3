@@ -40,10 +40,10 @@ body {
 .edge {
 	stroke: var(--node-stroke-color);
 	fill: none;
-	stroke-width: 2.5;
+	stroke-width: 2;
 }
 .edge.solid {
-	stroke-width: 1.5;
+	stroke-width: 2;
 	stroke-dasharray: none;
 }
 .edge.dotted {
@@ -51,6 +51,12 @@ body {
 	stroke-dasharray: 4, 10;
 }
 .edge.dashed {
-	stroke-width: 2.5;
+	stroke-width: 2;
 	stroke-dasharray: 10, 10;
+}
+.edge.arrow {
+	stroke: var(--node-stroke-color);
+	fill: none;
+	stroke-width: 2;
+	stroke-dasharray: none;
 }

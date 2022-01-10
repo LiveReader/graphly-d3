@@ -100,7 +100,9 @@ class ForceSimulation {
 		this.nodeGroup.selectAll("g.node").attr("transform", (d) => `translate(${d.x},${d.y})`);
 		this.linkGroup.selectAll("g.link").call((d) => {
 			const edge = d.select(".edge");
-			edge.attr("d", renderEdge);
+			edge.attr("d", Edge.line);
+			const arrow = d.select(".arrow");
+			arrow.attr("d", Edge.arrow);
 		});
 
 		function renderEdge(d) {
@@ -150,6 +152,7 @@ class ForceSimulation {
 			.classed("dotted", (d) => d.type === "dotted")
 			.classed("dashed", (d) => d.type === "dashed");
 		link.append("path")
+			.classed("edge", true)
 			.classed("arrow", true)
 			.attr("opacity", (d) => (d.directed ? 1 : 0));
 		link.append("text")
