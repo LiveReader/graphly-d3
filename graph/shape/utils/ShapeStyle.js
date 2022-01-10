@@ -6,6 +6,5 @@ function ShapeStyle(className, condition) {
 	return {
 		className: className,
 		condition: typeof condition === "function" ? condition : () => condition,
-		type: "style",
 	};
 }

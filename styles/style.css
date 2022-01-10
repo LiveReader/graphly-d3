@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 * {
 	--background-color: #f2f2f2;
@@ -37,8 +37,32 @@ body {
 	stroke-miterlimit: 10;
 }
 
-.link {
+.link .label {
+	font-size: 0.8em;
+	font-family: "Roboto";
+	font-weight: 400;
+	fill: var(--foreground-color);
+}
+.edge {
 	stroke: var(--node-stroke-color);
 	fill: none;
-	stroke-width: 1.5;
+	stroke-width: 2;
+}
+.edge.solid {
+	stroke-width: 2;
+	stroke-dasharray: none;
+}
+.edge.dotted {
+	stroke-width: 2.5;
+	stroke-dasharray: 4, 10;
+}
+.edge.dashed {
+	stroke-width: 2;
+	stroke-dasharray: 10, 10;
+}
+.edge.arrow {
+	stroke: var(--node-stroke-color);
+	fill: none;
+	stroke-width: 2;
+	stroke-dasharray: none;
 }

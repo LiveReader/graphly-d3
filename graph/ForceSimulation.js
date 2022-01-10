@@ -29,20 +29,50 @@ class ForceSimulation {
 				"link",
 				d3.forceLink().id((d) => d.id)
 			)
-			.force("gravity", d3.forceManyBody().strength(-20000))
+			.force("gravity", d3.forceManyBody().strength(-35000))
 			.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
 			.force(
 				"collide",
-				d3.forceCollide().radius((d) => 150 * d.shape.scale)
+				d3.forceCollide().radius((d) => (Templates[d.shape.type].shapeSize / 2 ?? 150) * d.shape.scale)
 			)
 			.on("tick", this.ticked.bind(this));
 	}
 
 	setData(graph) {
-		this.graph = graph;
+		this.graph = this.sortGraph(graph);
 		this.simulation.nodes(graph.nodes);
 		this.simulation.force("link").links(graph.links);
 		this.simulation.alphaTarget(0).restart();
+	}
+
+	sortGraph(graph) {
+		// go through each node and get all links having that node as source
+		graph.nodes.forEach((node) => {
+			const links = [];
+			graph.links.forEach((link) => {
+				if (link.source == node.id) {
+					links.push(link);
+				}
+			});
+			// sort the links in groups if they have the same target
+			const groupedLinks = {};
+			links.forEach((link) => {
+				if (!groupedLinks[link.target]) {
+					groupedLinks[link.target] = [];
+				}
+				groupedLinks[link.target].push(link);
+			});
+			// run through each group
+			Object.keys(groupedLinks).forEach((targetId) => {
+				// assign incrementing index to each link
+				groupedLinks[targetId].forEach((link, index) => {
+					link.i = index;
+				});
+				// sort the links by index
+				groupedLinks[targetId].sort((a, b) => a.index - b.index);
+			});
+		});
+		return graph;
 	}
 
 	setZoom() {
@@ -98,66 +128,54 @@ class ForceSimulation {
 
 	ticked() {
 		this.nodeGroup.selectAll("g.node").attr("transform", (d) => `translate(${d.x},${d.y})`);
-		this.linkGroup.selectAll("path.link").attr("d", (d) => positionLink(d));
-
-		function positionLink(d) {
-			var midpoint_x = (d.source.x + d.target.x) / 2;
-			var midpoint_y = (d.source.y + d.target.y) / 2;
-
-			var dx = d.target.x - d.source.x;
-			var dy = d.target.y - d.source.y;
-
-			var normalise = Math.sqrt(dx * dx + dy * dy);
-			var offset = 80;
-
-			let hash = 0;
-			let str = d.source.id + d.target.id;
-			str.split("").forEach((char) => {
-				hash += char.charCodeAt(0);
-			});
-			if (hash % 2 === 0) {
-				offset = -offset;
-			}
-
-			var offSetX = midpoint_x + offset * (dy / normalise);
-			var offSetY = midpoint_y - offset * (dx / normalise);
-
-			return `M${d.source.x},${d.source.y}S${offSetX},${offSetY} ${d.target.x},${d.target.y}`;
-		}
+		this.linkGroup.selectAll("g.link").call((d) => {
+			const edge = d.select(".edge");
+			edge.attr("d", Edge.line);
+			const arrow = d.select(".arrow");
+			arrow.attr("d", Edge.arrow);
+			const label = d.select(".label");
+			label.attr("transform", Edge.labelPosition);
+		});
 	}
 
 	render(graph) {
 		this.setData(graph);
 
-		const nodes = this.nodeGroup.selectAll("g.node").data(eval(this.graph.nodes));
+		const nodes = this.nodeGroup.selectAll("g.node").data(this.graph.nodes);
 		nodes
 			.enter()
 			.append(Node)
+			.classed("shadow", true)
 			.call(this.dragNode())
 			.attr("opacity", 0)
 			.transition()
 			.duration(300)
 			.attr("opacity", 1);
 		nodes.exit().transition().duration(300).attr("opacity", 0).remove();
-		nodes
-			.transition()
-			.duration(300)
-			.select((d) => {
-				let node = nodes.filter((n) => n.id === d.id);
-				node.select(Node);
-			});
+		nodes.select((d) => {
+			let node = nodes.filter((n) => n.id === d.id);
+			node.select(Node);
+		});
 
-		const edges = this.linkGroup.selectAll("path").data(this.graph.links);
-		edges
-			.enter()
-			.append("path")
-			.classed("link", true)
-			.attr("opacity", 0)
-			.transition()
-			.duration(300)
-			.attr("opacity", 1);
-		edges.exit().transition().duration(300).attr("opacity", 0).remove();
-		edges.transition().duration(300);
+		const links = this.linkGroup.selectAll("path").data(this.graph.links);
+		const link = links.enter().append("g").classed("link", true);
+		link.append("path")
+			.classed("edge", true)
+			.classed("solid", (d) => (!d.type ? true : d.type === "solid"))
+			.classed("dotted", (d) => d.type === "dotted")
+			.classed("dashed", (d) => d.type === "dashed");
+		link.append("path")
+			.classed("edge", true)
+			.classed("arrow", true)
+			.attr("opacity", (d) => (d.directed ? 1 : 0));
+		link.append("text")
+			.text((d) => d.label)
+			.attr("text-anchor", "middle")
+			.attr("dy", "0.35em")
+			.classed("label", true);
+		link.attr("opacity", 0).transition().duration(300).attr("opacity", 1);
+		links.exit().transition().duration(300).attr("opacity", 0).remove();
+		links.transition().duration(300);
 
 		this.onZoomRegistrations.forEach((routine) => routine.callback(this.worldTransform.k));
 	}
