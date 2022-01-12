@@ -48,7 +48,6 @@ class ForceSimulation {
 			.force(
 				"gravity",
 				d3.forceManyBody().strength((d) => {
-					// console.log(d);
 					return -35000;
 				})
 			)
@@ -64,9 +63,10 @@ class ForceSimulation {
 	}
 
 	#setData(graph) {
-		this.graph = this.#sortGraph(graph);
-		this.simulation.nodes(graph.nodes);
-		this.simulation.force("link").links(graph.links);
+		this.#sortGraph(graph);
+		this.graph = graph;
+		this.simulation.nodes(this.graph.nodes);
+		this.simulation.force("link").links(this.graph.links);
 		this.simulation.alphaTarget(0).restart();
 	}
 
@@ -75,17 +75,24 @@ class ForceSimulation {
 		graph.nodes.forEach((node) => {
 			const links = [];
 			graph.links.forEach((link) => {
-				if (link.source == node.id) {
+				if (link.source == node.id || link.source.id == node.id) {
 					links.push(link);
 				}
 			});
 			// sort the links in groups if they have the same target
 			const groupedLinks = {};
 			links.forEach((link) => {
-				if (!groupedLinks[link.target]) {
-					groupedLinks[link.target] = [];
+				if (typeof link.target == "object") {
+					if (!groupedLinks[link.target.id]) {
+						groupedLinks[link.target.id] = [];
+					}
+					groupedLinks[link.target.id].push(link);
+				} else {
+					if (!groupedLinks[link.target]) {
+						groupedLinks[link.target] = [];
+					}
+					groupedLinks[link.target].push(link);
 				}
-				groupedLinks[link.target].push(link);
 			});
 			// run through each group
 			Object.keys(groupedLinks).forEach((targetId) => {
@@ -206,7 +213,7 @@ class ForceSimulation {
 			node.select(Node);
 		});
 
-		const links = this.linkGroup.selectAll("path").data(this.graph.links);
+		const links = this.linkGroup.selectAll(".link").data(this.graph.links);
 		const link = links.enter().append("g").classed("link", true);
 		link.append("path")
 			.classed("edge", true)

@@ -89,8 +89,8 @@ Edge.offset = function (edge, start, end, bezierCurveFactor) {
 	const dx = Edge.dx(start, end);
 	const dy = Edge.dy(start, end);
 	const normal = Edge.normalize(dx, dy);
-	const x = bezierCurveFactor * (dy / normal) * normal * (edge.i + 1);
-	const y = bezierCurveFactor * (dx / normal) * normal * (edge.i + 1);
+	const x = bezierCurveFactor * (dy / normal) * normal * ((edge.i ?? 0) + 1);
+	const y = bezierCurveFactor * (dx / normal) * normal * ((edge.i ?? 0) + 1);
 	return { x: x, y: y };
 };
 
