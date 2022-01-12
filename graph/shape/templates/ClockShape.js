@@ -144,4 +144,4 @@ function ClockShape(data, initialShape, changes) {
 	}
 }
 
-Templates.add("shape_clock", ClockShape);
+TemplateAPI.add("shape_clock", ClockShape);

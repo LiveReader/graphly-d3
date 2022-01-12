@@ -10,3 +10,5 @@ function ErrorNode(data) {
 	Shape.transform(shape, false, data.shape.scale * ErrorNode.shapeSize);
 	return shape;
 }
+
+TemplateAPI.errorTemplate = ErrorNode;

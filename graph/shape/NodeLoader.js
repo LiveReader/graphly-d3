@@ -15,8 +15,8 @@ function Node(data) {
 
 	node.classed("node", true).attr("id", data.id);
 
-	let template = Templates[data.shape.type];
-	if (!template) {
+	let template = TemplateAPI.get(data.shape.type);
+	if (!template || template == TemplateAPI.errorTemplate) {
 		return throwError(`Template \"${data.shape.type}\" not founnd`);
 	}
 	try {
@@ -30,7 +30,7 @@ function Node(data) {
 
 	function throwError(message) {
 		console.error(message);
-		node.append(() => ErrorNode.bind(this)(data));
+		node.append(() => TemplateAPI.errorTemplate.bind(this)(data).node());
 		return node.node();
 	}
 }
