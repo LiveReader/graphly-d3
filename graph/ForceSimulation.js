@@ -15,6 +15,7 @@ class ForceSimulation {
 
 		this.createWorld();
 		this.createSimulation();
+		this.setDrag();
 		this.setZoom();
 		svg.call(
 			this.zoom.transform,
@@ -45,7 +46,10 @@ class ForceSimulation {
 			.force("center", d3.forceCenter(0, 0))
 			.force(
 				"collide",
-				d3.forceCollide().radius((d) => (Templates[d.shape.type].shapeSize / 2 ?? 150) * d.shape.scale)
+				d3.forceCollide().radius((d) => {
+					const template = TemplateAPI.get(d.shape.type);
+					(template.shapeSize / 2 ?? 150) * (d.shape.scale ?? 1);
+				})
 			)
 			.on("tick", this.ticked.bind(this));
 	}
@@ -85,6 +89,25 @@ class ForceSimulation {
 			});
 		});
 		return graph;
+	}
+
+	setDrag() {
+		const simulation = this.simulation;
+		function dragstarted(e, d) {
+			simulation.alphaTarget(0.05).restart();
+			d.fx = e.x;
+			d.fy = e.y;
+		}
+		function dragged(e, d) {
+			d.fx = e.x;
+			d.fy = e.y;
+		}
+		function dragended(e, d) {
+			simulation.alphaTarget(0);
+			d.fx = null;
+			d.fy = null;
+		}
+		this.dragNode = d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
 	}
 
 	setZoom() {
@@ -157,7 +180,7 @@ class ForceSimulation {
 			.enter()
 			.append(Node)
 			.classed("shadow", true)
-			.call(this.dragNode())
+			.call(this.dragNode)
 			.attr("opacity", 0)
 			.transition()
 			.duration(300)
@@ -191,38 +214,5 @@ class ForceSimulation {
 		this.onZoomRegistrations.forEach((routine) => routine.callback(this.worldTransform.k));
 	}
 
-	dragNode() {
-		let nodeIndex = 0;
-
-		const drag = d3
-			.drag()
-			.on("start", dragstarted.bind(this))
-			.on("drag", dragged.bind(this))
-			.on("end", dragended.bind(this));
-		function dragstarted(e, d) {
-			this.simulation.alphaTarget(0.05).restart();
-			d.fx = e.x;
-			d.fy = e.y;
-
-			// move node to the front
-			const currentNode = this.nodeGroup.select(`#${d.id}`).node();
-			nodeIndex = Array.from(currentNode.parentNode.childNodes).indexOf(currentNode);
-			currentNode.parentNode.appendChild(currentNode);
-		}
-		function dragged(e, d) {
-			d.fx = e.x;
-			d.fy = e.y;
-		}
-		function dragended(e, d) {
-			this.simulation.alphaTarget(0);
-			d.fx = null;
-			d.fy = null;
-
-			// move node back to its original index
-			const currentNode = this.nodeGroup.select(`#${d.id}`).node();
-			if (!currentNode) return;
-			currentNode.parentNode.insertBefore(currentNode, currentNode.parentNode.childNodes[nodeIndex]);
-		}
-		return drag;
 	}
 }
