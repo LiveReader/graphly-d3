@@ -12,6 +12,8 @@ class ForceSimulation {
 		this.onZoomRoutines = {};
 
 		this.onNodeClick = () => {};
+		this.onNodeMouseOver = () => {};
+		this.onNodeMouseOut = () => {};
 
 		this.createWorld();
 		this.createSimulation();
@@ -185,6 +187,8 @@ class ForceSimulation {
 				if (e.defaultPrevented) return; // dragged
 				this.onNodeClick(e, d);
 			})
+			.on("mouseover", this.onNodeMouseOver)
+			.on("mouseout", this.onNodeMouseOut)
 			.attr("opacity", 0)
 			.transition()
 			.duration(300)
@@ -220,5 +224,11 @@ class ForceSimulation {
 
 	onClick(callback) {
 		this.onNodeClick = callback;
+	}
+	onMouseOver(callback) {
+		this.onNodeMouseOver = callback;
+	}
+	onMouseOut(callback) {
+		this.onNodeMouseOut = callback;
 	}
 }

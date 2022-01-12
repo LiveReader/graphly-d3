@@ -7,9 +7,15 @@ let graph = {
 
 const simulation = new ForceSimulation(svg);
 simulation.render(graph);
+
 simulation.onClick((e, d) => {
-	alert(d.id);
 	console.log(d);
+});
+simulation.onMouseOver((e, d) => {
+	console.log(`over ${d.id}`);
+});
+simulation.onMouseOut((e, d) => {
+	console.log(`left ${d.id}`);
 });
 
 fetch("/graph.json")
