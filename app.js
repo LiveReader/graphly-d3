@@ -11,11 +11,9 @@ simulation.render(graph);
 simulation.onClick((e, d) => {
 	console.log(d);
 });
-simulation.onMouseOver((e, d) => {
-	console.log(`over ${d.id}`);
-});
-simulation.onMouseOut((e, d) => {
-	console.log(`left ${d.id}`);
+
+simulation.onBackground((e, d) => {
+	console.log("background");
 });
 
 fetch("/graph.json")

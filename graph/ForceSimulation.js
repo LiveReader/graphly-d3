@@ -1,4 +1,5 @@
 class ForceSimulation {
+	#onBackgroundClick = () => {};
 	constructor(svg) {
 		if (ForceSimulation.instance) {
 			return ForceSimulation.instance;
@@ -22,7 +23,13 @@ class ForceSimulation {
 		svg.call(
 			this.zoom.transform,
 			d3.zoomIdentity.translate(this.svg.attr("width") / 2, this.svg.attr("height") / 2).scale(1)
-		);
+		)
+			.on("dblclick.zoom", null)
+			.on("click", (e) => {
+				if (e.srcElement == this.svg.node()) {
+					this.#onBackgroundClick(e);
+				}
+			});
 	}
 
 	createWorld() {
@@ -224,6 +231,9 @@ class ForceSimulation {
 
 	onClick(callback) {
 		this.onNodeClick = callback;
+	onBackground(callback = (e, d) => {}) {
+		this.#onBackgroundClick = callback;
+	}
 	}
 	onMouseOver(callback) {
 		this.onNodeMouseOver = callback;
