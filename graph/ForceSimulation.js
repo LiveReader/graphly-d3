@@ -1,5 +1,9 @@
 class ForceSimulation {
 	#onBackgroundClick = () => {};
+	#onNodeClick = () => {};
+	#onNodeMouseOver = () => {};
+	#onNodeMouseOut = () => {};
+
 	constructor(svg) {
 		if (ForceSimulation.instance) {
 			return ForceSimulation.instance;
@@ -12,14 +16,10 @@ class ForceSimulation {
 		this.onZoomRegistrations = [];
 		this.onZoomRoutines = {};
 
-		this.onNodeClick = () => {};
-		this.onNodeMouseOver = () => {};
-		this.onNodeMouseOut = () => {};
-
-		this.createWorld();
-		this.createSimulation();
-		this.setDrag();
-		this.setZoom();
+		this.#createWorld();
+		this.#createSimulation();
+		this.#setDrag();
+		this.#setZoom();
 		svg.call(
 			this.zoom.transform,
 			d3.zoomIdentity.translate(this.svg.attr("width") / 2, this.svg.attr("height") / 2).scale(1)
@@ -32,13 +32,13 @@ class ForceSimulation {
 			});
 	}
 
-	createWorld() {
+	#createWorld() {
 		this.world = this.svg.append("g").attr("id", "world");
 		this.linkGroup = this.world.append("g").attr("id", "links");
 		this.nodeGroup = this.world.append("g").attr("id", "nodes");
 	}
 
-	createSimulation() {
+	#createSimulation() {
 		this.simulation = d3
 			.forceSimulation()
 			.force(
@@ -60,17 +60,17 @@ class ForceSimulation {
 					(template.shapeSize / 2 ?? 150) * (d.shape.scale ?? 1);
 				})
 			)
-			.on("tick", this.ticked.bind(this));
+			.on("tick", this.#ticked.bind(this));
 	}
 
-	setData(graph) {
-		this.graph = this.sortGraph(graph);
+	#setData(graph) {
+		this.graph = this.#sortGraph(graph);
 		this.simulation.nodes(graph.nodes);
 		this.simulation.force("link").links(graph.links);
 		this.simulation.alphaTarget(0).restart();
 	}
 
-	sortGraph(graph) {
+	#sortGraph(graph) {
 		// go through each node and get all links having that node as source
 		graph.nodes.forEach((node) => {
 			const links = [];
@@ -100,7 +100,7 @@ class ForceSimulation {
 		return graph;
 	}
 
-	setDrag() {
+	#setDrag() {
 		const simulation = this.simulation;
 		function dragstarted(e, d) {
 			simulation.alphaTarget(0.05).restart();
@@ -119,7 +119,7 @@ class ForceSimulation {
 		this.dragNode = d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
 	}
 
-	setZoom() {
+	#setZoom() {
 		this.zoom = d3
 			.zoom()
 			.extent([
@@ -151,15 +151,15 @@ class ForceSimulation {
 			threshold: threshold,
 			callback: callback,
 		});
-		this.orderOnZoomRoutines();
+		this.#orderOnZoomRoutines();
 	}
 
 	deregisterOnZoom(id) {
 		this.onZoomRegistrations = this.onZoomRegistrations.filter((routine) => routine.id !== id);
-		this.orderOnZoomRoutines();
+		this.#orderOnZoomRoutines();
 	}
 
-	orderOnZoomRoutines() {
+	#orderOnZoomRoutines() {
 		this.onZoomRoutines = {};
 		this.onZoomRegistrations.forEach((routine) => {
 			if (!this.onZoomRoutines[routine.threshold]) {
@@ -169,7 +169,7 @@ class ForceSimulation {
 		});
 	}
 
-	ticked() {
+	#ticked() {
 		this.nodeGroup.selectAll("g.node").attr("transform", (d) => `translate(${d.x},${d.y})`);
 		this.linkGroup.selectAll("g.link").call((d) => {
 			const edge = d.select(".edge");
@@ -182,7 +182,7 @@ class ForceSimulation {
 	}
 
 	render(graph) {
-		this.setData(graph);
+		this.#setData(graph);
 
 		const nodes = this.nodeGroup.selectAll("g.node").data(this.graph.nodes);
 		nodes
@@ -192,10 +192,10 @@ class ForceSimulation {
 			.call(this.dragNode)
 			.on("click", (e, d) => {
 				if (e.defaultPrevented) return; // dragged
-				this.onNodeClick(e, d);
+				this.#onNodeClick(e, d);
 			})
-			.on("mouseover", this.onNodeMouseOver)
-			.on("mouseout", this.onNodeMouseOut)
+			.on("mouseover", this.#onNodeMouseOver)
+			.on("mouseout", this.#onNodeMouseOut)
 			.attr("opacity", 0)
 			.transition()
 			.duration(300)
@@ -229,16 +229,16 @@ class ForceSimulation {
 		this.onZoomRegistrations.forEach((routine) => routine.callback(this.worldTransform.k));
 	}
 
-	onClick(callback) {
-		this.onNodeClick = callback;
 	onBackground(callback = (e, d) => {}) {
 		this.#onBackgroundClick = callback;
 	}
+	onClick(callback = (e, d) => {}) {
+		this.#onNodeClick = callback;
 	}
-	onMouseOver(callback) {
-		this.onNodeMouseOver = callback;
+	onMouseOver(callback = (e, d) => {}) {
+		this.#onNodeMouseOver = callback;
 	}
-	onMouseOut(callback) {
-		this.onNodeMouseOut = callback;
+	onMouseOut(callback = (e, d) => {}) {
+		this.#onNodeMouseOut = callback;
 	}
 }
