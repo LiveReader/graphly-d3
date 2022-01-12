@@ -1,16 +1,3 @@
-const Templates = {
-	/**
-	 * @param  {string} id template id
-	 * @param  {function} shape template shape
-	 */
-	add(id, shape) {
-		if (!Templates[id]) {
-			Templates[id] = shape;
-		}
-		return this;
-	},
-};
-
 /**
  * @param  {object} data data object
  */
@@ -46,13 +33,4 @@ function Node(data) {
 		node.append(() => ErrorNode.bind(this)(data));
 		return node.node();
 	}
-}
-
-/**
- * @param  {object} data data object
- */
-function ErrorNode(data) {
-	const shape = Shape.create("g");
-	shape.append("circle").attr("r", 100).attr("fill", "#ff4040");
-	return shape.node();
 }
