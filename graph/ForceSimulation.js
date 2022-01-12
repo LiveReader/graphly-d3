@@ -11,7 +11,7 @@ class ForceSimulation {
 		this.onZoomRegistrations = [];
 		this.onZoomRoutines = {};
 
-		this.onNodeEvents = [];
+		this.onNodeClick = () => {};
 
 		this.createWorld();
 		this.createSimulation();
@@ -39,7 +39,7 @@ class ForceSimulation {
 			.force(
 				"gravity",
 				d3.forceManyBody().strength((d) => {
-					console.log(d);
+					// console.log(d);
 					return -35000;
 				})
 			)
@@ -181,6 +181,10 @@ class ForceSimulation {
 			.append(Node)
 			.classed("shadow", true)
 			.call(this.dragNode)
+			.on("click", (e, d) => {
+				if (e.defaultPrevented) return; // dragged
+				this.onNodeClick(e, d);
+			})
 			.attr("opacity", 0)
 			.transition()
 			.duration(300)
@@ -214,5 +218,7 @@ class ForceSimulation {
 		this.onZoomRegistrations.forEach((routine) => routine.callback(this.worldTransform.k));
 	}
 
+	onClick(callback) {
+		this.onNodeClick = callback;
 	}
 }

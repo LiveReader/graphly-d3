@@ -7,6 +7,10 @@ let graph = {
 
 const simulation = new ForceSimulation(svg);
 simulation.render(graph);
+simulation.onClick((e, d) => {
+	alert(d.id);
+	console.log(d);
+});
 
 fetch("/graph.json")
 	.then((response) => response.json())
