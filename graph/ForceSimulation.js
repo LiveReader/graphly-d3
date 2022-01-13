@@ -1,4 +1,5 @@
 class ForceSimulation {
+	#onNewEdgeEvent = () => {};
 	#onBackgroundClick = () => {};
 	#onNodeClick = () => {};
 	#onNodeMouseOver = () => {};
@@ -104,21 +105,68 @@ class ForceSimulation {
 				groupedLinks[targetId].sort((a, b) => a.index - b.index);
 			});
 		});
-		return graph;
 	}
 
 	#setDrag() {
 		const simulation = this.simulation;
+		const linkGroup = this.linkGroup;
+		const onNewEdge = (source, target) => this.#onNewEdgeEvent(source, target);
+		let newEdge = null;
+
 		function dragstarted(e, d) {
+			// new edge
+			if (e.sourceEvent.altKey) {
+				newEdge = linkGroup
+					.append("g")
+					.classed("edge", true)
+					.append("line")
+					.attr("x1", d.x)
+					.attr("y1", d.y)
+					.attr("x2", e.x)
+					.attr("y2", e.y);
+				return;
+			}
+			// drag node
 			simulation.alphaTarget(0.05).restart();
 			d.fx = e.x;
 			d.fy = e.y;
 		}
 		function dragged(e, d) {
+			// new edge
+			if (newEdge) {
+				newEdge.attr("x2", e.x).attr("y2", e.y);
+				return;
+			}
+			// drag node
 			d.fx = e.x;
 			d.fy = e.y;
 		}
 		function dragended(e, d) {
+			// new edge
+			if (newEdge) {
+				let node = e.sourceEvent.target;
+				if (node == svg.node()) {
+					newEdge.node().parentNode.remove();
+					newEdge = null;
+					return;
+				}
+				while (node.classList.contains("node") == false) {
+					if (node == null) {
+						newEdge.node().parentNode.remove();
+						newEdge = null;
+						return;
+					}
+					node = node.parentNode;
+				}
+				const graphNode = graph.nodes.find((n) => n.id == node.id);
+				newEdge.node().parentNode.remove();
+				newEdge = null;
+				if (!graphNode) return;
+				if (graphNode.id == d.id) return;
+				onNewEdge(d, graphNode);
+				return;
+			}
+			// drag node
 			simulation.alphaTarget(0);
 			d.fx = null;
 			d.fy = null;
@@ -220,10 +268,7 @@ class ForceSimulation {
 			.classed("solid", (d) => (!d.type ? true : d.type === "solid"))
 			.classed("dotted", (d) => d.type === "dotted")
 			.classed("dashed", (d) => d.type === "dashed");
-		link.append("path")
-			.classed("edge", true)
-			.classed("arrow", true)
-			.attr("opacity", (d) => (d.directed ? 1 : 0));
+		link.append("path").classed("arrow", true);
 		link.append("text")
 			.text((d) => d.label)
 			.attr("text-anchor", "middle")
@@ -236,6 +281,9 @@ class ForceSimulation {
 		this.onZoomRegistrations.forEach((routine) => routine.callback(this.worldTransform.k));
 	}
 
+	onNewEdge(callback = (source, target) => {}) {
+		this.#onNewEdgeEvent = callback;
+	}
 	onBackground(callback = (e, d) => {}) {
 		this.#onBackgroundClick = callback;
 	}

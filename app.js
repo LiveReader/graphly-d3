@@ -16,6 +16,18 @@ simulation.onBackground((e, d) => {
 	console.log("background");
 });
 
+simulation.onNewEdge((source, target) => {
+	const link = {
+		source: source.id,
+		target: target.id,
+		type: "solid",
+		directed: true,
+		label: "",
+	};
+	graph.links.push(link);
+	simulation.render(graph);
+});
+
 fetch("/graph.json")
 	.then((response) => response.json())
 	.then((data) => {
