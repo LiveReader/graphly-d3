@@ -1,4 +1,4 @@
-import * as Shape from "../Shape";
+import Shape from "../Shape";
 
 function PathShape(path) {
 	const shape = Shape.create("path");

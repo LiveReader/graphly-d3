@@ -1,3 +1,5 @@
+import Shape from "../shape/Shape";
+
 ErrorNode.shapeSize = 200;
 
 function ErrorNode(data) {
@@ -11,4 +13,4 @@ function ErrorNode(data) {
 	return shape;
 }
 
-TemplateAPI.errorTemplate = ErrorNode;
+export default ErrorNode;

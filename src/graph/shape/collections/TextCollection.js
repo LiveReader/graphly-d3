@@ -1,5 +1,5 @@
-import * as TextShape from "../shapes/TextShape";
-import { CollectionStyle, ShapeCollection } from "./ShapeCollection";
+import TextShape from "../shapes/TextShape";
+import { ShapeCollection } from "./ShapeCollection";
 
 /**
  * @param  {String} text

@@ -1,5 +1,5 @@
-import { TagStyle, TagShape } from "../shapes/TagShape";
-import { CollectionStyle, ShapeCollection } from "./ShapeCollection";
+import { TagShape } from "../shapes/TagShape";
+import { ShapeCollection } from "./ShapeCollection";
 
 /**
  * @param  {String[]} tags array of strings

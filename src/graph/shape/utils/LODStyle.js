@@ -1,3 +1,5 @@
+import { ForceSimulation } from "../../ForceSimulation";
+
 function OnZoom(data, threshold, styles = []) {
 	const id = `${data.id}-${threshold}`; // Math.random().toString(36).substring(7);
 	const simulation = new ForceSimulation();
@@ -26,7 +28,7 @@ function OnZoom(data, threshold, styles = []) {
  * @callback condition
  * @return {Object} style object
  */
-function LODStyle(shape, className, condition = (k) => {}) {
+function LODStyle(shape, className, condition = () => {}) {
 	if (!shape) {
 		return undefined;
 	}
@@ -37,7 +39,4 @@ function LODStyle(shape, className, condition = (k) => {}) {
 	};
 }
 
-export default {
-	OnZoom,
-	LODStyle,
-};
+export { OnZoom, LODStyle };

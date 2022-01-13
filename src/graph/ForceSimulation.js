@@ -1,6 +1,8 @@
+/* eslint-disable no-dupe-class-members */
 import * as d3 from "d3";
-import * as Edge from "./edge/Edge";
-import * as Node from "./shape/NodeLoader";
+import Edge from "./edge/Edge";
+import Node from "./shape/NodeLoader";
+import TemplateAPI from "./shape/TemplateAPI";
 
 export class ForceSimulation {
 	#onNewEdgeEvent = () => {};
@@ -53,7 +55,7 @@ export class ForceSimulation {
 			)
 			.force(
 				"gravity",
-				d3.forceManyBody().strength((d) => {
+				d3.forceManyBody().strength(() => {
 					return -35000;
 				})
 			)
@@ -113,6 +115,8 @@ export class ForceSimulation {
 	}
 
 	#setDrag() {
+		const svg = this.svg;
+		const graph = this.graph;
 		const simulation = this.simulation;
 		const linkGroup = this.linkGroup;
 		const onNewEdge = (source, target) => this.#onNewEdgeEvent(source, target);
@@ -204,7 +208,7 @@ export class ForceSimulation {
 		this.svg.call(this.zoom);
 	}
 
-	registerOnZoom(id, threshold, callback = (k) => {}) {
+	registerOnZoom(id, threshold, callback = () => {}) {
 		this.deregisterOnZoom(id);
 		this.onZoomRegistrations.push({
 			id: id,
@@ -290,22 +294,22 @@ export class ForceSimulation {
 		this.onZoomRegistrations.forEach((routine) => routine.callback(this.worldTransform.k));
 	}
 
-	onNewEdge(callback = (source, target) => {}) {
+	onNewEdge(callback = () => {}) {
 		this.#onNewEdgeEvent = callback;
 	}
-	onBackground(callback = (e, d) => {}) {
+	onBackground(callback = () => {}) {
 		this.#onBackgroundClick = callback;
 	}
-	onClick(callback = (e, d) => {}) {
+	onClick(callback = () => {}) {
 		this.#onNodeClick = callback;
 	}
-	onContextClick(callback = (e, d) => {}) {
+	onContextClick(callback = () => {}) {
 		this.#onNodeContextClick = callback;
 	}
-	onMouseOver(callback = (e, d) => {}) {
+	onMouseOver(callback = () => {}) {
 		this.#onNodeMouseOver = callback;
 	}
-	onMouseOut(callback = (e, d) => {}) {
+	onMouseOut(callback = () => {}) {
 		this.#onNodeMouseOut = callback;
 	}
 }

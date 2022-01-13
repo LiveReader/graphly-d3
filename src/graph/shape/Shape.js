@@ -10,7 +10,7 @@ const Shape = {};
  * @param  {Object} shape D3 selection
  * @callback  onElement
  */
-Shape.prerender = function (shape, onElement = (el) => {}) {
+Shape.prerender = function (shape, onElement = () => {}) {
 	let svg = null;
 	if (!document.getElementById("PRERENDER_SVG")) {
 		svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");

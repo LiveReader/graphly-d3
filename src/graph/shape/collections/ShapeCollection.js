@@ -1,4 +1,4 @@
-import * as Shape from "../Shape";
+import Shape from "../Shape";
 
 const Alignment = {
 	Left: "left",
@@ -119,4 +119,4 @@ function ShapeCollection(shapes, style, ellipsis = null) {
 	}
 }
 
-export { CollectionStyle, ShapeCollection };
+export { Alignment, CollectionStyle, ShapeCollection };

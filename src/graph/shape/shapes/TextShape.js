@@ -1,4 +1,4 @@
-import * as Shape from "../Shape";
+import Shape from "../Shape";
 
 /**
  * @param  {String} text
