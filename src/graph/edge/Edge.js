@@ -1,3 +1,6 @@
+import * as Shape from "../shape/Shape";
+import * as TemplateAPI from "../shape/TemplateAPI";
+
 const Edge = {};
 
 /**
@@ -160,3 +163,5 @@ Edge.getSurfacePoints = function (edge, distance = 0) {
 		end: { x: surfaceEnd.x, y: surfaceEnd.y },
 	};
 };
+
+export default Edge;

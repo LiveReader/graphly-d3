@@ -1,4 +1,8 @@
-class ForceSimulation {
+import * as d3 from "d3";
+import * as Edge from "./edge/Edge";
+import * as Node from "./shape/NodeLoader";
+
+export class ForceSimulation {
 	#onNewEdgeEvent = () => {};
 	#onBackgroundClick = () => {};
 	#onNodeClick = () => {};

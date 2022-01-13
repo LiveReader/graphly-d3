@@ -19,3 +19,5 @@ TemplateAPI.get = function (id) {
 	}
 	return TemplateAPI.templates[id];
 };
+
+export default TemplateAPI;

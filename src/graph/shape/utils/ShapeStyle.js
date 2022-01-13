@@ -8,3 +8,5 @@ function ShapeStyle(className, condition) {
 		condition: typeof condition === "function" ? condition : () => condition,
 	};
 }
+
+export default ShapeStyle;

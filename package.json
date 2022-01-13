@@ -11,6 +11,7 @@
 		"url": "git+https://github.com/LiveReader/d3-playground.git"
 	},
 	"author": "jason-rietzke, luisa-schmidt",
+	"type": "module",
 	"license": "ISC",
 	"bugs": {
 		"url": "https://github.com/LiveReader/d3-playground/issues"

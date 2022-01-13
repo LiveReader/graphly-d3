@@ -28,7 +28,7 @@ function OnZoom(data, threshold, styles = []) {
  */
 function LODStyle(shape, className, condition = (k) => {}) {
 	if (!shape) {
-		return undefined
+		return undefined;
 	}
 	return {
 		shape: shape,
@@ -36,3 +36,8 @@ function LODStyle(shape, className, condition = (k) => {}) {
 		condition: condition,
 	};
 }
+
+export default {
+	OnZoom,
+	LODStyle,
+};

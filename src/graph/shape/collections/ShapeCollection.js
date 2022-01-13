@@ -1,3 +1,5 @@
+import * as Shape from "../Shape";
+
 const Alignment = {
 	Left: "left",
 	Center: "center",
@@ -116,3 +118,5 @@ function ShapeCollection(shapes, style, ellipsis = null) {
 		return index;
 	}
 }
+
+export { CollectionStyle, ShapeCollection };

@@ -1,3 +1,6 @@
+import * as Shape from "./Shape";
+import * as TemplateAPI from "./TemplateAPI";
+
 /**
  * @param  {object} data data object
  */
@@ -34,3 +37,5 @@ function Node(data) {
 		return node.node();
 	}
 }
+
+export default Node;

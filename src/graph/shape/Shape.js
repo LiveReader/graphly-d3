@@ -1,3 +1,5 @@
+import * as d3 from "d3";
+
 const Shape = {};
 
 /**
@@ -141,3 +143,5 @@ Shape.getChanges = function (a, b) {
 	});
 	return changes;
 };
+
+export default Shape;
