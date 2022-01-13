@@ -2,6 +2,7 @@ class ForceSimulation {
 	#onNewEdgeEvent = () => {};
 	#onBackgroundClick = () => {};
 	#onNodeClick = () => {};
+	#onNodeContextClick = () => {};
 	#onNodeMouseOver = () => {};
 	#onNodeMouseOut = () => {};
 
@@ -249,6 +250,10 @@ class ForceSimulation {
 				if (e.defaultPrevented) return; // dragged
 				this.#onNodeClick(e, d);
 			})
+			.on("contextmenu", (e, d) => {
+				e.preventDefault();
+				this.#onNodeContextClick(e, d);
+			})
 			.on("mouseover", this.#onNodeMouseOver)
 			.on("mouseout", this.#onNodeMouseOut)
 			.attr("opacity", 0)
@@ -289,6 +294,9 @@ class ForceSimulation {
 	}
 	onClick(callback = (e, d) => {}) {
 		this.#onNodeClick = callback;
+	}
+	onContextClick(callback = (e, d) => {}) {
+		this.#onNodeContextClick = callback;
 	}
 	onMouseOver(callback = (e, d) => {}) {
 		this.#onNodeMouseOver = callback;

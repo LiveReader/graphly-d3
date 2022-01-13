@@ -12,6 +12,10 @@ simulation.onClick((e, d) => {
 	console.log(d);
 });
 
+simulation.onContextClick((e, d) => {
+	console.log("context", d.id);
+});
+
 simulation.onBackground((e, d) => {
 	console.log("background");
 });
