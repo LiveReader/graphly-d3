@@ -149,4 +149,4 @@ function PersonHexagon(data, initialShape, changes) {
 	}
 }
 
-Templates.add("shape_01", PersonHexagon);
+TemplateAPI.add("shape_01", PersonHexagon);

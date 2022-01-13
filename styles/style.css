@@ -60,7 +60,7 @@ body {
 	stroke-width: 2;
 	stroke-dasharray: 10, 10;
 }
-.edge.arrow {
+.arrow {
 	stroke: var(--node-stroke-color);
 	fill: none;
 	stroke-width: 2;

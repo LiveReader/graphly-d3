@@ -1,4 +1,11 @@
 class ForceSimulation {
+	#onNewEdgeEvent = () => {};
+	#onBackgroundClick = () => {};
+	#onNodeClick = () => {};
+	#onNodeContextClick = () => {};
+	#onNodeMouseOver = () => {};
+	#onNodeMouseOut = () => {};
+
 	constructor(svg) {
 		if (ForceSimulation.instance) {
 			return ForceSimulation.instance;
@@ -7,60 +14,87 @@ class ForceSimulation {
 
 		this.svg = svg;
 		this.graph = { nodes: [], links: [] };
-		this.worldTransform = { k: 1, x: 0, y: 0 };
+		this.worldTransform = { k: 1, x: svg.attr("width") / 2, y: svg.attr("height") / 2 };
 		this.onZoomRegistrations = [];
 		this.onZoomRoutines = {};
 
-		this.createWorld();
-		this.createSimulation();
-		this.setZoom();
+		this.#createWorld();
+		this.#createSimulation();
+		this.#setDrag();
+		this.#setZoom();
+		svg.call(
+			this.zoom.transform,
+			d3.zoomIdentity.translate(this.svg.attr("width") / 2, this.svg.attr("height") / 2).scale(1)
+		)
+			.on("dblclick.zoom", null)
+			.on("click", (e) => {
+				if (e.srcElement == this.svg.node()) {
+					this.#onBackgroundClick(e);
+				}
+			});
 	}
 
-	createWorld() {
+	#createWorld() {
 		this.world = this.svg.append("g").attr("id", "world");
 		this.linkGroup = this.world.append("g").attr("id", "links");
 		this.nodeGroup = this.world.append("g").attr("id", "nodes");
 	}
 
-	createSimulation() {
+	#createSimulation() {
 		this.simulation = d3
 			.forceSimulation()
 			.force(
 				"link",
 				d3.forceLink().id((d) => d.id)
 			)
-			.force("gravity", d3.forceManyBody().strength(-35000))
-			.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
+			.force(
+				"gravity",
+				d3.forceManyBody().strength((d) => {
+					return -35000;
+				})
+			)
+			.force("center", d3.forceCenter(0, 0))
 			.force(
 				"collide",
-				d3.forceCollide().radius((d) => (Templates[d.shape.type].shapeSize / 2 ?? 150) * d.shape.scale)
+				d3.forceCollide().radius((d) => {
+					const template = TemplateAPI.get(d.shape.type);
+					(template.shapeSize / 2 ?? 150) * (d.shape.scale ?? 1);
+				})
 			)
-			.on("tick", this.ticked.bind(this));
+			.on("tick", this.#ticked.bind(this));
 	}
 
-	setData(graph) {
-		this.graph = this.sortGraph(graph);
-		this.simulation.nodes(graph.nodes);
-		this.simulation.force("link").links(graph.links);
+	#setData(graph) {
+		this.#sortGraph(graph);
+		this.graph = graph;
+		this.simulation.nodes(this.graph.nodes);
+		this.simulation.force("link").links(this.graph.links);
 		this.simulation.alphaTarget(0).restart();
 	}
 
-	sortGraph(graph) {
+	#sortGraph(graph) {
 		// go through each node and get all links having that node as source
 		graph.nodes.forEach((node) => {
 			const links = [];
 			graph.links.forEach((link) => {
-				if (link.source == node.id) {
+				if (link.source == node.id || link.source.id == node.id) {
 					links.push(link);
 				}
 			});
 			// sort the links in groups if they have the same target
 			const groupedLinks = {};
 			links.forEach((link) => {
-				if (!groupedLinks[link.target]) {
-					groupedLinks[link.target] = [];
+				if (typeof link.target == "object") {
+					if (!groupedLinks[link.target.id]) {
+						groupedLinks[link.target.id] = [];
+					}
+					groupedLinks[link.target.id].push(link);
+				} else {
+					if (!groupedLinks[link.target]) {
+						groupedLinks[link.target] = [];
+					}
+					groupedLinks[link.target].push(link);
 				}
-				groupedLinks[link.target].push(link);
 			});
 			// run through each group
 			Object.keys(groupedLinks).forEach((targetId) => {
@@ -72,33 +106,98 @@ class ForceSimulation {
 				groupedLinks[targetId].sort((a, b) => a.index - b.index);
 			});
 		});
-		return graph;
 	}
 
-	setZoom() {
-		this.svg.call(
-			d3
-				.zoom()
-				.extent([
-					[-100, -100],
-					[window.innerWidth + 100, window.innerHeight + 100],
-				])
-				.scaleExtent([0.1, 3])
-				.on("zoom", ({ transform }) => {
-					this.world.attr("transform", transform);
-					if (this.worldTransform.k !== transform.k) {
-						Object.keys(this.onZoomRoutines).forEach((threshold) => {
-							const movedRange = [this.worldTransform.k, transform.k].sort();
-							if (movedRange[0] < threshold && movedRange[1] > threshold) {
-								this.onZoomRoutines[threshold].forEach((routine) => {
-									routine(transform.k);
-								});
-							}
-						});
+	#setDrag() {
+		const simulation = this.simulation;
+		const linkGroup = this.linkGroup;
+		const onNewEdge = (source, target) => this.#onNewEdgeEvent(source, target);
+		let newEdge = null;
+
+		function dragstarted(e, d) {
+			// new edge
+			if (e.sourceEvent.altKey) {
+				newEdge = linkGroup
+					.append("g")
+					.classed("edge", true)
+					.append("line")
+					.attr("x1", d.x)
+					.attr("y1", d.y)
+					.attr("x2", e.x)
+					.attr("y2", e.y);
+				return;
+			}
+			// drag node
+			simulation.alphaTarget(0.05).restart();
+			d.fx = e.x;
+			d.fy = e.y;
+		}
+		function dragged(e, d) {
+			// new edge
+			if (newEdge) {
+				newEdge.attr("x2", e.x).attr("y2", e.y);
+				return;
+			}
+			// drag node
+			d.fx = e.x;
+			d.fy = e.y;
+		}
+		function dragended(e, d) {
+			// new edge
+			if (newEdge) {
+				let node = e.sourceEvent.target;
+				if (node == svg.node()) {
+					newEdge.node().parentNode.remove();
+					newEdge = null;
+					return;
+				}
+				while (node.classList.contains("node") == false) {
+					if (node == null) {
+						newEdge.node().parentNode.remove();
+						newEdge = null;
+						return;
 					}
-					this.worldTransform = transform;
-				})
-		);
+					node = node.parentNode;
+				}
+				const graphNode = graph.nodes.find((n) => n.id == node.id);
+				newEdge.node().parentNode.remove();
+				newEdge = null;
+				if (!graphNode) return;
+				if (graphNode.id == d.id) return;
+				onNewEdge(d, graphNode);
+				return;
+			}
+			// drag node
+			simulation.alphaTarget(0);
+			d.fx = null;
+			d.fy = null;
+		}
+		this.dragNode = d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
+	}
+
+	#setZoom() {
+		this.zoom = d3
+			.zoom()
+			.extent([
+				[-100, -100],
+				[window.innerWidth + 100, window.innerHeight + 100],
+			])
+			.scaleExtent([0.1, 3])
+			.on("zoom", ({ transform }) => {
+				this.world.attr("transform", transform);
+				if (this.worldTransform.k !== transform.k) {
+					Object.keys(this.onZoomRoutines).forEach((threshold) => {
+						const movedRange = [this.worldTransform.k, transform.k].sort();
+						if (movedRange[0] < threshold && movedRange[1] > threshold) {
+							this.onZoomRoutines[threshold].forEach((routine) => {
+								routine(transform.k);
+							});
+						}
+					});
+				}
+				this.worldTransform = transform;
+			});
+		this.svg.call(this.zoom);
 	}
 
 	registerOnZoom(id, threshold, callback = (k) => {}) {
@@ -108,15 +207,15 @@ class ForceSimulation {
 			threshold: threshold,
 			callback: callback,
 		});
-		this.orderOnZoomRoutines();
+		this.#orderOnZoomRoutines();
 	}
 
 	deregisterOnZoom(id) {
 		this.onZoomRegistrations = this.onZoomRegistrations.filter((routine) => routine.id !== id);
-		this.orderOnZoomRoutines();
+		this.#orderOnZoomRoutines();
 	}
 
-	orderOnZoomRoutines() {
+	#orderOnZoomRoutines() {
 		this.onZoomRoutines = {};
 		this.onZoomRegistrations.forEach((routine) => {
 			if (!this.onZoomRoutines[routine.threshold]) {
@@ -126,7 +225,7 @@ class ForceSimulation {
 		});
 	}
 
-	ticked() {
+	#ticked() {
 		this.nodeGroup.selectAll("g.node").attr("transform", (d) => `translate(${d.x},${d.y})`);
 		this.linkGroup.selectAll("g.link").call((d) => {
 			const edge = d.select(".edge");
@@ -139,14 +238,24 @@ class ForceSimulation {
 	}
 
 	render(graph) {
-		this.setData(graph);
+		this.#setData(graph);
 
 		const nodes = this.nodeGroup.selectAll("g.node").data(this.graph.nodes);
 		nodes
 			.enter()
 			.append(Node)
 			.classed("shadow", true)
-			.call(this.dragNode())
+			.call(this.dragNode)
+			.on("click", (e, d) => {
+				if (e.defaultPrevented) return; // dragged
+				this.#onNodeClick(e, d);
+			})
+			.on("contextmenu", (e, d) => {
+				e.preventDefault();
+				this.#onNodeContextClick(e, d);
+			})
+			.on("mouseover", this.#onNodeMouseOver)
+			.on("mouseout", this.#onNodeMouseOut)
 			.attr("opacity", 0)
 			.transition()
 			.duration(300)
@@ -157,17 +266,14 @@ class ForceSimulation {
 			node.select(Node);
 		});
 
-		const links = this.linkGroup.selectAll("path").data(this.graph.links);
+		const links = this.linkGroup.selectAll(".link").data(this.graph.links);
 		const link = links.enter().append("g").classed("link", true);
 		link.append("path")
 			.classed("edge", true)
 			.classed("solid", (d) => (!d.type ? true : d.type === "solid"))
 			.classed("dotted", (d) => d.type === "dotted")
 			.classed("dashed", (d) => d.type === "dashed");
-		link.append("path")
-			.classed("edge", true)
-			.classed("arrow", true)
-			.attr("opacity", (d) => (d.directed ? 1 : 0));
+		link.append("path").classed("arrow", true);
 		link.append("text")
 			.text((d) => d.label)
 			.attr("text-anchor", "middle")
@@ -180,38 +286,22 @@ class ForceSimulation {
 		this.onZoomRegistrations.forEach((routine) => routine.callback(this.worldTransform.k));
 	}
 
-	dragNode() {
-		let nodeIndex = 0;
-
-		const drag = d3
-			.drag()
-			.on("start", dragstarted.bind(this))
-			.on("drag", dragged.bind(this))
-			.on("end", dragended.bind(this));
-		function dragstarted(e, d) {
-			this.simulation.alphaTarget(0.05).restart();
-			d.fx = e.x;
-			d.fy = e.y;
-
-			// move node to the front
-			const currentNode = this.nodeGroup.select(`#${d.id}`).node();
-			nodeIndex = Array.from(currentNode.parentNode.childNodes).indexOf(currentNode);
-			currentNode.parentNode.appendChild(currentNode);
-		}
-		function dragged(e, d) {
-			d.fx = e.x;
-			d.fy = e.y;
-		}
-		function dragended(e, d) {
-			this.simulation.alphaTarget(0);
-			d.fx = null;
-			d.fy = null;
-
-			// move node back to its original index
-			const currentNode = this.nodeGroup.select(`#${d.id}`).node();
-			if (!currentNode) return;
-			currentNode.parentNode.insertBefore(currentNode, currentNode.parentNode.childNodes[nodeIndex]);
-		}
-		return drag;
+	onNewEdge(callback = (source, target) => {}) {
+		this.#onNewEdgeEvent = callback;
+	}
+	onBackground(callback = (e, d) => {}) {
+		this.#onBackgroundClick = callback;
+	}
+	onClick(callback = (e, d) => {}) {
+		this.#onNodeClick = callback;
+	}
+	onContextClick(callback = (e, d) => {}) {
+		this.#onNodeContextClick = callback;
+	}
+	onMouseOver(callback = (e, d) => {}) {
+		this.#onNodeMouseOver = callback;
+	}
+	onMouseOut(callback = (e, d) => {}) {
+		this.#onNodeMouseOut = callback;
 	}
 }

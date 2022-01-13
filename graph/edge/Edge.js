@@ -89,8 +89,8 @@ Edge.offset = function (edge, start, end, bezierCurveFactor) {
 	const dx = Edge.dx(start, end);
 	const dy = Edge.dy(start, end);
 	const normal = Edge.normalize(dx, dy);
-	const x = bezierCurveFactor * (dy / normal) * normal * (edge.i + 1);
-	const y = bezierCurveFactor * (dx / normal) * normal * (edge.i + 1);
+	const x = bezierCurveFactor * (dy / normal) * normal * ((edge.i ?? 0) + 1);
+	const y = bezierCurveFactor * (dx / normal) * normal * ((edge.i ?? 0) + 1);
 	return { x: x, y: y };
 };
 
@@ -147,8 +147,9 @@ Edge.getSurfacePoints = function (edge, distance = 0) {
 		.append("path")
 		.attr("d", `M ${start.x} ${start.y}` + `Q ${center.x}, ${center.y}` + ` ${end.x} ${end.y}`)
 		.node();
-	const startDistance = (edge.source.shape.scale ?? 1) * (Templates[edge.source.shape.type].shapeSize / 2 ?? 150);
-	const endDistance = (edge.target.shape.scale ?? 1) * (Templates[edge.target.shape.type].shapeSize / 2 ?? 150);
+	const startDistance =
+		(edge.source.shape.scale ?? 1) * (TemplateAPI.get(edge.source.shape.type).shapeSize / 2 ?? 150);
+	const endDistance = (edge.target.shape.scale ?? 1) * (TemplateAPI.get(edge.target.shape.type).shapeSize / 2 ?? 150);
 	const surfaceStart = path.getPointAtLength(startDistance + distance);
 	const surfaceEnd = path.getPointAtLength(path.getTotalLength() - endDistance - distance - arrowDistance);
 	const surfaceOffset = Edge.offset(edge, surfaceStart, surfaceEnd, 0.1);

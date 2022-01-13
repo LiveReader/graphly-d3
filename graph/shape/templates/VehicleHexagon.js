@@ -68,4 +68,4 @@ function VehicleHexagon(data, initialShape, changes) {
 	}
 }
 
-Templates.add("shape_02", VehicleHexagon);
+TemplateAPI.add("shape_02", VehicleHexagon);

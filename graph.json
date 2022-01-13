@@ -80,7 +80,7 @@
 			{
 				"source": "n2",
 				"target": "n1",
-				"type": "solif",
+				"type": "solid",
 				"directed": true,
 				"label": ""
 			},
