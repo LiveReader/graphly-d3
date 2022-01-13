@@ -115,12 +115,21 @@ export class ForceSimulation {
 	}
 
 	#setDrag() {
-		const svg = this.svg;
-		const graph = this.graph;
-		const simulation = this.simulation;
-		const linkGroup = this.linkGroup;
-		const onNewEdge = (source, target) => this.#onNewEdgeEvent(source, target);
+		let svg = this.svg;
+		let graph = this.graph;
+		let simulation = this.simulation;
+		let linkGroup = this.linkGroup;
+		let onNewEdge = (source, target) => this.onNewEdgeEvent(source, target);
 		let newEdge = null;
+
+		function prepare() {
+			const forceSimulation = new ForceSimulation();
+			svg = forceSimulation.svg;
+			graph = forceSimulation.graph;
+			simulation = forceSimulation.simulation;
+			linkGroup = forceSimulation.linkGroup;
+			onNewEdge = forceSimulation.onNewEdgeEvent;
+		}
 
 		function dragstarted(e, d) {
 			// new edge
