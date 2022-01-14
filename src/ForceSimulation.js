@@ -5,7 +5,7 @@ import Node from "./shape/NodeLoader";
 import TemplateAPI from "./shape/TemplateAPI";
 
 export class ForceSimulation {
-	#onNewEdgeEvent = () => {};
+	onNewEdgeEvent = () => {};
 	#onBackgroundClick = () => {};
 	#onNodeClick = () => {};
 	#onNodeContextClick = () => {};
@@ -305,7 +305,7 @@ export class ForceSimulation {
 	}
 
 	onNewEdge(callback = () => {}) {
-		this.#onNewEdgeEvent = callback;
+		this.onNewEdgeEvent = callback;
 	}
 	onBackground(callback = () => {}) {
 		this.#onBackgroundClick = callback;
