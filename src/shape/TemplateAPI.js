@@ -1,8 +1,12 @@
+import ErrorNode from "../templates/ErrorNode.js";
+import PersonHexagon from "../templates/PersonHexagon.js";
+import VehicleHexagon from "../templates/VehicleHexagon.js";
+
 const TemplateAPI = {};
 
 TemplateAPI.templates = {};
 
-TemplateAPI.errorTemplate = {};
+TemplateAPI.errorTemplate = ErrorNode;
 
 /**
  * @param  {string} id template id
@@ -19,3 +23,8 @@ TemplateAPI.get = function (id) {
 	}
 	return TemplateAPI.templates[id];
 };
+
+TemplateAPI.add("shape_01", PersonHexagon);
+TemplateAPI.add("shape_02", VehicleHexagon);
+
+export default TemplateAPI;

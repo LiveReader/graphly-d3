@@ -1,3 +1,5 @@
+import Shape from "../Shape.js";
+
 /**
  * @param  {Number[]} padding padding of tag [x,y]
  * @param  {ShapeStyle[]} textStyles array of css classes
@@ -53,3 +55,5 @@ function TagShape(text, style) {
 	shape.append(() => textShape.node());
 	return shape;
 }
+
+export { TagStyle, TagShape };

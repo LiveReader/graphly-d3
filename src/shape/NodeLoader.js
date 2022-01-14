@@ -1,3 +1,7 @@
+import * as d3 from "d3";
+import Shape from "./Shape.js";
+import TemplateAPI from "./TemplateAPI.js";
+
 /**
  * @param  {object} data data object
  */
@@ -17,7 +21,7 @@ function Node(data) {
 
 	let template = TemplateAPI.get(data.shape.type);
 	if (!template || template == TemplateAPI.errorTemplate) {
-		return throwError(`Template \"${data.shape.type}\" not founnd`);
+		return throwError(`Template "${data.shape.type}" not founnd`);
 	}
 	try {
 		node.append(() => template.bind(this)(data, initialShape, changes).node()).classed("shape", true);
@@ -34,3 +38,5 @@ function Node(data) {
 		return node.node();
 	}
 }
+
+export default Node;

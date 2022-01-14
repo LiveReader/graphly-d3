@@ -1,0 +1,36 @@
+{
+	"name": "@livereader/graphly-d3",
+	"version": "0.1.2",
+	"description": "D3 extention library improving the handling of complex shapes within a graph",
+	"main": "src/ForceSimulation.js",
+	"scripts": {
+		"templating": "nodemon prepareTemplating.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/LiveReader/d3-playground.git"
+	},
+	"author": "jason-rietzke, luisa-schmidt",
+	"type": "module",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/LiveReader/d3-playground/issues"
+	},
+	"homepage": "https://github.com/LiveReader/d3-playground#readme",
+	"files": [
+		"styles",
+		"src",
+		"README.md"
+	],
+	"dependencies": {
+		"d3": "^7.3.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.15"
+	},
+	"nodemonConfig": {
+		"ignore": [
+			"demo/src"
+		]
+	}
+}

@@ -1,10 +1,19 @@
+import Shape from "../shape/Shape.js";
+import PathShape from "../shape/shapes/PathShape.js";
+import ShapeStyle from "../shape/utils/ShapeStyle.js";
+import { OnZoom, LODStyle } from "../shape/utils/LODStyle.js";
+import { Alignment, CollectionStyle } from "../shape/collections/ShapeCollection.js";
+import TextCollection from "../shape/collections/TextCollection.js";
+import TagCollection from "../shape/collections/TagCollection.js";
+import { TagStyle } from "../shape/shapes/TagShape.js";
+
 PersonHexagon.shapeSize = 300;
 
 function PersonHexagon(data, initialShape, changes) {
 	const shape = initialShape ? initialShape : Shape.create("g");
 
 	const bodyShape = addBody();
-	const headShape = addHead();
+	addHead();
 	const tagCollection = addTags();
 	const titleShape = addTitle();
 	const largeTitleShape = addLargeTitle();
@@ -149,4 +158,4 @@ function PersonHexagon(data, initialShape, changes) {
 	}
 }
 
-TemplateAPI.add("shape_01", PersonHexagon);
+export default PersonHexagon;

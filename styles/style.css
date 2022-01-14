@@ -66,3 +66,12 @@ body {
 	stroke-width: 2;
 	stroke-dasharray: none;
 }
+
+.hidden {
+	opacity: 0;
+	transition: opacity 0.1s ease-in-out;
+}
+.shadow {
+	-webkit-filter: drop-shadow(0px 24px 120px rgba(0, 0, 0, 0.06));
+	filter: drop-shadow(0px 24px 120px rgba(0, 0, 0, 0.06));
+}

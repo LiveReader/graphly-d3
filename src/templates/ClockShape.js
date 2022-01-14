@@ -1,3 +1,6 @@
+import Shape from "../shape/Shape.js";
+import { OnZoom, LODStyle } from "../shape/utils/LODStyle.js";
+
 ClockShape.shapeSize = 150;
 
 function ClockShape(data, initialShape, changes) {
@@ -144,4 +147,4 @@ function ClockShape(data, initialShape, changes) {
 	}
 }
 
-TemplateAPI.add("shape_clock", ClockShape);
+export default ErrorNode;

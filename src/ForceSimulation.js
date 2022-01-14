@@ -1,5 +1,11 @@
-class ForceSimulation {
-	#onNewEdgeEvent = () => {};
+/* eslint-disable no-dupe-class-members */
+import * as d3 from "d3";
+import Edge from "./edge/Edge.js";
+import Node from "./shape/NodeLoader.js";
+import TemplateAPI from "./shape/TemplateAPI.js";
+
+export class ForceSimulation {
+	onNewEdgeEvent = () => {};
 	#onBackgroundClick = () => {};
 	#onNodeClick = () => {};
 	#onNodeContextClick = () => {};
@@ -49,7 +55,7 @@ class ForceSimulation {
 			)
 			.force(
 				"gravity",
-				d3.forceManyBody().strength((d) => {
+				d3.forceManyBody().strength(() => {
 					return -35000;
 				})
 			)
@@ -109,12 +115,24 @@ class ForceSimulation {
 	}
 
 	#setDrag() {
-		const simulation = this.simulation;
-		const linkGroup = this.linkGroup;
-		const onNewEdge = (source, target) => this.#onNewEdgeEvent(source, target);
+		let svg = this.svg;
+		let graph = this.graph;
+		let simulation = this.simulation;
+		let linkGroup = this.linkGroup;
+		let onNewEdge = (source, target) => this.onNewEdgeEvent(source, target);
 		let newEdge = null;
 
+		function prepare() {
+			const forceSimulation = new ForceSimulation();
+			svg = forceSimulation.svg;
+			graph = forceSimulation.graph;
+			simulation = forceSimulation.simulation;
+			linkGroup = forceSimulation.linkGroup;
+			onNewEdge = forceSimulation.onNewEdgeEvent;
+		}
+
 		function dragstarted(e, d) {
+			prepare();
 			// new edge
 			if (e.sourceEvent.altKey) {
 				newEdge = linkGroup
@@ -200,7 +218,7 @@ class ForceSimulation {
 		this.svg.call(this.zoom);
 	}
 
-	registerOnZoom(id, threshold, callback = (k) => {}) {
+	registerOnZoom(id, threshold, callback = () => {}) {
 		this.deregisterOnZoom(id);
 		this.onZoomRegistrations.push({
 			id: id,
@@ -286,22 +304,22 @@ class ForceSimulation {
 		this.onZoomRegistrations.forEach((routine) => routine.callback(this.worldTransform.k));
 	}
 
-	onNewEdge(callback = (source, target) => {}) {
-		this.#onNewEdgeEvent = callback;
+	onNewEdge(callback = () => {}) {
+		this.onNewEdgeEvent = callback;
 	}
-	onBackground(callback = (e, d) => {}) {
+	onBackground(callback = () => {}) {
 		this.#onBackgroundClick = callback;
 	}
-	onClick(callback = (e, d) => {}) {
+	onClick(callback = () => {}) {
 		this.#onNodeClick = callback;
 	}
-	onContextClick(callback = (e, d) => {}) {
+	onContextClick(callback = () => {}) {
 		this.#onNodeContextClick = callback;
 	}
-	onMouseOver(callback = (e, d) => {}) {
+	onMouseOver(callback = () => {}) {
 		this.#onNodeMouseOver = callback;
 	}
-	onMouseOut(callback = (e, d) => {}) {
+	onMouseOut(callback = () => {}) {
 		this.#onNodeMouseOut = callback;
 	}
 }

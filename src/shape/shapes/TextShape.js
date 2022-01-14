@@ -1,3 +1,5 @@
+import Shape from "../Shape.js";
+
 /**
  * @param  {String} text
  * @param  {ShapeStyle[]} styles
@@ -11,3 +13,5 @@ function TextShape(text, styles = []) {
 	});
 	return shape;
 }
+
+export default TextShape;

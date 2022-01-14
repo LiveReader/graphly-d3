@@ -1,11 +1,18 @@
+import Shape from "../shape/Shape.js";
+import PathShape from "../shape/shapes/PathShape.js";
+import ShapeStyle from "../shape/utils/ShapeStyle.js";
+import { OnZoom, LODStyle } from "../shape/utils/LODStyle.js";
+import { CollectionStyle } from "../shape/collections/ShapeCollection.js";
+import TextCollection from "../shape/collections/TextCollection.js";
+
 VehicleHexagon.shapeSize = 300;
 
 function VehicleHexagon(data, initialShape, changes) {
 	const shape = initialShape ? initialShape : Shape.create("g");
 
-	const bodyShape = addBody();
-	const headShape = addHead();
-	const titleShape = addTitle();
+	addBody();
+	addHead();
+	addTitle();
 	const headlineShape = addHeadline();
 
 	OnZoom(data, 0.4, [LODStyle(headlineShape, "hidden", (k) => k < 0.4)]);
@@ -68,4 +75,4 @@ function VehicleHexagon(data, initialShape, changes) {
 	}
 }
 
-TemplateAPI.add("shape_02", VehicleHexagon);
+export default VehicleHexagon;

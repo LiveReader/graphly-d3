@@ -1,3 +1,6 @@
+import TextShape from "../shapes/TextShape.js";
+import { ShapeCollection } from "./ShapeCollection.js";
+
 /**
  * @param  {String} text
  * @param  {CollectionStyle} style collection style
@@ -15,3 +18,5 @@ function TextCollection(texts, style, textStyles = []) {
 	const collection = ShapeCollection(textShapes, style, ellipsis);
 	return collection;
 }
+
+export default TextCollection;
