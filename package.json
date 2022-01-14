@@ -3,7 +3,9 @@
 	"version": "0.1.0",
 	"description": "D3 extention library improving the handling of complex shapes within a graph",
 	"main": "src/ForceSimulation.js",
-	"scripts": {},
+	"scripts": {
+		"templating": "nodemon prepareTemplating.js"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/LiveReader/d3-playground.git"
@@ -15,7 +17,20 @@
 		"url": "https://github.com/LiveReader/d3-playground/issues"
 	},
 	"homepage": "https://github.com/LiveReader/d3-playground#readme",
+	"files": [
+		"styles",
+		"src",
+		"README.md"
+	],
 	"dependencies": {
 		"d3": "^7.3.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.15"
+	},
+	"nodemonConfig": {
+		"ignore": [
+			"demo/src"
+		]
 	}
 }
