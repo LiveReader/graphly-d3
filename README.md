@@ -3,9 +3,9 @@
 Library ontop of D3.js for creating interactive graphs.
 It uses a shape templating system to dynamically define and use differend SVG shapes.
 
-### Templating
+## Templating
 
-To easily develop new Templates there is a `temnplating` npm command. It copies and manipulates the src files to be able to run nativly in the browser (without the need of something like Vue inbetween).
+To easily develop new Templates there is a `templating` npm command. It copies and manipulates the src files to be able to run nativly in the browser (without the need of something like Vue inbetween).
 Use this command in the terminal to start this mode:
 
 ```bash
@@ -16,7 +16,7 @@ It will also automatically refresh the browser when you change the src files.
 
 ---
 
-### ForceSimulation
+## ForceSimulation
 
 To interact with the library, it provides a highlevel API of the force simulation.
 
@@ -32,7 +32,7 @@ simulation = new ForceSimulation(svg);
 simulation.render(graphData);
 ```
 
-### Events
+## Events
 
 This interface also provides several event handler.
 
