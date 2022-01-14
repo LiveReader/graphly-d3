@@ -1,4 +1,4 @@
-import { ForceSimulation } from "../../ForceSimulation";
+import { ForceSimulation } from "../../ForceSimulation.js";
 
 function OnZoom(data, threshold, styles = []) {
 	const id = `${data.id}-${threshold}`; // Math.random().toString(36).substring(7);

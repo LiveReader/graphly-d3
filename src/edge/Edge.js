@@ -1,5 +1,5 @@
-import Shape from "../shape/Shape";
-import TemplateAPI from "../shape/TemplateAPI";
+import Shape from "../shape/Shape.js";
+import TemplateAPI from "../shape/TemplateAPI.js";
 
 const Edge = {};
 

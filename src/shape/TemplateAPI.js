@@ -1,6 +1,6 @@
-import ErrorNode from "../templates/ErrorNode";
-import PersonHexagon from "../templates/PersonHexagon";
-import VehicleHexagon from "../templates/VehicleHexagon";
+import ErrorNode from "../templates/ErrorNode.js";
+import PersonHexagon from "../templates/PersonHexagon.js";
+import VehicleHexagon from "../templates/VehicleHexagon.js";
 
 const TemplateAPI = {};
 

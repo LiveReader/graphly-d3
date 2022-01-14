@@ -1,8 +1,8 @@
 /* eslint-disable no-dupe-class-members */
 import * as d3 from "d3";
-import Edge from "./edge/Edge";
-import Node from "./shape/NodeLoader";
-import TemplateAPI from "./shape/TemplateAPI";
+import Edge from "./edge/Edge.js";
+import Node from "./shape/NodeLoader.js";
+import TemplateAPI from "./shape/TemplateAPI.js";
 
 export class ForceSimulation {
 	onNewEdgeEvent = () => {};

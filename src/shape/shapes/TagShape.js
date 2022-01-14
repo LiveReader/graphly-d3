@@ -1,4 +1,4 @@
-import Shape from "../Shape";
+import Shape from "../Shape.js";
 
 /**
  * @param  {Number[]} padding padding of tag [x,y]

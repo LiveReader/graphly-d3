@@ -1,5 +1,5 @@
-import Shape from "../shape/Shape";
-import { OnZoom, LODStyle } from "../shape/utils/LODStyle";
+import Shape from "../shape/Shape.js";
+import { OnZoom, LODStyle } from "../shape/utils/LODStyle.js";
 
 ClockShape.shapeSize = 150;
 

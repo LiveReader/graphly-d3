@@ -1,6 +1,6 @@
 import * as d3 from "d3";
-import Shape from "./Shape";
-import TemplateAPI from "./TemplateAPI";
+import Shape from "./Shape.js";
+import TemplateAPI from "./TemplateAPI.js";
 
 /**
  * @param  {object} data data object

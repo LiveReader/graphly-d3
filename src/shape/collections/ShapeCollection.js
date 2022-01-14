@@ -1,4 +1,4 @@
-import Shape from "../Shape";
+import Shape from "../Shape.js";
 
 const Alignment = {
 	Left: "left",

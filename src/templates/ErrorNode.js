@@ -1,4 +1,4 @@
-import Shape from "../shape/Shape";
+import Shape from "../shape/Shape.js";
 
 ErrorNode.shapeSize = 200;
 

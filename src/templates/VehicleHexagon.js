@@ -1,9 +1,9 @@
-import Shape from "../shape/Shape";
-import PathShape from "../shape/shapes/PathShape";
-import ShapeStyle from "../shape/utils/ShapeStyle";
-import { OnZoom, LODStyle } from "../shape/utils/LODStyle";
-import { CollectionStyle } from "../shape/collections/ShapeCollection";
-import TextCollection from "../shape/collections/TextCollection";
+import Shape from "../shape/Shape.js";
+import PathShape from "../shape/shapes/PathShape.js";
+import ShapeStyle from "../shape/utils/ShapeStyle.js";
+import { OnZoom, LODStyle } from "../shape/utils/LODStyle.js";
+import { CollectionStyle } from "../shape/collections/ShapeCollection.js";
+import TextCollection from "../shape/collections/TextCollection.js";
 
 VehicleHexagon.shapeSize = 300;
 

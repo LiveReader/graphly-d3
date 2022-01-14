@@ -1,11 +1,11 @@
-import Shape from "../shape/Shape";
-import PathShape from "../shape/shapes/PathShape";
-import ShapeStyle from "../shape/utils/ShapeStyle";
-import { OnZoom, LODStyle } from "../shape/utils/LODStyle";
-import { Alignment, CollectionStyle } from "../shape/collections/ShapeCollection";
-import TextCollection from "../shape/collections/TextCollection";
-import TagCollection from "../shape/collections/TagCollection";
-import { TagStyle } from "../shape/shapes/TagShape";
+import Shape from "../shape/Shape.js";
+import PathShape from "../shape/shapes/PathShape.js";
+import ShapeStyle from "../shape/utils/ShapeStyle.js";
+import { OnZoom, LODStyle } from "../shape/utils/LODStyle.js";
+import { Alignment, CollectionStyle } from "../shape/collections/ShapeCollection.js";
+import TextCollection from "../shape/collections/TextCollection.js";
+import TagCollection from "../shape/collections/TagCollection.js";
+import { TagStyle } from "../shape/shapes/TagShape.js";
 
 PersonHexagon.shapeSize = 300;
 
