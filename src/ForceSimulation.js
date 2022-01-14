@@ -132,6 +132,7 @@ export class ForceSimulation {
 		}
 
 		function dragstarted(e, d) {
+			prepare();
 			// new edge
 			if (e.sourceEvent.altKey) {
 				newEdge = linkGroup

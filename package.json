@@ -2,10 +2,8 @@
 	"name": "lr-graphly-d3",
 	"version": "0.1.0",
 	"description": "D3 extention library improving the handling of complex shapes within a graph",
-	"main": "src/graph/ForceSimulation.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
+	"main": "src/ForceSimulation.js",
+	"scripts": {},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/LiveReader/d3-playground.git"
