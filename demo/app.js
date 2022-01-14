@@ -1,3 +1,5 @@
+import { ForceSimulation } from "./src/ForceSimulation.js";
+
 const svg = d3.select("svg");
 resize();
 let graph = {
@@ -32,7 +34,7 @@ simulation.onNewEdge((source, target) => {
 	simulation.render(graph);
 });
 
-fetch("/graph.json")
+fetch("./demo-data.json")
 	.then((response) => response.json())
 	.then((data) => {
 		graph = data.graph;

@@ -2,7 +2,7 @@ import Shape from "../shape/Shape";
 import PathShape from "../shape/shapes/PathShape";
 import ShapeStyle from "../shape/utils/ShapeStyle";
 import { OnZoom, LODStyle } from "../shape/utils/LODStyle";
-const { Alignment, CollectionStyle } = require("../shape/collections/ShapeCollection");
+import { Alignment, CollectionStyle } from "../shape/collections/ShapeCollection";
 import TextCollection from "../shape/collections/TextCollection";
 import TagCollection from "../shape/collections/TagCollection";
 import { TagStyle } from "../shape/shapes/TagShape";
