@@ -1,6 +1,6 @@
 {
 	"name": "@livereader/graphly-d3",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "D3 extention library improving the handling of complex shapes within a graph",
 	"main": "src/ForceSimulation.js",
 	"scripts": {
