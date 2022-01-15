@@ -64,19 +64,6 @@ simulation.onContextClick((e, d) => {
 });
 ```
 
-#### On Node Mouse Over / Out
-
-```js
-simulation.onMouseOver((e, d) => {
-	// e carries the event data
-	// d provides the data object of the clicked node
-});
-simulation.onMouseOut((e, d) => {
-	// e carries the event data
-	// d provides the data object of the clicked node
-});
-```
-
 #### On Background Click
 
 ```js

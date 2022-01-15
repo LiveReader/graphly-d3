@@ -9,8 +9,6 @@ export class ForceSimulation {
 	#onBackgroundClick = () => {};
 	#onNodeClick = () => {};
 	#onNodeContextClick = () => {};
-	#onNodeMouseOver = () => {};
-	#onNodeMouseOut = () => {};
 
 	constructor(svg) {
 		if (ForceSimulation.instance) {
@@ -197,15 +195,15 @@ export class ForceSimulation {
 		this.zoom = d3
 			.zoom()
 			.extent([
-				[-100, -100],
-				[window.innerWidth + 100, window.innerHeight + 100],
+				[0, 0],
+				[window.innerWidth, window.innerHeight],
 			])
 			.scaleExtent([0.1, 3])
 			.on("zoom", ({ transform }) => {
 				this.world.attr("transform", transform);
-				if (this.worldTransform.k !== transform.k) {
+				if (this.worldTransform.k != transform.k) {
+					const movedRange = [this.worldTransform.k, transform.k].sort();
 					Object.keys(this.onZoomRoutines).forEach((threshold) => {
-						const movedRange = [this.worldTransform.k, transform.k].sort();
 						if (movedRange[0] < threshold && movedRange[1] > threshold) {
 							this.onZoomRoutines[threshold].forEach((routine) => {
 								routine(transform.k);
@@ -271,9 +269,6 @@ export class ForceSimulation {
 			.on("contextmenu", (e, d) => {
 				e.preventDefault();
 				this.#onNodeContextClick(e, d);
-			})
-			.on("mouseover", this.#onNodeMouseOver)
-			.on("mouseout", this.#onNodeMouseOut)
 			.attr("opacity", 0)
 			.transition()
 			.duration(300)
@@ -315,11 +310,5 @@ export class ForceSimulation {
 	}
 	onContextClick(callback = () => {}) {
 		this.#onNodeContextClick = callback;
-	}
-	onMouseOver(callback = () => {}) {
-		this.#onNodeMouseOver = callback;
-	}
-	onMouseOut(callback = () => {}) {
-		this.#onNodeMouseOut = callback;
 	}
 }
