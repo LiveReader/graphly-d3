@@ -21,7 +21,7 @@ It will also automatically refresh the browser when you change the src files.
 To interact with the library, it provides a highlevel API of the force simulation.
 
 ```js
-import { ForceSimulation } from "lr-graphly-d3";
+import { ForceSimulation } from "@livereader/graphly-d3";
 
 const graphData = {
 	nodes: [],
