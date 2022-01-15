@@ -20,7 +20,8 @@
 	"files": [
 		"styles",
 		"src",
-		"README.md"
+		"README.md",
+		"webpack.config.js"
 	],
 	"dependencies": {
 		"d3": "^7.3.0"

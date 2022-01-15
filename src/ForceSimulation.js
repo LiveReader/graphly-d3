@@ -269,6 +269,7 @@ export class ForceSimulation {
 			.on("contextmenu", (e, d) => {
 				e.preventDefault();
 				this.#onNodeContextClick(e, d);
+			})
 			.attr("opacity", 0)
 			.transition()
 			.duration(300)
