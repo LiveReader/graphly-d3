@@ -6,9 +6,9 @@ import TemplateAPI from "./shape/TemplateAPI.js";
 
 export class ForceSimulation {
 	onNewEdgeEvent = () => {};
-	#onBackgroundClick = () => {};
-	#onNodeClick = () => {};
-	#onNodeContextClick = () => {};
+	onBackgroundClick = () => {};
+	onNodeClick = () => {};
+	onNodeContextClick = () => {};
 
 	constructor(svg) {
 		if (ForceSimulation.instance) {
@@ -22,10 +22,10 @@ export class ForceSimulation {
 		this.onZoomRegistrations = [];
 		this.onZoomRoutines = {};
 
-		this.#createWorld();
-		this.#createSimulation();
-		this.#setDrag();
-		this.#setZoom();
+		this.createWorld();
+		this.createSimulation();
+		this.setDrag();
+		this.setZoom();
 		svg.call(
 			this.zoom.transform,
 			d3.zoomIdentity.translate(this.svg.attr("width") / 2, this.svg.attr("height") / 2).scale(1)
@@ -33,18 +33,18 @@ export class ForceSimulation {
 			.on("dblclick.zoom", null)
 			.on("click", (e) => {
 				if (e.srcElement == this.svg.node()) {
-					this.#onBackgroundClick(e);
+					this.onBackgroundClick(e);
 				}
 			});
 	}
 
-	#createWorld() {
+	createWorld() {
 		this.world = this.svg.append("g").attr("id", "world");
 		this.linkGroup = this.world.append("g").attr("id", "links");
 		this.nodeGroup = this.world.append("g").attr("id", "nodes");
 	}
 
-	#createSimulation() {
+	createSimulation() {
 		this.simulation = d3
 			.forceSimulation()
 			.force(
@@ -65,18 +65,18 @@ export class ForceSimulation {
 					(template.shapeSize / 2 ?? 150) * (d.shape.scale ?? 1);
 				})
 			)
-			.on("tick", this.#ticked.bind(this));
+			.on("tick", this.ticked.bind(this));
 	}
 
-	#setData(graph) {
-		this.#sortGraph(graph);
+	setData(graph) {
+		this.sortGraph(graph);
 		this.graph = graph;
 		this.simulation.nodes(this.graph.nodes);
 		this.simulation.force("link").links(this.graph.links);
 		this.simulation.alphaTarget(0).restart();
 	}
 
-	#sortGraph(graph) {
+	sortGraph(graph) {
 		// go through each node and get all links having that node as source
 		graph.nodes.forEach((node) => {
 			const links = [];
@@ -112,7 +112,7 @@ export class ForceSimulation {
 		});
 	}
 
-	#setDrag() {
+	setDrag() {
 		let svg = this.svg;
 		let graph = this.graph;
 		let simulation = this.simulation;
@@ -191,7 +191,7 @@ export class ForceSimulation {
 		this.dragNode = d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
 	}
 
-	#setZoom() {
+	setZoom() {
 		this.zoom = d3
 			.zoom()
 			.extent([
@@ -223,15 +223,15 @@ export class ForceSimulation {
 			threshold: threshold,
 			callback: callback,
 		});
-		this.#orderOnZoomRoutines();
+		this.orderOnZoomRoutines();
 	}
 
 	deregisterOnZoom(id) {
 		this.onZoomRegistrations = this.onZoomRegistrations.filter((routine) => routine.id !== id);
-		this.#orderOnZoomRoutines();
+		this.orderOnZoomRoutines();
 	}
 
-	#orderOnZoomRoutines() {
+	orderOnZoomRoutines() {
 		this.onZoomRoutines = {};
 		this.onZoomRegistrations.forEach((routine) => {
 			if (!this.onZoomRoutines[routine.threshold]) {
@@ -241,7 +241,7 @@ export class ForceSimulation {
 		});
 	}
 
-	#ticked() {
+	ticked() {
 		this.nodeGroup.selectAll("g.node").attr("transform", (d) => `translate(${d.x},${d.y})`);
 		this.linkGroup.selectAll("g.link").call((d) => {
 			const edge = d.select(".edge");
@@ -254,7 +254,7 @@ export class ForceSimulation {
 	}
 
 	render(graph) {
-		this.#setData(graph);
+		this.setData(graph);
 
 		const nodes = this.nodeGroup.selectAll("g.node").data(this.graph.nodes);
 		nodes
@@ -264,11 +264,11 @@ export class ForceSimulation {
 			.call(this.dragNode)
 			.on("click", (e, d) => {
 				if (e.defaultPrevented) return; // dragged
-				this.#onNodeClick(e, d);
+				this.onNodeClick(e, d);
 			})
 			.on("contextmenu", (e, d) => {
 				e.preventDefault();
-				this.#onNodeContextClick(e, d);
+				this.onNodeContextClick(e, d);
 			})
 			.attr("opacity", 0)
 			.transition()
@@ -304,12 +304,12 @@ export class ForceSimulation {
 		this.onNewEdgeEvent = callback;
 	}
 	onBackground(callback = () => {}) {
-		this.#onBackgroundClick = callback;
+		this.onBackgroundClick = callback;
 	}
 	onClick(callback = () => {}) {
-		this.#onNodeClick = callback;
+		this.onNodeClick = callback;
 	}
 	onContextClick(callback = () => {}) {
-		this.#onNodeContextClick = callback;
+		this.onNodeContextClick = callback;
 	}
 }
