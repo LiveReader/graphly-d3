@@ -5,14 +5,23 @@ It uses a shape templating system to dynamically define and use differend SVG sh
 
 ## Templating
 
-To easily develop new Templates there is a `templating` npm command. It copies and manipulates the src files to be able to run nativly in the browser (without the need of something like Vue inbetween).
+To easily develop new Templates there is a `dev` npm command. It runs the vite development mode.
 Use this command in the terminal to start this mode:
 
 ```bash
-npm run templating
+npm run dev
 ```
 
-It will also automatically refresh the browser when you change the src files.
+It will also automatically refresh the browser when you change the lib files.
+
+## Building
+
+To build the library use the `build` npm command. It will create a `dist` folder with the library files and minimize the files as it proceeds.
+Use this command in the terminal to build the library:
+
+```bash
+npm run build
+```
 
 ---
 
