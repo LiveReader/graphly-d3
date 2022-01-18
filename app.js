@@ -1,4 +1,4 @@
-import { ForceSimulation } from "./src/ForceSimulation.js";
+import { ForceSimulation } from "./lib/main.js";
 
 const svg = d3.select("svg");
 resize();
