@@ -16,14 +16,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/LiveReader/d3-playground.git"
+		"url": "git+https://github.com/LiveReader/graphly-d3.git"
 	},
 	"author": "jason-rietzke, luisa-schmidt",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/LiveReader/d3-playground/issues"
+		"url": "https://github.com/LiveReader/graphly-d3/issues"
 	},
-	"homepage": "https://github.com/LiveReader/d3-playground#readme",
+	"homepage": "https://github.com/LiveReader/graphly-d3#readme",
 	"files": [
 		"dist",
 		"styles",
