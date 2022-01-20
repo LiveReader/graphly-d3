@@ -26,7 +26,6 @@
 	"homepage": "https://github.com/LiveReader/graphly-d3#readme",
 	"files": [
 		"dist",
-		"styles",
 		"README.md"
 	],
 	"dependencies": {
