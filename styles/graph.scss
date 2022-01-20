@@ -1,11 +1,21 @@
-$node-fill-color: #ffffff;
-$node-stroke-color: #b3b3b3;
-$foreground-color: #383838;
+@import "colors.scss";
 
 .node {
 	fill: $node-fill-color;
 	stroke: $node-stroke-color;
 	stroke-miterlimit: 10;
+
+	&.shadow {
+		$shadow: drop-shadow(0px 24px 120px rgba(0, 0, 0, 0.06));
+		-webkit-filter: $shadow;
+		filter: $shadow;
+	}
+
+	&.selected {
+		$shadow: drop-shadow(0px 0px 5px $selection-color);
+		-webkit-filter: $shadow;
+		filter: $shadow;
+	}
 }
 
 .link {
