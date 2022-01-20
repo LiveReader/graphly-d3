@@ -4,16 +4,15 @@
 			{
 				"id": "n0",
 				"shape": {
-					"type": "shape_01",
-					"scale": 0.5
+					"type": "shape_03",
+					"scale": 1
 				},
-				"status": "minor",
+				"status": "immediate",
 				"name": {
-					"first": "Luisa",
-					"last": "Schmidt"
+					"first": "VU",
+					"last": "Rietzke"
 				},
-				"tags": ["unter Schock", "unverletzt", "Puls normal"],
-				"countdown": 60.5
+				"tags": ["bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"]
 			},
 			{
 				"id": "n1",
@@ -49,8 +48,9 @@
 					"type": "shape_02",
 					"scale": 0.5
 				},
-				"status": "4",
-				"label": "RTW"
+				"status": "3",
+				"label": "11/83-01",
+				"time": "Ankunft in 5 Minuten"
 			},
 			{
 				"id": "n4",
@@ -58,44 +58,106 @@
 					"type": "shape_02",
 					"scale": 0.5
 				},
-				"status": "3",
-				"label": "RTW"
+				"status": "2",
+				"label": "11/83-02",
+				"time": "bräuchte 15 Minuten"
+			},
+			{
+				"id": "n5",
+				"shape": {
+					"type": "shape_02",
+					"scale": 0.5
+				},
+				"status": "5",
+				"label": "11/83-03",
+				"time": "seit 1 Minute"
+			},
+			{
+				"id": "n6",
+				"shape": {
+					"type": "shape_02",
+					"scale": 0.5
+				},
+				"status": "1",
+				"label": "11/83-04",
+				"time": "bräuchte 5 Minuten"
+			},
+			{
+				"id": "n7",
+				"shape": {
+					"type": "shape_02",
+					"scale": 0.5
+				},
+				"status": "0",
+				"label": "11/83-05",
+				"time": "seit 2 Minuten"
+			},
+			{
+				"id": "n8",
+				"shape": {
+					"type": "shape_02",
+					"scale": 0.5
+				},
+				"status": "8",
+				"label": "11/83-06",
+				"time": "seit 20 Minuten"
 			}
 		],
 		"links": [
 			{
 				"source": "n0",
 				"target": "n1",
-				"type": "solid",
-				"directed": true,
+				"type": "dotted",
+				"directed": false,
 				"label": ""
 			},
 			{
-				"source": "n1",
+				"source": "n0",
 				"target": "n2",
-				"type": "dashed",
-				"directed": true,
+				"type": "dotted",
+				"directed": false,
 				"label": ""
 			},
 			{
-				"source": "n2",
-				"target": "n1",
-				"type": "solid",
-				"directed": true,
-				"label": ""
-			},
-			{
-				"source": "n2",
+				"source": "n0",
 				"target": "n3",
 				"type": "dotted",
-				"directed": true,
+				"directed": false,
 				"label": ""
 			},
 			{
-				"source": "n2",
+				"source": "n0",
 				"target": "n4",
 				"type": "dotted",
-				"directed": true,
+				"directed": false,
+				"label": ""
+			},
+			{
+				"source": "n0",
+				"target": "n5",
+				"type": "dotted",
+				"directed": false,
+				"label": ""
+			},
+			{
+				"source": "n0",
+				"target": "n6",
+				"type": "dotted",
+				"directed": false,
+				"label": ""
+			},
+			{
+				"source": "n0",
+				"target": "n7",
+				"type": "dotted",
+				"directed": false,
+				"label": ""
+			},
+			{
+				"source": "n0",
+				"target": "n8",
+				"type": "dotted",
+				"directed": false,
 				"label": ""
 			}
 		]

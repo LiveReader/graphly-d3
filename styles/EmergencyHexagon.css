@@ -1,0 +1,38 @@
+.hexagon-emergency {
+	transition: all 0.3s ease-in-out;
+}
+
+.hexagon-emergency.background {
+	fill: #4dd0e1;
+	stroke: var(--node-stroke-color);
+	stroke-miterlimit: 10;
+}
+
+.hexagon-emergency.title {
+	text-anchor: middle;
+	fill: #ffffffff;
+	stroke: none;
+	font-family: "Roboto";
+	font-weight: bold;
+	font-size: 200px;
+}
+
+.hexagon-emergency.title.large {
+	font-size: 240px;
+}
+
+.hexagon-emergency.tag-text {
+	text-anchor: middle;
+	fill: var(--node-fill-color);
+	stroke: none;
+	font-family: "Roboto";
+	font-weight: 500;
+	font-size: 48px;
+}
+.hexagon-emergency.tag-background {
+	stroke: none;
+}
+
+.hexagon-emergency.timer {
+	fill: var(--node-fill-color);
+}

@@ -11,6 +11,17 @@
 	--state-red: #ff6376;
 	--state-yellow: #fbd97c;
 	--state-green: #7fe4a0;
+
+	--state-0: #ffd8a1;
+	--state-1: #bdff8a;
+	--state-2: #70c096;
+	--state-3: #ff94c9;
+	--state-4: #ff6376;
+	--state-5: #ffbc5c;
+	--state-6: #e7e9f1;
+	--state-7: #b78aff;
+	--state-8: #a3fff3;
+	--state-9: #ff6376;
 }
 
 body {
