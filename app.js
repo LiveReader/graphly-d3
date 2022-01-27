@@ -11,7 +11,10 @@ const simulation = new ForceSimulation(svg);
 simulation.render(graph);
 
 simulation.onClick((e, d) => {
-	console.log(d);
+	graph.nodes.forEach((node) => {
+		node.selected = node.id == d.id;
+	});
+	simulation.render(graph);
 });
 
 simulation.onContextClick((e, d) => {
@@ -19,7 +22,10 @@ simulation.onContextClick((e, d) => {
 });
 
 simulation.onBackground((e, d) => {
-	console.log("background");
+	graph.nodes.forEach((node) => {
+		node.selected = false;
+	});
+	simulation.render(graph);
 });
 
 simulation.onNewEdge((source, target) => {

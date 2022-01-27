@@ -1,6 +1,6 @@
 {
 	"name": "@livereader/graphly-d3",
-	"version": "0.1.7",
+	"version": "0.1.8",
 	"description": "D3 extention library improving the handling of complex shapes within a graph",
 	"main": "./dist/main.umd.js",
 	"module": "./dist/main.es.js",
@@ -26,7 +26,6 @@
 	"homepage": "https://github.com/LiveReader/graphly-d3#readme",
 	"files": [
 		"dist",
-		"styles",
 		"README.md"
 	],
 	"dependencies": {

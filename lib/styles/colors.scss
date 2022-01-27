@@ -1,0 +1,63 @@
+$background-color: #f2f2f2;
+$foreground-color: #383838;
+
+$node-fill-color: #ffffff;
+$node-stroke-color: #b3b3b3;
+
+$selection-color: #0089ff;
+
+$state-black: #383838;
+$state-red: #ff6376;
+$state-yellow: #fbd97c;
+$state-green: #7fe4a0;
+
+.n_node_fill {
+	fill: $node-fill-color;
+}
+.n_node_stroke {
+	stroke: $node-stroke-color;
+}
+.n_state_black {
+	fill: $state-black;
+}
+.n_state_red {
+	fill: $state-red;
+}
+.n_state_yellow {
+	fill: $state-yellow;
+}
+.n_state_green {
+	fill: $state-green;
+}
+
+// Red
+.n_red {
+	fill: #f44336;
+	&.lighten-5 {
+		fill: #ffebee;
+	}
+	&.lighten-4 {
+		fill: #ffcdd2;
+	}
+	&.lighten-3 {
+		fill: #ef9a9a;
+	}
+	&.lighten-2 {
+		fill: #e57373;
+	}
+	&.lighten-1 {
+		fill: #ef5350;
+	}
+	&.darken-1 {
+		fill: #e53935;
+	}
+	&.darken-2 {
+		fill: #d32f2f;
+	}
+	&.darken-3 {
+		fill: #c62828;
+	}
+	&.darken-4 {
+		fill: #b71c1c;
+	}
+}
