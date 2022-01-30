@@ -3,6 +3,8 @@
 Library ontop of D3.js for creating interactive graphs.
 It uses a shape templating system to dynamically define and use differend SVG shapes.
 
+[Documentation](https://docs.livereader.online/graphly-d3/)
+
 ## Templating
 
 To easily develop new Templates there is a `dev` npm command. It runs the vite development mode.
