@@ -5,20 +5,19 @@
 	stroke: $node-stroke-color;
 	stroke-miterlimit: 10;
 
+	$shadow: drop-shadow(0px 24px 120px rgba(0, 0, 0, 0.14));
+	$selection: drop-shadow(0px 0px 5px $selection-color);
 	&.shadow {
-		$shadow: drop-shadow(0px 24px 120px rgba(0, 0, 0, 0.06));
 		-webkit-filter: $shadow;
 		filter: $shadow;
 	}
-
 	&.selected {
-		$shadow: drop-shadow(0px 0px 5px $selection-color);
-		-webkit-filter: $shadow;
-		filter: $shadow;
+		-webkit-filter: $selection $shadow;
+		filter: $selection $shadow;
 	}
 }
 
-.link {
+.link, .prelink {
 	.label {
 		font-size: 0.8em;
 		font-family: "Roboto";
