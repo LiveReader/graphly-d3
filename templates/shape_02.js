@@ -1,13 +1,15 @@
-import Shape from "../shape/Shape.js";
-import PathShape from "../shape/shapes/PathShape.js";
-import ShapeStyle from "../shape/utils/ShapeStyle.js";
-import { OnZoom, LODStyle } from "../shape/utils/LODStyle.js";
-import { CollectionStyle } from "../shape/collections/ShapeCollection.js";
-import TextCollection from "../shape/collections/TextCollection.js";
+import Shape from "../lib/shape/Shape.js";
+import PathShape from "../lib/shape/shapes/PathShape.js";
+import ShapeStyle from "../lib/shape/utils/ShapeStyle.js";
+import { OnZoom, LODStyle } from "../lib/shape/utils/LODStyle.js";
+import { CollectionStyle } from "../lib/shape/collections/ShapeCollection.js";
+import TextCollection from "../lib/shape/collections/TextCollection.js";
 
-VehicleHexagon.shapeSize = 300;
+import "../lib/styles/shapeStyles.scss";
 
-function VehicleHexagon(data, initialShape, changes) {
+shape_02.shapeSize = 300;
+
+function shape_02(data, initialShape, changes) {
 	const shape = initialShape ? initialShape : Shape.create("g");
 
 	addBody();
@@ -17,7 +19,7 @@ function VehicleHexagon(data, initialShape, changes) {
 
 	OnZoom(data, 0.4, [LODStyle(headlineShape, "hidden", (k) => k < 0.4)]);
 
-	Shape.transform(shape, true, data.shape.scale * VehicleHexagon.shapeSize);
+	Shape.transform(shape, true, data.shape.scale * shape_02.shapeSize);
 	return shape;
 
 	function addBody() {
@@ -75,4 +77,4 @@ function VehicleHexagon(data, initialShape, changes) {
 	}
 }
 
-export default VehicleHexagon;
+export default shape_02;
