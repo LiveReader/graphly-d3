@@ -8,7 +8,7 @@ let graph = {
 };
 
 const simulation = new ForceSimulation(svg);
-simulation.render(graph);
+simulation.setTemplateOrigin("http://localhost:3001/templates/");
 
 simulation.onClick((e, d) => {
 	graph.nodes.forEach((node) => {
