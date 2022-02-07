@@ -1,13 +1,15 @@
-import Shape from "../lib/shape/Shape.js";
-import PathShape from "../lib/shape/shapes/PathShape.js";
-import ShapeStyle from "../lib/shape/utils/ShapeStyle.js";
-import { OnZoom, LODStyle } from "../lib/shape/utils/LODStyle.js";
-import { Alignment, CollectionStyle } from "../lib/shape/collections/ShapeCollection.js";
-import TextCollection from "../lib/shape/collections/TextCollection.js";
-import TagCollection from "../lib/shape/collections/TagCollection.js";
-import { TagStyle } from "../lib/shape/shapes/TagShape.js";
-
-import "../lib/styles/shapeStyles.scss";
+import {
+	Shape,
+	PathShape,
+	ShapeStyle,
+	OnZoom,
+	LODStyle,
+	Alignment,
+	CollectionStyle,
+	TextCollection,
+	TagCollection,
+	TagStyle,
+} from "../lib/template.js";
 
 shape_01.shapeSize = 300;
 

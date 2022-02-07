@@ -1,11 +1,4 @@
-import Shape from "../lib/shape/Shape.js";
-import PathShape from "../lib/shape/shapes/PathShape.js";
-import ShapeStyle from "../lib/shape/utils/ShapeStyle.js";
-import { OnZoom, LODStyle } from "../lib/shape/utils/LODStyle.js";
-import { CollectionStyle } from "../lib/shape/collections/ShapeCollection.js";
-import TextCollection from "../lib/shape/collections/TextCollection.js";
-
-import "../lib/styles/shapeStyles.scss";
+import { Shape, PathShape, ShapeStyle, OnZoom, LODStyle, CollectionStyle, TextCollection } from "../lib/template.js";
 
 shape_02.shapeSize = 300;
 
