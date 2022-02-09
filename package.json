@@ -12,7 +12,8 @@
 		".": {
 			"import": "./dist/main.es.js",
 			"require": "./dist/main.umd.js"
-		}
+		},
+		"./style.css": "./dist/style.css"
 	},
 	"repository": {
 		"type": "git",
