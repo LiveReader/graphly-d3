@@ -1,17 +1,19 @@
-import Shape from "../shape/Shape.js";
-import PathShape from "../shape/shapes/PathShape.js";
-import ShapeStyle from "../shape/utils/ShapeStyle.js";
-import { OnZoom, LODStyle } from "../shape/utils/LODStyle.js";
-import { Alignment, CollectionStyle } from "../shape/collections/ShapeCollection.js";
-import TextCollection from "../shape/collections/TextCollection.js";
-import TagCollection from "../shape/collections/TagCollection.js";
-import { TagStyle } from "../shape/shapes/TagShape.js";
+shape_01.shapeSize = 300;
 
-import "../styles/shapeStyles.scss";
+function shape_01(data, initialShape, changes, Template) {
+	const {
+		Shape,
+		PathShape,
+		ShapeStyle,
+		OnZoom,
+		LODStyle,
+		Alignment,
+		CollectionStyle,
+		TextCollection,
+		TagCollection,
+		TagStyle,
+	} = Template;
 
-PersonHexagon.shapeSize = 300;
-
-function PersonHexagon(data, initialShape, changes) {
 	const shape = initialShape ? initialShape : Shape.create("g");
 
 	const bodyShape = addBody();
@@ -52,7 +54,7 @@ function PersonHexagon(data, initialShape, changes) {
 		LODStyle(timerShape, "hidden", (k) => k < 0.6),
 	]);
 
-	Shape.transform(shape, true, data.shape.scale * PersonHexagon.shapeSize);
+	Shape.transform(shape, true, data.shape.scale * shape_01.shapeSize);
 	return shape;
 
 	function addBody() {
@@ -153,4 +155,4 @@ function PersonHexagon(data, initialShape, changes) {
 	}
 }
 
-export default PersonHexagon;
+export default shape_01;

@@ -1,4 +1,4 @@
-import { ForceSimulation } from "./lib/main.js";
+import ForceSimulation from "./lib/main.js";
 
 const svg = d3.select("svg");
 resize();
@@ -8,7 +8,7 @@ let graph = {
 };
 
 const simulation = new ForceSimulation(svg);
-simulation.render(graph);
+simulation.setTemplateOrigin("http://" + document.location.host + "/templates/");
 
 simulation.onClick((e, d) => {
 	graph.nodes.forEach((node) => {
@@ -21,10 +21,11 @@ simulation.onContextClick((e, d) => {
 	console.log("context", d.id);
 });
 
-simulation.onBackground((e, d) => {
+simulation.onBackground((e, pos) => {
 	graph.nodes.forEach((node) => {
 		node.selected = false;
 	});
+	console.log("clicked", pos);
 	simulation.render(graph);
 });
 
