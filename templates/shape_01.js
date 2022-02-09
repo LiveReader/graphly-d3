@@ -1,19 +1,19 @@
-import {
-	Shape,
-	PathShape,
-	ShapeStyle,
-	OnZoom,
-	LODStyle,
-	Alignment,
-	CollectionStyle,
-	TextCollection,
-	TagCollection,
-	TagStyle,
-} from "../lib/template.js";
-
 shape_01.shapeSize = 300;
 
-function shape_01(data, initialShape, changes) {
+function shape_01(data, initialShape, changes, Template) {
+	const {
+		Shape,
+		PathShape,
+		ShapeStyle,
+		OnZoom,
+		LODStyle,
+		Alignment,
+		CollectionStyle,
+		TextCollection,
+		TagCollection,
+		TagStyle,
+	} = Template;
+
 	const shape = initialShape ? initialShape : Shape.create("g");
 
 	const bodyShape = addBody();

@@ -1,8 +1,8 @@
-import { Shape, OnZoom, LODStyle } from "../lib/template.js";
-
 ClockShape.shapeSize = 150;
 
-function ClockShape(data, initialShape, changes) {
+function ClockShape(data, initialShape, changes, Template) {
+	const { Shape, OnZoom, LODStyle } = Template;
+
 	const shapeSize = ClockShape.shapeSize;
 	const shape = initialShape ? initialShape : Shape.create("g");
 
