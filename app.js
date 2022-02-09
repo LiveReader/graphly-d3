@@ -21,10 +21,11 @@ simulation.onContextClick((e, d) => {
 	console.log("context", d.id);
 });
 
-simulation.onBackground((e, d) => {
+simulation.onBackground((e, pos) => {
 	graph.nodes.forEach((node) => {
 		node.selected = false;
 	});
+	console.log("clicked", pos);
 	simulation.render(graph);
 });
 

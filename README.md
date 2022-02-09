@@ -76,8 +76,8 @@ simulation.onContextClick((e, d) => {
 #### On Background Click
 
 ```js
-simulation.onBackground((e, d) => {
+simulation.onBackground((e, pos) => {
 	// e carries the event data
-	// d provides the data object of the clicked node
+	// pos provides the relative position of the svg world coordinates (x, y)
 });
 ```
