@@ -18,14 +18,32 @@ simulation.onClick((e, d) => {
 });
 
 simulation.onContextClick((e, d) => {
-	console.log("context", d.id);
+	// remove the node
+	graph.nodes = graph.nodes.filter((node) => node.id != d.id);
+	graph.links = graph.links.filter((link) => link.source.id != d.id && link.target.id != d.id);
+	simulation.render(graph);
 });
 
 simulation.onBackground((e, pos) => {
 	graph.nodes.forEach((node) => {
 		node.selected = false;
 	});
-	console.log("clicked", pos);
+	// add new node
+	graph.nodes.push({
+		id: `n${graph.nodes.length}`,
+		shape: {
+			type: "shape_01",
+			scale: 1,
+		},
+		status: "minor",
+		name: {
+			first: "Joe",
+			last: "Doe",
+		},
+		tags: ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9", "tag10"],
+		x: pos.x,
+		y: pos.y,
+	});
 	simulation.render(graph);
 });
 
