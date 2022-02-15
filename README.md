@@ -38,6 +38,7 @@ const graphData = {
 };
 const svg = d3.select("svg");
 simulation = new ForceSimulation(svg);
+simulation.setTemplateOrigin("http://" + document.location.host + "/templates/");
 simulation.render(graphData);
 ```
 

@@ -48,7 +48,7 @@ function shape_02(data, initialShape, changes, Template) {
 		const titleShape = TextCollection(
 			data.label,
 			CollectionStyle(100, bbox.width, 0, bbox.height * 0.68, 40, 40, 1),
-			[ShapeStyle("hexagon-vehicle", true), ShapeStyle("title", true)]
+			[ShapeStyle("class", "hexagon-vehicle", true), ShapeStyle("class", "title", true)]
 		);
 		titleShape.classed("title", true);
 		shape.append(() => titleShape.node());
@@ -62,7 +62,7 @@ function shape_02(data, initialShape, changes, Template) {
 		const headlineShape = TextCollection(
 			data.status,
 			CollectionStyle(100, bbox.width, 0, bbox.height * 0.235, 40, 40, 1),
-			[ShapeStyle("hexagon-vehicle", true), ShapeStyle("headline", true)]
+			[ShapeStyle("class", "hexagon-vehicle", true), ShapeStyle("class", "headline", true)]
 		);
 		headlineShape.classed("headline", true);
 		shape.append(() => headlineShape.node());

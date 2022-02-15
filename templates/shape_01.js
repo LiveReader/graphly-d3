@@ -98,12 +98,12 @@ function shape_01(data, initialShape, changes, Template) {
 			CollectionStyle(310, bbox.width, 0, bbox.height * 0.6, 20, 20, 3, Alignment.Center, [110, 170, 230]),
 			TagStyle(
 				[40, 15],
-				[ShapeStyle("n_tag", true)],
+				[ShapeStyle("class", "n_tag", true)],
 				[
-					ShapeStyle("n_state_black", data.status === "deceased"),
-					ShapeStyle("n_state_red", data.status === "immediate"),
-					ShapeStyle("n_state_yellow", data.status === "delayed"),
-					ShapeStyle("n_state_green", data.status === "minor"),
+					ShapeStyle("class", "n_state_black", data.status === "deceased"),
+					ShapeStyle("class", "n_state_red", data.status === "immediate"),
+					ShapeStyle("class", "n_state_yellow", data.status === "delayed"),
+					ShapeStyle("class", "n_state_green", data.status === "minor"),
 				],
 				45
 			)
@@ -121,7 +121,7 @@ function shape_01(data, initialShape, changes, Template) {
 		const titleShape = TextCollection(
 			initials,
 			CollectionStyle(100, bbox.width, 0, bbox.height * 0.47, 40, 40, 1, Alignment.Center, [60]),
-			[ShapeStyle("n_title", true), ShapeStyle("n_dark_text", true)]
+			[ShapeStyle("class", "n_title", true), ShapeStyle("class", "n_dark_text", true)]
 		);
 		titleShape.classed("title", true);
 		shape.append(() => titleShape.node());
@@ -136,7 +136,11 @@ function shape_01(data, initialShape, changes, Template) {
 		const largeTitleShape = TextCollection(
 			initials,
 			CollectionStyle(100, bbox.width, 0, bbox.height * 0.65, 40, 40, 1, Alignment.Center, [60]),
-			[ShapeStyle("n_title", true), ShapeStyle("xxl", true), ShapeStyle("n_dark_text", true)]
+			[
+				ShapeStyle("class", "n_title", true),
+				ShapeStyle("class", "xxl", true),
+				ShapeStyle("class", "n_dark_text", true),
+			]
 		);
 		largeTitleShape.classed("largeTitle", true);
 		shape.append(() => largeTitleShape.node());
@@ -147,7 +151,7 @@ function shape_01(data, initialShape, changes, Template) {
 		if (initialShape) return shape.select("g.countdown");
 		const bbox = Shape.getBBox(shape);
 		const timerShape = TextCollection("", CollectionStyle(100, bbox.width, 0, bbox.height * 0.2, 40, 40, 1), [
-			ShapeStyle("n_subtitle", true),
+			ShapeStyle("class", "n_subtitle", true),
 		]);
 		timerShape.classed("countdown", true);
 		shape.append(() => timerShape.node());
