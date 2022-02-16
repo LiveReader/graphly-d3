@@ -10,7 +10,7 @@ function shape_02(data, initialShape, changes, Template) {
 	addTitle();
 	const headlineShape = addHeadline();
 
-	OnZoom(data, 0.4, [LODStyle(headlineShape, "hidden", (k) => k < 0.4)]);
+	OnZoom(data, 0.4, [LODStyle(headlineShape, "class", "hidden", (k) => k < 0.4)]);
 
 	Shape.transform(shape, true, data.shape.scale * shape_02.shapeSize);
 	return shape;

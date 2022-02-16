@@ -40,18 +40,18 @@ function shape_01(data, initialShape, changes, Template) {
 	}
 
 	OnZoom(data, 0.2, [
-		LODStyle(bodyShape, "n_node_fill", (k) => k > 0.2),
-		LODStyle(bodyShape, "n_state_black", (k) => data.status === "deceased" && k < 0.2),
-		LODStyle(bodyShape, "n_state_red", (k) => data.status === "immediate" && k < 0.2),
-		LODStyle(bodyShape, "n_state_yellow", (k) => data.status === "delayed" && k < 0.2),
-		LODStyle(bodyShape, "n_state_green", (k) => data.status === "minor" && k < 0.2),
-		LODStyle(largeTitleShape, "hidden", (k) => k > 0.6 || k < 0.2),
+		LODStyle(bodyShape, "class", "n_node_fill", (k) => k > 0.2),
+		LODStyle(bodyShape, "class", "n_state_black", (k) => data.status === "deceased" && k < 0.2),
+		LODStyle(bodyShape, "class", "n_state_red", (k) => data.status === "immediate" && k < 0.2),
+		LODStyle(bodyShape, "class", "n_state_yellow", (k) => data.status === "delayed" && k < 0.2),
+		LODStyle(bodyShape, "class", "n_state_green", (k) => data.status === "minor" && k < 0.2),
+		LODStyle(largeTitleShape, "class", "hidden", (k) => k > 0.6 || k < 0.2),
 	]);
 	OnZoom(data, 0.6, [
-		LODStyle(tagCollection, "hidden", (k) => k < 0.6),
-		LODStyle(titleShape, "hidden", (k) => k < 0.6),
-		LODStyle(largeTitleShape, "hidden", (k) => k > 0.6 || k < 0.2),
-		LODStyle(timerShape, "hidden", (k) => k < 0.6),
+		LODStyle(tagCollection, "class", "hidden", (k) => k < 0.6),
+		LODStyle(titleShape, "class", "hidden", (k) => k < 0.6),
+		LODStyle(largeTitleShape, "class", "hidden", (k) => k > 0.6 || k < 0.2),
+		LODStyle(timerShape, "class", "hidden", (k) => k < 0.6),
 	]);
 
 	Shape.transform(shape, true, data.shape.scale * shape_01.shapeSize);
