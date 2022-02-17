@@ -4,7 +4,7 @@
 			{
 				"id": "n0",
 				"shape": {
-					"type": "shape_03",
+					"type": "shape_01_new",
 					"scale": 1
 				},
 				"status": "immediate",
@@ -12,12 +12,13 @@
 					"first": "VU",
 					"last": "Rietzke"
 				},
-				"tags": ["bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"]
+				"tags": ["bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"],
+				"accessibility": "Im Gelände"
 			},
 			{
 				"id": "n1",
 				"shape": {
-					"type": "shape_01",
+					"type": "shape_01_new",
 					"scale": 1
 				},
 				"status": "delayed",
@@ -26,12 +27,13 @@
 					"last": "Rietzke"
 				},
 				"tags": ["Knochenbruch: Arm", "atmend", "Schnittwunde: Fuß"],
+				"accessibility": "Im Wasser",
 				"countdown": 100
 			},
 			{
 				"id": "n2",
 				"shape": {
-					"type": "shape_01",
+					"type": "shape_01_new",
 					"scale": 1
 				},
 				"status": "immediate",
@@ -40,6 +42,7 @@
 					"last": "Rietzke"
 				},
 				"tags": ["bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"],
+				"accessibility": "Eingeschlossen",
 				"countdown": 2
 			},
 			{
