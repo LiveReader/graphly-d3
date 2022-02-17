@@ -5,9 +5,9 @@ import { OnZoom, LODStyle } from "../shape/utils/LODStyle.js";
 import { Alignment, CollectionStyle } from "../shape/collections/ShapeCollection.js";
 import TextCollection from "../shape/collections/TextCollection.js";
 
-VehicleHexagon.shapeSize = 300;
+function shape_02(data, initialShape, changes, Template) {
+	const { Shape, PathShape, ShapeStyle, OnZoom, LODStyle, CollectionStyle, TextCollection } = Template;
 
-function VehicleHexagon(data, initialShape, changes) {
 	const shape = initialShape ? initialShape : Shape.create("g");
 	const bodyShape = addBody();
 	const headShape = addHead();
@@ -35,7 +35,7 @@ function VehicleHexagon(data, initialShape, changes) {
 		LODStyle(largeTitleShape, "hidden", (k) => k > 0.3),
 	]);
 
-	Shape.transform(shape, true, data.shape.scale * VehicleHexagon.shapeSize);
+	Shape.transform(shape, true, data.shape.scale * shape_02.shapeSize);
 	return shape;
 
 	function addBody() {
@@ -126,7 +126,7 @@ function VehicleHexagon(data, initialShape, changes) {
 		const headlineShape = TextCollection(
 			data.status,
 			CollectionStyle(100, bbox.width, 0, bbox.height * 0.235, 40, 40, 1),
-			[ShapeStyle("hexagon-vehicle", true), ShapeStyle("headline", true)]
+			[ShapeStyle("class", "hexagon-vehicle", true), ShapeStyle("class", "headline", true)]
 		);
 		headlineShape.classed("headline", true);
 		shape.append(() => headlineShape.node());
@@ -134,4 +134,4 @@ function VehicleHexagon(data, initialShape, changes) {
 	}
 }
 
-export default VehicleHexagon;
+export default shape_02;

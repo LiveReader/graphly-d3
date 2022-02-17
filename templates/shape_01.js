@@ -1,17 +1,19 @@
-import Shape from "../shape/Shape.js";
-import PathShape from "../shape/shapes/PathShape.js";
-import ShapeStyle from "../shape/utils/ShapeStyle.js";
-import { OnZoom, LODStyle } from "../shape/utils/LODStyle.js";
-import { Alignment, CollectionStyle } from "../shape/collections/ShapeCollection.js";
-import TextCollection from "../shape/collections/TextCollection.js";
-import TagCollection from "../shape/collections/TagCollection.js";
-import { TagStyle } from "../shape/shapes/TagShape.js";
+shape_01.shapeSize = 300;
 
-import "../styles/shapeStyles.scss";
+function shape_01(data, initialShape, changes, Template) {
+	const {
+		Shape,
+		PathShape,
+		ShapeStyle,
+		OnZoom,
+		LODStyle,
+		Alignment,
+		CollectionStyle,
+		TextCollection,
+		TagCollection,
+		TagStyle,
+	} = Template;
 
-PersonHexagon.shapeSize = 300;
-
-function PersonHexagon(data, initialShape, changes) {
 	const shape = initialShape ? initialShape : Shape.create("g");
 
 	const bodyShape = addBody();
@@ -38,21 +40,21 @@ function PersonHexagon(data, initialShape, changes) {
 	}
 
 	OnZoom(data, 0.2, [
-		LODStyle(bodyShape, "n_node_fill", (k) => k > 0.2),
-		LODStyle(bodyShape, "n_state_black", (k) => data.status === "deceased" && k < 0.2),
-		LODStyle(bodyShape, "n_state_red", (k) => data.status === "immediate" && k < 0.2),
-		LODStyle(bodyShape, "n_state_yellow", (k) => data.status === "delayed" && k < 0.2),
-		LODStyle(bodyShape, "n_state_green", (k) => data.status === "minor" && k < 0.2),
-		LODStyle(largeTitleShape, "hidden", (k) => k > 0.6 || k < 0.2),
+		LODStyle(bodyShape, "class", "n_node_fill", (k) => k > 0.2),
+		LODStyle(bodyShape, "class", "n_state_black", (k) => data.status === "deceased" && k < 0.2),
+		LODStyle(bodyShape, "class", "n_state_red", (k) => data.status === "immediate" && k < 0.2),
+		LODStyle(bodyShape, "class", "n_state_yellow", (k) => data.status === "delayed" && k < 0.2),
+		LODStyle(bodyShape, "class", "n_state_green", (k) => data.status === "minor" && k < 0.2),
+		LODStyle(largeTitleShape, "class", "hidden", (k) => k > 0.6 || k < 0.2),
 	]);
 	OnZoom(data, 0.6, [
-		LODStyle(tagCollection, "hidden", (k) => k < 0.6),
-		LODStyle(titleShape, "hidden", (k) => k < 0.6),
-		LODStyle(largeTitleShape, "hidden", (k) => k > 0.6 || k < 0.2),
-		LODStyle(timerShape, "hidden", (k) => k < 0.6),
+		LODStyle(tagCollection, "class", "hidden", (k) => k < 0.6),
+		LODStyle(titleShape, "class", "hidden", (k) => k < 0.6),
+		LODStyle(largeTitleShape, "class", "hidden", (k) => k > 0.6 || k < 0.2),
+		LODStyle(timerShape, "class", "hidden", (k) => k < 0.6),
 	]);
 
-	Shape.transform(shape, true, data.shape.scale * PersonHexagon.shapeSize);
+	Shape.transform(shape, true, data.shape.scale * shape_01.shapeSize);
 	return shape;
 
 	function addBody() {
@@ -96,12 +98,12 @@ function PersonHexagon(data, initialShape, changes) {
 			CollectionStyle(310, bbox.width, 0, bbox.height * 0.6, 20, 20, 3, Alignment.Center, [110, 170, 230]),
 			TagStyle(
 				[40, 15],
-				[ShapeStyle("n_tag", true)],
+				[ShapeStyle("class", "n_tag", true)],
 				[
-					ShapeStyle("n_state_black", data.status === "deceased"),
-					ShapeStyle("n_state_red", data.status === "immediate"),
-					ShapeStyle("n_state_yellow", data.status === "delayed"),
-					ShapeStyle("n_state_green", data.status === "minor"),
+					ShapeStyle("class", "n_state_black", data.status === "deceased"),
+					ShapeStyle("class", "n_state_red", data.status === "immediate"),
+					ShapeStyle("class", "n_state_yellow", data.status === "delayed"),
+					ShapeStyle("class", "n_state_green", data.status === "minor"),
 				],
 				45
 			)
@@ -119,7 +121,7 @@ function PersonHexagon(data, initialShape, changes) {
 		const titleShape = TextCollection(
 			initials,
 			CollectionStyle(100, bbox.width, 0, bbox.height * 0.47, 40, 40, 1, Alignment.Center, [60]),
-			[ShapeStyle("n_title", true), ShapeStyle("n_dark_text", true)]
+			[ShapeStyle("class", "n_title", true), ShapeStyle("class", "n_dark_text", true)]
 		);
 		titleShape.classed("title", true);
 		shape.append(() => titleShape.node());
@@ -134,7 +136,11 @@ function PersonHexagon(data, initialShape, changes) {
 		const largeTitleShape = TextCollection(
 			initials,
 			CollectionStyle(100, bbox.width, 0, bbox.height * 0.65, 40, 40, 1, Alignment.Center, [60]),
-			[ShapeStyle("n_title", true), ShapeStyle("xxl", true), ShapeStyle("n_dark_text", true)]
+			[
+				ShapeStyle("class", "n_title", true),
+				ShapeStyle("class", "xxl", true),
+				ShapeStyle("class", "n_dark_text", true),
+			]
 		);
 		largeTitleShape.classed("largeTitle", true);
 		shape.append(() => largeTitleShape.node());
@@ -145,7 +151,7 @@ function PersonHexagon(data, initialShape, changes) {
 		if (initialShape) return shape.select("g.countdown");
 		const bbox = Shape.getBBox(shape);
 		const timerShape = TextCollection("", CollectionStyle(100, bbox.width, 0, bbox.height * 0.2, 40, 40, 1), [
-			ShapeStyle("n_subtitle", true),
+			ShapeStyle("class", "n_subtitle", true),
 		]);
 		timerShape.classed("countdown", true);
 		shape.append(() => timerShape.node());
@@ -153,4 +159,4 @@ function PersonHexagon(data, initialShape, changes) {
 	}
 }
 
-export default PersonHexagon;
+export default shape_01;
