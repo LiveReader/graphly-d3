@@ -1,12 +1,6 @@
-import Shape from "../shape/Shape.js";
-import PathShape from "../shape/shapes/PathShape.js";
-import ShapeStyle from "../shape/utils/ShapeStyle.js";
-import { OnZoom, LODStyle } from "../shape/utils/LODStyle.js";
-import { Alignment, CollectionStyle } from "../shape/collections/ShapeCollection.js";
-import TextCollection from "../shape/collections/TextCollection.js";
-
+shape_02.shapeSize = 300;
 function shape_02(data, initialShape, changes, Template) {
-	const { Shape, PathShape, ShapeStyle, OnZoom, LODStyle, CollectionStyle, TextCollection } = Template;
+	const { Shape, PathShape, ShapeStyle, OnZoom, LODStyle, CollectionStyle, TextCollection, Alignment } = Template;
 
 	const shape = initialShape ? initialShape : Shape.create("g");
 	const bodyShape = addBody();

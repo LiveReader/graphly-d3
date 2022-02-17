@@ -1,15 +1,8 @@
-import Shape from "../shape/Shape.js";
-import PathShape from "../shape/shapes/PathShape.js";
-import ShapeStyle from "../shape/utils/ShapeStyle.js";
-import { OnZoom, LODStyle } from "../shape/utils/LODStyle.js";
-import { Alignment, CollectionStyle } from "../shape/collections/ShapeCollection.js";
-import TextCollection from "../shape/collections/TextCollection.js";
-import TagCollection from "../shape/collections/TagCollection.js";
-import { TagStyle } from "../shape/shapes/TagShape.js";
-
 EmergencyHexagon.shapeSize = 300;
 
-function EmergencyHexagon(data, initialShape, changes) {
+function EmergencyHexagon(data, initialShape, changes, Template) {
+	const { Shape, PathShape, ShapeStyle, Alignment, CollectionStyle, TextCollection } = Template;
+
 	const shape = initialShape ? initialShape : Shape.create("g");
 
 	const bodyShape = addBody();
@@ -38,7 +31,7 @@ function EmergencyHexagon(data, initialShape, changes) {
 		const titleShape = TextCollection(
 			data.name.first,
 			CollectionStyle(100, bbox.width, 0, bbox.height * 0.55, 40, 40, 1, Alignment.Center, [60]),
-			[ShapeStyle("hexagon-emergency", true), ShapeStyle("title", true)]
+			[ShapeStyle("class", "hexagon-emergency", true), ShapeStyle("class", "title", true)]
 		);
 		titleShape.classed("title", true);
 		shape.append(() => titleShape.node());
