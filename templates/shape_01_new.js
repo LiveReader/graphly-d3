@@ -128,8 +128,8 @@ function shape_01_new(data, initialShape, changes, Template) {
 			CollectionStyle(310, bbox.width, 0, bbox.height * 0.65, 20, 20, 3, Alignment.Center, [110, 170, 230]),
 			TagStyle(
 				[40, 15],
-				[ShapeStyle("class", "n_tag", true), ShapeStyle("class", "n_dark_text", true)],
-				[ShapeStyle("class", "n_gray", true), ShapeStyle("class", "lighten-3", true)],
+				[ShapeStyle("class", "n_tag.n_dark_text", true)],
+				[ShapeStyle("class", "n_gray.lighten-3", true)],
 				45
 			)
 		);
