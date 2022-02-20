@@ -8,6 +8,7 @@ let graph = {
 };
 
 const simulation = new ForceSimulation(svg);
+simulation.setWorldBoundaries(window.innerHeight * 2, window.innerWidth * 2);
 simulation.setTemplateOrigin("http://" + document.location.host + "/templates/");
 
 simulation.onClick((e, d) => {
