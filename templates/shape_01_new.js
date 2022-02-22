@@ -22,7 +22,6 @@ function shape_01_new(data, initialShape, changes, Template) {
 	addHead();
 	const accessibility = addAccessibility();
 	const diamond = addDiamond();
-	const largeDiamond = addLargeDiamond();
 	const tagCollection = addTags();
 	const titleShape = addTitle();
 	const largeTitleShape = addLargeTitle();
@@ -48,9 +47,6 @@ function shape_01_new(data, initialShape, changes, Template) {
 	const diaBBox = Shape.getBBox(diamond);
 	diamond.attr("transform", `translate(${bbox.width / 2 - diaBBox.width / 2 + 6}, ${bbox.height * 0.1} )`);
 
-	const largeDiaBBox = Shape.getBBox(largeDiamond);
-	largeDiamond.attr("transform", `translate(${bbox.width / 2 - largeDiaBBox.width / 2 + 6}, ${bbox.height * 0.21} )`);
-
 	const accBBox = Shape.getBBox(accessibility);
 	accessibility.attr("transform", `translate(${bbox.width / 2}, ${bbox.height / 2 + 15} )`);
 
@@ -61,16 +57,12 @@ function shape_01_new(data, initialShape, changes, Template) {
 		LODStyle(bodyShape, "class", "n_state_yellow", (k) => data.status === "delayed" && k < 0.2),
 		LODStyle(bodyShape, "class", "n_state_green", (k) => data.status === "minor" && k < 0.2),
 		LODStyle(largeTitleShape, "class", "hidden", (k) => k > 0.6 || k < 0.2),
-		// LODStyle(largeDiamond, "class", "hidden", (k) => k > 0.6 || k < 0.2),
 	]);
 	OnZoom(data, 0.6, [
 		LODStyle(tagCollection, "class", "hidden", (k) => k < 0.6),
 		LODStyle(titleShape, "class", "hidden", (k) => k < 0.6),
 		LODStyle(largeTitleShape, "class", "hidden", (k) => k > 0.6 || k < 0.2),
 		LODStyle(timerShape, "class", "hidden", (k) => k < 0.6),
-		LODStyle(accessibility, "class", "hidden", (k) => k < 0.6),
-		LODStyle(diamond, "class", "hidden", (k) => k < 0.6),
-		LODStyle(largeDiamond, "class", "hidden", (k) => k > 0.6 || k < 0.2),
 	]);
 
 	Shape.transform(shape, true, data.shape.scale * shape_01_new.shapeSize);
@@ -109,14 +101,13 @@ function shape_01_new(data, initialShape, changes, Template) {
 	}
 
 	function addDiamond() {
-		const diamondShape = initialShape
-			? shape.select("g.diamond")
-			: SVGShape(`
+		const diamondShape = SVGShape(`
 			<g>
 				<rect x="42.52" y="42.52" width="234.05" height="234.05" rx="15.59" transform="translate(159.54 -66.08) rotate(45)"/>
 			</g>
 		`);
-		diamondShape.classed("diamond", true);
+		// diamondShape
+		// 	.classed("head", true)
 		// 	.classed("n_animated", true)
 		// 	.classed("n_state_black", data.status === "deceased")
 		// 	.classed("n_state_red", data.status === "immediate")
@@ -126,26 +117,6 @@ function shape_01_new(data, initialShape, changes, Template) {
 			shape.append(() => diamondShape.node());
 		}
 		return diamondShape;
-	}
-
-	function addLargeDiamond() {
-		const largeDiamondShape = initialShape
-			? shape.select("g.largeDiamond")
-			: SVGShape(`
-			<g>
-			<rect id="diamond" x="81.32" y="81.32" width="421.4" height="421.4" rx="15.59" transform="translate(292.02 -120.96) rotate(45)"/>
-			</g>
-		`);
-		largeDiamondShape.classed("largeDiamond", true);
-		// 	.classed("n_animated", true)
-		// 	.classed("n_state_black", data.status === "deceased")
-		// 	.classed("n_state_red", data.status === "immediate")
-		// 	.classed("n_state_yellow", data.status === "delayed")
-		// 	.classed("n_state_green", data.status === "minor");
-		if (!initialShape) {
-			shape.append(() => largeDiamondShape.node());
-		}
-		return largeDiamondShape;
 	}
 
 	function addTags() {
