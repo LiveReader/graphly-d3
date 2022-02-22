@@ -6,6 +6,7 @@
 	stroke-miterlimit: 10;
 
 	$shadow: drop-shadow(0px 24px 120px rgba(0, 0, 0, 0.14));
+	$deep_shadow: drop-shadow(0px 24px 60px rgba(0, 0, 0, 0.28));
 	$selection: drop-shadow(0px 0px 5px $selection-color);
 
 	&.shadow {
@@ -13,11 +14,20 @@
 		filter: $shadow;
 	}
 	&.selected {
-		-webkit-filter: $selection $shadow;
-		filter: $selection $shadow;
+		-webkit-filter: $selection;
+		filter: $selection;
+		&.shadow {
+			-webkit-filter: $selection $shadow;
+			filter: $deep_shadow $selection;
+		}
 	}
 	&.disabled {
-		filter: sepia(80%) grayscale(80%);
+		-webkit-filter: $deep_shadow invert(15%) sepia(30%) grayscale(80%);
+		filter: $deep_shadow invert(15%) sepia(30%) grayscale(80%);
+		&.selected {
+			-webkit-filter: $deep_shadow invert(15%) sepia(30%) grayscale(80%) $selection;
+			filter: $deep_shadow invert(15%) sepia(30%) grayscale(80%) $selection;
+		}
 	}
 }
 
