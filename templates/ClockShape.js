@@ -1,9 +1,8 @@
-import Shape from "../shape/Shape.js";
-import { OnZoom, LODStyle } from "../shape/utils/LODStyle.js";
-
 ClockShape.shapeSize = 150;
 
-function ClockShape(data, initialShape, changes) {
+function ClockShape(data, initialShape, changes, Template) {
+	const { Shape, OnZoom, LODStyle } = Template;
+
 	const shapeSize = ClockShape.shapeSize;
 	const shape = initialShape ? initialShape : Shape.create("g");
 
@@ -47,12 +46,12 @@ function ClockShape(data, initialShape, changes) {
 	}
 
 	OnZoom(data, 0.6, [
-		LODStyle(timeLabels, "hidden", (k) => k < 0.6),
-		LODStyle(timeDots, "hidden", (k) => k > 0.6 || k < 0.4),
+		LODStyle(timeLabels, "class", "hidden", (k) => k < 0.6),
+		LODStyle(timeDots, "class", "hidden", (k) => k > 0.6 || k < 0.4),
 	]);
 	OnZoom(data, 0.4, [
-		LODStyle(timeDots, "hidden", (k) => k > 0.6 || k < 0.4),
-		LODStyle(secondHand, "hidden", (k) => k < 0.4),
+		LODStyle(timeDots, "class", "hidden", (k) => k > 0.6 || k < 0.4),
+		LODStyle(secondHand, "class", "hidden", (k) => k < 0.4),
 	]);
 
 	Shape.transform(shape, false, data.shape.scale * shapeSize);

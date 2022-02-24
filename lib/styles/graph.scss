@@ -1,0 +1,68 @@
+@import "colors.scss";
+
+.node {
+	fill: $node-fill-color;
+	stroke: $node-stroke-color;
+	stroke-miterlimit: 10;
+
+	$shadow: drop-shadow(0px 24px 120px rgba(0, 0, 0, 0.14));
+	$deep_shadow: drop-shadow(0px 24px 60px rgba(0, 0, 0, 0.28));
+	$selection: drop-shadow(0px 0px 5px $selection-color);
+
+	&.shadow {
+		-webkit-filter: $shadow;
+		filter: $shadow;
+	}
+	&.selected {
+		-webkit-filter: $selection;
+		filter: $selection;
+		&.shadow {
+			-webkit-filter: $selection $shadow;
+			filter: $shadow $selection;
+		}
+	}
+	&.disabled {
+		-webkit-filter: $deep_shadow invert(15%) sepia(30%) grayscale(80%);
+		filter: $deep_shadow invert(15%) sepia(30%) grayscale(80%);
+		&.selected {
+			-webkit-filter: $deep_shadow invert(15%) sepia(30%) grayscale(80%) $selection;
+			filter: $deep_shadow invert(15%) sepia(30%) grayscale(80%) $selection;
+		}
+	}
+}
+
+.link,
+.prelink {
+	.label {
+		font-size: 0.8em;
+		font-family: "Roboto";
+		font-weight: 400;
+		fill: $foreground-color;
+	}
+
+	.edge {
+		stroke: $node-stroke-color;
+		fill: none;
+		stroke-width: 2;
+
+		&.solid {
+			stroke-width: 2;
+			stroke-dasharray: none;
+		}
+		&.dotted {
+			stroke-width: 2.5;
+			stroke-dasharray: 4, 10;
+		}
+		&.dashed {
+			stroke-width: 2;
+			stroke-dasharray: 10, 10;
+		}
+	}
+
+	.arrow {
+		stroke: $node-stroke-color;
+		fill: none;
+		stroke-width: 2;
+		stroke-dasharray: none;
+	}
+}

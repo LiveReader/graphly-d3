@@ -1,0 +1,57 @@
+@import "colors.scss";
+
+.noselect {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.hidden {
+	opacity: 0;
+	transition: opacity 0.1s ease-in-out;
+}
+.n_animated {
+	transition: fill 0.3s ease-in-out;
+}
+
+.n_light_text {
+	fill: $node-fill-color;
+}
+.n_dark_text {
+	fill: $foreground-color;
+}
+
+.n_text {
+	color: $foreground-color;
+	font-family: "Roboto";
+	text-anchor: middle;
+	stroke: none;
+}
+.n_title {
+	@extend .n_text;
+	font-size: 120px;
+	font-weight: normal;
+	&.xl {
+		font-size: 180px;
+	}
+	&.xxl {
+		font-size: 240px;
+	}
+}
+.n_subtitle {
+	@extend .n_text;
+	font-size: 80px;
+	font-weight: lighter;
+}
+.n_description {
+	@extend .n_text;
+	font-size: 48px;
+	font-weight: lighter;
+}
+.n_tag {
+	@extend .n_text;
+	font-size: 48px;
+	font-weight: lighter;
+}

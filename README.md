@@ -32,7 +32,7 @@ npm run build
 To interact with the library, it provides a highlevel API of the force simulation.
 
 ```js
-import { ForceSimulation } from "@livereader/graphly-d3";
+import ForceSimulation from "@livereader/graphly-d3";
 
 const graphData = {
 	nodes: [],
@@ -40,6 +40,7 @@ const graphData = {
 };
 const svg = d3.select("svg");
 simulation = new ForceSimulation(svg);
+simulation.setTemplateOrigin("http://" + document.location.host + "/templates/");
 simulation.render(graphData);
 ```
 
@@ -78,8 +79,8 @@ simulation.onContextClick((e, d) => {
 #### On Background Click
 
 ```js
-simulation.onBackground((e, d) => {
+simulation.onBackground((e, pos) => {
 	// e carries the event data
-	// d provides the data object of the clicked node
+	// pos provides the relative position of the svg world coordinates (x, y)
 });
 ```
