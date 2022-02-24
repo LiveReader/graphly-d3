@@ -18,7 +18,7 @@
 		filter: $selection;
 		&.shadow {
 			-webkit-filter: $selection $shadow;
-			filter: $deep_shadow $selection;
+			filter: $shadow $selection;
 		}
 	}
 	&.disabled {
