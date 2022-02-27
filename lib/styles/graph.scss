@@ -1,32 +1,42 @@
 @import "colors.scss";
 
+// svg {
+// 	shape-rendering: optimizeSpeed;
+// 	text-rendering: optimizeSpeed;
+// 	image-rendering: optimizeSpeed;
+// }
+
 .node {
 	fill: $node-fill-color;
 	stroke: $node-stroke-color;
 	stroke-miterlimit: 10;
+}
 
+.nodeContainer {
+	&.disabled {
+		filter: grayscale(100%);
+	}
+}
+
+// exclude safari
+.chrome .nodeContainer,
+.firefox .nodeContainer {
 	$shadow: drop-shadow(0px 24px 120px rgba(0, 0, 0, 0.14));
 	$deep_shadow: drop-shadow(0px 24px 60px rgba(0, 0, 0, 0.28));
 	$selection: drop-shadow(0px 0px 5px $selection-color);
 	$grayed: invert(15%) sepia(30%) grayscale(80%);
-
 	&.shadow {
-		-webkit-filter: $shadow;
 		filter: $shadow;
 	}
 	&.selected {
-		-webkit-filter: $selection;
 		filter: $selection;
 		&.shadow {
-			-webkit-filter: $shadow $selection;
 			filter: $shadow $selection;
 		}
 	}
 	&.disabled {
-		-webkit-filter: $deep_shadow $grayed;
 		filter: $deep_shadow $grayed;
 		&.selected {
-			-webkit-filter: $deep_shadow $grayed $selection;
 			filter: $deep_shadow $grayed $selection;
 		}
 	}
