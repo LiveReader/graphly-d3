@@ -19,7 +19,22 @@
 		"type": "git",
 		"url": "git+https://github.com/LiveReader/graphly-d3.git"
 	},
-	"author": "jason-rietzke, luisa-schmidt",
+	"author": {
+		"name": "LiveReader GmbH",
+		"url": "http://livereader.com"
+	},
+	"contributors": [
+		{
+			"name": "Jason Rietzke",
+			"email": "jason.rietzke@livereader.de",
+			"url": "https://github.com/jason-rietzke"
+		},
+		{
+			"name": "Luisa Schmidt",
+			"email": "luisa.schmidt@livereader.de",
+			"url": "https://github.com/luisa-schmidt"
+		}
+	],
 	"license": "ISC",
 	"bugs": {
 		"url": "https://github.com/LiveReader/graphly-d3/issues"
