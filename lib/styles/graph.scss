@@ -79,6 +79,10 @@
 			stroke-width: 2;
 			stroke-dasharray: 10, 10;
 		}
+		&.hidden {
+			stroke-width: 2;
+			stroke-opacity: 0;
+		}
 	}
 
 	.arrow {
@@ -86,5 +90,9 @@
 		fill: none;
 		stroke-width: 2;
 		stroke-dasharray: none;
+		&.hidden {
+			stroke-width: 2;
+			stroke-opacity: 0;
+		}
 	}
 }
