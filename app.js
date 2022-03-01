@@ -74,6 +74,12 @@ simulation.onNewEdge((source, target) => {
 	simulation.render(graph);
 });
 
+simulation.onDragEnd((e, d, pos) => {
+	if (!d.anchor) return;
+	d.anchor.x = pos.x;
+	d.anchor.y = pos.y;
+});
+
 fetch("./demo-data.json")
 	.then((response) => response.json())
 	.then((data) => {
