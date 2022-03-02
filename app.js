@@ -75,9 +75,11 @@ simulation.onNewEdge((source, target) => {
 });
 
 simulation.onDragEnd((e, d, pos) => {
-	if (!d.anchor) return;
+	if (!d.anchor) d.anchor = {};
+	d.anchor.type = "soft";
 	d.anchor.x = pos.x;
 	d.anchor.y = pos.y;
+	simulation.render(graph);
 });
 
 fetch("./demo-data.json")

@@ -41,6 +41,11 @@
 					"type": "shape_01_new",
 					"scale": 1
 				},
+				"anchor": {
+					"type": "soft",
+					"x": 900,
+					"y": 900
+				},
 				"status": "immediate",
 				"name": {
 					"first": "Eric",
