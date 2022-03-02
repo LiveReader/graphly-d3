@@ -1,4 +1,5 @@
 import ForceSimulation from "./lib/main.js";
+import * as d3 from "d3";
 
 const svg = d3.select("svg");
 resize();
@@ -70,6 +71,14 @@ simulation.onNewEdge((source, target) => {
 		label: "",
 	};
 	graph.links.push(link);
+	simulation.render(graph);
+});
+
+simulation.onDragEnd((e, d, pos) => {
+	if (!d.anchor) d.anchor = {};
+	d.anchor.type = "soft";
+	d.anchor.x = pos.x;
+	d.anchor.y = pos.y;
 	simulation.render(graph);
 });
 
