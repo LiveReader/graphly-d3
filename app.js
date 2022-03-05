@@ -9,7 +9,7 @@ let graph = {
 };
 
 const simulation = new ForceSimulation(svg);
-simulation.setWorldBoundaries(window.innerHeight, window.innerWidth);
+// simulation.setWorldBoundaries(window.innerHeight, window.innerWidth);
 simulation.setTemplateOrigin("http://" + document.location.host + "/templates/");
 
 simulation.onClick((e, d) => {
@@ -55,8 +55,11 @@ simulation.onBackground((e, pos) => {
 				last: "Doe",
 			},
 			tags: ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9", "tag10"],
-			x: pos.x,
-			y: pos.y,
+			spawn: {
+				source: "n0",
+				angle: "random",
+				distance: 500,
+			},
 		});
 	}
 	simulation.render(graph);
