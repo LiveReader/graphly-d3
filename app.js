@@ -78,6 +78,16 @@ simulation.onNewEdge((source, target) => {
 });
 
 simulation.onDragEnd((e, d, pos) => {
+	// change satellite angle
+	if (d.satellite) {
+		const position = { x: d.x, y: d.y };
+		const sourcePos = { x: d.satellite.source.x, y: d.satellite.source.y };
+		const angle = Math.atan2(position.y - sourcePos.y, position.x - sourcePos.x);
+		const degrees = angle * (180 / Math.PI) + 90;
+		d.satellite.angle = degrees;
+	}
+
+	// set anchor
 	if (!d.anchor) d.anchor = {};
 	d.anchor.type = "soft";
 	d.anchor.x = pos.x;
