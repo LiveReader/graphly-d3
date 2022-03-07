@@ -41,15 +41,110 @@
 					"type": "shape_01_new",
 					"scale": 1
 				},
-				"anchor": {
-					"type": "soft",
-					"x": 1000,
-					"y": 700
+				"satellite": {
+					"source": "n1",
+					"angle": 0,
+					"distance": 400
 				},
 				"status": "immediate",
 				"name": {
 					"first": "Eric",
 					"last": "Rietzke"
+				},
+				"tags": ["bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"],
+				"accessibility": "Eingeschlossen",
+				"countdown": 2
+			},
+			{
+				"id": "n3",
+				"shape": {
+					"type": "shape_01_new",
+					"scale": 1
+				},
+				"status": "delayed",
+				"name": {
+					"first": "A",
+					"last": "A"
+				},
+				"tags": ["Knochenbruch: Arm", "atmend", "Schnittwunde: Fuß"],
+				"accessibility": "Im Wasser",
+				"countdown": 100
+			},
+			{
+				"id": "n4",
+				"shape": {
+					"type": "shape_01_new",
+					"scale": 1
+				},
+				"satellite": {
+					"source": "n3",
+					"angle": "random",
+					"distance": 400
+				},
+				"status": "immediate",
+				"name": {
+					"first": "B",
+					"last": "B"
+				},
+				"tags": ["bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"],
+				"accessibility": "Eingeschlossen",
+				"countdown": 2
+			},
+			{
+				"id": "n5",
+				"shape": {
+					"type": "shape_01_new",
+					"scale": 1
+				},
+				"satellite": {
+					"source": "n3",
+					"angle": "random",
+					"distance": 400
+				},
+				"status": "immediate",
+				"name": {
+					"first": "C",
+					"last": "C"
+				},
+				"tags": ["bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"],
+				"accessibility": "Eingeschlossen",
+				"countdown": 2
+			},
+			{
+				"id": "n6",
+				"shape": {
+					"type": "shape_01_new",
+					"scale": 1
+				},
+				"satellite": {
+					"source": "n5",
+					"angle": "random",
+					"distance": 400
+				},
+				"status": "immediate",
+				"name": {
+					"first": "D",
+					"last": "D"
+				},
+				"tags": ["bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"],
+				"accessibility": "Eingeschlossen",
+				"countdown": 2
+			},
+			{
+				"id": "n7",
+				"shape": {
+					"type": "shape_01_new",
+					"scale": 1
+				},
+				"satellite": {
+					"source": "n5",
+					"angle": "random",
+					"distance": 400
+				},
+				"status": "immediate",
+				"name": {
+					"first": "E",
+					"last": "E"
 				},
 				"tags": ["bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"],
 				"accessibility": "Eingeschlossen",
@@ -86,6 +181,46 @@
 				"target": "n2",
 				"type": "solid",
 				"directed": true,
+				"label": "loose",
+				"strength": "loose"
+			},
+			{
+				"source": "n3",
+				"target": "n0",
+				"type": "solid",
+				"directed": true,
+				"label": "strong",
+				"strength": "strong"
+			},
+			{
+				"source": "n4",
+				"target": "n3",
+				"type": "dotted",
+				"directed": false,
+				"label": "loose",
+				"strength": "loose"
+			},
+			{
+				"source": "n5",
+				"target": "n3",
+				"type": "dotted",
+				"directed": false,
+				"label": "loose",
+				"strength": "loose"
+			},
+			{
+				"source": "n6",
+				"target": "n5",
+				"type": "dotted",
+				"directed": false,
+				"label": "loose",
+				"strength": "loose"
+			},
+			{
+				"source": "n7",
+				"target": "n5",
+				"type": "dotted",
+				"directed": false,
 				"label": "loose",
 				"strength": "loose"
 			}
