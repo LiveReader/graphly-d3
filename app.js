@@ -1,4 +1,4 @@
-import ForceSimulation from "./lib/main.js";
+import { ForceSimulation } from "./lib/main.js";
 import * as d3 from "d3";
 
 const svg = d3.select("svg");
