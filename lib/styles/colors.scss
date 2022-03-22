@@ -6,30 +6,12 @@ $node-stroke-color: #a6a6a6;
 
 $selection-color: #4fc3f7;
 
-$state-black: #404040;
-$state-red: #e57373;
-$state-yellow: #dce775;
-$state-green: #81c784;
-
 .n_node_fill {
 	fill: $node-fill-color;
 }
 .n_node_stroke {
 	stroke: $node-stroke-color;
 }
-.n_state_black {
-	fill: $state-black;
-}
-.n_state_red {
-	fill: $state-red;
-}
-.n_state_yellow {
-	fill: $state-yellow;
-}
-.n_state_green {
-	fill: $state-green;
-}
-
 // Teal
 .n_teal {
 	fill: #4db6ac;
