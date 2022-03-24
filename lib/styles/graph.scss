@@ -12,6 +12,14 @@
 	stroke-miterlimit: 10;
 }
 
+.selectable {
+	&.selected {
+		stroke: $selection-color;
+		stroke-width: 1%;
+		stroke-miterlimit: 10;
+	}
+}
+
 .nodeContainer,
 .disabledContainer {
 	&.disabled {
@@ -25,34 +33,9 @@
 	$deep_shadow: drop-shadow(0px 24px 60px rgba(0, 0, 0, 0.28));
 	$grayed: invert(15%) sepia(30%) grayscale(80%);
 	&.disabled {
-		// filter: $deep_shadow $grayed;
 		filter: $grayed;
 	}
 }
-
-// exclude safari
-// .chrome .nodeContainer,
-// .firefox .nodeContainer {
-// 	$shadow: drop-shadow(0px 24px 120px rgba(0, 0, 0, 0.14));
-// 	$deep_shadow: drop-shadow(0px 24px 60px rgba(0, 0, 0, 0.28));
-// 	$selection: drop-shadow(0px 0px 5px $selection-color);
-// 	$grayed: invert(15%) sepia(30%) grayscale(80%);
-// 	&.shadow {
-// 		filter: $shadow;
-// 	}
-// 	&.selected {
-// 		filter: $selection;
-// 		&.shadow {
-// 			filter: $shadow $selection;
-// 		}
-// 	}
-// 	&.disabled {
-// 		filter: $deep_shadow $grayed;
-// 		&.selected {
-// 			filter: $deep_shadow $grayed $selection;
-// 		}
-// 	}
-// }
 
 .link,
 .prelink {
