@@ -26,6 +26,11 @@ simulation.onClick((e, d) => {
 	simulation.render(graph);
 });
 
+simulation.onEdgeClick((e, d) => {
+	graph.links = graph.links.filter((l) => l !== d);
+	simulation.render(graph);
+});
+
 simulation.onContextClick((e, d) => {
 	if (e.altKey) {
 		// toggle shape scale
