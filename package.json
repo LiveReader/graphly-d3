@@ -1,6 +1,6 @@
 {
 	"name": "@livereader/graphly-d3",
-	"version": "0.3.12",
+	"version": "0.4.0",
 	"description": "D3 extention library improving the handling of complex shapes within a graph",
 	"main": "./dist/main.umd.js",
 	"module": "./dist/main.es.js",
@@ -32,7 +32,6 @@
 		},
 		{
 			"name": "Luisa Schmidt",
-			"email": "luisa.schmidt@livereader.de",
 			"url": "https://github.com/luisa-schmidt"
 		}
 	],
