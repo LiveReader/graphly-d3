@@ -100,11 +100,7 @@ simulation.onDragEnd((e, d, pos) => {
 	simulation.render(graph);
 });
 
-simulation.onMove((transform) => {
-	console.log(transform);
-});
-
-simulation.setZoomBoundaries(0.05, 6);
+simulation.setZoomBoundaries(0.1, 3);
 
 fetch("./demo-data.json")
 	.then((response) => response.json())
