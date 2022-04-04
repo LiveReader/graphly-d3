@@ -100,6 +100,10 @@ simulation.onDragEnd((e, d, pos) => {
 	simulation.render(graph);
 });
 
+simulation.onMove((transform) => {
+	console.log(transform);
+});
+
 fetch("./demo-data.json")
 	.then((response) => response.json())
 	.then((data) => {
