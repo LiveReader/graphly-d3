@@ -104,6 +104,8 @@ simulation.onMove((transform) => {
 	console.log(transform);
 });
 
+simulation.setZoomBoundaries(0.05, 6);
+
 fetch("./demo-data.json")
 	.then((response) => response.json())
 	.then((data) => {
