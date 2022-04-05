@@ -51,20 +51,22 @@ simulation.onBackground((e, pos) => {
 		graph.nodes.push({
 			id: `n${graph.nodes.length}`,
 			shape: {
-				type: "shape_01",
+				type: "demo_template",
 				scale: 1,
 			},
-			status: "minor",
-			name: {
-				first: "Joe",
-				last: "Doe",
+			payload: {
+				status: "",
+				name: {
+					first: "",
+					last: "",
+				},
+				sex: "",
+				age: "",
+				accessibility: "",
+				tags: [],
 			},
-			tags: ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9", "tag10"],
-			spawn: {
-				source: "n0",
-				angle: "random",
-				distance: 500,
-			},
+			x: pos.x,
+			y: pos.y,
 		});
 	}
 	simulation.render(graph);
@@ -98,6 +100,10 @@ simulation.onDragEnd((e, d, pos) => {
 	d.anchor.x = pos.x;
 	d.anchor.y = pos.y;
 	simulation.render(graph);
+});
+
+simulation.onMove((t) => {
+	console.log(t);
 });
 
 simulation.setZoomBoundaries(0.1, 3);
