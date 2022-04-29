@@ -1,7 +1,7 @@
-# LR Graphly-D3
+![](./banner.png)
 
-Library ontop of D3.js for creating interactive graphs.
-It uses a shape templating system to dynamically define and use differend SVG shapes.
+Graphly-D3 is a library ontop of d3.js for creating interactive graphs. 
+It uses a shape templating system to dynamically define and use SVG shapes.
 
 [Documentation](https://docs.livereader.online/graphly-d3/)
 
