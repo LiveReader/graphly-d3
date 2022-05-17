@@ -1,0 +1,27 @@
+{
+	"name": "graphly-d3-docs",
+	"version": "0.1.0",
+	"description": "Documentation for Graphly-D3 library",
+	"main": "index.js",
+	"scripts": {
+		"dev": "vitepress dev docs --host",
+		"build": "vitepress build docs",
+		"serve": "vitepress serve docs --port 80 --host"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/livereader/graphly-d3-docs.git"
+	},
+	"author": "LiveReader GmbH (http://livereader.com)",
+	"contributors": [
+		"Jason Rietzke <jason.rietzke@livereader.de> (https://github.com/jason-rietzke)"
+	],
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/livereader/graphly-d3-docs/issues"
+	},
+	"homepage": "https://github.com/livereader/graphly-d3-docs#readme",
+	"devDependencies": {
+		"vitepress": "^0.22.4"
+	}
+}
