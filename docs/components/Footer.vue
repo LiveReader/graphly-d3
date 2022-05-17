@@ -37,7 +37,7 @@ function nav(item) {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 footer {
 	transition-duration: 0.28s;
 	transition-property: box-shadow, opacity, background;
@@ -48,8 +48,8 @@ footer {
 	border-bottom: 2px solid;
 	border-color: transparent;
 	padding: 4px;
-	&:hover {
-		border-bottom: 2px solid var(--c-brand);
-	}
+}
+.button:hover {
+	border-bottom: 2px solid var(--c-brand);
 }
 </style>

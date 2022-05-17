@@ -62,9 +62,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-:root[color-mode="dark"] {
-	.theme-icon {
-		filter: invert(100%);
-	}
+:root[color-mode="dark"] .theme-icon {
+	filter: invert(100%);
 }
 </style>
