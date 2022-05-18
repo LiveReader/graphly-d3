@@ -17,6 +17,8 @@ Every part of the graph is rendered as svg element, which allows to create compl
 Templates can be delivered from any (possibly distributed) source and are imported on demand.
 This combines the possibility for as many different shape types as needed while keeping the load time as low as possible.
 
+<Graphly :graph="graph" style="height: 25em; border-radius: 1em; background-color: var(--c-divider-light);"/>
+
 ## Getting Started
 
 To use Graphly D3 in your project, you need to install the package.
@@ -88,3 +90,42 @@ Without any templates this example should display a simple red circle in the cen
 
 Take a look at the [Tutorial](/tutorial/) to learn more about how to use Graphly D3 or dig deeper into the documentation on the [Simulation API](/simulation-api/) and [Template API](/template-api/).
 :::
+
+<script setup>
+import { ref, onMounted } from "vue";
+import Graphly from "./components/Graphly.vue";
+let graph = ref({
+	nodes: [
+		{
+			id: "node1",
+			shape: {
+				type: "hexagon",
+				scale: 1,
+			},
+			x: -50,
+			y: 10,
+		},
+		{
+			id: "node2",
+			shape: {
+				type: "hexagon",
+				scale: 1,
+			},
+			x: 50,
+			y: -10,
+		},
+	],
+	links: [
+		{
+			source: "node1",
+			target: "node2",
+			directed: true,
+			strength: "weak",
+		},
+	],
+	hasUpdate: false,
+});
+onMounted(() => {
+	graph.value.hasUpdate = true;
+})
+</script>
