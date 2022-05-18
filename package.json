@@ -23,5 +23,9 @@
 	"homepage": "https://github.com/livereader/graphly-d3-docs#readme",
 	"devDependencies": {
 		"vitepress": "^0.22.4"
+	},
+	"dependencies": {
+		"@livereader/graphly-d3": "^0.4.7",
+		"monaco-editor": "^0.33.0"
 	}
 }
