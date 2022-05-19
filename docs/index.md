@@ -19,6 +19,10 @@ This combines the possibility for as many different shape types as needed while 
 
 <Graphly :graph="graph" style="height: 25em; border-radius: 1em; background-color: var(--c-divider-light);"/>
 
+::: warning
+Please keep in mind that the library is still a work in progress and some API changes might occur.
+:::
+
 ## Getting Started
 
 To use Graphly D3 in your project, you need to install the package.
