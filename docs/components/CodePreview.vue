@@ -44,6 +44,7 @@ const emits = defineEmits(["editorContentChange"]);
 	background-color: var(--c-divider-light);
 }
 .codePreview .graphly {
+	margin: 0;
 	border-top-right-radius: 1em;
 	border-top-left-radius: 1em;
 	height: 50%;
@@ -51,6 +52,6 @@ const emits = defineEmits(["editorContentChange"]);
 .codePreview .monaco-editor {
 	border-bottom-right-radius: 1em;
 	border-bottom-left-radius: 1em;
-	height: 50%;
+	height: calc(50% - 5px)
 }
 </style>
