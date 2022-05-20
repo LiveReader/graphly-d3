@@ -74,10 +74,10 @@ const tag = TagShape("Hello World", TagStyle(...));
 The `TextShape` method builds a text and returns a d3 selection of the created svg element.
 It works similar to the [TagShape](#tag-shape) and takes 2 parameters to output text shape.
 
-| Parameter      | Type                                             | Description                           |
-| -------------- | ------------------------------------------------ | ------------------------------------- |
-| `text`         | string                                           | text to be display as text element    |
-| `ShapeStyle[]` | [ShapeStyle](/template-api/_styling#shape-style) | determines the styling of the element |
+| Parameter    | Type                                               | Description                           |
+| ------------ | -------------------------------------------------- | ------------------------------------- |
+| `text`       | string                                             | text to be display as text element    |
+| `ShapeStyle` | [ShapeStyle](/template-api/_styling#shape-style)[] | determines the styling of the element |
 
 ::: info
 This method is primarily used within the [TextCollection](/template-api/collections#text-collection) module.
