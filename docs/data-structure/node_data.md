@@ -185,3 +185,92 @@ const node = {
 	},
 };
 ```
+
+## Playground
+
+Give it a try and see how the different properties influence the appearance and behavior of nodes.
+
+::: info
+Dont change the `nodes` array name since the playground context depends on it.
+:::
+
+<CodePreview height="40em" :graph="graph" editor-language="javascript" :editor-content="editorContent" @editorContentChange="editorContentChange" />
+
+<script setup>
+import { ref, onMounted } from "vue";
+import CodePreview from "../components/CodePreview.vue";
+let graph = ref({
+	nodes: [],
+	links: [
+		{
+			source: "node1",
+			target: "node2",
+			type: "solid",
+			directed: true,
+			label: "",
+			strength: "weak",
+			padding: 10,
+		},
+	],
+	hasUpdate: false,
+});
+
+let editorContent = [
+	"const nodes = [",
+	"	{",
+	"		id: \"node1\",",
+	"		shape: {",
+	"			type: \"hexagon\",",
+	"			scale: 1,",
+	"		},",
+	"		x: -150,",
+	"		y: 30,",
+	"	},",
+	"	{",
+	"		id: \"node2\",",
+	"		shape: {",
+	"			type: \"hexagon\",",
+	"			scale: 1,",
+	"		},",
+	"		x: 150,",
+	"		y: -30,",
+	"	},",
+	"];",
+].join("\n");
+
+function editorContentChange(value) {
+	const n = parseNodes(value);
+	newNodes = n;
+	lastChange = Date.now();
+	changes = true;
+}
+
+function parseNodes(code) {
+	var constructorCode = code + "\nnodes;";
+	const value = eval(constructorCode);
+	return value;
+}
+
+let changes = false;
+let lastChange = Date.now();
+let newNodes = [];
+function updateGraph(n) {
+	graph.value.nodes = n;
+	graph.value.links.forEach((l) => {
+		typeof l.source == "string" ? {} : l.source = l.source.id;
+		typeof l.target == "string" ? {} : l.target = l.target.id;
+	})
+	graph.value.hasUpdate = true;
+}
+
+onMounted(() => {
+	const n = parseNodes(editorContent);
+	updateGraph(n);
+	setInterval(() => {
+		if (changes && Date.now() - lastChange > 1000) {
+			updateGraph(newNodes);
+			changes = false;
+		}
+	}, 100);
+})
+</script>
