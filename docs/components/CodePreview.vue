@@ -1,5 +1,5 @@
 <template>
-	<div class="codePreview">
+	<div class="codePreview" :style="{ height: props.height }">
 		<Graphly class="graphly" :graph="props.graph" />
 		<MonacoEditor
 			class="monaco-editor"
@@ -16,6 +16,10 @@ import Graphly from "../components/Graphly.vue";
 import MonacoEditor from "../components/MonacoEditor.vue";
 
 const props = defineProps({
+	height: {
+		type: String,
+		default: "75vh",
+	},
 	graph: {
 		type: Object,
 		default: () => ({
@@ -39,7 +43,6 @@ const emits = defineEmits(["editorContentChange"]);
 
 <style scoped>
 .codePreview {
-	height: 75vh;
 	border-radius: 1em;
 	background-color: var(--c-divider-light);
 }
@@ -48,10 +51,12 @@ const emits = defineEmits(["editorContentChange"]);
 	border-top-right-radius: 1em;
 	border-top-left-radius: 1em;
 	height: 50%;
+	border-bottom: 1px solid var(--c-divider-dark);
 }
 .codePreview .monaco-editor {
 	border-bottom-right-radius: 1em;
 	border-bottom-left-radius: 1em;
-	height: calc(50% - 5px)
+	height: 50%;
+	transform: translateY(-5px);
 }
 </style>
