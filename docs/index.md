@@ -106,8 +106,8 @@ let graph = ref({
 				type: "hexagon",
 				scale: 1,
 			},
-			x: -50,
-			y: 10,
+			x: -150,
+			y: 30,
 		},
 		{
 			id: "node2",
@@ -115,8 +115,8 @@ let graph = ref({
 				type: "hexagon",
 				scale: 1,
 			},
-			x: 50,
-			y: -10,
+			x: 150,
+			y: -30,
 		},
 	],
 	links: [
