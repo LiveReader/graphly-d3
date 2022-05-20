@@ -1,7 +1,12 @@
 <template>
 	<div class="codePreview">
 		<Graphly class="graphly" :graph="props.graph" />
-		<MonacoEditor class="monaco-editor" />
+		<MonacoEditor
+			class="monaco-editor"
+			:editor-language="props.editorLanguage"
+			:editor-content="props.editorContent"
+			@editorContentChange="(value) => emits('editorContentChange', value)"
+		/>
 	</div>
 </template>
 
@@ -19,7 +24,17 @@ const props = defineProps({
 			hasUpdate: false,
 		}),
 	},
+	editorLanguage: {
+		type: String,
+		default: "javascript",
+	},
+	editorContent: {
+		type: String,
+		default: "function a(t) { console.log(t) }",
+	},
 });
+
+const emits = defineEmits(["editorContentChange"]);
 </script>
 
 <style scoped>
