@@ -130,3 +130,89 @@ const link = {
 	padding: 10,
 };
 ```
+
+## Playground
+
+Give it a try and see how the different properties influence the appearance and behavior of links.
+You can also try to set multiple links.
+
+::: info
+Dont change the `links` array name since the playground context depends on it.
+:::
+
+<CodePreview height="40em" :graph="graph" editor-language="javascript" :editor-content="editorContent" @editorContentChange="editorContentChange" />
+
+<script setup>
+import { ref, onMounted } from "vue";
+import CodePreview from "../components/CodePreview.vue";
+let graph = ref({
+	nodes: [
+		{
+			id: "node1",
+			shape: {
+				type: "hexagon",
+				scale: 1,
+			},
+			x: -150,
+			y: 30,
+		},
+		{
+			id: "node2",
+			shape: {
+				type: "hexagon",
+				scale: 1,
+			},
+			x: 150,
+			y: -30,
+		},
+	],
+	links: [],
+	hasUpdate: false,
+});
+
+let editorContent = [
+	"const links = [",
+	"	{",
+	"		source: \"node1\",",
+	"		target: \"node2\",",
+	"		type: \"solid\",",
+	"		directed: true,",
+	"		label: \"links to\",",
+	"		strength: \"strong\",",
+	"		padding: 10,",
+	"	},",
+	"];",
+].join("\n");
+
+function editorContentChange(value) {
+	const l = parseLinks(value);
+	newLinks = l;
+	lastChange = Date.now();
+	changes = true;
+}
+
+function parseLinks(code) {
+	var constructorCode = code + "\nlinks;";
+	const value = eval(constructorCode);
+	return value;
+}
+
+let changes = false;
+let lastChange = Date.now();
+let newLinks = [];
+function updateGraph(l) {
+	graph.value.links = l;
+	graph.value.hasUpdate = true;
+}
+
+onMounted(() => {
+	const l = parseLinks(editorContent);
+	updateGraph(l);
+	setInterval(() => {
+		if (changes && Date.now() - lastChange > 1000) {
+			updateGraph(newLinks);
+			changes = false;
+		}
+	}, 100);
+})
+</script>
