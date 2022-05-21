@@ -5,6 +5,13 @@ lang: en-US
 
 # Introduction
 
+::: warning
+Please keep in mind that this library is still in development and API changes may occur.
+There are also a few minor features still to come.
+
+Version 1.0 target release data: **20th of June 2022**
+:::
+
 Graphly D3 is an [open source](https://github.com/livereader/graphly-d3) frontend library for creating conplex and interactive graph visualizations.
 It is built on top of [D3.js](https://d3js.org/) and empowers developers to use svg to display any data in a simple and intuitive way.
 
@@ -18,10 +25,6 @@ Templates can be delivered from any (possibly distributed) source and are import
 This combines the possibility for as many different shape types as needed while keeping the load time as low as possible.
 
 <Graphly :graph="graph" style="height: 25em; border-radius: 1em; background-color: var(--c-divider-light);"/>
-
-::: warning
-Please keep in mind that the library is still a work in progress and some API changes might occur.
-:::
 
 ## Getting Started
 
