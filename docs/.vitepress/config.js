@@ -24,7 +24,23 @@ module.exports = {
 			"/data-structure/": sidebarItem("Data Structure", "/data-structure/"),
 			"/simulation-api/": sidebarItem("Simulation API", "/simulation-api/"),
 			"/template-api/": sidebarItem("Template API", "/template-api/"),
-			"/": sidebarItem("Introduction", "/"),
+			"/": [
+				{
+					text: "Graphly D3",
+					children: [
+						{
+							index: 0,
+							text: "Introduction",
+							link: "/",
+						},
+						{
+							index: 0,
+							text: "Playground",
+							link: "/playground",
+						},
+					],
+				},
+			],
 		},
 	},
 };
