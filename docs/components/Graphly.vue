@@ -14,7 +14,7 @@ let simulation = ref(null);
 function init() {
 	const svg = props.svg ? d3.value.select(props.svg) : d3.value.select("#graphly");
 	simulation.value = new ForceSimulation.value(svg);
-	simulation.value.setTemplateOrigin("http://" + window.location.host + "/assets/templates/");
+	simulation.value.setTemplateOrigin(window.location.protocol + "//" + window.location.host + "/templates/");
 	simulation.value.setWorldBoundaries(props.worldBoundaries.height, props.worldBoundaries.width);
 	simulation.value.setLinkDistance(props.linkDistance);
 	simulation.value.setGravity(props.gravity);
