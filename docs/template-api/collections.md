@@ -48,9 +48,9 @@ const tags = TagCollection(["tag1", "tag2", "tag3"], CollectionStyle(...), TagSt
 
 The `TextCollection` builds ontop of the [ShapeCollection](#shape-collection) module to display a collection of text.
 It takes a `text` string which gets split into each word to wrap it into each line if the end of line is reached.
-Besides that it also requires a [CollectionStyle](/template-api/_styling#collection-style) `style` and [ShapeStyle](/template-api/_styling#shape-style) `textStyle` objects.
+Besides that it also requires a [CollectionStyle](/template-api/_styling#collection-style) `style` and an array of [ShapeStyle](/template-api/_styling#shape-style) `textStyle` objects.
 It returns the d3 selection of the created collection.
 
 ```js
-const text = TextCollection("Hello World", CollectionStyle(...), TextStyle(...));
+const text = TextCollection("Hello World", CollectionStyle(...), [ShapeStyle(...), ShapeStyle(...)]);
 ```
