@@ -101,7 +101,8 @@ simulation.onMove((transform) => {
 The `onBackground` method registers a callback function that is called when any `click` event occurs on the background and not on a node or link.
 
 ```js
-simulation.on("background:click", (event, data) => {
-	// do something
+simulation.onBackground((e, pos) => {
+	// e carries the event data
+	// pos provides the relative position of the svg world coordinates (x, y)
 });
 ```
