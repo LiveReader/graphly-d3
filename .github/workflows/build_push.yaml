@@ -6,9 +6,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-env:
-  IMAGE_NAME: ${{ github.repository_owner }}/${{ github.repository_name }}
-
 jobs:
   publish-ghcr:
     runs-on: ubuntu-latest
@@ -18,10 +15,14 @@ jobs:
       contents: read
 
     steps:
+
+      - run: echo "IMAGE_NAME=$(echo '${{ github.repository}}' | tr '[:upper:]' '[:lower:]' )" >> $GITHUB_ENV
+        shell: bash
+
       - uses: actions/checkout@v2
 
       - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
+        run: docker build . -t $IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
 
       - name: Log in to registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
