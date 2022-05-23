@@ -16,7 +16,14 @@ import Footer from "./Footer.vue";
 const { Layout } = DefaultTheme;
 
 function setMetaTag(name, content) {
-	document.querySelector(`meta[name="${name}"]`).setAttribute("content", content);
+	if (document.querySelector(`meta[name="${name}"]`)) {
+		document.querySelector(`meta[name="${name}"]`).setAttribute("content", content);
+	} else {
+		const meta = document.createElement("meta");
+		meta.setAttribute("name", name);
+		meta.setAttribute("content", content);
+		document.head.appendChild(meta);
+	}
 }
 
 setMetaTag("twitter:card", "summary_large_image");
