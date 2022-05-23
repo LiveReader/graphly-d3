@@ -7,4 +7,4 @@ COPY . /app
 RUN npm run build
 
 EXPOSE 80
-CMD npm serve
+CMD npm run serve
