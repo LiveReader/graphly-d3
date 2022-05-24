@@ -3,7 +3,7 @@ title: Introduction
 lang: en-US
 ---
 
-<img src="/assets/img/graphly-d3-icon-dark.svg" style="border-radius: 50%; width: 50%; margin: 2em; margin-left: 25%;">
+<img src="/icons/graphly-d3-icon-dark-round.svg" style="width: 50%; margin: 2em; margin-left: 25%;">
 <h1 style="text-align: center;">Graphly D3</h1>
 <h2 style="text-align: center;">a graph visualization library</h2>
 
