@@ -1,4 +1,4 @@
-import { ForceSimulation } from "./lib/main.js";
+import { ForceSimulation } from "../lib/main.js";
 import * as d3 from "d3";
 
 const svg = d3.select("svg");
@@ -10,7 +10,7 @@ let graph = {
 
 const simulation = new ForceSimulation(svg);
 // simulation.setWorldBoundaries(window.innerHeight, window.innerWidth);
-simulation.setTemplateOrigin("http://" + document.location.host + "/templates/");
+simulation.setTemplateOrigin("http://" + document.location.host + "/demo/templates/");
 
 simulation.onClick((e, d) => {
 	if (e.altKey) {
