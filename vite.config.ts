@@ -1,10 +1,10 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
 
-module.exports = defineConfig({
+export default defineConfig({
 	build: {
 		lib: {
-			entry: resolve(__dirname, "lib/main.js"),
+			entry: resolve(__dirname, "lib/main.ts"),
 			name: "Graphly D3",
 			fileName: (format) => `main.${format}.js`,
 		},
