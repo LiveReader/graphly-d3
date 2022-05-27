@@ -1,4 +1,4 @@
-import Shape from "../Shape.js";
+import Shape from "../Shape";
 
 function SVGShape(code) {
 	const shape = Shape.create("g");

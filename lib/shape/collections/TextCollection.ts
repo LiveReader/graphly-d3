@@ -1,5 +1,5 @@
-import TextShape from "../shapes/TextShape.js";
-import { ShapeCollection } from "./ShapeCollection.js";
+import TextShape from "../shapes/TextShape";
+import { ShapeCollection } from "./ShapeCollection";
 
 /**
  * @param  {String} text

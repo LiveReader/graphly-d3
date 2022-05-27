@@ -1,5 +1,5 @@
-import { TagShape } from "../shapes/TagShape.js";
-import { ShapeCollection } from "./ShapeCollection.js";
+import { TagShape } from "../shapes/TagShape";
+import { ShapeCollection } from "./ShapeCollection";
 
 /**
  * @param  {String[]} tags array of strings

@@ -1,7 +1,7 @@
 import * as d3 from "d3";
-import Shape from "./Shape.js";
-import TemplateAPI from "./TemplateAPI.js";
-import * as Template from "../template.js";
+import Shape from "./Shape";
+import TemplateAPI from "./TemplateAPI";
+import * as Template from "../template";
 
 /**
  * @param  {object} data data object

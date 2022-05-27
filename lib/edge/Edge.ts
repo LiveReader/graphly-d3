@@ -1,4 +1,4 @@
-import Shape from "../shape/Shape.js";
+import Shape from "../shape/Shape";
 
 const Edge = {};
 

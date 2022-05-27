@@ -1,4 +1,4 @@
-import ErrorNode from "../templates/ErrorNode.js";
+import ErrorNode from "../templates/ErrorNode";
 
 const TemplateAPI = {};
 
