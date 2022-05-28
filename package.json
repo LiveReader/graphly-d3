@@ -29,11 +29,12 @@
 	"bugs": {
 		"url": "https://github.com/LiveReader/graphly-d3/issues"
 	},
-	"homepage": "https://github.com/LiveReader/graphly-d3#readme",
+	"homepage": "https://graphly-d3.livereader.com",
 	"files": [
 		"dist"
 	],
 	"dependencies": {
+		"@types/d3": "^7.4.0",
 		"d3": "^7.4.4"
 	},
 	"devDependencies": {
