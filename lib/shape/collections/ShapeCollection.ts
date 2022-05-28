@@ -1,10 +1,11 @@
+import * as d3 from "d3";
 import Shape from "../Shape";
 
-const Alignment = {
-	Left: "left",
-	Center: "center",
-	Right: "right",
-};
+enum Alignment {
+	Left = "left",
+	Center = "center",
+	Right = "right",
+}
 
 /**
  * @param  {Number} height
@@ -17,7 +18,17 @@ const Alignment = {
  * @param  {Alignment} align item alignment (left, center, right)
  * @param  {Number[]} rowMargins optional horizontal margins for each row
  */
-function CollectionStyle(height, width, x, y, dx, dy, rowCount, align = Alignment.Center, rowMargins = []) {
+function CollectionStyle(
+	height: number,
+	width: number,
+	x: number,
+	y: number,
+	dx: number,
+	dy: number,
+	rowCount: number,
+	align: Alignment = Alignment.Center,
+	rowMargins: number[] = []
+) {
 	return {
 		height: height,
 		width: width,
@@ -26,7 +37,7 @@ function CollectionStyle(height, width, x, y, dx, dy, rowCount, align = Alignmen
 		dx: dx,
 		dy: dy,
 		rowCount: rowCount,
-		align: Object.values(Alignment).includes(align) ? align : Alignment.Center,
+		align: align,
 		rowMargins: rowMargins,
 	};
 }
@@ -37,7 +48,11 @@ function CollectionStyle(height, width, x, y, dx, dy, rowCount, align = Alignmen
  * @param  {object} ellipsis optional ellipsis shape
  * @return {object} shape
  */
-function ShapeCollection(shapes, style, ellipsis = null) {
+function ShapeCollection(
+	shapes: (d3.Selection<SVGElement, any, any, any> | string)[],
+	style: any,
+	ellipsis: d3.Selection<SVGElement, any, any, any> | null = null
+): d3.Selection<SVGElement, any, any, any> {
 	const collection = Shape.create("g")
 		.classed("collection", true)
 		.attr("transform", `translate(${style.x}, ${style.y})`);
@@ -47,8 +62,8 @@ function ShapeCollection(shapes, style, ellipsis = null) {
 
 	function assamble() {
 		const rowHeight = (style.height - style.dy * (style.rowCount - 1)) / style.rowCount;
-		let shapeIndex = 0;
-		let skippedShapes = [];
+		let shapeIndex: number = 0;
+		let skippedShapes: d3.Selection<SVGElement, any, any, any>[] = [];
 
 		for (let i = 0; i < style.rowCount; i++) {
 			if (shapeIndex > shapes.length - 1) return;
@@ -62,7 +77,13 @@ function ShapeCollection(shapes, style, ellipsis = null) {
 		}
 	}
 
-	function assambleRow(row, width, shapeIndex, skippedShapes, isLastRow) {
+	function assambleRow(
+		row: d3.Selection<SVGGElement, any, any, any>,
+		width: number,
+		shapeIndex: number,
+		skippedShapes: d3.Selection<SVGElement, any, any, any>[],
+		isLastRow: boolean
+	): number {
 		const items = [];
 		let widthSum = 0;
 		let index = shapeIndex;
@@ -74,6 +95,7 @@ function ShapeCollection(shapes, style, ellipsis = null) {
 				index++;
 				break;
 			}
+			if (typeof shape === "string") break;
 			const itemWidth = Shape.getBBox(shape).width;
 			if (itemWidth > width) {
 				skippedShapes.push(shape);

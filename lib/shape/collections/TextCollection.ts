@@ -1,3 +1,4 @@
+import * as d3 from "d3";
 import TextShape from "../shapes/TextShape";
 import { ShapeCollection } from "./ShapeCollection";
 
@@ -7,9 +8,9 @@ import { ShapeCollection } from "./ShapeCollection";
  * @param  {ShapeStyle[]} textStyles array of text styles
  * @return {Object} shape
  */
-function TextCollection(texts, style, textStyles = []) {
-	const textShapes = [];
-	const words = texts.split(" ");
+function TextCollection(text: string, style: any, textStyles: any[] = []): d3.Selection<SVGElement, any, any, any> {
+	const textShapes: (d3.Selection<SVGElement, any, any, any> | string)[] = [];
+	const words = text.split(" ");
 	words.forEach((word) => {
 		if (word.includes("\n")) {
 			const lines = word.split("\n");
