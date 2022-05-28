@@ -1,6 +1,6 @@
 ErrorNode.shapeSize = 200;
 
-function ErrorNode(data, Template) {
+function ErrorNode(data: any, Template: any) {
 	const { Shape } = Template;
 
 	const shape = Shape.create("g");

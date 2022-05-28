@@ -6,11 +6,11 @@ import * as Template from "../template";
 /**
  * @param  {object} data data object
  */
-function Node(data) {
+function Node(this: any, data: any) {
 	const alreadyExists = Shape.alreadyExists(this);
-	const node = alreadyExists ? d3.select(this) : Shape.create("g");
+	const node = alreadyExists ? (d3.select(this) as d3.Selection<SVGElement, any, any, any>) : Shape.create("g");
 
-	let initialShape = null;
+	let initialShape: d3.Selection<SVGElement, any, any, any> | null = null;
 	const changes = Shape.dataChanges(node, data);
 	if (!changes) return node.node();
 	if (alreadyExists) {
@@ -29,14 +29,15 @@ function Node(data) {
 			true
 		);
 		Shape.bind(node, data);
-	} catch (e) {
+	} catch (e: any) {
 		console.error(e);
 		return throwError(e);
 	}
 
 	return node.node();
 
-	function throwError(message) {
+	function throwError(this: any, message: string) {
+		console.log(message);
 		node.append(() => TemplateAPI.errorTemplate.bind(this)(data, Template).node());
 		return node.node();
 	}
