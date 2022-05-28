@@ -1,7 +1,9 @@
-function OnZoom(data, threshold, styles = []) {
+import * as d3 from "d3";
+
+function OnZoom(data: any, threshold: number, styles: any[] = []) {
 	const id = `${data.id}-${threshold}`; // Math.random().toString(36).substring(7);
 	const globalThreshold = threshold / (isNaN(data.shape.scale) ? 1 : data.shape.scale);
-	data.forceSimulation.registerOnZoom(id, globalThreshold, (k) => {
+	data.forceSimulation.registerOnZoom(id, globalThreshold, (k: number) => {
 		if (!document.getElementById(data.id)) {
 			data.forceSimulation.deregisterOnZoom(id);
 			return;
@@ -10,7 +12,7 @@ function OnZoom(data, threshold, styles = []) {
 		styles.forEach((s) => {
 			if (!s) return;
 			if (s.key == "class") {
-				s.value.split(".").forEach((c) => {
+				s.value.split(".").forEach((c: any) => {
 					s.shape.classed(c, s.condition(relativeScale));
 				});
 			} else if (s.condition(relativeScale)) {
@@ -32,7 +34,12 @@ function OnZoom(data, threshold, styles = []) {
  * @callback condition
  * @return {Object} style object
  */
-function LODStyle(shape, key, value, condition = () => {}) {
+function LODStyle(
+	shape: d3.Selection<SVGElement, any, any, any>,
+	key: string,
+	value: string,
+	condition: boolean | ((k: number) => boolean) = true
+) {
 	if (!shape) {
 		return undefined;
 	}
