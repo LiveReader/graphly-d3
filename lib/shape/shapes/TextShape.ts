@@ -5,7 +5,7 @@ import Shape from "../Shape";
  * @param  {ShapeStyle[]} styles
  * @return {Object} shape
  */
-function TextShape(text: string, styles: any[] = []) {
+function TextShape(text: string, styles: any[] = []): d3.Selection<SVGElement, any, any, any> {
 	const shape = Shape.create("g").classed("text", true);
 	const textShape = shape.append("text").text(text);
 	styles.forEach((s: any) => {

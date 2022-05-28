@@ -1,3 +1,4 @@
+import * as d3 from "d3";
 import Shape from "../Shape";
 
 /**
@@ -25,7 +26,7 @@ function TagStyle(
  * @param  {TagStyle} style of the tag
  * @return {Object} shape
  */
-function TagShape(text: string, style: any) {
+function TagShape(text: string, style: any): d3.Selection<SVGElement, any, any, any> {
 	const shape = Shape.create("g").classed("tag", true);
 
 	const textShape = shape.append("text").text(text).attr("dy", "0.35em");
