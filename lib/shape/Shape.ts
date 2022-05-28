@@ -1,80 +1,54 @@
 import * as d3 from "d3";
 
-const Shape = {};
-
-/**
- * @callback onElement
- * @param {Object} el HTML element
- */
-/**
- * @param  {Object} shape D3 selection
- * @callback  onElement
- */
-Shape.prerender = function (shape, onElement = () => {}) {
-	let svg = null;
+function prerender(shape: d3.Selection<SVGElement, any, any, any>, onElement: (el: SVGGraphicsElement) => void) {
 	if (!document.getElementById("PRERENDER_SVG")) {
-		svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-		svg.setAttribute("pointer-events", "none");
-		svg.setAttribute("width", "0");
-		svg.setAttribute("height", "0");
-		svg.id = "PRERENDER_SVG";
-		svg.style.opacity = 0;
-		document.body.appendChild(svg);
-	} else {
-		svg = document.getElementById("PRERENDER_SVG");
+		let el: SVGSVGElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		el.setAttribute("id", "PRERENDER_SVG");
+		el.setAttribute("pointer-events", "none");
+		el.setAttribute("width", "0");
+		el.setAttribute("height", "0");
+		el.setAttribute("style", "opacity: 0;");
+		document.body.appendChild(el);
 	}
+	let svg: HTMLElement = document.getElementById("PRERENDER_SVG") as HTMLElement;
 	svg.innerHTML = shape.html();
-	onElement(svg.children[0]);
+	onElement(svg.children[0] as SVGGraphicsElement);
 	svg.innerHTML = "";
-};
+}
 
-/**
- * @param  {Object} shape D3 selection
- * @return {Object}       Bounding box
- */
-Shape.getBBox = function (shape) {
-	let bbox = null;
-	Shape.prerender(shape, (el) => {
+function getBBox(shape: d3.Selection<SVGElement, any, any, any>): SVGRect {
+	let bbox: SVGRect = {
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
+	} as SVGRect;
+	prerender(shape, (el: SVGGraphicsElement) => {
 		bbox = el.getBBox();
 	});
 	return bbox;
-};
+}
 
-/**
- * @param  {String} type svg element type
- * @return {Object}      D3 selection
- */
-Shape.create = function (type) {
+function create(type: string): d3.Selection<SVGElement, any, any, any> {
 	return d3.select(document.createElementNS("http://www.w3.org/2000/svg", type));
-};
+}
 
-/**
- * @param  {Object} shape D3 selection
- * @param  {Boolean} centered whether the shape is centered
- * @param  {Object} size width of the shape
- */
-Shape.transform = function (shape, centered, size) {
-	const bbox = Shape.getBBox(shape);
+function transform(shape: d3.Selection<SVGElement, any, any, any>, centered: boolean, size: number) {
+	const bbox = getBBox(shape);
 	const scale = size / Math.max(bbox.width, bbox.height);
 	const translate = centered
 		? { x: (-bbox.width * scale) / 2 || 0, y: (-bbox.height * scale) / 2 || 0 }
 		: { x: 0, y: 0 };
 	shape.attr("transform", `translate(${translate.x}, ${translate.y}) scale(${scale || 1})`);
-};
+}
 
-/**
- * @param  {Object} reference to the shape
- * @return {Boolean}          true if the shape is already rendered
- */
-Shape.alreadyExists = function (reference) {
-	return typeof d3.select(reference).node().getAttribute === "function";
-};
+function alreadyExists(reference: HTMLElement) {
+	const node: any = d3.select(reference).node();
+	if (!node) return false;
+	return typeof node.getAttribute === "function";
+}
 
-/**
- * @param  {Object} data data object
- * @return {Object}      cleaned data object
- */
-Shape.cleanData = function (data) {
+function cleanData(data: any): any {
 	const bind = Object.assign({}, data);
 	delete bind.x;
 	delete bind.y;
@@ -85,60 +59,38 @@ Shape.cleanData = function (data) {
 	delete bind.anchor;
 	delete bind.satellite;
 	return bind;
-};
+}
 
-/**
- * @param  {Object} shape D3 selection
- * @param  {Object} data data object
- */
-Shape.bind = function (shape, data) {
-	shape.attr("data-bind", JSON.stringify(Shape.cleanData(data)));
-};
+function bind(shape: d3.Selection<SVGElement, any, any, any>, data: any) {
+	shape.attr("data-bind", JSON.stringify(cleanData(data)));
+}
 
-/**
- * @param  {Object} shape D3 selection
- * @return {Object}       data object
- */
-Shape.getData = function (shape) {
+function getData(shape: d3.Selection<SVGElement, any, any, any>) {
 	return JSON.parse(shape.attr("data-bind"));
-};
+}
 
-/**
- * @param  {Object} shape D3 selection
- * @return {Boolean}      true if the shape has data
- */
-Shape.hasData = function (shape) {
+function hasData(shape: d3.Selection<SVGElement, any, any, any>) {
 	return !!shape.attr("data-bind");
-};
+}
 
-/**
- * @param  {Object} shape D3 selection
- * @param  {Object} data data object
- * @return {Object}      changes object
- */
-Shape.dataChanges = function (shape, data) {
-	if (!Shape.hasData(shape)) {
-		return Object.assign({}, Shape.cleanData(data));
+function dataChanges(shape: d3.Selection<SVGElement, any, any, any>, data: any) {
+	if (!hasData(shape)) {
+		return Object.assign({}, cleanData(data));
 	}
-	const prevData = Shape.getData(shape);
-	if (JSON.stringify(Shape.cleanData(prevData)) !== JSON.stringify(Shape.cleanData(data))) {
-		return Shape.getChanges(Shape.cleanData(data), prevData);
+	const prevData = getData(shape);
+	if (JSON.stringify(cleanData(prevData)) !== JSON.stringify(cleanData(data))) {
+		return getChanges(cleanData(data), prevData);
 	}
 	return null;
-};
+}
 
-/**
- * @param  {Object} a current data
- * @param  {Object} b previous data
- * @return {Object}   changes object
- */
-Shape.getChanges = function (a, b) {
+function getChanges(a: any, b: any): any {
 	if (!a || !b) return {};
 	if (typeof a !== "object" || typeof b !== "object") return {};
-	const changes = {};
+	const changes: any = {};
 	Object.keys(a).forEach((key) => {
 		if (typeof a[key] == "object" && !Array.isArray(a[key])) {
-			const c = Shape.getChanges(a[key], b[key]);
+			const c = getChanges(a[key], b[key]);
 			Object.keys(c).length > 0 ? (changes[key] = c) : null;
 		} else if (Array.isArray(a[key])) {
 			const c = JSON.stringify(a[key]) !== JSON.stringify(b[key]) ? a[key] : [];
@@ -148,6 +100,18 @@ Shape.getChanges = function (a, b) {
 		}
 	});
 	return changes;
-};
+}
 
-export default Shape;
+export default {
+	prerender,
+	getBBox,
+	create,
+	transform,
+	alreadyExists,
+	cleanData,
+	bind,
+	getData,
+	hasData,
+	dataChanges,
+	getChanges,
+};
