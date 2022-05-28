@@ -6,7 +6,12 @@ import Shape from "../Shape";
  * @param  {ShapeStyle[]} backgroundStyles array of css classes
  * @param  {Number} cornerRadius radius of the corners
  */
-function TagStyle(padding = [0, 0], textStyles = [], backgroundStyles = [], cornerRadius = 0) {
+function TagStyle(
+	padding: number[] = [0, 0],
+	textStyles: any[] = [],
+	backgroundStyles: any[] = [],
+	cornerRadius: number = 0
+) {
 	return {
 		padding: typeof padding === "number" ? [padding, padding] : padding,
 		textStyles: textStyles,
@@ -20,13 +25,13 @@ function TagStyle(padding = [0, 0], textStyles = [], backgroundStyles = [], corn
  * @param  {TagStyle} style of the tag
  * @return {Object} shape
  */
-function TagShape(text, style) {
+function TagShape(text: string, style: any) {
 	const shape = Shape.create("g").classed("tag", true);
 
 	const textShape = shape.append("text").text(text).attr("dy", "0.35em");
-	style.textStyles.forEach((s) => {
+	style.textStyles.forEach((s: any) => {
 		if (s.key == "class") {
-			s.value.split(".").forEach((c) => {
+			s.value.split(".").forEach((c: any) => {
 				textShape.classed(c, s.condition());
 			});
 		} else if (s.condition()) {
@@ -53,9 +58,9 @@ function TagShape(text, style) {
 				`A ${cr} ${cr} 0 0 1 ${-width / 2 + cr} ${-height / 2} ` +
 				`Z`
 		);
-	style.backgroundStyles.forEach((s) => {
+	style.backgroundStyles.forEach((s: any) => {
 		if (s.key == "class") {
-			s.value.split(".").forEach((c) => {
+			s.value.split(".").forEach((c: any) => {
 				backgroundShape.classed(c, s.condition());
 			});
 		} else if (s.condition()) {

@@ -1,6 +1,6 @@
 import Shape from "../Shape";
 
-function SVGShape(code) {
+function SVGShape(code: string) {
 	const shape = Shape.create("g");
 	shape.html(code);
 	return shape;
