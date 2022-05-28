@@ -1,16 +1,29 @@
 import ErrorNode from "../templates/ErrorNode";
 
-let origin: string = "";
-let templates: { [key: string]: any } = {};
-let failed: string[] = [];
-let errorTemplate: any = ErrorNode;
+let TemplateAPI: {
+	origin: string;
+	templates: { [key: string]: any };
+	failed: string[];
+	errorTemplate: any;
+	add: (id: string, shape: any) => void;
+	get: (id: string) => Promise<any>;
+	load: (id: string) => Promise<any>;
+} = {
+	origin: "",
+	templates: {},
+	failed: [],
+	errorTemplate: ErrorNode,
+	add,
+	get,
+	load,
+};
 
 /**
  * @param  {string} id template id
  * @param  {function} shape template shape
  */
 function add(id: string, shape: any) {
-	templates[id] = shape;
+	TemplateAPI.templates[id] = shape;
 }
 
 /**
@@ -18,8 +31,8 @@ function add(id: string, shape: any) {
  */
 async function get(id: string) {
 	const template = await load(id).then(() => {
-		if (!templates[id]) return errorTemplate;
-		return templates[id];
+		if (!TemplateAPI.templates[id]) return TemplateAPI.errorTemplate;
+		return TemplateAPI.templates[id];
 	});
 	return template;
 }
@@ -28,9 +41,10 @@ async function get(id: string) {
  * @param  {string} id template id
  */
 async function load(id: string) {
-	if (templates[id]) return;
-	if (failed.includes(id)) return;
-	const url = origin + id + ".js";
+	if (TemplateAPI.templates[id]) return;
+	if (TemplateAPI.failed.includes(id)) return;
+	const url = TemplateAPI.origin + id + ".js";
+
 	await import(url)
 		.then(({ default: template }) => {
 			add(id, template);
@@ -38,16 +52,9 @@ async function load(id: string) {
 		.catch((error) => {
 			console.error(`Template "${id}" not founnd`);
 			console.error(error);
-			failed.push(id);
+			TemplateAPI.failed.push(id);
 		})
 		.finally(() => {});
 }
 
-export default {
-	origin,
-	templates,
-	failed,
-	errorTemplate,
-	add,
-	get,
-};
+export default TemplateAPI;
