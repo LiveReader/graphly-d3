@@ -1,4 +1,4 @@
-import ErrorNode from "../templates/ErrorNode";
+import ErrorTemplate from "../templates/ErrorTemplate";
 
 let TemplateAPI: {
 	origin: string;
@@ -12,7 +12,7 @@ let TemplateAPI: {
 	origin: "",
 	templates: {},
 	failed: [],
-	errorTemplate: ErrorNode,
+	errorTemplate: ErrorTemplate,
 	add,
 	get,
 	load,
