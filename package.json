@@ -1,6 +1,6 @@
 {
 	"name": "@livereader/graphly-d3",
-	"version": "0.4.7",
+	"version": "0.5.0",
 	"description": "Library ontop of d3.js for creating interactive graphs. It uses a shape templating system to dynamically define and use SVG shapes.",
 	"main": "./dist/main.umd.js",
 	"module": "./dist/main.es.js",
