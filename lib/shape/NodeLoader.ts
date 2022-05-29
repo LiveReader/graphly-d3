@@ -21,7 +21,7 @@ function Node(this: any, data: any) {
 	node.classed("node", true).attr("id", data.id);
 
 	if (!data.shape.template || data.shape.template == TemplateAPI.errorTemplate) {
-		return throwError(`Template "${data.shape.type}" not founnd`);
+		return throwError(`Template "${data.shape.type}" not found!`, initialShape);
 	}
 	try {
 		node.append(() => data.shape.template.bind(this)(data, initialShape, changes, Template).node()).classed(
@@ -31,14 +31,14 @@ function Node(this: any, data: any) {
 		Shape.bind(node, data);
 	} catch (e: any) {
 		console.error(e);
-		return throwError(e);
+		return throwError(e.message, initialShape);
 	}
 
 	return node.node();
 
-	function throwError(this: any, message: string) {
-		console.log(message);
-		node.append(() => TemplateAPI.errorTemplate.bind(this)(data, Template).node());
+	function throwError(this: any, message: string, initialShape: d3.Selection<SVGElement, any, any, any> | null) {
+		data.errorMessage = message;
+		node.append(() => TemplateAPI.errorTemplate.bind(this)(data, initialShape, {}, Template).node());
 		return node.node();
 	}
 }
