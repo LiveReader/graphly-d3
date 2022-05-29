@@ -6,23 +6,42 @@ import TemplateAPI from "./shape/TemplateAPI";
 import "./styles/graph.scss";
 
 export default class ForceSimulation {
-	onMoveEvent = () => {};
+	simulation: d3.Simulation<any, any> | any = null;
+	svg: d3.Selection<SVGSVGElement, any, any, any>;
+	graph: any;
+	worldTransform: { k: number; x: number; y: number };
+	worldBoundaries: { height: number | null; width: number | null };
+	transitionDuration: number = 300;
 
-	onNewEdgeEvent = () => {};
-	onEdgeClickEvent = () => {};
-	onEdgeDoubleClickEvent = () => {};
-	onEdgeContextClickEvent = () => {};
+	isDraggableNodes: boolean = true;
+	dragNode: any = null;
+	zoom: any = d3;
 
-	onBackgroundClick = () => {};
-	onNodeClick = () => {};
-	onNodeDoubleClick() {}
-	onNodeContextClick = () => {};
+	onZoomRegistrations: any[];
+	onZoomRoutines: { [key: string]: any };
 
-	onDragStartEvent = () => {};
-	onDraggedEvent = () => {};
-	onDragEndEvent = () => {};
+	world: d3.Selection<SVGGElement, any, any, any> | any = null;
+	nodeGroup: d3.Selection<SVGGElement, any, any, any> | any = null;
+	linkGroup: d3.Selection<SVGGElement, any, any, any> | any = null;
+	disabledContainer: d3.Selection<SVGGElement, any, any, any> | any = null;
+	enabledContainer: d3.Selection<SVGGElement, any, any, any> | any = null;
 
-	constructor(svg) {
+	onMoveEvent: (transform: { k: number; x: number; y: number }) => void = () => {};
+	onBackgroundClick: (e: any, pos: { x: number; y: number }) => void = () => {};
+
+	onNewEdgeEvent: (source: any, target: any) => void = () => {};
+	onEdgeClickEvent: (e: any, d: any) => void = () => {};
+	onEdgeDoubleClickEvent: (e: any, d: any) => void = () => {};
+	onEdgeContextClickEvent: (e: any, d: any) => void = () => {};
+
+	onNodeClick: (e: any, d: any) => void = () => {};
+	onNodeDoubleClick: (e: any, d: any) => void = () => {};
+	onNodeContextClick: (e: any, d: any) => void = () => {};
+	onDragStartEvent: (e: any, d: any, pos: { x: number; y: number }) => void = () => {};
+	onDraggedEvent: (e: any, d: any) => void = () => {};
+	onDragEndEvent: (e: any, d: any, pos: { x: number; y: number }) => void = () => {};
+
+	constructor(svg: d3.Selection<SVGSVGElement, any, any, any>) {
 		this.svg = svg;
 		this.graph = { nodes: [], links: [] };
 		this.worldTransform = { k: 1, x: this.svgBounds().width / 2, y: this.svgBounds().height / 2 };
@@ -37,7 +56,7 @@ export default class ForceSimulation {
 		this.createSimulation();
 		this.setDrag();
 		this.setZoom();
-		svg.on("dblclick.zoom", null).on("click", (e) => {
+		svg.on("dblclick.zoom", null).on("click", (e: any) => {
 			if (e.srcElement == this.svg.node()) {
 				const worldPos = {
 					x: e.x / this.worldTransform.k - this.worldTransform.x / this.worldTransform.k,
@@ -84,15 +103,16 @@ export default class ForceSimulation {
 			if (navigator.userAgent.includes("Safari")) {
 				return "safari";
 			}
+			return "chrome";
 		}
 		document.body.classList.add(detectBrowser());
 	}
 
-	svgBounds() {
+	svgBounds(this: any) {
 		return this.svg.node().getBoundingClientRect();
 	}
 
-	setWorldBoundaries(height, width) {
+	setWorldBoundaries(height: number, width: number) {
 		this.worldBoundaries.height = height;
 		this.worldBoundaries.width = width;
 	}
@@ -137,8 +157,8 @@ export default class ForceSimulation {
 				"link",
 				d3
 					.forceLink()
-					.id((d) => d.id)
-					.strength((d) => {
+					.id((d: any) => d.id)
+					.strength((d: any) => {
 						if (!isNaN(d.strength)) return d.strength;
 						switch (d.strength) {
 							case "strong":
@@ -157,15 +177,15 @@ export default class ForceSimulation {
 				"forceX",
 				d3
 					.forceX()
-					.x((d) => (d.satellite?.x ?? 0) || (d.anchor?.x ?? 0))
-					.strength((d) => (!!d.satellite ? 6 : 0) || (d.anchor?.type == "soft" ? 2 : 0))
+					.x((d: any) => (d.satellite?.x ?? 0) || (d.anchor?.x ?? 0))
+					.strength((d: any) => (!!d.satellite ? 6 : 0) || (d.anchor?.type == "soft" ? 2 : 0))
 			)
 			.force(
 				"forceY",
 				d3
 					.forceY()
-					.y((d) => (d.satellite?.y ?? 0) || (d.anchor?.y ?? 0))
-					.strength((d) => (!!d.satellite ? 6 : 0) || (d.anchor?.type == "soft" ? 2 : 0))
+					.y((d: any) => (d.satellite?.y ?? 0) || (d.anchor?.y ?? 0))
+					.strength((d: any) => (!!d.satellite ? 6 : 0) || (d.anchor?.type == "soft" ? 2 : 0))
 			)
 			.force(
 				"gravity",
@@ -175,7 +195,7 @@ export default class ForceSimulation {
 			)
 			.force(
 				"collide",
-				d3.forceCollide().radius((d) => {
+				d3.forceCollide().radius((d: any) => {
 					const template = d.shape.template;
 					return ((template.shapeSize ?? 300) / 2) * (d.shape.scale ?? 1);
 				})
@@ -183,40 +203,40 @@ export default class ForceSimulation {
 			.on("tick", this.ticked.bind(this));
 	}
 
-	setLinkDistance(distance) {
+	setLinkDistance(distance: number) {
 		this.simulation.force("link").distance(distance);
 	}
-	setGravity(gravity) {
+	setGravity(gravity: number) {
 		this.simulation.force("gravity").strength(gravity);
 	}
-	setTransitionDuration(duration) {
+	setTransitionDuration(duration: number) {
 		this.transitionDuration = duration;
 	}
 
-	selectNode(id, selected = true) {
+	selectNode(id: string, selected: boolean = true) {
 		this.nodeGroup
 			.selectAll("g.node")
-			.filter((d) => d.id == id)
+			.filter((d: any) => d.id == id)
 			.selectAll(".selectable")
 			.classed("selected", selected);
 		return this;
 	}
 
-	async setData(graph) {
+	async setData(graph: any) {
 		this.sortGraph(graph);
 		await this.getNodeTemplates(graph);
-		graph.nodes.forEach((node) => {
+		graph.nodes.forEach((node: any) => {
 			node.forceSimulation = this;
 		});
 		this.spawnNodes(graph.nodes);
 		this.graph = graph;
 	}
 
-	setTemplateOrigin(origin) {
+	setTemplateOrigin(origin: string) {
 		TemplateAPI.origin = origin;
 	}
 
-	spawnNodes(nodes) {
+	spawnNodes(nodes: any[]) {
 		for (let i = 0; i < nodes.length; i++) {
 			const node = nodes[i];
 			if (
@@ -247,7 +267,7 @@ export default class ForceSimulation {
 		}
 	}
 
-	async getNodeTemplates(graph) {
+	async getNodeTemplates(graph: any) {
 		for (let i = 0; i < graph.nodes.length; i++) {
 			const node = graph.nodes[i];
 			await TemplateAPI.get(node.shape.type).then((template) => {
@@ -256,17 +276,17 @@ export default class ForceSimulation {
 		}
 	}
 
-	sortGraph(graph) {
+	sortGraph(graph: any) {
 		// go through each node and get all links having that node as source
-		graph.nodes.forEach((node) => {
-			const links = [];
-			graph.links.forEach((link) => {
+		graph.nodes.forEach((node: any) => {
+			const links: any[] = [];
+			graph.links.forEach((link: any) => {
 				if (link.source == node.id || link.source.id == node.id) {
 					links.push(link);
 				}
 			});
 			// sort the links in groups if they have the same target
-			const groupedLinks = {};
+			const groupedLinks: any[] = [];
 			links.forEach((link) => {
 				if (typeof link.target == "object") {
 					if (!groupedLinks[link.target.id]) {
@@ -281,25 +301,25 @@ export default class ForceSimulation {
 				}
 			});
 			// run through each group
-			Object.keys(groupedLinks).forEach((targetId) => {
+			Object.keys(groupedLinks).forEach((targetId: any) => {
 				// assign incrementing index to each link
-				groupedLinks[targetId].forEach((link, index) => {
+				groupedLinks[targetId].forEach((link: any, index: number) => {
 					link.i = index;
 				});
 				// sort the links by index
-				groupedLinks[targetId].sort((a, b) => a.index - b.index);
+				groupedLinks[targetId].sort((a: any, b: any) => a.index - b.index);
 			});
 		});
 	}
 
-	draggableNodes(draggable = true) {
+	draggableNodes(draggable: boolean = true) {
 		this.isDraggableNodes = draggable;
 	}
 	setDrag() {
-		let newEdge = null;
+		let newEdge: any = null;
 		let dragOffset = { x: 0, y: 0 };
 
-		function dragstarted(e, d) {
+		function dragstarted(e: any, d: any) {
 			const worldTransform = d.forceSimulation.worldTransform;
 			// new edge
 			if (e.sourceEvent.altKey) {
@@ -329,7 +349,7 @@ export default class ForceSimulation {
 				d.forceSimulation.onDragStartEvent(e, d, { x: e.x, y: e.y });
 			}
 		}
-		function dragged(e, d) {
+		function dragged(e: any, d: any) {
 			// new edge
 			if (newEdge) {
 				const mousePos = {
@@ -346,7 +366,7 @@ export default class ForceSimulation {
 				d.forceSimulation.onDraggedEvent(e, d);
 			}
 		}
-		function dragended(e, d) {
+		function dragended(e: any, d: any) {
 			function removeNewEdge() {
 				newEdge.node().parentNode.remove();
 				newEdge = null;
@@ -361,7 +381,7 @@ export default class ForceSimulation {
 					node = node.parentNode;
 					if (!node.classList) return removeNewEdge();
 				}
-				const graphNode = d.forceSimulation.graph.nodes.find((n) => n.id == node.id);
+				const graphNode = d.forceSimulation.graph.nodes.find((n: any) => n.id == node.id);
 				removeNewEdge();
 				if (!graphNode) return;
 				if (graphNode.id == d.id) return;
@@ -384,7 +404,7 @@ export default class ForceSimulation {
 		this.zoom.on("zoom", null);
 	}
 
-	setZoomBoundaries(min, max) {
+	setZoomBoundaries(min: number, max: number) {
 		this.zoom.scaleExtent([min, max]);
 	}
 
@@ -403,7 +423,7 @@ export default class ForceSimulation {
 					const movedRange = [this.worldTransform.k, transform.k].sort();
 					Object.keys(this.onZoomRoutines).forEach((threshold) => {
 						if (movedRange[0] < threshold && movedRange[1] > threshold) {
-							this.onZoomRoutines[threshold].forEach((routine) => {
+							this.onZoomRoutines[threshold].forEach((routine: any) => {
 								routine(transform.k);
 							});
 						}
@@ -417,7 +437,7 @@ export default class ForceSimulation {
 			.call(this.zoom.transform, d3.zoomIdentity.translate(this.worldTransform.x, this.worldTransform.y));
 	}
 
-	registerOnZoom(id, threshold, callback = () => {}) {
+	registerOnZoom(id: string, threshold: number, callback = () => {}) {
 		this.deregisterOnZoom(id);
 		this.onZoomRegistrations.push({
 			id: id,
@@ -427,7 +447,7 @@ export default class ForceSimulation {
 		this.orderOnZoomRoutines();
 	}
 
-	deregisterOnZoom(id) {
+	deregisterOnZoom(id: string) {
 		this.onZoomRegistrations = this.onZoomRegistrations.filter((routine) => routine.id !== id);
 		this.orderOnZoomRoutines();
 	}
@@ -447,7 +467,7 @@ export default class ForceSimulation {
 			const node = this.graph.nodes[i];
 			if (!node.satellite) continue;
 			if (typeof node.satellite.source == "string") {
-				const source = this.graph.nodes.find((n) => n.id == node.satellite.source);
+				const source = this.graph.nodes.find((n: any) => n.id == node.satellite.source);
 				if (!source) continue;
 				node.satellite.source = source;
 			}
@@ -460,16 +480,16 @@ export default class ForceSimulation {
 			};
 			node.satellite.x = pos.x;
 			node.satellite.y = pos.y;
-			node.forceSimulation.simulation.force("forceX").x((d) => (d.satellite?.x ?? 0) || (d.anchor?.x ?? 0));
-			node.forceSimulation.simulation.force("forceY").y((d) => (d.satellite?.y ?? 0) || (d.anchor?.y ?? 0));
+			node.forceSimulation.simulation.force("forceX").x((d: any) => (d.satellite?.x ?? 0) || (d.anchor?.x ?? 0));
+			node.forceSimulation.simulation.force("forceY").y((d: any) => (d.satellite?.y ?? 0) || (d.anchor?.y ?? 0));
 		}
 
-		this.nodeGroup.selectAll("g.node").attr("transform", (d) => {
+		this.nodeGroup.selectAll("g.node").attr("transform", (d: any) => {
 			if (this.worldBoundaries.width || this.worldBoundaries.height) {
 				const min_y = 0;
-				const max_y = this.worldBoundaries.height;
+				const max_y = this.worldBoundaries.height ?? 0;
 				const min_x = 0;
-				const max_x = this.worldBoundaries.width;
+				const max_x = this.worldBoundaries.width ?? 0;
 				if (d.x < min_x) d.x = min_x + 1;
 				if (d.x > max_x) d.x = max_x - 1;
 				if (d.y < min_y) d.y = min_y + 1;
@@ -486,7 +506,7 @@ export default class ForceSimulation {
 			return `translate(${d.x},${d.y})`;
 		});
 
-		this.linkGroup.selectAll("g.link").call((d) => {
+		this.linkGroup.selectAll("g.link").call((d: any) => {
 			const edge = d.select(".edge");
 			edge.attr("d", Edge.line);
 			const arrow = d.select(".arrow");
@@ -496,27 +516,27 @@ export default class ForceSimulation {
 		});
 	}
 
-	async render(graph, alpha = 0.05) {
+	async render(graph: any, alpha: number = 0.05) {
 		await this.setData(graph);
 
-		function renderWrapper(parent, data) {
-			const nodes = parent.selectAll("g.node").data(data, (d) => d.id);
+		function renderWrapper(this: any, parent: any, data: any) {
+			const nodes = parent.selectAll("g.node").data(data, (d: any) => d.id);
 
 			nodes
 				.enter()
 				.append(Node.bind(this))
 				.style("pointer-events", "fill")
 				.call(this.dragNode)
-				.on("click", (e, d) => {
+				.on("click", (e: any, d: any) => {
 					if (e.defaultPrevented) return; // dragged
 					this.onNodeClick(e, d);
 				})
 				// double click
-				.on("dblclick", (e, d) => {
+				.on("dblclick", (e: any, d: any) => {
 					e.preventDefault();
 					this.onNodeDoubleClick(e, d);
 				})
-				.on("contextmenu", (e, d) => {
+				.on("contextmenu", (e: any, d: any) => {
 					e.preventDefault();
 					this.onNodeContextClick(e, d);
 				})
@@ -532,48 +552,48 @@ export default class ForceSimulation {
 				.attr("opacity", 0)
 				.remove();
 
-			nodes.select((d) => {
-				let node = nodes.filter((n) => n.id === d.id);
+			nodes.select((d: any) => {
+				let node = nodes.filter((n: any) => n.id === d.id);
 				node.select(Node);
 			});
 		}
 
 		// enabled nodes
-		const enabledNodes = this.graph.nodes.filter((d) => !d.disabled);
+		const enabledNodes = this.graph.nodes.filter((d: any) => !d.disabled);
 		renderWrapper.bind(this)(this.enabledContainer, enabledNodes);
 
 		// disabled nodes
-		const disabledNodes = this.graph.nodes.filter((d) => d.disabled);
+		const disabledNodes = this.graph.nodes.filter((d: any) => d.disabled);
 		renderWrapper.bind(this)(this.disabledContainer, disabledNodes);
 
 		const links = this.linkGroup
 			.selectAll(".link")
-			.data(this.graph.links, (d) => d.source + d.target + d.type + d.directed + d.label + d.strength);
+			.data(this.graph.links, (d: any) => d.source + d.target + d.type + d.directed + d.label + d.strength);
 		const link = links
 			.enter()
 			.append("g")
 			.classed("link", true)
-			.on("click", (e, d) => {
+			.on("click", (e: any, d: any) => {
 				this.onEdgeClickEvent(e, d);
 			})
-			.on("dblclick", (e, d) => {
+			.on("dblclick", (e: any, d: any) => {
 				e.preventDefault();
 				this.onEdgeDoubleClickEvent(e, d);
 			})
-			.on("contextmenu", (e, d) => {
+			.on("contextmenu", (e: any, d: any) => {
 				this.onEdgeContextClickEvent(e, d);
 			});
 		link.append("path")
 			.classed("edge", true)
-			.classed("solid", (d) => (!d.type ? true : d.type === "solid"))
-			.classed("dotted", (d) => d.type === "dotted")
-			.classed("dashed", (d) => d.type === "dashed")
-			.classed("hidden", (d) => d.type === "hidden");
+			.classed("solid", (d: any) => (!d.type ? true : d.type === "solid"))
+			.classed("dotted", (d: any) => d.type === "dotted")
+			.classed("dashed", (d: any) => d.type === "dashed")
+			.classed("hidden", (d: any) => d.type === "hidden");
 		link.append("path")
 			.classed("arrow", true)
-			.classed("hidden", (d) => d.type === "hidden");
+			.classed("hidden", (d: any) => d.type === "hidden");
 		link.append("text")
-			.text((d) => (d.type != "hidden" ? d.label : ""))
+			.text((d: any) => (d.type != "hidden" ? d.label : ""))
 			.attr("text-anchor", "middle")
 			.attr("dy", "0.35em")
 			.classed("label", true);
