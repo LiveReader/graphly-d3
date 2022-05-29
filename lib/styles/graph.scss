@@ -6,10 +6,69 @@
 // 	image-rendering: optimizeSpeed;
 // }
 
-.node {
-	fill: $node-fill-color;
-	stroke: $node-stroke-color;
-	stroke-miterlimit: 10;
+svg {
+	.node {
+		fill: $node-fill-color-light;
+		stroke: $node-stroke-color;
+		stroke-miterlimit: 10;
+	}
+
+	.link,
+	.prelink {
+		.label {
+			font-size: 0.8em;
+			font-family: "Roboto";
+			font-weight: 400;
+			fill: $foreground-color-light;
+		}
+
+		.edge {
+			stroke: $node-stroke-color;
+			fill: none;
+			stroke-width: 2;
+
+			&.solid {
+				stroke-width: 2;
+				stroke-dasharray: none;
+			}
+			&.dotted {
+				stroke-width: 2.5;
+				stroke-dasharray: 4, 10;
+			}
+			&.dashed {
+				stroke-width: 2;
+				stroke-dasharray: 10, 10;
+			}
+			&.hidden {
+				stroke-width: 2;
+				stroke-opacity: 0;
+			}
+		}
+
+		.arrow {
+			stroke: $node-stroke-color;
+			fill: none;
+			stroke-width: 2;
+			stroke-dasharray: none;
+			&.hidden {
+				stroke-width: 2;
+				stroke-opacity: 0;
+			}
+		}
+	}
+
+	&.dark {
+		.node {
+			fill: $node-fill-color-dark;
+		}
+
+		.link,
+		.prelink {
+			.label {
+				fill: $foreground-color-dark;
+			}
+		}
+	}
 }
 
 .selectable {
@@ -33,49 +92,5 @@
 	$grayed: invert(15%) sepia(30%) grayscale(80%);
 	&.disabled {
 		filter: $grayed;
-	}
-}
-
-.link,
-.prelink {
-	.label {
-		font-size: 0.8em;
-		font-family: "Roboto";
-		font-weight: 400;
-		fill: $foreground-color;
-	}
-
-	.edge {
-		stroke: $node-stroke-color;
-		fill: none;
-		stroke-width: 2;
-
-		&.solid {
-			stroke-width: 2;
-			stroke-dasharray: none;
-		}
-		&.dotted {
-			stroke-width: 2.5;
-			stroke-dasharray: 4, 10;
-		}
-		&.dashed {
-			stroke-width: 2;
-			stroke-dasharray: 10, 10;
-		}
-		&.hidden {
-			stroke-width: 2;
-			stroke-opacity: 0;
-		}
-	}
-
-	.arrow {
-		stroke: $node-stroke-color;
-		fill: none;
-		stroke-width: 2;
-		stroke-dasharray: none;
-		&.hidden {
-			stroke-width: 2;
-			stroke-opacity: 0;
-		}
 	}
 }
