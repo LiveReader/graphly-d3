@@ -2,7 +2,7 @@ import { Shape, SVGShape, OnZoom, LODStyle, TextCollection, CollectionStyle, Sha
 import * as d3 from "d3";
 
 ErrorTemplate.shapeSize = 200;
-function ErrorTemplate(data: any, initialShape: d3.Selection<SVGElement, any, any, any>) {
+function ErrorTemplate(data: any) {
 	const shape = Shape.create("g"); //initialShape ? initialShape : Shape.create("g");
 
 	// shape.remove();
