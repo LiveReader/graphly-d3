@@ -45,7 +45,7 @@ async function load(id: string) {
 	if (TemplateAPI.failed.includes(id)) return;
 	const url = TemplateAPI.origin + id + ".js";
 
-	await import(url)
+	await import(/* webpackIgnore: true */ /* @vite-ignore */ url)
 		.then(({ default: template }) => {
 			add(id, template);
 		})
