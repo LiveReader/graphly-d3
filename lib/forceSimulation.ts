@@ -1,14 +1,17 @@
 import * as d3 from "d3";
 import Edge from "./edge/Edge";
-import Node from "./shape/NodeLoader";
+import NodeLoader from "./shape/NodeLoader";
 import TemplateAPI from "./shape/TemplateAPI";
 
 import "./styles/graph.scss";
+import type { Node } from "./types/Node";
+import type { Link } from "./types/Link";
+import type { Graph } from "./types/Graph";
 
 export default class ForceSimulation {
 	simulation: d3.Simulation<any, any> | any = null;
 	svg: d3.Selection<SVGSVGElement, any, any, any>;
-	graph: any;
+	graph: Graph;
 	worldTransform: { k: number; x: number; y: number };
 	worldBoundaries: { height: number | null; width: number | null };
 	transitionDuration: number = 300;
@@ -222,10 +225,10 @@ export default class ForceSimulation {
 		return this;
 	}
 
-	async setData(graph: any) {
+	async setData(graph: Graph) {
 		this.sortGraph(graph);
 		await this.getNodeTemplates(graph);
-		graph.nodes.forEach((node: any) => {
+		graph.nodes.forEach((node: Node) => {
 			node.forceSimulation = this;
 		});
 		this.spawnNodes(graph.nodes);
@@ -236,7 +239,7 @@ export default class ForceSimulation {
 		TemplateAPI.origin = origin;
 	}
 
-	spawnNodes(nodes: any[]) {
+	spawnNodes(nodes: Node[]) {
 		for (let i = 0; i < nodes.length; i++) {
 			const node = nodes[i];
 			if (
@@ -251,13 +254,13 @@ export default class ForceSimulation {
 				continue;
 			}
 			// source, angle, distance
-			const sourceNode = nodes.find((n) => n.id == node.spawn.source);
+			const sourceNode = nodes.find((n) => n.id == node.spawn?.source);
 			const sourcePos = {
-				x: sourceNode.x ?? sourceNode.fx ?? sourceNode.anchor?.x ?? 0,
-				y: sourceNode.y ?? sourceNode.fy ?? sourceNode.anchor?.y ?? 0,
+				x: sourceNode?.x ?? sourceNode?.fx ?? sourceNode?.anchor?.x ?? 0,
+				y: sourceNode?.y ?? sourceNode?.fy ?? sourceNode?.anchor?.y ?? 0,
 			};
 			const distance = node.spawn.distance ?? 400;
-			const angle = node.spawn.angle == "random" ? Math.random() * 360 : node.spawn.angle;
+			const angle = node.spawn.angle;
 			const pos = {
 				x: sourcePos.x + distance * Math.cos((angle * Math.PI) / 180 - Math.PI / 2),
 				y: sourcePos.y + distance * Math.sin((angle * Math.PI) / 180 - Math.PI / 2),
@@ -267,7 +270,7 @@ export default class ForceSimulation {
 		}
 	}
 
-	async getNodeTemplates(graph: any) {
+	async getNodeTemplates(graph: Graph) {
 		for (let i = 0; i < graph.nodes.length; i++) {
 			const node = graph.nodes[i];
 			await TemplateAPI.get(node.shape.type).then((template) => {
@@ -276,28 +279,28 @@ export default class ForceSimulation {
 		}
 	}
 
-	sortGraph(graph: any) {
+	sortGraph(graph: Graph) {
 		// go through each node and get all links having that node as source
-		graph.nodes.forEach((node: any) => {
-			const links: any[] = [];
-			graph.links.forEach((link: any) => {
-				if (link.source == node.id || link.source.id == node.id) {
+		graph.nodes.forEach((node: Node) => {
+			const links: Link[] = [];
+			graph.links.forEach((link: Link) => {
+				if (link.source == node.id || (link.source as Node).id == node.id) {
 					links.push(link);
 				}
 			});
 			// sort the links in groups if they have the same target
-			const groupedLinks: any[] = [];
-			links.forEach((link) => {
-				if (typeof link.target == "object") {
-					if (!groupedLinks[link.target.id]) {
-						groupedLinks[link.target.id] = [];
+			const groupedLinks: any = {};
+			links.forEach((link: Link) => {
+				if (link.target instanceof Node) {
+					if (!groupedLinks[(link.target as Node).id]) {
+						groupedLinks[(link.target as Node).id] = [];
 					}
-					groupedLinks[link.target.id].push(link);
+					groupedLinks[(link.target as Node).id].push(link);
 				} else {
-					if (!groupedLinks[link.target]) {
-						groupedLinks[link.target] = [];
+					if (!groupedLinks[link.target as string]) {
+						groupedLinks[link.target as string] = [];
 					}
-					groupedLinks[link.target].push(link);
+					groupedLinks[link.target as string].push(link);
 				}
 			});
 			// run through each group
@@ -381,7 +384,7 @@ export default class ForceSimulation {
 					node = node.parentNode;
 					if (!node.classList) return removeNewEdge();
 				}
-				const graphNode = d.forceSimulation.graph.nodes.find((n: any) => n.id == node.id);
+				const graphNode = d.forceSimulation.graph.nodes.find((n: Node) => n.id == node.id);
 				removeNewEdge();
 				if (!graphNode) return;
 				if (graphNode.id == d.id) return;
@@ -467,21 +470,21 @@ export default class ForceSimulation {
 			const node = this.graph.nodes[i];
 			if (!node.satellite) continue;
 			if (typeof node.satellite.source == "string") {
-				const source = this.graph.nodes.find((n: any) => n.id == node.satellite.source);
+				const source = this.graph.nodes.find((n: any) => n.id == node.satellite?.source);
 				if (!source) continue;
 				node.satellite.source = source;
 			}
 			const distance = node.satellite.distance ?? 400;
-			const angle = node.satellite.angle == "random" ? Math.random() * 360 : node.satellite.angle;
+			const angle = node.satellite.angle;
 			node.satellite.angle = angle;
 			const pos = {
-				x: node.satellite.source.x + distance * Math.cos((angle * Math.PI) / 180 - Math.PI / 2),
-				y: node.satellite.source.y + distance * Math.sin((angle * Math.PI) / 180 - Math.PI / 2),
+				x: node.satellite?.source?.x ?? 0 + distance * Math.cos((angle * Math.PI) / 180 - Math.PI / 2),
+				y: node.satellite?.source?.y ?? 0 + distance * Math.sin((angle * Math.PI) / 180 - Math.PI / 2),
 			};
 			node.satellite.x = pos.x;
 			node.satellite.y = pos.y;
-			node.forceSimulation.simulation.force("forceX").x((d: any) => (d.satellite?.x ?? 0) || (d.anchor?.x ?? 0));
-			node.forceSimulation.simulation.force("forceY").y((d: any) => (d.satellite?.y ?? 0) || (d.anchor?.y ?? 0));
+			node.forceSimulation.simulation.force("forceX").x((d: any) => (d.satellite.x ?? 0) || (d.anchor?.x ?? 0));
+			node.forceSimulation.simulation.force("forceY").y((d: any) => (d.satellite.y ?? 0) || (d.anchor?.y ?? 0));
 		}
 
 		this.nodeGroup.selectAll("g.node").attr("transform", (d: any) => {
@@ -516,7 +519,7 @@ export default class ForceSimulation {
 		});
 	}
 
-	async render(graph: any, alpha: number = 0.05) {
+	async render(graph: Graph, alpha: number = 0.05) {
 		await this.setData(graph);
 
 		function renderWrapper(this: any, parent: any, data: any) {
@@ -524,7 +527,7 @@ export default class ForceSimulation {
 
 			nodes
 				.enter()
-				.append(Node.bind(this))
+				.append(NodeLoader.bind(this))
 				.style("pointer-events", "fill")
 				.call(this.dragNode)
 				.on("click", (e: any, d: any) => {
@@ -554,7 +557,7 @@ export default class ForceSimulation {
 
 			nodes.select((d: any) => {
 				let node = nodes.filter((n: any) => n.id === d.id);
-				node.select(Node);
+				node.select(NodeLoader);
 			});
 		}
 
