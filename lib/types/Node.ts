@@ -42,6 +42,6 @@ export interface Node extends D3Node {
 	shape: Shape;
 	spawn?: Spawn;
 	anchor?: Anchor;
-	satellites?: Satellite[];
+	satellite?: Satellite;
 	payload?: any;
 }
