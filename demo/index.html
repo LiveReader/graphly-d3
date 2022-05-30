@@ -9,11 +9,30 @@
 			href="https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
 		/>
 		<title>GraphlyD3 Playground</title>
-		<link rel="stylesheet" href="./lib/styles/style.scss" />
+		<link rel="stylesheet" href="../lib/styles/style.scss" />
+
+		<style>
+			svg.dark {
+				background-color: #151618;
+				transition: background-color 0.3s ease;
+			}
+
+			svg .demo_template_tag_text {
+				fill: #f4f4f4;
+			}
+			svg.dark .demo_template_tag_text {
+				fill: #404040;
+			}
+		</style>
 	</head>
 	<body style="margin: 0; padding: 0; overflow: hidden">
 		<svg style="margin: 0; padding: 0; width: 100vw; height: 100vh"></svg>
-
+		<span
+			id="theme-button"
+			style="position: fixed; top: 0; right: 0; z-index: 100; cursor: pointer; padding: 10px; font-size: 20px"
+		>
+			🌓
+		</span>
 		<script type="module" src="./app.js"></script>
 	</body>
 </html>

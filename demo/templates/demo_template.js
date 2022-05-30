@@ -54,7 +54,7 @@ function demoTemplate(data, initialShape, changes, Template) {
 			<g transform="matrix(1,0,0,1,-713.419,-878.793)">
 				<g id="body" transform="matrix(4.16667,0,0,4.16667,0,0)">
 					<g transform="matrix(1,0,0,1,371.053,216.935)">
-						<path d="M0,647.047C-11.004,647.047 -21.258,641.127 -26.76,631.598L-195.707,338.973C-201.208,329.443 -201.208,317.604 -195.707,308.074L-26.76,15.449C-21.257,5.92 -11.004,0 0,0L337.894,0C348.897,0 359.151,5.92 364.654,15.449L533.6,308.074C539.102,317.604 539.102,329.443 533.6,338.973L364.654,631.598C359.151,641.127 348.898,647.047 337.894,647.047L0,647.047Z" style="fill:white;fill-rule:nonzero;"/>
+						<path d="M0,647.047C-11.004,647.047 -21.258,641.127 -26.76,631.598L-195.707,338.973C-201.208,329.443 -201.208,317.604 -195.707,308.074L-26.76,15.449C-21.257,5.92 -11.004,0 0,0L337.894,0C348.897,0 359.151,5.92 364.654,15.449L533.6,308.074C539.102,317.604 539.102,329.443 533.6,338.973L364.654,631.598C359.151,641.127 348.898,647.047 337.894,647.047L0,647.047Z" style="fill-rule:nonzero;"/>
 					</g>
 				</g>
 				<g id="state" transform="matrix(4.16667,0,0,4.16667,0,0)">
@@ -64,12 +64,12 @@ function demoTemplate(data, initialShape, changes, Template) {
 				</g>
 				<g id="diamond" transform="matrix(4.16667,0,0,4.16667,0,0)">
 					<g transform="matrix(1,0,0,1,528.976,242.61)">
-						<path d="M0,284.631L-131.292,153.339C-137.38,147.251 -137.38,137.38 -131.292,131.292L0,0C6.088,-6.088 15.959,-6.088 22.047,0L153.339,131.292C159.427,137.38 159.427,147.251 153.339,153.339L22.047,284.631C15.959,290.719 6.088,290.719 0,284.631Z" style="fill:rgb(243,243,244);fill-rule:nonzero;stroke:rgb(165,164,165);stroke-width:1px;"/>
+						<path d="M0,284.631L-131.292,153.339C-137.38,147.251 -137.38,137.38 -131.292,131.292L0,0C6.088,-6.088 15.959,-6.088 22.047,0L153.339,131.292C159.427,137.38 159.427,147.251 153.339,153.339L22.047,284.631C15.959,290.719 6.088,290.719 0,284.631Z" style="fill-rule:nonzero;stroke:rgb(165,164,165);stroke-width:1px;"/>
 					</g>
 				</g>
 				<g id="large-diamond" transform="matrix(4.16667,0,0,4.16667,0,0)">
 					<g transform="matrix(1.50118,0,0,1.50118,523.452,325.522)">
-						<path d="M0,284.631L-131.292,153.339C-137.38,147.251 -137.38,137.38 -131.292,131.292L0,0C6.088,-6.088 15.959,-6.088 22.047,0L153.339,131.292C159.427,137.38 159.427,147.251 153.339,153.339L22.047,284.631C15.959,290.719 6.088,290.719 0,284.631Z" style="fill:rgb(243,243,244);fill-rule:nonzero;stroke:rgb(165,164,165);stroke-width:1px;"/>
+						<path d="M0,284.631L-131.292,153.339C-137.38,147.251 -137.38,137.38 -131.292,131.292L0,0C6.088,-6.088 15.959,-6.088 22.047,0L153.339,131.292C159.427,137.38 159.427,147.251 153.339,153.339L22.047,284.631C15.959,290.719 6.088,290.719 0,284.631Z" style="fill-rule:nonzero;stroke:rgb(165,164,165);stroke-width:1px;"/>
 					</g>
 				</g>
 				<g id="border" transform="matrix(4.16667,0,0,4.16667,0,0)">
@@ -227,11 +227,7 @@ function demoTemplate(data, initialShape, changes, Template) {
 			data.payload?.accessibility ?? " – ",
 			TagStyle(
 				[120, 40],
-				[
-					ShapeStyle("class", "n_text", true),
-					ShapeStyle("font-size", "140", true),
-					ShapeStyle("class", "n_light_text", true),
-				],
+				[ShapeStyle("class", "n_text.n_white", true), ShapeStyle("font-size", "140", true)],
 				[ShapeStyle("class", "n_black", true)],
 				120
 			)
@@ -246,11 +242,7 @@ function demoTemplate(data, initialShape, changes, Template) {
 			data.payload?.accessibility ?? " – ",
 			TagStyle(
 				[160, 50],
-				[
-					ShapeStyle("class", "n_text", true),
-					ShapeStyle("font-size", "180", true),
-					ShapeStyle("class", "n_light_text", true),
-				],
+				[ShapeStyle("class", "n_text.n_white", true), ShapeStyle("font-size", "180", true)],
 				[ShapeStyle("class", "n_black", true)],
 				160
 			)
@@ -274,12 +266,8 @@ function demoTemplate(data, initialShape, changes, Template) {
 			CollectionStyle(800, bbox.width, 0, bbox.height * 0.72, 60, 60, 3, Alignment.Center, [370, 540, 710]),
 			TagStyle(
 				[100, 40],
-				[
-					ShapeStyle("class", "n_text", true),
-					ShapeStyle("font-size", "120", true),
-					ShapeStyle("class", "n_dark_text", true),
-				],
-				[ShapeStyle("class", "n_gray.lighten-3", true)],
+				[ShapeStyle("class", "n_text.n_dark_text", true), ShapeStyle("font-size", "120", true)],
+				[ShapeStyle("class", "n_gray", true), ShapeStyle("class", "demo_template_tag_text", true)],
 				110
 			)
 		);

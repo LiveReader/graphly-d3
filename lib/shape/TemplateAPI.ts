@@ -1,42 +1,53 @@
-import ErrorNode from "../templates/ErrorNode.js";
+import ErrorTemplate from "../templates/ErrorTemplate";
 
-const TemplateAPI = {};
-
-TemplateAPI.origin = "";
-TemplateAPI.templates = {};
-TemplateAPI.failed = [];
-TemplateAPI.errorTemplate = ErrorNode;
+let TemplateAPI: {
+	origin: string;
+	templates: { [key: string]: any };
+	failed: string[];
+	errorTemplate: any;
+	add: (id: string, shape: any) => void;
+	get: (id: string) => Promise<any>;
+	load: (id: string) => Promise<any>;
+} = {
+	origin: "",
+	templates: {},
+	failed: [],
+	errorTemplate: ErrorTemplate,
+	add,
+	get,
+	load,
+};
 
 /**
  * @param  {string} id template id
  * @param  {function} shape template shape
  */
-TemplateAPI.add = function (id, shape) {
+function add(id: string, shape: any) {
 	TemplateAPI.templates[id] = shape;
-	return this;
-};
+}
 
 /**
  * @param  {string} id template id
  */
-TemplateAPI.get = async function (id) {
-	const template = await TemplateAPI.load(id).then(() => {
+async function get(id: string) {
+	const template = await load(id).then(() => {
 		if (!TemplateAPI.templates[id]) return TemplateAPI.errorTemplate;
 		return TemplateAPI.templates[id];
 	});
 	return template;
-};
+}
 
 /**
  * @param  {string} id template id
  */
-TemplateAPI.load = async function (id) {
+async function load(id: string) {
 	if (TemplateAPI.templates[id]) return;
 	if (TemplateAPI.failed.includes(id)) return;
 	const url = TemplateAPI.origin + id + ".js";
-	await import(/* webpackIgnore: true */ url)
+
+	await import(/* webpackIgnore: true */ /* @vite-ignore */ url)
 		.then(({ default: template }) => {
-			TemplateAPI.add(id, template);
+			add(id, template);
 		})
 		.catch((error) => {
 			console.error(`Template "${id}" not founnd`);
@@ -44,6 +55,6 @@ TemplateAPI.load = async function (id) {
 			TemplateAPI.failed.push(id);
 		})
 		.finally(() => {});
-};
+}
 
 export default TemplateAPI;

@@ -1,7 +1,8 @@
-import { ForceSimulation } from "./lib/main.js";
+import { ForceSimulation } from "../lib/main";
 import * as d3 from "d3";
 
 const svg = d3.select("svg");
+const themeButton = d3.select("#theme-button");
 resize();
 let graph = {
 	nodes: [],
@@ -9,8 +10,21 @@ let graph = {
 };
 
 const simulation = new ForceSimulation(svg);
+
+let theme = "light";
+themeButton.on("click", toggleTheme);
+function toggleTheme() {
+	if (theme === "light") {
+		theme = "dark";
+	} else {
+		theme = "light";
+	}
+	svg.classed("dark", theme === "dark");
+	simulation.render(graph);
+}
+
 // simulation.setWorldBoundaries(window.innerHeight, window.innerWidth);
-simulation.setTemplateOrigin("http://" + document.location.host + "/templates/");
+simulation.setTemplateOrigin("http://" + document.location.host + "/demo/templates/");
 
 simulation.onClick((e, d) => {
 	if (e.altKey) {
@@ -100,10 +114,6 @@ simulation.onDragEnd((e, d, pos) => {
 	d.anchor.x = pos.x;
 	d.anchor.y = pos.y;
 	simulation.render(graph);
-});
-
-simulation.onMove((t) => {
-	console.log(t);
 });
 
 simulation.setZoomBoundaries(0.1, 3);

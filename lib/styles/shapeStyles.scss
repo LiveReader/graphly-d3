@@ -16,15 +16,26 @@
 	transition: fill 0.3s ease-in-out;
 }
 
-.n_light_text {
-	fill: $node-fill-color;
-}
-.n_dark_text {
-	fill: $foreground-color;
+svg {
+	.n_light_text {
+		fill: $node-fill-color-light;
+	}
+	.n_dark_text {
+		fill: $foreground-color-light;
+	}
+
+	&.dark {
+		.n_light_text {
+			fill: $node-fill-color-dark;
+		}
+		.n_dark_text {
+			fill: $foreground-color-dark;
+		}
+	}
 }
 
 .n_text {
-	color: $foreground-color;
+	color: $foreground-color-light;
 	font-family: "Roboto";
 	text-anchor: middle;
 	stroke: none;

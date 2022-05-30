@@ -1,17 +1,29 @@
-$background-color: #f4f4f4;
-$foreground-color: #404040;
+$background-color-light: #fafbfd;
+$background-color-dark: #151618;
 
-$node-fill-color: #ffffff;
+$foreground-color-light: #404040;
+$foreground-color-dark: #e5e5e5;
+
+$node-fill-color-light: #ffffff;
+$node-fill-color-dark: #222326;
 $node-stroke-color: #a6a6a6;
 
 $selection-color: #4fc3f7;
 
-.n_node_fill {
-	fill: $node-fill-color;
+svg {
+	.n_node_fill {
+		fill: $node-fill-color-light;
+	}
+	.n_node_stroke {
+		stroke: $node-stroke-color;
+	}
+	&.dark {
+		.n_node_fill {
+			fill: $node-fill-color-dark;
+		}
+	}
 }
-.n_node_stroke {
-	stroke: $node-stroke-color;
-}
+
 // Teal
 .n_teal {
 	fill: #4db6ac;
