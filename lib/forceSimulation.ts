@@ -237,7 +237,7 @@ export default class ForceSimulation {
 	}
 
 	setTemplateOrigin(origin: string) {
-		TemplateStore.origin = origin;
+		TemplateStore.remoteOrigin = origin;
 	}
 
 	spawnNodes(nodes: Node[]) {

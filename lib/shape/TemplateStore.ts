@@ -2,14 +2,14 @@ import { Template } from "../types/Template";
 import ErrorTemplate from "../templates/ErrorTemplate";
 
 const TemplateStore: {
-	origin: string;
+	remoteOrigin: string;
 	errorTemplate: Template;
 	templates: { [id: string]: Template };
 	failed: string[];
 	add: (id: string, template: Template) => void;
 	get: (id: string) => Promise<Template>;
 } = {
-	origin: "",
+	remoteOrigin: "",
 	errorTemplate: ErrorTemplate,
 	templates: {},
 	failed: [],
@@ -24,7 +24,7 @@ function add(id: string, template: Template) {
 async function get(id: string): Promise<Template> {
 	if (TemplateStore.templates[id]) return TemplateStore.templates[id];
 	if (TemplateStore.failed.includes(id)) return TemplateStore.errorTemplate;
-	const template = await load(TemplateStore.origin, id).then(() => {
+	const template = await load(TemplateStore.remoteOrigin, id).then(() => {
 		if (TemplateStore.templates[id]) return TemplateStore.templates[id];
 		return TemplateStore.errorTemplate;
 	});

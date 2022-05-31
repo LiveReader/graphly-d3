@@ -1,5 +1,7 @@
-import { ForceSimulation } from "../lib/main";
+import { ForceSimulation, TemplateStore } from "../lib/main";
 import * as d3 from "d3";
+
+TemplateStore.remoteOrigin = "http://" + document.location.host + "/demo/templates/";
 
 const svg = d3.select("svg");
 const themeButton = d3.select("#theme-button");
@@ -22,9 +24,6 @@ function toggleTheme() {
 	svg.classed("dark", theme === "dark");
 	simulation.render(graph);
 }
-
-// simulation.setWorldBoundaries(window.innerHeight, window.innerWidth);
-simulation.setTemplateOrigin("http://" + document.location.host + "/demo/templates/");
 
 simulation.onClick((e, d) => {
 	if (e.altKey) {
