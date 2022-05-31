@@ -1,6 +1,9 @@
-demoTemplate.shapeSize = 300;
+const DemoTemplate = {
+	shapeSize: 300,
+	shapeBuilder: shapeBuilder,
+};
 
-function demoTemplate(data, initialShape, changes, Template) {
+function shapeBuilder(data, initialShape, changes, TemplateAPI) {
 	const {
 		Shape,
 		SVGShape,
@@ -13,7 +16,7 @@ function demoTemplate(data, initialShape, changes, Template) {
 		TagCollection,
 		TagShape,
 		TagStyle,
-	} = Template;
+	} = TemplateAPI;
 
 	const shape = initialShape ? initialShape : Shape.create("g");
 
@@ -44,7 +47,7 @@ function demoTemplate(data, initialShape, changes, Template) {
 		LODStyle(accessibilityTag, "class", "hidden", (k) => k < 0.7),
 	]);
 
-	Shape.transform(shape, true, data.shape.scale * demoTemplate.shapeSize);
+	Shape.transform(shape, true, data.shape.scale * DemoTemplate.shapeSize);
 	return shape;
 
 	function addBaseShape() {
@@ -277,4 +280,4 @@ function demoTemplate(data, initialShape, changes, Template) {
 	}
 }
 
-export default demoTemplate;
+export default DemoTemplate;

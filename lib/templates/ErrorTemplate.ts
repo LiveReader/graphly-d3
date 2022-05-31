@@ -1,8 +1,20 @@
-import { Shape, SVGShape, OnZoom, LODStyle, TextCollection, CollectionStyle, ShapeStyle, Alignment } from "../template";
 import * as d3 from "d3";
+import { Template } from "../types/Template";
+import { Node } from "../types/Node";
 
-ErrorTemplate.shapeSize = 200;
-function ErrorTemplate(data: any) {
+import { Shape, SVGShape, OnZoom, LODStyle, TextCollection, CollectionStyle, ShapeStyle, Alignment } from "../template";
+
+const ErrorTemplate: Template = {
+	shapeSize: 200,
+	shapeBuilder: shapeBuilder,
+};
+
+function shapeBuilder(
+	data: Node,
+	_initialShape: any,
+	_changes: any,
+	_TemplateAPI: any
+): d3.Selection<SVGElement, any, any, any> {
 	const shape = Shape.create("g"); //initialShape ? initialShape : Shape.create("g");
 
 	// shape.remove();
