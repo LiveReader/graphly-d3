@@ -1,4 +1,5 @@
 import ForceSimulation from "../forceSimulation";
+import { Template } from "./Template";
 
 export interface D3Node {
 	id: string;
@@ -13,7 +14,7 @@ export interface D3Node {
 export interface Shape {
 	type: string;
 	scale: number;
-	template: any;
+	template?: Template;
 }
 
 export interface Spawn {
@@ -48,5 +49,6 @@ export interface Node extends D3Node {
 	spawn?: Spawn;
 	anchor?: Anchor;
 	satellite?: Satellite;
+	errorMessage?: string;
 	payload?: any;
 }

@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import Edge from "./edge/Edge";
 import NodeLoader from "./shape/NodeLoader";
-import TemplateAPI from "./shape/TemplateAPI";
+import TemplateStore from "./templateStore";
 
 import "./styles/graph.scss";
 import type { Node } from "./types/Node";
@@ -199,8 +199,9 @@ export default class ForceSimulation {
 			.force(
 				"collide",
 				d3.forceCollide().radius((d: any) => {
-					const template = d.shape.template;
-					return ((template.shapeSize ?? 300) / 2) * (d.shape.scale ?? 1);
+					const node = d as Node;
+					const template = node.shape.template;
+					return ((template?.shapeSize ?? 300) / 2) * (d.shape.scale ?? 1);
 				})
 			)
 			.on("tick", this.ticked.bind(this));
@@ -236,7 +237,7 @@ export default class ForceSimulation {
 	}
 
 	setTemplateOrigin(origin: string) {
-		TemplateAPI.origin = origin;
+		TemplateStore.remoteOrigin = origin;
 	}
 
 	spawnNodes(nodes: Node[]) {
@@ -273,7 +274,7 @@ export default class ForceSimulation {
 	async getNodeTemplates(graph: Graph) {
 		for (let i = 0; i < graph.nodes.length; i++) {
 			const node = graph.nodes[i];
-			await TemplateAPI.get(node.shape.type).then((template) => {
+			await TemplateStore.get(node.shape.type).then((template) => {
 				node.shape.template = template;
 			});
 		}
