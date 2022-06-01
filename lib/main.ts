@@ -1,5 +1,5 @@
 import ForceSimulation from "./forceSimulation";
-import * as Template from "./template";
-import TemplateStore from "./shape/TemplateStore";
+import * as TemplateAPI from "./templateAPI";
+import TemplateStore from "./templateStore";
 
-export { ForceSimulation, Template, TemplateStore };
+export { ForceSimulation, TemplateAPI, TemplateStore };

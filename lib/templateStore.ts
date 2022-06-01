@@ -1,5 +1,5 @@
-import { Template } from "../types/Template";
-import ErrorTemplate from "../templates/ErrorTemplate";
+import { Template } from "./types/Template";
+import ErrorTemplate from "./templates/ErrorTemplate";
 
 const TemplateStore: {
 	remoteOrigin: string;
@@ -33,6 +33,7 @@ async function get(id: string): Promise<Template> {
 
 async function load(origin: string, id: string) {
 	if (TemplateStore.failed.includes(id)) return;
+	if (origin == "") return;
 	const url = origin + id + ".js";
 	await import(/* webpackIgnore: true */ /* @vite-ignore */ url)
 		.then(({ default: template }) => {

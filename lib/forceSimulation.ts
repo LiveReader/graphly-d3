@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import Edge from "./edge/Edge";
 import NodeLoader from "./shape/NodeLoader";
-import TemplateStore from "./shape/TemplateStore";
+import TemplateStore from "./templateStore";
 
 import "./styles/graph.scss";
 import type { Node } from "./types/Node";

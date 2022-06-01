@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import Shape from "./Shape";
-import TemplateStore from "./TemplateStore";
-import * as Template from "../template";
+import TemplateStore from "../templateStore";
+import * as TemplateAPI from "../templateAPI";
 import { Node } from "../types/Node";
 
 /**
@@ -26,7 +26,7 @@ function Node(this: any, data: Node) {
 	}
 	try {
 		node.append(() =>
-			data.shape.template!.shapeBuilder.bind(this)(data, initialShape, changes, Template).node()
+			data.shape.template!.shapeBuilder.bind(this)(data, initialShape, changes, TemplateAPI).node()
 		).classed("shape", true);
 		Shape.bind(node, data);
 	} catch (e: any) {
@@ -39,7 +39,7 @@ function Node(this: any, data: Node) {
 	function throwError(this: any, message: string, initialShape: d3.Selection<SVGElement, any, any, any> | null) {
 		data.errorMessage = message;
 		node.append(() =>
-			TemplateStore.errorTemplate.shapeBuilder.bind(this)(data, initialShape, null, Template).node()
+			TemplateStore.errorTemplate.shapeBuilder.bind(this)(data, initialShape, null, TemplateAPI).node()
 		);
 		return node.node();
 	}

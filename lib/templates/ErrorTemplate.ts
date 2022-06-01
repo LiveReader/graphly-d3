@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { Template } from "../types/Template";
 import { Node } from "../types/Node";
 
-import { Shape, SVGShape, OnZoom, LODStyle, TextCollection, CollectionStyle, ShapeStyle, Alignment } from "../template";
+import { Shape, SVGShape, OnZoom, LODStyle, TextCollection, CollectionStyle, ShapeStyle, Alignment } from "../templateAPI";
 
 const ErrorTemplate: Template = {
 	shapeSize: 200,
