@@ -46,6 +46,7 @@ export interface Satellite {
 export interface Node extends D3Node {
 	forceSimulation: ForceSimulation;
 	shape: Shape;
+	gravity?: number;
 	spawn?: Spawn;
 	anchor?: Anchor;
 	satellite?: Satellite;
