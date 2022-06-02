@@ -37,6 +37,7 @@ export default class ForceSimulation {
 	}
 
 	private _zoom: d3.ZoomBehavior<Element, any>;
+	private _worldTransform: { x: number; y: number; k: number };
 	set zoomScaleExtent(extent: [number, number]) {
 		this._zoom.scaleExtent(extent);
 	}
@@ -58,6 +59,7 @@ export default class ForceSimulation {
 			this._svgElement = svgEl.node() as SVGElement;
 		}
 
+		this._worldTransform = { x: this.svgElement.clientWidth / 2, y: this.svgElement.clientHeight / 2, k: 1 };
 		this._simulation = this.createSimulation();
 		this.selectionGroups = this.createWorld();
 		this._zoom = this.createZoom();
@@ -85,11 +87,17 @@ export default class ForceSimulation {
 			])
 			.scaleExtent([0.1, 3])
 			.on("zoom", ({ transform }) => this.onZoom(transform));
-		this.svgSelection.call(zoom as any);
+		this.svgSelection
+			.call(zoom as any)
+			.call(
+				(zoom as any).transform,
+				d3.zoomIdentity.translate(this._worldTransform.x, this._worldTransform.y).scale(this._worldTransform.k)
+			);
 		return zoom;
 	}
 
 	private onZoom(transform: any) {
+		this._worldTransform = transform;
 		this.selectionGroups.world.attr("transform", transform);
 	}
 
