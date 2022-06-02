@@ -14,6 +14,7 @@ export interface D3Node {
 export interface Shape {
 	type: string;
 	scale: number;
+	url?: string;
 	template?: Template;
 }
 

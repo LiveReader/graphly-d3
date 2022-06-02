@@ -274,7 +274,7 @@ export default class ForceSimulation {
 	async getNodeTemplates(graph: Graph) {
 		for (let i = 0; i < graph.nodes.length; i++) {
 			const node = graph.nodes[i];
-			await TemplateStore.get(node.shape.type).then((template) => {
+			await TemplateStore.get(node).then((template) => {
 				node.shape.template = template;
 			});
 		}
