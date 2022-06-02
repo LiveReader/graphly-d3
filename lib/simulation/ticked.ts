@@ -1,15 +1,18 @@
-import * as d3 from "d3";
+import ForceSimulation from "./forceSimulation";
 
 import { Graph } from "../types/Graph";
 import { Node, AnchorType } from "../types/Node";
-import { Link } from "../types/Link";
 
-export function ticked(this: any) {
+export function ticked(this: ForceSimulation) {
 	for (let i in this.graph.nodes) {
 		processSatellite(this.graph, this.graph.nodes[i]);
 		processAnchor(this.graph.nodes[i]);
 	}
 
+	this.selectionGroups.nodes.selectAll("g[data-node]").attr("transform", (d: any) => `translate(${d.x},${d.y})`);
+	this.selectionGroups.links.selectAll("g[data-link]").call((d: any) => {
+	});
+}
 
 function processSatellite(graph: Graph, d: Node) {
 	if (!d.satellite) return;

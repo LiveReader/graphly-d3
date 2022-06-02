@@ -7,6 +7,12 @@ import { Link } from "../types/Link";
 import { linkForce, xForce, yForce, gravity, circleCollide } from "./forces";
 import { ticked } from "./ticked";
 
+interface SelectionGroups {
+	world: d3.Selection<SVGGElement, any, any, any>;
+	nodes: d3.Selection<SVGGElement, any, any, any>;
+	links: d3.Selection<SVGGElement, any, any, any>;
+}
+
 export default class ForceSimulation {
 	private _svgElement: SVGElement;
 	get svgElement(): SVGElement {
@@ -26,6 +32,8 @@ export default class ForceSimulation {
 		return this._simulation;
 	}
 
+	public selectionGroups: SelectionGroups;
+
 	public graph: Graph = { nodes: [], links: [] };
 
 	constructor(svgEl: SVGElement | d3.Selection<SVGElement, any, any, any>) {
@@ -38,6 +46,7 @@ export default class ForceSimulation {
 		}
 
 		this._simulation = this.createSimulation();
+		this.selectionGroups = this.createWorld();
 	}
 
 	private createSimulation(): d3.Simulation<Node, Link> {
@@ -51,5 +60,12 @@ export default class ForceSimulation {
 			.on("tick", ticked.bind(this));
 
 		return simulation;
+	}
+
+	private createWorld(): SelectionGroups {
+		const world = this.svgSelection.append("g").attr("data-name", "world");
+		const links = world.append("g").attr("data-name", "links");
+		const nodes = world.append("g").attr("data-name", "nodes");
+		return { world, nodes, links };
 	}
 }
