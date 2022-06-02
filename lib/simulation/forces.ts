@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import { Node, AnchorType } from "../types/Node";
 import { Link, LinkStrength } from "../types/Link";
 
-export function linkForce() {
+export function linkForce(): d3.ForceLink<Node, Link> {
 	const force = d3
 		.forceLink<Node, Link>()
 		.id((d: Node) => d.id)
@@ -24,7 +24,7 @@ export function linkForce() {
 	return force;
 }
 
-export function xForce() {
+export function xForce(): d3.ForceX<Node> {
 	const force = d3
 		.forceX<Node>()
 		.x((d: Node) => position(d).x)
@@ -32,7 +32,7 @@ export function xForce() {
 	return force;
 }
 
-export function yForce() {
+export function yForce(): d3.ForceY<Node> {
 	const force = d3
 		.forceY<Node>()
 		.y((d: Node) => position(d).y)
@@ -40,7 +40,7 @@ export function yForce() {
 	return force;
 }
 
-export function gravity(envGravity: number = -10000) {
+export function gravity(envGravity: number = -10000): d3.ForceManyBody<Node> {
 	const force = d3.forceManyBody<Node>().strength((d: Node) => {
 		if (d.gravity) return d.gravity;
 		return envGravity;
@@ -48,11 +48,12 @@ export function gravity(envGravity: number = -10000) {
 	return force;
 }
 
-export function circleCollide() {
+export function circleCollide(): d3.Force<Node, Link> {
 	const force = d3.forceCollide<Node>().radius((d: Node) => {
 		const template = d.shape.template;
-		return ((template?.shapeSize ?? 300) / 2) * d.shape.scale;
-	});
+		const radius = ((template?.shapeSize ?? 300) / 2) * d.shape.scale;
+		return radius;
+	}) as d3.Force<Node, Link>;
 	return force;
 }
 

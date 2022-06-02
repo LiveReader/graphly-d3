@@ -52,11 +52,11 @@ export default class ForceSimulation {
 	private createSimulation(): d3.Simulation<Node, Link> {
 		const simulation = d3
 			.forceSimulation<Node, Link>()
-			.force("link", linkForce)
-			.force("forceX", xForce)
-			.force("forceY", yForce)
-			.force("gravity", () => gravity(-10000))
-			.force("collide", circleCollide)
+			.force("link", linkForce())
+			.force("forceX", xForce())
+			.force("forceY", yForce())
+			.force("gravity", gravity(-10_000))
+			.force("collide", circleCollide())
 			.on("tick", ticked.bind(this));
 
 		return simulation;
