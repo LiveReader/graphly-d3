@@ -2,6 +2,7 @@ import ForceSimulation from "./forceSimulation";
 
 import { Graph } from "../types/Graph";
 import { Node, AnchorType } from "../types/Node";
+import Edge from "../edge/Edge";
 
 export function ticked(this: ForceSimulation) {
 	for (let i in this.graph.nodes) {
@@ -14,13 +15,13 @@ export function ticked(this: ForceSimulation) {
 		.attr("transform", (d: any) => `translate(${d.x ?? 0},${d.y ?? 0})`);
 	this.selectionGroups.links.selectAll("[data-object='link']").call((d: any) => {
 		const line = d.select("[data-object='link-line']");
-		line.attr("d", "");
+		line.attr("d", Edge.line);
 		const headArrow = d.select("[data-object='link-arrow-head']");
-		headArrow.attr("d", "");
+		headArrow.attr("d", Edge.arrow);
 		const tailArrow = d.select("[data-object='link-arrow-tail']");
 		tailArrow.attr("d", "");
 		const label = d.select("[data-object='link-label']");
-		label.attr("transform", "");
+		label.attr("transform", Edge.labelPosition);
 	});
 }
 

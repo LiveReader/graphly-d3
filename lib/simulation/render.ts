@@ -1,10 +1,11 @@
+import ForceSimulation from "./forceSimulation";
 import TemplateStore from "../templateStore";
 import NodeLoader from "../shape/NodeLoader";
 import { Template } from "../types/Template";
 
 import { Graph } from "../types/Graph";
 import { Node } from "../types/Node";
-import ForceSimulation from "./forceSimulation";
+import { Link, LinkType } from "../types/Link";
 
 export async function renderNodes(this: ForceSimulation, graph: Graph) {
 	await getNodeTemplates(graph);
@@ -36,6 +37,41 @@ export async function renderNodes(this: ForceSimulation, graph: Graph) {
 		const node = nodeShapes.filter((n: any) => n.id === d.id);
 		node.select(NodeLoader);
 	});
+}
+
+export function renderLinks(this: ForceSimulation, graph: Graph) {
+	const linkShapes = this.selectionGroups.links
+		.selectAll("[data-object='link']")
+		.data(graph.links, (d: any) => linkID(d as Link));
+
+	const linkShape = linkShapes.enter().append("g").attr("data-object", "link");
+
+	linkShape
+		.append("path")
+		.attr("data-object", "link-line")
+		.classed("solid", (d: Link) => (!d.type ? true : d.type === LinkType.Solid))
+		.classed("dashed", (d: Link) => d.type === LinkType.Dashed)
+		.classed("dotted", (d: Link) => d.type === LinkType.Dotted)
+		.classed("hidden", (d: Link) => d.type === LinkType.Hidden);
+	linkShape
+		.append("path")
+		.attr("data-object", "link-arrow-head")
+		.classed("hidden", (d: Link) => d.type === LinkType.Hidden);
+	linkShape
+		.append("path")
+		.attr("data-object", "link-arrow-tail")
+		.classed("hidden", (d: Link) => d.type === LinkType.Hidden);
+	linkShape
+		.append("text")
+		.attr("data-object", "link-label")
+		.text((d: Link) => (d.type !== LinkType.Hidden ? d.label ?? "" : ""))
+		.attr("text-anchor", "middle")
+		.attr("dominant-baseline", "central")
+		.attr("dy", "0.35em");
+	linkShape.attr("opacity", 0).transition().duration(this.animationDuration).attr("opacity", 1);
+
+	linkShapes.exit().transition().duration(this.animationDuration).attr("opacity", 0).remove();
+	linkShapes.transition().duration(this.animationDuration);
 }
 
 async function getNodeTemplates(graph: Graph) {
@@ -71,4 +107,15 @@ function spawnNodes(nodes: Node[]) {
 			node.y = pos.y;
 		}
 	}
+}
+
+function linkID(link: Link): string {
+	return (
+		(typeof link.source === "string" ? link.source : link.source.id) +
+		(typeof link.target === "string" ? link.target : link.target.id) +
+		link.type +
+		link.directed +
+		link.label +
+		link.strength
+	);
 }
