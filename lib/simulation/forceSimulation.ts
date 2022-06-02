@@ -20,6 +20,10 @@ export default class ForceSimulation {
 	}
 	set svgElement(svgElement: SVGElement) {
 		this._svgElement = svgElement;
+		this._svgSelection = d3.select(svgElement);
+		this.selectionGroups = this.createWorld();
+		this._zoom = this.createZoom();
+		this.render(this.graph);
 	}
 
 	private _svgSelection: d3.Selection<SVGElement, any, any, any>;
@@ -94,5 +98,10 @@ export default class ForceSimulation {
 		const links = world.append("g").attr("data-name", "links");
 		const nodes = world.append("g").attr("data-name", "nodes");
 		return { world, nodes, links };
+	}
+
+	public async render(this: ForceSimulation, graph: Graph, alpha: number = 0.05) {
+	}
+
 	}
 }
