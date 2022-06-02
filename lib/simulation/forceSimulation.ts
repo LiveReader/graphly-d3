@@ -6,6 +6,7 @@ import { Link } from "../types/Link";
 
 import { linkForce, xForce, yForce, gravity, circleCollide } from "./forces";
 import { ticked } from "./ticked";
+import { renderNodes } from "./render";
 
 interface SelectionGroups {
 	world: d3.Selection<SVGGElement, any, any, any>;
@@ -45,6 +46,8 @@ export default class ForceSimulation {
 		this._zoom.on("zoom", null);
 		if (enabled) this._zoom.on("zoom", ({ transform }) => this.onZoom(transform));
 	}
+
+	public animationDuration: number = 300;
 
 	public selectionGroups: SelectionGroups;
 
@@ -109,7 +112,14 @@ export default class ForceSimulation {
 	}
 
 	public async render(this: ForceSimulation, graph: Graph, alpha: number = 0.05) {
-	}
+		this.graph = graph;
+		await renderNodes.bind(this)(this.graph);
 
+		this.simulation.nodes(this.graph.nodes);
+		(this.simulation.force("link") as d3.ForceLink<Node, Link>).links(graph.links);
+		this.simulation.alphaTarget(alpha).restart();
+		setTimeout(() => {
+			this.simulation.alphaTarget(0);
+		}, 100);
 	}
 }
