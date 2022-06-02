@@ -9,8 +9,18 @@ export function ticked(this: ForceSimulation) {
 		processAnchor(this.graph.nodes[i]);
 	}
 
-	this.selectionGroups.nodes.selectAll("g[data-node]").attr("transform", (d: any) => `translate(${d.x},${d.y})`);
-	this.selectionGroups.links.selectAll("g[data-link]").call((d: any) => {
+	this.selectionGroups.nodes
+		.selectAll("[data-object='node']")
+		.attr("transform", (d: any) => `translate(${d.x ?? 0},${d.y ?? 0})`);
+	this.selectionGroups.links.selectAll("[data-object='link']").call((d: any) => {
+		const line = d.select("[data-object='link-line']");
+		line.attr("d", "");
+		const headArrow = d.select("[data-object='link-arrow-head']");
+		headArrow.attr("d", "");
+		const tailArrow = d.select("[data-object='link-arrow-tail']");
+		tailArrow.attr("d", "");
+		const label = d.select("[data-object='link-label']");
+		label.attr("transform", "");
 	});
 }
 
