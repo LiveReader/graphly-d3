@@ -7,8 +7,8 @@ export interface D3Node {
 	y?: number;
 	vx?: number;
 	vy?: number;
-	fx?: number;
-	fy?: number;
+	fx?: number | null;
+	fy?: number | null;
 }
 
 export interface Shape {
