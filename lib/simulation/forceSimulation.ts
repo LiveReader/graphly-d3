@@ -32,6 +32,15 @@ export default class ForceSimulation {
 		return this._simulation;
 	}
 
+	private _zoom: d3.ZoomBehavior<Element, any>;
+	set zoomScaleExtent(extent: [number, number]) {
+		this._zoom.scaleExtent(extent);
+	}
+	set zoomEnabled(enabled: boolean) {
+		this._zoom.on("zoom", null);
+		if (enabled) this._zoom.on("zoom", ({ transform }) => this.onZoom(transform));
+	}
+
 	public selectionGroups: SelectionGroups;
 
 	public graph: Graph = { nodes: [], links: [] };
@@ -47,6 +56,7 @@ export default class ForceSimulation {
 
 		this._simulation = this.createSimulation();
 		this.selectionGroups = this.createWorld();
+		this._zoom = this.createZoom();
 	}
 
 	private createSimulation(): d3.Simulation<Node, Link> {
@@ -60,6 +70,23 @@ export default class ForceSimulation {
 			.on("tick", ticked.bind(this));
 
 		return simulation;
+	}
+
+	private createZoom(): d3.ZoomBehavior<Element, any> {
+		const zoom = d3
+			.zoom()
+			.extent([
+				[0, 0],
+				[this.svgElement.clientWidth, this.svgElement.clientHeight],
+			])
+			.scaleExtent([0.1, 3])
+			.on("zoom", ({ transform }) => this.onZoom(transform));
+		this.svgSelection.call(zoom as any);
+		return zoom;
+	}
+
+	private onZoom(transform: any) {
+		this.selectionGroups.world.attr("transform", transform);
 	}
 
 	private createWorld(): SelectionGroups {
