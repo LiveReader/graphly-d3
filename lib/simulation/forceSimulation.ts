@@ -47,6 +47,14 @@ export default class ForceSimulation {
 		if (enabled) this._zoom.on("zoom", ({ transform }) => this.onZoom(transform));
 	}
 
+	set envGravity(value: number) {
+		this.simulation.force("gravity", gravity(value));
+	}
+
+	set linkDistance(value: number) {
+		this.simulation.force("link", linkForce(value));
+	}
+
 	public animationDuration: number = 300;
 
 	public selectionGroups: SelectionGroups;
@@ -71,7 +79,7 @@ export default class ForceSimulation {
 	private createSimulation(): d3.Simulation<Node, Link> {
 		const simulation = d3
 			.forceSimulation<Node, Link>()
-			.force("link", linkForce())
+			.force("link", linkForce(400))
 			.force("forceX", xForce())
 			.force("forceY", yForce())
 			.force("gravity", gravity(-10_000))

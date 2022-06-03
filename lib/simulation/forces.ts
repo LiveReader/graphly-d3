@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import { Node, AnchorType } from "../types/Node";
 import { Link, LinkStrength } from "../types/Link";
 
-export function linkForce(): d3.ForceLink<Node, Link> {
+export function linkForce(distance: number): d3.ForceLink<Node, Link> {
 	const force = d3
 		.forceLink<Node, Link>()
 		.id((d: Node) => d.id)
@@ -20,7 +20,8 @@ export function linkForce(): d3.ForceLink<Node, Link> {
 				default:
 					return 0.3;
 			}
-		});
+		})
+		.distance(distance);
 	return force;
 }
 
@@ -40,7 +41,7 @@ export function yForce(): d3.ForceY<Node> {
 	return force;
 }
 
-export function gravity(envGravity: number = -10000): d3.ForceManyBody<Node> {
+export function gravity(envGravity: number): d3.ForceManyBody<Node> {
 	const force = d3.forceManyBody<Node>().strength((d: Node) => {
 		if (d.gravity) return d.gravity;
 		return envGravity;
