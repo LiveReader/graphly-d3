@@ -7,6 +7,7 @@ import { Link } from "../types/Link";
 import { linkForce, xForce, yForce, gravity, circleCollide } from "./forces";
 import { ticked } from "./ticked";
 import { renderNodes, renderLinks } from "./render";
+import { moveTo, Transform, Boundary } from "./zoom";
 
 interface SelectionGroups {
 	world: d3.Selection<SVGGElement, any, any, any>;
@@ -128,8 +129,8 @@ export default class ForceSimulation {
 		return zoom;
 	}
 
-	private onZoom(transform: any) {
-		this.selectionGroups.world.attr("transform", transform);
+	private onZoom(transform: Transform) {
+		this.selectionGroups.world.attr("transform", `translate(${transform.x}, ${transform.y}) scale(${transform.k})`);
 		if (this.worldTransform.k != transform.k) {
 			const movedRange = [this.worldTransform.k, transform.k].sort();
 			Object.keys(this.onZoomRoutines).forEach((t) => {
@@ -183,5 +184,17 @@ export default class ForceSimulation {
 			.filter((d: any) => nodeIDs.includes((d as Node).id))
 			.selectAll(".gly-selectable")
 			.classed("gly-selected", true);
+	}
+
+	public moveTo(value: Transform | Boundary | Node[], duration?: number, padding?: number) {
+		moveTo.bind(this)(
+			value,
+			(v: Transform) => {
+				this.svgSelection.call((this._zoom as any).transform, d3.zoomIdentity.translate(v.x, v.y).scale(v.k));
+				this.onZoom(v);
+			},
+			duration,
+			padding
+		);
 	}
 }
