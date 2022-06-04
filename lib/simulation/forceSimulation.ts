@@ -175,4 +175,13 @@ export default class ForceSimulation {
 
 		this.onZoomRegister.forEach((registration) => registration.callback(this._worldTransform.k));
 	}
+
+	public select(nodeIDs: string[]) {
+		this.selectionGroups.nodes.selectAll(".gly-selectable").classed("gly-selected", false);
+		this.selectionGroups.nodes
+			.selectAll()
+			.filter((d: any) => nodeIDs.includes((d as Node).id))
+			.selectAll(".gly-selectable")
+			.classed("gly-selected", true);
+	}
 }
