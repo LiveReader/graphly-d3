@@ -2,6 +2,7 @@ import ForceSimulation from "./forceSimulation";
 import TemplateStore from "../templateStore";
 import NodeLoader from "../shape/NodeLoader";
 import { Template } from "../types/Template";
+import { dragNode } from "./drag";
 
 import { Graph } from "../types/Graph";
 import { Node } from "../types/Node";
@@ -24,6 +25,7 @@ export async function renderNodes(this: ForceSimulation, graph: Graph) {
 		.append(NodeLoader.bind(this))
 		.attr("data-object", "node")
 		.style("pointer-events", "fill")
+		.call(dragNode.bind(this)() as any)
 		.attr("opacity", 0)
 		.transition()
 		.duration(this.animationDuration)

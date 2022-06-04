@@ -2,10 +2,12 @@ import ForceSimulation from "./forceSimulation";
 
 import { Graph } from "../types/Graph";
 import { Node, AnchorType } from "../types/Node";
+import { DraggableNode } from "./drag";
 import Edge from "../edge/Edge";
 
 export function ticked(this: ForceSimulation) {
 	for (let i in this.graph.nodes) {
+		if ((this.graph.nodes[i] as DraggableNode).isDraged) continue;
 		processSatellite(this.graph, this.graph.nodes[i]);
 		processAnchor(this.graph.nodes[i]);
 	}

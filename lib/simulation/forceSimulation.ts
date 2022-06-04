@@ -39,6 +39,9 @@ export default class ForceSimulation {
 
 	private _zoom: d3.ZoomBehavior<Element, any>;
 	private _worldTransform: { x: number; y: number; k: number };
+	get worldTransform(): { x: number; y: number; k: number } {
+		return this._worldTransform;
+	}
 	set zoomScaleExtent(extent: [number, number]) {
 		this._zoom.scaleExtent(extent);
 	}
@@ -56,6 +59,7 @@ export default class ForceSimulation {
 	}
 
 	public animationDuration: number = 300;
+	public draggableNodes: boolean = true;
 
 	public selectionGroups: SelectionGroups;
 
@@ -104,6 +108,7 @@ export default class ForceSimulation {
 				(zoom as any).transform,
 				d3.zoomIdentity.translate(this._worldTransform.x, this._worldTransform.y).scale(this._worldTransform.k)
 			);
+		this.svgSelection.on("dblclick.zoom", null);
 		return zoom;
 	}
 
