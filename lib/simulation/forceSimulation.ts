@@ -50,6 +50,13 @@ export default class ForceSimulation {
 		if (enabled) this._zoom.on("zoom", ({ transform }) => this.onZoom(transform));
 	}
 
+	private onZoomRegister: {
+		id: string;
+		threshold: number;
+		callback: (k: number) => boolean;
+	}[] = [];
+	private onZoomRoutines: { [threshold: number]: ((k: number) => boolean)[] } = {};
+
 	set envGravity(value: number) {
 		this.simulation.force("gravity", gravity(value));
 	}
@@ -88,9 +95,18 @@ export default class ForceSimulation {
 			.force("forceY", yForce())
 			.force("gravity", gravity(-10_000))
 			.force("collide", circleCollide())
-			.on("tick", ticked.bind(this));
+			.on("tick", ticked.bind(this))
+			.on("end", () => {
+			});
 
 		return simulation;
+	}
+
+	private createWorld(): SelectionGroups {
+		const world = this.svgSelection.append("g").attr("data-name", "world");
+		const links = world.append("g").attr("data-name", "links");
+		const nodes = world.append("g").attr("data-name", "nodes");
+		return { world, nodes, links };
 	}
 
 	private createZoom(): d3.ZoomBehavior<Element, any> {
@@ -113,15 +129,36 @@ export default class ForceSimulation {
 	}
 
 	private onZoom(transform: any) {
-		this._worldTransform = transform;
 		this.selectionGroups.world.attr("transform", transform);
+		if (this.worldTransform.k != transform.k) {
+			const movedRange = [this.worldTransform.k, transform.k].sort();
+			Object.keys(this.onZoomRoutines).forEach((t) => {
+				const threshold: number = parseFloat(t);
+				if (threshold > movedRange[0] && threshold < movedRange[1]) {
+					this.onZoomRoutines[threshold].forEach((routine) => routine(transform.k));
+				}
+			});
+		}
+		this._worldTransform = transform;
+
 	}
 
-	private createWorld(): SelectionGroups {
-		const world = this.svgSelection.append("g").attr("data-name", "world");
-		const links = world.append("g").attr("data-name", "links");
-		const nodes = world.append("g").attr("data-name", "nodes");
-		return { world, nodes, links };
+	public registerOnZoom(id: string, threshold: number, callback: (k: number) => boolean) {
+		this.deregisterOnZoom(id);
+		this.onZoomRegister.push({ id, threshold, callback });
+		this.createOnZoomRoutines();
+	}
+
+	public deregisterOnZoom(id: string) {
+		this.onZoomRegister = this.onZoomRegister.filter(({ id: i }) => i !== id);
+	}
+
+	private createOnZoomRoutines() {
+		this.onZoomRoutines = {};
+		this.onZoomRegister.forEach((registration) => {
+			if (!this.onZoomRoutines[registration.threshold]) this.onZoomRoutines[registration.threshold] = [];
+			this.onZoomRoutines[registration.threshold].push(registration.callback);
+		});
 	}
 
 	public async render(this: ForceSimulation, graph: Graph, alpha: number = 0.05) {
@@ -135,5 +172,7 @@ export default class ForceSimulation {
 		setTimeout(() => {
 			this.simulation.alphaTarget(0);
 		}, 100);
+
+		this.onZoomRegister.forEach((registration) => registration.callback(this._worldTransform.k));
 	}
 }
