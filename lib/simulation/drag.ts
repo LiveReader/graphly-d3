@@ -80,7 +80,9 @@ function dragNewLinkEnd(this: ForceSimulation, e: d3.D3DragEvent<Element, any, a
 		target = target.parentElement;
 		if (!target) return;
 	}
-	const targetNode = this.graph.nodes.find((n: Node) => n.id == target.attributes["data-id"].value);
+	target = target.parentElement;
+	if (!target) return;
+	const targetNode = this.graph.nodes.find((n: Node) => n.id == target.attributes["data-id"].value ?? "");
 	if (!targetNode) return;
 	if (targetNode.id == d.id) return;
 }

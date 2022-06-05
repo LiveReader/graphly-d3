@@ -3,50 +3,39 @@ import Shape from "./Shape";
 import * as TemplateAPI from "../templateAPI";
 import { Node } from "../types/Node";
 
-/**
- * @param  {object} data data object
- */
-function Node(this: any, data: Node) {
-	const alreadyExists = Shape.alreadyExists(this);
-	const node = alreadyExists ? (d3.select(this) as d3.Selection<SVGElement, any, any, any>) : Shape.create("g");
+export default function Node(this: any, data: Node) {
+	const exists = data.forceSimulation.nodeDataStore.hasNode(data.id);
+	const nodeShape = exists ? (d3.select(this) as d3.Selection<SVGElement, any, any, any>) : Shape.create("g");
+	const hasChanges = data.forceSimulation.nodeDataStore.hasPayloadChanges(data.id, data);
+	const hasTemplateChange = data.forceSimulation.nodeDataStore.hasTemplateChange(data.id, data);
 
-	let initialShape: d3.Selection<SVGElement, any, any, any> | null = null;
-	const changes = Shape.dataChanges(node, data);
-	if (!changes) return node.node();
-	if (alreadyExists) {
-		initialShape = node.select(".gly-shape");
-		// node.selectAll("*").remove();
-	}
-
-	node.classed("gly-node", true).attr("data-id", data.id).attr("id", data.id);
+	if (!hasChanges && !hasTemplateChange) return nodeShape.node();
+	nodeShape.selectAll("*").remove();
+	nodeShape.classed("gly-node", true).attr("data-id", data.id).attr("id", data.id);
 
 	if (
 		!data.shape.template ||
 		data.shape.template.shapeBuilder == data.forceSimulation.templateStore.errorTemplate.shapeBuilder
 	) {
-		return throwError(`Template "${data.shape.type}" not found!`, initialShape);
+		return throwError(`Template "${data.shape.type}" not found!`);
 	}
 	try {
-		node.append(() =>
-			data.shape.template!.shapeBuilder.bind(this)(data, initialShape, changes, TemplateAPI).node()
-		).classed("gly-shape", true);
-		Shape.bind(node, data);
+		nodeShape
+			.append(() => data.shape.template!.shapeBuilder.bind(this)(data, TemplateAPI).node())
+			.attr("data-object", "shape");
+		data.forceSimulation.nodeDataStore.add(data.id, data);
 	} catch (e: any) {
 		console.error(e);
-		return throwError(e.message, initialShape);
+		return throwError(e.message);
 	}
 
-	return node.node();
+	return nodeShape.node();
 
-	function throwError(this: any, message: string, initialShape: d3.Selection<SVGElement, any, any, any> | null) {
+	function throwError(this: any, message: string) {
 		data.errorMessage = message;
-		node.append(() =>
-			data.forceSimulation.templateStore.errorTemplate.shapeBuilder
-				.bind(this)(data, initialShape, null, TemplateAPI)
-				.node()
+		nodeShape.append(() =>
+			data.forceSimulation.templateStore.errorTemplate.shapeBuilder.bind(this)(data, TemplateAPI).node()
 		);
-		return node.node();
+		return nodeShape.node();
 	}
 }
-
-export default Node;

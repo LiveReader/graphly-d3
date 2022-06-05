@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import TemplateStore from "./templateStore";
+import NodeDataStore from "./nodeDataStore";
 
 import { Graph } from "../types/Graph";
 import { Node } from "../types/Node";
@@ -79,6 +80,7 @@ export default class ForceSimulation {
 	public selectionGroups: SelectionGroups;
 	public graph: Graph = { nodes: [], links: [] };
 	public templateStore: TemplateStore = new TemplateStore();
+	public nodeDataStore: NodeDataStore = new NodeDataStore();
 
 	constructor(svgEl: SVGElement | d3.Selection<SVGElement, any, any, any>) {
 		if (svgEl instanceof SVGElement) {
