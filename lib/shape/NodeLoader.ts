@@ -1,6 +1,5 @@
 import * as d3 from "d3";
 import Shape from "./Shape";
-import TemplateStore from "../templateStore";
 import * as TemplateAPI from "../templateAPI";
 import { Node } from "../types/Node";
 
@@ -21,7 +20,10 @@ function Node(this: any, data: Node) {
 
 	node.classed("gly-node", true).attr("data-id", data.id).attr("id", data.id);
 
-	if (!data.shape.template || data.shape.template.shapeBuilder == TemplateStore.errorTemplate.shapeBuilder) {
+	if (
+		!data.shape.template ||
+		data.shape.template.shapeBuilder == data.forceSimulation.templateStore.errorTemplate.shapeBuilder
+	) {
 		return throwError(`Template "${data.shape.type}" not found!`, initialShape);
 	}
 	try {
@@ -39,7 +41,9 @@ function Node(this: any, data: Node) {
 	function throwError(this: any, message: string, initialShape: d3.Selection<SVGElement, any, any, any> | null) {
 		data.errorMessage = message;
 		node.append(() =>
-			TemplateStore.errorTemplate.shapeBuilder.bind(this)(data, initialShape, null, TemplateAPI).node()
+			data.forceSimulation.templateStore.errorTemplate.shapeBuilder
+				.bind(this)(data, initialShape, null, TemplateAPI)
+				.node()
 		);
 		return node.node();
 	}

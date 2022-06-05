@@ -1,5 +1,4 @@
 import ForceSimulation from "./forceSimulation";
-import TemplateStore from "../templateStore";
 import NodeLoader from "../shape/NodeLoader";
 import { Template } from "../types/Template";
 import { dragNode } from "./drag";
@@ -36,7 +35,7 @@ export function indexLinks(graph: Graph) {
 }
 
 export async function renderNodes(this: ForceSimulation, graph: Graph) {
-	await getNodeTemplates(graph);
+	await getNodeTemplates.bind(this)(graph);
 	graph.nodes.forEach((node: Node) => {
 		node.forceSimulation = this;
 	});
@@ -109,10 +108,10 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 	linkShapes.transition().duration(this.animationDuration);
 }
 
-async function getNodeTemplates(graph: Graph) {
+async function getNodeTemplates(this: ForceSimulation, graph: Graph) {
 	for (let i in graph.nodes) {
 		const node = graph.nodes[i];
-		await TemplateStore.get(node).then((template: Template) => {
+		await this.templateStore.get(node).then((template: Template) => {
 			node.shape.template = template;
 		});
 	}
