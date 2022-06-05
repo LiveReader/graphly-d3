@@ -3,7 +3,7 @@ const DemoTemplate = {
 	shapeBuilder: shapeBuilder,
 };
 
-function shapeBuilder(data, initialShape, changes, TemplateAPI) {
+function shapeBuilder(data, TemplateAPI) {
 	const {
 		Shape,
 		SVGShape,
@@ -18,7 +18,7 @@ function shapeBuilder(data, initialShape, changes, TemplateAPI) {
 		TagStyle,
 	} = TemplateAPI;
 
-	const shape = initialShape ? initialShape : Shape.create("g");
+	const shape = Shape.create("g");
 
 	const { body, border, state, diamond, largeDiamond } = addBaseShape();
 	border.classed("selectable", true);
@@ -51,9 +51,7 @@ function shapeBuilder(data, initialShape, changes, TemplateAPI) {
 	return shape;
 
 	function addBaseShape() {
-		const frame = initialShape
-			? shape.select("g.frame")
-			: SVGShape(`
+		const frame = SVGShape(`
 			<g transform="matrix(1,0,0,1,-713.419,-878.793)">
 				<g id="body" transform="matrix(4.16667,0,0,4.16667,0,0)">
 					<g transform="matrix(1,0,0,1,371.053,216.935)">
@@ -83,9 +81,7 @@ function shapeBuilder(data, initialShape, changes, TemplateAPI) {
 			</g>
 			`);
 		frame.classed("frame", true).classed("n_animated", true);
-		if (!initialShape) {
-			shape.append(() => frame.node());
-		}
+		shape.append(() => frame.node());
 		const body = frame.select("#body");
 		const border = frame.select("#border");
 		const state = frame.select("#state");
@@ -116,7 +112,7 @@ function shapeBuilder(data, initialShape, changes, TemplateAPI) {
 	}
 
 	function addFullName() {
-		if (!changes.payload?.name) return shape.select("g.full-name");
+		if (!data.payload?.name) return shape.select("g.full-name");
 		shape.select("g.full-name").remove();
 		const bbox = Shape.getBBox(shape);
 		const text = (data.payload?.name?.first ?? "") + "\n" + (data.payload?.name?.last ?? "");
@@ -137,7 +133,7 @@ function shapeBuilder(data, initialShape, changes, TemplateAPI) {
 	}
 
 	function addInitials() {
-		if (!changes.payload?.name) {
+		if (!data.payload?.name) {
 			return {
 				initials: shape.select("g.initials"),
 				largeInitials: shape.select("g.large-initials"),
@@ -178,7 +174,7 @@ function shapeBuilder(data, initialShape, changes, TemplateAPI) {
 	}
 
 	function addSexIndicator() {
-		if (!changes.payload?.sex) return shape.select("g.sex-indicator");
+		if (!data.payload?.sex) return shape.select("g.sex-indicator");
 		shape.select("g.sex-indicator").remove();
 		const bbox = Shape.getBBox(shape);
 		const text = data.payload?.sex[0].toUpperCase();
@@ -198,7 +194,7 @@ function shapeBuilder(data, initialShape, changes, TemplateAPI) {
 	}
 
 	function addAgeIndicator() {
-		if (!changes.payload?.age) return shape.select("g.age-indicator");
+		if (!data.payload?.age) return shape.select("g.age-indicator");
 		shape.select("g.age-indicator").remove();
 		const bbox = Shape.getBBox(shape);
 		const text = data.payload?.age.toString() ?? "";
@@ -218,7 +214,7 @@ function shapeBuilder(data, initialShape, changes, TemplateAPI) {
 	}
 
 	function addAccessibilityTag() {
-		if (!changes.payload?.accessibility) {
+		if (!data.payload?.accessibility) {
 			return {
 				accessibilityTag: shape.select("g.accessibility-tag"),
 				largeAccessibilityTag: shape.select("g.large-accessibility-tag"),
@@ -261,7 +257,6 @@ function shapeBuilder(data, initialShape, changes, TemplateAPI) {
 	}
 
 	function addTagCollection() {
-		// if (!changes.payload?.tags) return shape.select("g.tag-collection");
 		shape.select("g.tag-collection").remove();
 		const bbox = Shape.getBBox(shape);
 		const tagCollection = TagCollection(

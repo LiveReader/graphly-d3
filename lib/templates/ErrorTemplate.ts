@@ -2,22 +2,24 @@ import * as d3 from "d3";
 import { Template } from "../types/Template";
 import { Node } from "../types/Node";
 
-import { Shape, SVGShape, OnZoom, LODStyle, TextCollection, CollectionStyle, ShapeStyle, Alignment } from "../templateAPI";
+import {
+	Shape,
+	SVGShape,
+	OnZoom,
+	LODStyle,
+	TextCollection,
+	CollectionStyle,
+	ShapeStyle,
+	Alignment,
+} from "../templateAPI";
 
 const ErrorTemplate: Template = {
 	shapeSize: 200,
 	shapeBuilder: shapeBuilder,
 };
 
-function shapeBuilder(
-	data: Node,
-	_initialShape: any,
-	_changes: any,
-	_TemplateAPI: any
-): d3.Selection<SVGElement, any, any, any> {
-	const shape = Shape.create("g"); //initialShape ? initialShape : Shape.create("g");
-
-	// shape.remove();
+function shapeBuilder(data: Node, _TemplateAPI: any): d3.Selection<SVGElement, any, any, any> {
+	const shape = Shape.create("g");
 
 	const { icon, icon_large } = addBody();
 	const title = addTitle();
