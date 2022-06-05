@@ -1,4 +1,4 @@
-import ForceSimulation from "../forceSimulation";
+import ForceSimulation from "../simulation/forceSimulation";
 import { Template } from "./Template";
 
 export interface D3Node {

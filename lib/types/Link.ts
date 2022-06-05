@@ -3,6 +3,8 @@ import { Node } from "./Node";
 export interface D3Link {
 	source: string | Node;
 	target: string | Node;
+	index?: number;
+	i?: number;
 }
 
 export enum LinkType {

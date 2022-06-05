@@ -8,6 +8,33 @@ import { Graph } from "../types/Graph";
 import { Node } from "../types/Node";
 import { Link, LinkType } from "../types/Link";
 
+export function indexLinks(graph: Graph) {
+	graph.nodes.forEach((node: Node) => {
+		const links: Link[] = [];
+		graph.links.forEach((link: Link) => {
+			if (link.source == node.id || link.target == node.id) {
+				links.push(link);
+			}
+		});
+		const groupedLinks: { [key: string]: Link[] } = {};
+		links.forEach((link: Link) => {
+			if (typeof link.target === "string") {
+				if (!groupedLinks[link.target]) groupedLinks[link.target] = [];
+				groupedLinks[link.target].push(link);
+			} else {
+				if (!groupedLinks[link.target.id]) groupedLinks[link.target.id] = [];
+				groupedLinks[link.target.id].push(link);
+			}
+		});
+		Object.keys(groupedLinks).forEach((key: string) => {
+			groupedLinks[key].forEach((link: Link, index: number) => {
+				link.i = index;
+			});
+			groupedLinks[key].sort((a: Link, b: Link) => (a.index ?? 0) - (b.index ?? 0));
+		});
+	});
+}
+
 export async function renderNodes(this: ForceSimulation, graph: Graph) {
 	await getNodeTemplates(graph);
 	graph.nodes.forEach((node: Node) => {

@@ -6,7 +6,7 @@ import { Link } from "../types/Link";
 
 import { linkForce, xForce, yForce, gravity, circleCollide } from "./forces";
 import { ticked } from "./ticked";
-import { renderNodes, renderLinks } from "./render";
+import { indexLinks, renderNodes, renderLinks } from "./render";
 import { createZoom, onZoom } from "./zoom";
 import { moveTo, Transform, Boundary } from "./move";
 
@@ -134,6 +134,7 @@ export default class ForceSimulation {
 
 	public async render(this: ForceSimulation, graph: Graph, alpha: number = 0.05) {
 		this.graph = graph;
+		indexLinks(graph);
 		await renderNodes.bind(this)(this.graph);
 		renderLinks.bind(this)(this.graph);
 

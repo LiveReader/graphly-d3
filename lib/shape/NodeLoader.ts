@@ -19,7 +19,7 @@ function Node(this: any, data: Node) {
 		// node.selectAll("*").remove();
 	}
 
-	node.classed("node", true).attr("id", data.id);
+	node.classed("node", true).attr("data-id", data.id).attr("id", data.id);
 
 	if (!data.shape.template || data.shape.template.shapeBuilder == TemplateStore.errorTemplate.shapeBuilder) {
 		return throwError(`Template "${data.shape.type}" not found!`, initialShape);
