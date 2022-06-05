@@ -15,11 +15,11 @@ function Node(this: any, data: Node) {
 	const changes = Shape.dataChanges(node, data);
 	if (!changes) return node.node();
 	if (alreadyExists) {
-		initialShape = node.select(".shape");
+		initialShape = node.select(".gly-shape");
 		// node.selectAll("*").remove();
 	}
 
-	node.classed("node", true).attr("data-id", data.id).attr("id", data.id);
+	node.classed("gly-node", true).attr("data-id", data.id).attr("id", data.id);
 
 	if (!data.shape.template || data.shape.template.shapeBuilder == TemplateStore.errorTemplate.shapeBuilder) {
 		return throwError(`Template "${data.shape.type}" not found!`, initialShape);
@@ -27,7 +27,7 @@ function Node(this: any, data: Node) {
 	try {
 		node.append(() =>
 			data.shape.template!.shapeBuilder.bind(this)(data, initialShape, changes, TemplateAPI).node()
-		).classed("shape", true);
+		).classed("gly-shape", true);
 		Shape.bind(node, data);
 	} catch (e: any) {
 		console.error(e);

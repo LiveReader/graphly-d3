@@ -18,24 +18,24 @@
 
 svg {
 	.n_light_text {
-		fill: $node-fill-color-light;
+		fill: $gly-node-fill-color-light;
 	}
 	.n_dark_text {
-		fill: $foreground-color-light;
+		fill: $gly-fg-color-light;
 	}
 
 	&.dark {
 		.n_light_text {
-			fill: $node-fill-color-dark;
+			fill: $gly-node-fill-color-dark;
 		}
 		.n_dark_text {
-			fill: $foreground-color-dark;
+			fill: $gly-fg-color-dark;
 		}
 	}
 }
 
 .n_text {
-	color: $foreground-color-light;
+	color: $gly-fg-color-light;
 	font-family: "Roboto";
 	text-anchor: middle;
 	stroke: none;

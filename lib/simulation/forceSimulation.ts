@@ -10,6 +10,7 @@ import { indexLinks, renderNodes, renderLinks } from "./render";
 import { createZoom, onZoom } from "./zoom";
 import { moveTo, Transform, Boundary } from "./move";
 
+import "../styles/graph.scss";
 interface SelectionGroups {
 	world: d3.Selection<SVGGElement, any, any, any>;
 	nodes: d3.Selection<SVGGElement, any, any, any>;

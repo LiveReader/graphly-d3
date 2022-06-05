@@ -73,11 +73,12 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.selectAll("[data-object='link']")
 		.data(graph.links, (d: any) => linkID(d as Link));
 
-	const linkShape = linkShapes.enter().append("g").attr("data-object", "link");
+	const linkShape = linkShapes.enter().append("g").attr("data-object", "link").classed("gly-link", true);
 
 	linkShape
 		.append("path")
 		.attr("data-object", "link-line")
+		.classed("gly-link-line", true)
 		.classed("solid", (d: Link) => (!d.type ? true : d.type === LinkType.Solid))
 		.classed("dashed", (d: Link) => d.type === LinkType.Dashed)
 		.classed("dotted", (d: Link) => d.type === LinkType.Dotted)
@@ -85,14 +86,19 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 	linkShape
 		.append("path")
 		.attr("data-object", "link-arrow-head")
+		.classed("gly-link-arrow", true)
+		.classed("gly-link-arrow-head", true)
 		.classed("hidden", (d: Link) => d.type === LinkType.Hidden);
 	linkShape
 		.append("path")
 		.attr("data-object", "link-arrow-tail")
+		.classed("gly-link-arrow", true)
+		.classed("gly-link-arrow-tail", true)
 		.classed("hidden", (d: Link) => d.type === LinkType.Hidden);
 	linkShape
 		.append("text")
 		.attr("data-object", "link-label")
+		.classed("gly-link-label", true)
 		.text((d: Link) => (d.type !== LinkType.Hidden ? d.label ?? "" : ""))
 		.attr("text-anchor", "middle")
 		.attr("dominant-baseline", "central")

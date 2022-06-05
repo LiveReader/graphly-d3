@@ -51,22 +51,23 @@ function dragNewLinkStart(this: ForceSimulation, e: d3.D3DragEvent<Element, any,
 		y: e.sourceEvent.offsetY / this.worldTransform.k - this.worldTransform.y / this.worldTransform.k - (d.y ?? 0),
 	};
 	newLinkDraging = true;
-	newLink = this.selectionGroups.links.append("g").attr("data-object", "prelink");
+	newLink = this.selectionGroups.links.append("g").attr("data-object", "prelink").classed("gly-prelink", true);
 	newLink
 		.append("line")
-		.attr("data-object", "prelink-line")
+		.attr("data-object", "prelink-link-line")
+		.classed("gly-link-line", true)
 		.attr("x1", d.x ?? 0)
 		.attr("y1", d.y ?? 0)
 		.attr("x2", e.x)
 		.attr("y2", e.y);
 }
 
-function dragNewLinkMove(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, d: DraggableNode) {
+function dragNewLinkMove(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, _d: DraggableNode) {
 	const mousePos: { x: number; y: number } = {
 		x: e.x + dragOffset.x,
 		y: e.y + dragOffset.y,
 	};
-	newLink.select("[data-object='prelink-line']").attr("x2", mousePos.x).attr("y2", mousePos.y);
+	newLink.select("[data-object='prelink-link-line']").attr("x2", mousePos.x).attr("y2", mousePos.y);
 }
 
 function dragNewLinkEnd(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, d: DraggableNode) {
