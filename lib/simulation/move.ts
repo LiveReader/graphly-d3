@@ -49,8 +49,8 @@ function moveToBoundary(this: ForceSimulation, value: Boundary, onZoom: (t: Tran
 	const boundaryAspectRatio = value.width / value.height;
 	const scale = svgAspectRatio < boundaryAspectRatio ? svgWidth / value.width : svgHeight / value.height;
 	const targetTransform: Transform = {
-		x: value.x + value.width / 2 - svgWidth / 2,
-		y: value.y + value.height / 2 - svgHeight / 2,
+		x: value.x + value.width / 2,
+		y: value.y + value.height / 2,
 		k: scale,
 	};
 	moveToTransform.bind(this)(targetTransform, onZoom, duration);
@@ -63,8 +63,6 @@ function moveToNodes(
 	duration?: number,
 	padding?: number
 ) {
-	const svgWidth = this.svgElement.clientWidth;
-	const svgHeight = this.svgElement.clientHeight;
 	const nodes = this.graph.nodes.filter((n) => value.includes(n));
 	const bounds = d3.extent(nodes, (n) => n.x);
 	const x = d3.extent(nodes, (n) => n.y);
@@ -73,8 +71,8 @@ function moveToNodes(
 	const largestNodeSize = d3.max(nodes.map((n) => n.shape.scale * (n.shape.template?.shapeSize ?? 300))) ?? 0;
 
 	const targetBoundary: Boundary = {
-		x: (bounds[0] ?? 0) - (padding ?? 0) - largestNodeSize / 2 + svgWidth / 2,
-		y: (x[0] ?? 0) - (padding ?? 0) - largestNodeSize / 2 + svgHeight / 2,
+		x: (bounds[0] ?? 0) - (padding ?? 0) - largestNodeSize / 2,
+		y: (x[0] ?? 0) - (padding ?? 0) - largestNodeSize / 2,
 		width: width + (padding ?? 0) * 2 + largestNodeSize,
 		height: height + (padding ?? 0) * 2 + largestNodeSize,
 	};
