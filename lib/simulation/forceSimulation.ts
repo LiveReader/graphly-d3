@@ -10,7 +10,7 @@ import { linkForce, xForce, yForce, gravity, circleCollide } from "./forces";
 import { ticked } from "./ticked";
 import { indexLinks, renderNodes, renderLinks } from "./render";
 import { createZoom, onZoom } from "./zoom";
-import { moveTo, Transform, Boundary } from "./move";
+import { moveTo, Transform, MoveOptions } from "./move";
 
 import "../styles/graph.scss";
 
@@ -162,15 +162,10 @@ export default class ForceSimulation {
 			.classed("gly-selected", true);
 	}
 
-	public moveTo(value: Transform | Boundary | Node[], duration?: number, padding?: number) {
-		moveTo.bind(this)(
-			value,
-			(v: Transform) => {
-				this.svgSelection.call((this._zoom as any).transform, d3.zoomIdentity.translate(v.x, v.y).scale(v.k));
-				onZoom.bind(this)(v);
-			},
-			duration,
-			padding
-		);
+	public moveTo(options: MoveOptions) {
+		moveTo.bind(this)(options, (t: Transform) => {
+			this.svgSelection.call((this._zoom as any).transform, d3.zoomIdentity.translate(t.x, t.y).scale(t.k));
+			onZoom.bind(this)(t);
+		});
 	}
 }
