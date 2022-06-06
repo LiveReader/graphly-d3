@@ -10,7 +10,7 @@ import { linkForce, xForce, yForce, gravity, circleCollide } from "./forces";
 import { ticked } from "./ticked";
 import { indexLinks, renderNodes, renderLinks } from "./render";
 import { createZoom, onZoom } from "./zoom";
-import { moveTo, Transform, MoveOptions } from "./move";
+import { moveTo, Transform, Boundary, MoveOptions } from "./move";
 
 import "../styles/graph.scss";
 
@@ -45,6 +45,16 @@ export default class ForceSimulation {
 
 	private _zoom: d3.ZoomBehavior<Element, any>;
 	public worldTransform: { x: number; y: number; k: number } = { x: 0, y: 0, k: 1 };
+	get worldBounds(): Boundary {
+		const { x, y, k } = this.worldTransform;
+		const b = {
+			x: -(x / k),
+			y: -(y / k),
+			width: this.svgElement.clientWidth / k,
+			height: this.svgElement.clientHeight / k,
+		};
+		return b;
+	}
 	set zoomScaleExtent(extent: [number, number]) {
 		this._zoom.scaleExtent(extent);
 	}
