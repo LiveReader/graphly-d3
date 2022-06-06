@@ -61,10 +61,12 @@ export async function renderNodes(this: ForceSimulation, graph: Graph) {
 	nodeShapes.exit().transition().duration(this.animationDuration).attr("opacity", 0).remove();
 
 	// update existing nodes
-	nodeShapes.each((d: any) => {
-		const node = nodeShapes.filter((n: any) => n.id === d.id);
-		node.select(NodeLoader);
-	});
+	nodeShapes
+		.each((d: any) => {
+			const node = nodeShapes.filter((n: any) => n.id === d.id);
+			node.select(NodeLoader);
+		})
+		.attr("opacity", 1);
 }
 
 export function renderLinks(this: ForceSimulation, graph: Graph) {
@@ -105,7 +107,7 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 	linkShape.attr("opacity", 0).transition().duration(this.animationDuration).attr("opacity", 1);
 
 	linkShapes.exit().transition().duration(this.animationDuration).attr("opacity", 0).remove();
-	linkShapes.transition().duration(this.animationDuration);
+	linkShapes.attr("opacity", 1).transition().duration(this.animationDuration);
 }
 
 async function getNodeTemplates(this: ForceSimulation, graph: Graph) {
