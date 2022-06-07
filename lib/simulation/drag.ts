@@ -64,29 +64,33 @@ function dragNewLinkStart(this: ForceSimulation, e: d3.D3DragEvent<Element, any,
 		.attr("y1", d.y ?? 0)
 		.attr("x2", e.x)
 		.attr("y2", e.y);
+	this.eventStore.emit(Event.LinkDragStart, e, d as Node, { x: e.x, y: e.y });
 }
 
-function dragNewLinkMove(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, _d: DraggableNode) {
+function dragNewLinkMove(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, d: DraggableNode) {
 	const mousePos: { x: number; y: number } = {
 		x: e.x + dragOffset.x,
 		y: e.y + dragOffset.y,
 	};
 	newLink.select("[data-object='prelink-link-line']").attr("x2", mousePos.x).attr("y2", mousePos.y);
+	this.eventStore.emit(Event.LinkDragMove, e, d as Node, { x: e.x, y: e.y });
 }
 
 function dragNewLinkEnd(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, d: DraggableNode) {
 	newLink.remove();
 	newLinkDraging = false;
 	let target = e.sourceEvent.target;
-	if (target == this.svgElement) return;
+	if (target == this.svgElement)
+		return this.eventStore.emit(Event.LinkDragEnd, e, d as Node, null, { x: e.x, y: e.y });
 	while (target.attributes["data-object"] == null) {
-		if (target == null) return;
+		if (target == null) return this.eventStore.emit(Event.LinkDragEnd, e, d as Node, null, { x: e.x, y: e.y });
 		target = target.parentElement;
-		if (!target) return;
+		if (!target) return this.eventStore.emit(Event.LinkDragEnd, e, d as Node, null, { x: e.x, y: e.y });
 	}
 	target = target.parentElement;
-	if (!target) return;
+	if (!target) return this.eventStore.emit(Event.LinkDragEnd, e, d as Node, null, { x: e.x, y: e.y });
 	const targetNode = this.graph.nodes.find((n: Node) => n.id == target.attributes["data-id"].value ?? "");
-	if (!targetNode) return;
-	if (targetNode.id == d.id) return;
+	if (!targetNode) return this.eventStore.emit(Event.LinkDragEnd, e, d as Node, null, { x: e.x, y: e.y });
+	if (targetNode.id == d.id) return this.eventStore.emit(Event.LinkDragEnd, e, d as Node, null, { x: e.x, y: e.y });
+	this.eventStore.emit(Event.LinkDragEnd, e, d as Node, targetNode, { x: e.x, y: e.y });
 }

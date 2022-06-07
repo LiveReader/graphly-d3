@@ -70,17 +70,18 @@ const Events: { [key in Event]: { [key: string]: (...args: any[]) => void } } = 
 	},
 	[Event.LinkDragStart]: {
 		event: (d: any) => d,
-		link: (d: Link) => d,
+		source: (d: Node) => d,
 		pos: (x: number, y: number) => ({ x, y }),
 	},
 	[Event.LinkDragMove]: {
 		event: (d: any) => d,
-		link: (d: Link) => d,
+		source: (d: Node) => d,
 		pos: (x: number, y: number) => ({ x, y }),
 	},
 	[Event.LinkDragEnd]: {
 		event: (d: any) => d,
-		link: (d: Link) => d,
+		source: (d: Node) => d,
+		target: (d: Node | null) => d,
 		pos: (x: number, y: number) => ({ x, y }),
 	},
 
