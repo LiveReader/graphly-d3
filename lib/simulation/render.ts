@@ -2,6 +2,7 @@ import ForceSimulation from "./forceSimulation";
 import NodeLoader from "../shape/NodeLoader";
 import { Template } from "../types/Template";
 import { dragNode } from "./drag";
+import { Event } from "./eventStore";
 
 import { Graph } from "../types/Graph";
 import { Node } from "../types/Node";
@@ -52,6 +53,9 @@ export async function renderNodes(this: ForceSimulation, graph: Graph) {
 		.attr("data-object", "node")
 		.style("pointer-events", "fill")
 		.call(dragNode.bind(this)() as any)
+		.on("click", (e: any, d: Node) => this.eventStore.emit(Event.NodeClick, e, d))
+		.on("dblclick", (e: any, d: Node) => this.eventStore.emit(Event.NodeDoubleClick, e, d))
+		.on("contextmenu", (e: any, d: Node) => this.eventStore.emit(Event.NodeContextMenu, e, d))
 		.attr("opacity", 0)
 		.transition()
 		.duration(this.animationDuration)
