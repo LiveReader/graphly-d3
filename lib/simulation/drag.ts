@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import ForceSimulation from "./forceSimulation";
 
+import { Event } from "./eventStore";
 import { Node } from "../types/Node";
 
 export interface DraggableNode extends Node {
@@ -26,6 +27,7 @@ function dragStart(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, 
 	d.isDraged = true;
 	d.fx = e.x;
 	d.fy = e.y;
+	this.eventStore.emit(Event.NodeDragStart, e, d as Node, { x: e.x, y: e.y });
 }
 
 function dragMove(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, d: DraggableNode) {
@@ -33,6 +35,7 @@ function dragMove(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, d
 	if (!this.draggableNodes) return;
 	d.fx = e.x;
 	d.fy = e.y;
+	this.eventStore.emit(Event.NodeDragMove, e, d as Node, { x: e.x, y: e.y });
 }
 
 function dragEnd(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, d: DraggableNode) {
@@ -43,6 +46,7 @@ function dragEnd(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, d:
 	d.isDraged = false;
 	d.fx = null;
 	d.fy = null;
+	this.eventStore.emit(Event.NodeDragEnd, e, d as Node, { x: e.x, y: e.y });
 }
 
 function dragNewLinkStart(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, d: DraggableNode) {
