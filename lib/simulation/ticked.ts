@@ -1,4 +1,5 @@
 import ForceSimulation from "./forceSimulation";
+import { Event } from "./eventStore";
 
 import { Graph } from "../types/Graph";
 import { Node, AnchorType } from "../types/Node";
@@ -25,6 +26,8 @@ export function ticked(this: ForceSimulation) {
 		const label = d.select("[data-object='link-label']");
 		label.attr("transform", labelPosition);
 	});
+
+	this.eventStore.emit(Event.SimulationTick);
 }
 
 function processSatellite(graph: Graph, d: Node) {
@@ -54,5 +57,3 @@ function processAnchor(d: Node) {
 		d.fy = d.anchor.y;
 	}
 }
-
-

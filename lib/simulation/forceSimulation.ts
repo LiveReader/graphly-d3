@@ -91,6 +91,7 @@ export default class ForceSimulation {
 
 	public selectionGroups: SelectionGroups;
 	public graph: Graph = { nodes: [], links: [] };
+
 	public templateStore: TemplateStore = new TemplateStore();
 	public nodeDataStore: NodeDataStore = new NodeDataStore();
 	public readonly eventStore: EventStore = new EventStore();
@@ -121,6 +122,7 @@ export default class ForceSimulation {
 			.force("collide", circleCollide())
 			.on("tick", ticked.bind(this))
 			.on("end", () => {
+				this.eventStore.emit(Event.SimulationTickEnd);
 			});
 
 		return simulation;
