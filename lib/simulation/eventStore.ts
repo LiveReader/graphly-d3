@@ -1,14 +1,27 @@
 import { Node } from "../types/Node";
 import { Link } from "../types/Link";
 
+import { Transform } from "./move";
+
 export enum Event {
 	NodeClick = "node:click",
 	NodeDoubleClick = "node:doubleclick",
 	NodeContextMenu = "node:contextmenu",
+	NodeDragStart = "node:dragstart",
+	NodeDragMove = "node:dragmove",
+	NodeDragEnd = "node:dragend",
 
 	LinkClick = "link:click",
 	LinkDoubleClick = "link:doubleclick",
 	LinkContextMenu = "link:contextmenu",
+	LinkDragStart = "link:dragstart",
+	LinkDragMove = "link:dragmove",
+	LinkDragEnd = "link:dragend",
+
+	EnvironmentClick = "environment:click",
+	EnvironmentDoubleClick = "environment:doubleclick",
+	EnvironmentContextMenu = "environment:contextmenu",
+	EnvironmentMove = "environment:move",
 
 	SimulationTick = "simulation:tick",
 	SimulationTickEnd = "simulation:tickend",
@@ -27,6 +40,21 @@ const Events: { [key in Event]: { [key: string]: (...args: any[]) => void } } = 
 		event: (d: any) => d,
 		node: (d: Node) => d,
 	},
+	[Event.NodeDragStart]: {
+		event: (d: any) => d,
+		node: (d: Node) => d,
+		pos: (x: number, y: number) => ({ x, y }),
+	},
+	[Event.NodeDragMove]: {
+		event: (d: any) => d,
+		node: (d: Node) => d,
+		pos: (x: number, y: number) => ({ x, y }),
+	},
+	[Event.NodeDragEnd]: {
+		event: (d: any) => d,
+		node: (d: Node) => d,
+		pos: (x: number, y: number) => ({ x, y }),
+	},
 
 	[Event.LinkClick]: {
 		event: (d: any) => d,
@@ -39,6 +67,34 @@ const Events: { [key in Event]: { [key: string]: (...args: any[]) => void } } = 
 	[Event.LinkContextMenu]: {
 		event: (d: any) => d,
 		link: (d: Link) => d,
+	},
+	[Event.LinkDragStart]: {
+		event: (d: any) => d,
+		link: (d: Link) => d,
+		pos: (x: number, y: number) => ({ x, y }),
+	},
+	[Event.LinkDragMove]: {
+		event: (d: any) => d,
+		link: (d: Link) => d,
+		pos: (x: number, y: number) => ({ x, y }),
+	},
+	[Event.LinkDragEnd]: {
+		event: (d: any) => d,
+		link: (d: Link) => d,
+		pos: (x: number, y: number) => ({ x, y }),
+	},
+
+	[Event.EnvironmentClick]: {
+		event: (d: any) => d,
+	},
+	[Event.EnvironmentDoubleClick]: {
+		event: (d: any) => d,
+	},
+	[Event.EnvironmentContextMenu]: {
+		event: (d: any) => d,
+	},
+	[Event.EnvironmentMove]: {
+		pos: (t: Transform) => t,
 	},
 
 	[Event.SimulationTick]: {},
