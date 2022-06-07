@@ -78,7 +78,14 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.selectAll("[data-object='link']")
 		.data(graph.links, (d: any) => linkID(d as Link));
 
-	const linkShape = linkShapes.enter().append("g").attr("data-object", "link").classed("gly-link", true);
+	const linkShape = linkShapes
+		.enter()
+		.append("g")
+		.attr("data-object", "link")
+		.classed("gly-link", true)
+		.on("click", (e: any, d: Link) => this.eventStore.emit(Event.LinkClick, e, d))
+		.on("dblclick", (e: any, d: Link) => this.eventStore.emit(Event.LinkDoubleClick, e, d))
+		.on("contextmenu", (e: any, d: Link) => this.eventStore.emit(Event.LinkContextMenu, e, d));
 
 	linkShape
 		.append("path")
