@@ -11,6 +11,7 @@ import { ticked } from "./ticked";
 import { indexLinks, renderNodes, renderLinks } from "./render";
 import { createZoom, onZoom } from "./zoom";
 import { moveTo, Transform, Boundary, MoveOptions } from "./move";
+import { EventStore, Event } from "./eventStore";
 
 import "../styles/graph.scss";
 
@@ -91,6 +92,7 @@ export default class ForceSimulation {
 	public graph: Graph = { nodes: [], links: [] };
 	public templateStore: TemplateStore = new TemplateStore();
 	public nodeDataStore: NodeDataStore = new NodeDataStore();
+	public eventStore: EventStore = new EventStore();
 
 	constructor(svgEl: SVGElement | d3.Selection<SVGElement, any, any, any>) {
 		if (svgEl instanceof SVGElement) {
@@ -177,5 +179,9 @@ export default class ForceSimulation {
 			this.svgSelection.call((this._zoom as any).transform, d3.zoomIdentity.translate(t.x, t.y).scale(t.k));
 			onZoom.bind(this)(t);
 		});
+	}
+
+	public on(event: Event, callback: (...args: any[]) => void) {
+		this.eventStore.on(event, callback);
 	}
 }
