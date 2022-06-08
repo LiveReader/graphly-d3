@@ -117,10 +117,10 @@ export class EventStore {
 		delete this.register[event][callback.name];
 	}
 
-	public emit(event: Event, ...args: any[]) {
+	public emit(event: Event, ...args: any[]): any {
 		if (!this.register[event]) return;
 		for (const callback in this.register[event]) {
-			this.register[event][callback](...args);
+			return this.register[event][callback](...args);
 		}
 	}
 }
