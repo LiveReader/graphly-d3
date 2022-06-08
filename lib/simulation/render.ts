@@ -58,9 +58,18 @@ export async function renderNodes(this: ForceSimulation, graph: Graph) {
 		.attr("data-object", "node")
 		.style("pointer-events", "fill")
 		.call(dragNode.bind(this)() as any)
-		.on("click", (e: any, d: Node) => this.eventStore.emit(Event.NodeClick, e, d))
-		.on("dblclick", (e: any, d: Node) => this.eventStore.emit(Event.NodeDoubleClick, e, d))
-		.on("contextmenu", (e: any, d: Node) => this.eventStore.emit(Event.NodeContextMenu, e, d))
+		.on("click", (e: any, d: Node) => {
+			this.eventStore.emit(Event.NodeClick, e, d);
+			e.stopPropagation();
+		})
+		.on("dblclick", (e: any, d: Node) => {
+			this.eventStore.emit(Event.NodeDoubleClick, e, d);
+			e.stopPropagation();
+		})
+		.on("contextmenu", (e: any, d: Node) => {
+			this.eventStore.emit(Event.NodeContextMenu, e, d);
+			e.stopPropagation();
+		})
 		.attr("opacity", 0)
 		.transition()
 		.duration(this.animationDuration)
@@ -88,9 +97,18 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.append("g")
 		.attr("data-object", "link")
 		.classed("gly-link", true)
-		.on("click", (e: any, d: Link) => this.eventStore.emit(Event.LinkClick, e, d))
-		.on("dblclick", (e: any, d: Link) => this.eventStore.emit(Event.LinkDoubleClick, e, d))
-		.on("contextmenu", (e: any, d: Link) => this.eventStore.emit(Event.LinkContextMenu, e, d));
+		.on("click", (e: any, d: Link) => {
+			this.eventStore.emit(Event.LinkClick, e, d);
+			e.stopPropagation();
+		})
+		.on("dblclick", (e: any, d: Link) => {
+			this.eventStore.emit(Event.LinkDoubleClick, e, d);
+			e.stopPropagation();
+		})
+		.on("contextmenu", (e: any, d: Link) => {
+			this.eventStore.emit(Event.LinkContextMenu, e, d);
+			e.stopPropagation();
+		});
 
 	linkShape
 		.append("path")
