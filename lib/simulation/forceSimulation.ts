@@ -11,6 +11,7 @@ import { ticked } from "./ticked";
 import { indexLinks, renderNodes, renderLinks } from "./render";
 import { createZoom, onZoom } from "./zoom";
 import { moveTo, Transform, Boundary, MoveOptions } from "./move";
+import { EventStore, Event } from "./eventStore";
 
 import "../styles/graph.scss";
 
@@ -30,6 +31,7 @@ export default class ForceSimulation {
 		this._svgSelection = d3.select(svgElement);
 		this.selectionGroups = this.createWorld();
 		this._zoom = createZoom.bind(this)();
+		this.setEvents();
 		this.render(this.graph);
 	}
 
@@ -89,8 +91,10 @@ export default class ForceSimulation {
 
 	public selectionGroups: SelectionGroups;
 	public graph: Graph = { nodes: [], links: [] };
+
 	public templateStore: TemplateStore = new TemplateStore();
 	public nodeDataStore: NodeDataStore = new NodeDataStore();
+	public readonly eventStore: EventStore = new EventStore();
 
 	constructor(svgEl: SVGElement | d3.Selection<SVGElement, any, any, any>) {
 		if (svgEl instanceof SVGElement) {
@@ -105,6 +109,7 @@ export default class ForceSimulation {
 		this._simulation = this.createSimulation();
 		this.selectionGroups = this.createWorld();
 		this._zoom = createZoom.bind(this)();
+		this.setEvents();
 	}
 
 	private createSimulation(): d3.Simulation<Node, Link> {
@@ -117,6 +122,7 @@ export default class ForceSimulation {
 			.force("collide", circleCollide())
 			.on("tick", ticked.bind(this))
 			.on("end", () => {
+				this.eventStore.emit(Event.SimulationTickEnd);
 			});
 
 		return simulation;
@@ -127,6 +133,12 @@ export default class ForceSimulation {
 		const links = world.append("g").attr("data-name", "links");
 		const nodes = world.append("g").attr("data-name", "nodes");
 		return { world, nodes, links };
+	}
+
+	private setEvents() {
+		this.svgSelection.on("click", (e: any) => this.eventStore.emit(Event.EnvironmentClick, e));
+		this.svgSelection.on("dblclick", (e: any) => this.eventStore.emit(Event.EnvironmentDoubleClick, e));
+		this.svgSelection.on("contextmenu", (e: any) => this.eventStore.emit(Event.EnvironmentContextMenu, e));
 	}
 
 	public registerOnZoom(id: string, threshold: number, callback: (k: number) => boolean) {
@@ -175,7 +187,10 @@ export default class ForceSimulation {
 	public moveTo(options: MoveOptions) {
 		moveTo.bind(this)(options, (t: Transform) => {
 			this.svgSelection.call((this._zoom as any).transform, d3.zoomIdentity.translate(t.x, t.y).scale(t.k));
-			onZoom.bind(this)(t);
 		});
+	}
+
+	public on(event: string, callback: (...args: any[]) => void) {
+		this.eventStore.on(event, callback);
 	}
 }

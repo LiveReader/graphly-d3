@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import ForceSimulation from "./forceSimulation";
 
+import { Event } from "./eventStore";
 import { Transform } from "./move";
 
 export function createZoom(this: ForceSimulation): d3.ZoomBehavior<Element, any> {
@@ -35,4 +36,5 @@ export function onZoom(this: ForceSimulation, transform: Transform) {
 	}
 	this.worldTransform = transform;
 
+	this.eventStore.emit(Event.EnvironmentMove, transform);
 }
