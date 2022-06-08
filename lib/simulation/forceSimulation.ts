@@ -50,13 +50,13 @@ export default class ForceSimulation {
 	public worldTransform: { x: number; y: number; k: number } = { x: 0, y: 0, k: 1 };
 	get worldBounds(): Boundary {
 		const { x, y, k } = this.worldTransform;
-		const b = {
+		const bounds = {
 			x: -(x / k),
 			y: -(y / k),
 			width: this.svgElement.clientWidth / k,
 			height: this.svgElement.clientHeight / k,
 		};
-		return b;
+		return bounds;
 	}
 	set zoomScaleExtent(extent: [number, number]) {
 		this._zoom.scaleExtent(extent);
