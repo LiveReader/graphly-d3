@@ -92,16 +92,15 @@ function moveToBoundary(
 			? svgWidth / (boundary.width + (padding ?? 0) * 2)
 			: svgHeight / (boundary.height + (padding ?? 0) * 2);
 	const targetTransform: Transform = {
-		x: boundary.x * scale + boundary.width * scale / 2 - (padding ?? 0),
-		y: boundary.y * scale + boundary.height * scale / 2 - (padding ?? 0),
-		// x: boundary.x + boundary.width / 2 - (padding ?? 0),
-		// y: boundary.y + boundary.height / 2 - (padding ?? 0),
+		x: boundary.x + boundary.width / 2,
+		y: boundary.y + boundary.height / 2,
 		k: scale,
 	};
 	moveToTransform.bind(this)(targetTransform, onZoom, duration);
 }
 
 function transform(this: ForceSimulation, t: Transform, onZoom: (t: Transform) => void, duration?: number) {
+	if (isNaN(t.x) || isNaN(t.y) || isNaN(t.k)) return;
 	this.selectionGroups.world
 		.transition()
 		.duration(duration ?? 1000)
