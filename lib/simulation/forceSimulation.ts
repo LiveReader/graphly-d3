@@ -179,7 +179,7 @@ export default class ForceSimulation {
 	public select(nodeIDs: string[]) {
 		this.selectionGroups.nodes.selectAll(".gly-selectable").classed("gly-selected", false);
 		this.selectionGroups.nodes
-			.selectAll()
+			.selectAll("[data-object='node']")
 			.filter((d: any) => nodeIDs.includes((d as Node).id))
 			.selectAll(".gly-selectable")
 			.classed("gly-selected", true);
