@@ -130,9 +130,9 @@ export default class ForceSimulation {
 	}
 
 	private createWorld(): SelectionGroups {
-		const world = this.svgSelection.append("g").attr("data-name", "world");
-		const links = world.append("g").attr("data-name", "links");
-		const nodes = world.append("g").attr("data-name", "nodes");
+		const world = this.svgSelection.append("g").attr("data-object", "world");
+		const links = world.append("g").attr("data-object", "links");
+		const nodes = world.append("g").attr("data-object", "nodes");
 		return { world, nodes, links };
 	}
 
