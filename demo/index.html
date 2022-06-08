@@ -23,6 +23,15 @@
 			svg.dark .demo_template_tag_text {
 				fill: #404040;
 			}
+			.configSpan {
+				position: fixed;
+				right: 0;
+				z-index: 100;
+				cursor: pointer;
+				padding: 10px;
+				font-size: 20px;
+				font-family: Roboto, sans-serif;
+			}
 		</style>
 	</head>
 	<body style="margin: 0; padding: 0; overflow: hidden">
@@ -33,6 +42,36 @@
 		>
 			🌓
 		</span>
+
+		<span class="configSpan" style="top: 30px">
+			<input id="transform-x" style="padding: 3px; width: 30px" type="text" placeholder="x" />
+			<input id="transform-y" style="padding: 3px; width: 30px" type="text" placeholder="y" />
+			<input id="transform-k" style="padding: 3px; width: 30px" type="text" placeholder="k" />
+		</span>
+		<span class="configSpan" style="top: 60px">
+			<button id="transform-btn" style="padding: 3px; width: 130px">move to transfrom</button>
+		</span>
+
+		<span class="configSpan" style="top: 90px">
+			<input id="bounds-x" style="padding: 3px; width: 52px" type="text" placeholder="x" />
+			<input id="bounds-y" style="padding: 3px; width: 52px" type="text" placeholder="y" />
+		</span>
+		<span class="configSpan" style="top: 120px">
+			<input id="bounds-width" style="padding: 3px; width: 52px" type="text" placeholder="width" />
+			<input id="bounds-height" style="padding: 3px; width: 52px" type="text" placeholder="height" />
+		</span>
+		<span class="configSpan" style="top: 150px">
+			<button id="bounds-btn" style="padding: 3px; width: 130px">move to bounds</button>
+		</span>
+
+		<span class="configSpan" style="top: 180px">
+			<button id="show-nodes-btn" style="padding: 3px; width: 130px">show all nodes</button>
+		</span>
+
+		<span class="configSpan" style="top: 210px">
+			<button id="include-nodes-btn" style="padding: 3px; width: 130px">include all nodes</button>
+		</span>
+
 		<script type="module" src="./app.js"></script>
 	</body>
 </html>

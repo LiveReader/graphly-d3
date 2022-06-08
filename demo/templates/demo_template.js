@@ -16,12 +16,13 @@ function shapeBuilder(data, TemplateAPI) {
 		TagCollection,
 		TagShape,
 		TagStyle,
+		FireEvent,
 	} = TemplateAPI;
 
 	const shape = Shape.create("g");
 
 	const { body, border, state, diamond, largeDiamond } = addBaseShape();
-	border.classed("selectable", true);
+	border.classed("gly-selectable", true);
 	setState(state);
 	const fullName = addFullName();
 	const { initials, largeInitials } = addInitials();
@@ -208,6 +209,9 @@ function shapeBuilder(data, TemplateAPI) {
 				ShapeStyle("opacity", "0.5", true),
 			]
 		);
+		ageShape.on("click", (e) => {
+			FireEvent("age-click", data, e, text);
+		});
 		ageShape.classed("age-indicator", true);
 		shape.append(() => ageShape.node());
 		return ageShape;
