@@ -21,13 +21,13 @@ export function dragNode(this: ForceSimulation): d3.DragBehavior<Element, any, a
 }
 
 function dragStart(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, d: DraggableNode) {
-	if (e.sourceEvent.altKey) return dragNewLinkStart.bind(this)(e, d);
+	const emitResponse = this.eventStore.emit(Event.NodeDragStart, e, d as Node, { x: e.x, y: e.y });
+	if (emitResponse == "newlink") return dragNewLinkStart.bind(this)(e, d);
 	if (!this.draggableNodes) return;
 	this.simulation.alphaTarget(0.05).restart();
 	d.isDraged = true;
 	d.fx = e.x;
 	d.fy = e.y;
-	this.eventStore.emit(Event.NodeDragStart, e, d as Node, { x: e.x, y: e.y });
 }
 
 function dragMove(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, d: DraggableNode) {
