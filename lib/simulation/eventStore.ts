@@ -107,17 +107,17 @@ export class EventStore {
 
 	private register: { [key: string]: { [key: string]: (...args: any[]) => void } } = {};
 
-	public on(event: Event, callback: (...args: any[]) => void) {
+	public on(event: string, callback: (...args: any[]) => void) {
 		if (!this.register[event]) this.register[event] = {};
 		this.register[event][callback.name] = callback;
 	}
 
-	public off(event: Event, callback: (...args: any[]) => void) {
+	public off(event: string, callback: (...args: any[]) => void) {
 		if (!this.register[event]) return;
 		delete this.register[event][callback.name];
 	}
 
-	public emit(event: Event, ...args: any[]): any {
+	public emit(event: string, ...args: any[]): any {
 		if (!this.register[event]) return;
 		for (const callback in this.register[event]) {
 			return this.register[event][callback](...args);

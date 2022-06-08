@@ -190,7 +190,7 @@ export default class ForceSimulation {
 		});
 	}
 
-	public on(event: Event, callback: (...args: any[]) => void) {
+	public on(event: string, callback: (...args: any[]) => void) {
 		this.eventStore.on(event, callback);
 	}
 }
