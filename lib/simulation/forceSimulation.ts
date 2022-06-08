@@ -12,6 +12,7 @@ import { indexLinks, renderNodes, renderLinks } from "./render";
 import { createZoom, onZoom } from "./zoom";
 import { moveTo, Transform, Boundary, MoveOptions } from "./move";
 import { EventStore, Event } from "./eventStore";
+import { exportGraph } from "./export";
 
 import "../styles/graph.scss";
 
@@ -182,6 +183,10 @@ export default class ForceSimulation {
 			.filter((d: any) => nodeIDs.includes((d as Node).id))
 			.selectAll(".gly-selectable")
 			.classed("gly-selected", true);
+	}
+
+	public exportGraph() {
+		return exportGraph.bind(this)();
 	}
 
 	public moveTo(options: MoveOptions) {
