@@ -67,9 +67,10 @@ function nodesBoundary(nodes: Node[]): Boundary {
 function moveToTransform(this: ForceSimulation, t: Transform, onZoom: (t: Transform) => void, duration?: number) {
 	const svgWidth = this.svgElement.clientWidth;
 	const svgHeight = this.svgElement.clientHeight;
+	const centerOffset = { x: svgWidth / 2, y: svgHeight / 2 };
 	const targetTransform: Transform = {
-		x: -t.x + svgWidth / 2 + (svgWidth / 2) * (1 - t.k) * (t.x / (svgWidth / 2)),
-		y: -t.y + svgHeight / 2 + (svgWidth / 2) * (1 - t.k) * (t.y / (svgHeight / 2)),
+		x: -t.x + (svgWidth / 2) * (1 - t.k) * (t.x / (svgWidth / 2)) + centerOffset.x,
+		y: -t.y + (svgHeight / 2) * (1 - t.k) * (t.y / (svgHeight / 2)) + centerOffset.y,
 		k: t.k,
 	};
 	transform.bind(this)(targetTransform, onZoom, duration);
