@@ -12,25 +12,30 @@ export function indexLinks(graph: Graph) {
 	graph.nodes.forEach((node: Node) => {
 		const links: Link[] = [];
 		graph.links.forEach((link: Link) => {
-			if (link.source == node.id || link.target == node.id) {
+			if (link.source == node.id || (link.source as Node).id == node.id) {
 				links.push(link);
 			}
 		});
 		const groupedLinks: { [key: string]: Link[] } = {};
 		links.forEach((link: Link) => {
-			if (typeof link.target === "string") {
-				if (!groupedLinks[link.target]) groupedLinks[link.target] = [];
-				groupedLinks[link.target].push(link);
+			if (typeof link.target == "object") {
+				const targetID = typeof link.target === "string" ? link.target : link.target.id;
+				if (!groupedLinks[targetID]) {
+					groupedLinks[targetID] = [];
+				}
+				groupedLinks[targetID].push(link);
 			} else {
-				if (!groupedLinks[link.target.id]) groupedLinks[link.target.id] = [];
-				groupedLinks[link.target.id].push(link);
+				if (!groupedLinks[link.target]) {
+					groupedLinks[link.target] = [];
+				}
+				groupedLinks[link.target].push(link);
 			}
 		});
-		Object.keys(groupedLinks).forEach((key: string) => {
-			groupedLinks[key].forEach((link: Link, index: number) => {
+		Object.keys(groupedLinks).forEach((targetId: string) => {
+			groupedLinks[targetId].forEach((link: Link, index: number) => {
 				link.i = index;
 			});
-			groupedLinks[key].sort((a: Link, b: Link) => (a.index ?? 0) - (b.index ?? 0));
+			groupedLinks[targetId].sort((a: Link, b: Link) => (a.index ?? 0) - (b.index ?? 0));
 		});
 	});
 }
