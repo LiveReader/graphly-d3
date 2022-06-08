@@ -1,5 +1,8 @@
-import ForceSimulation from "./forceSimulation";
+import ForceSimulation from "./simulation/forceSimulation";
+import { Event } from "./simulation/eventStore";
 import * as TemplateAPI from "./templateAPI";
-import TemplateStore from "./templateStore";
 
-export { ForceSimulation, TemplateAPI, TemplateStore };
+export { ForceSimulation, Event, TemplateAPI };
+export * from "./types/Graph";
+export * from "./types/Node";
+export * from "./types/Link";

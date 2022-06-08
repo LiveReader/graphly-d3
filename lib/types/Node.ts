@@ -1,4 +1,4 @@
-import ForceSimulation from "../forceSimulation";
+import ForceSimulation from "../simulation/forceSimulation";
 import { Template } from "./Template";
 
 export interface D3Node {
@@ -7,13 +7,14 @@ export interface D3Node {
 	y?: number;
 	vx?: number;
 	vy?: number;
-	fx?: number;
-	fy?: number;
+	fx?: number | null;
+	fy?: number | null;
 }
 
 export interface Shape {
 	type: string;
 	scale: number;
+	url?: string;
 	template?: Template;
 }
 
@@ -46,6 +47,7 @@ export interface Satellite {
 export interface Node extends D3Node {
 	forceSimulation: ForceSimulation;
 	shape: Shape;
+	gravity?: number;
 	spawn?: Spawn;
 	anchor?: Anchor;
 	satellite?: Satellite;

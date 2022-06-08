@@ -1,10 +1,22 @@
-import { ForceSimulation, TemplateStore } from "../lib/main";
-import * as d3 from "d3";
+import { ForceSimulation, Event } from "../lib/main";
 
-TemplateStore.remoteOrigin = "http://" + document.location.host + "/demo/templates/";
+const svg = document.getElementsByTagName("svg")[0];
+const themeButton = document.getElementById("theme-button");
 
-const svg = d3.select("svg");
-const themeButton = d3.select("#theme-button");
+const transformX = document.getElementById("transform-x");
+const transformY = document.getElementById("transform-y");
+const transformK = document.getElementById("transform-k");
+const transformBtn = document.getElementById("transform-btn");
+
+const boundsX = document.getElementById("bounds-x");
+const boundsY = document.getElementById("bounds-y");
+const boundsWidth = document.getElementById("bounds-width");
+const boundsHeight = document.getElementById("bounds-height");
+const boundsBtn = document.getElementById("bounds-btn");
+
+const showNodesBtn = document.getElementById("show-nodes-btn");
+const includeNodesBtn = document.getElementById("include-nodes-btn");
+
 resize();
 let graph = {
 	nodes: [],
@@ -12,110 +24,73 @@ let graph = {
 };
 
 const simulation = new ForceSimulation(svg);
+simulation.templateStore.remoteOrigin = "http://" + document.location.host + "/demo/templates/";
+
+simulation.on("template:demo_template:age-click", (data, event, age) => {
+	console.log(age);
+	event.stopPropagation();
+});
+simulation.on(Event.EnvironmentClick, (e) => {
+	simulation.select([]);
+});
+simulation.on(Event.NodeClick, (e, d) => {
+	simulation.select([d.id]);
+});
+simulation.on(Event.NodeDragStart, (e, d, pos) => {
+	// create a new link when holding the alt key down
+	if (e.sourceEvent.altKey) return "newlink";
+});
+simulation.on(Event.LinkDragEnd, (e, source, target, pos) => {
+	if (target) {
+		const link = {
+			source: source.id,
+			target: target.id,
+		};
+		graph.links.push(link);
+		simulation.render(graph);
+	}
+});
 
 let theme = "light";
-themeButton.on("click", toggleTheme);
+themeButton.onclick = toggleTheme;
 function toggleTheme() {
 	if (theme === "light") {
 		theme = "dark";
 	} else {
 		theme = "light";
 	}
-	svg.classed("dark", theme === "dark");
+	svg.classList.toggle("dark");
 	simulation.render(graph);
 }
 
-simulation.onClick((e, d) => {
-	if (e.altKey) {
-		// remove the node
-		graph.nodes = graph.nodes.filter((node) => node.id != d.id);
-		graph.links = graph.links.filter((link) => link.source.id != d.id && link.target.id != d.id);
-	} else {
-		// select node
-		graph.nodes.forEach((node) => {
-			node.selected = node.id == d.id;
-		});
-	}
-	simulation.render(graph);
-});
-
-simulation.onEdgeClick((e, d) => {
-	graph.links = graph.links.filter((l) => l !== d);
-	simulation.render(graph);
-});
-
-simulation.onContextClick((e, d) => {
-	if (e.altKey) {
-		// toggle shape scale
-		d.shape.scale = d.shape.scale == 1 ? 0.5 : 1;
-	} else {
-		// toggle disabled
-		d.disabled = !d.disabled;
-	}
-	simulation.render(graph);
-});
-
-simulation.onBackground((e, pos) => {
-	graph.nodes.forEach((node) => {
-		node.selected = false;
+transformBtn.onclick = () => {
+	const x = parseFloat(transformX.value);
+	const y = parseFloat(transformY.value);
+	const k = parseFloat(transformK.value);
+	simulation.moveTo({
+		transform: { x, y, k },
 	});
-	if (e.altKey) {
-		// add new node
-		graph.nodes.push({
-			id: `n${graph.nodes.length}`,
-			shape: {
-				type: "demo_template",
-				scale: 1,
-			},
-			payload: {
-				status: "",
-				name: {
-					first: "",
-					last: "",
-				},
-				sex: "",
-				age: "",
-				accessibility: "",
-				tags: [],
-			},
-			x: pos.x,
-			y: pos.y,
-		});
-	}
-	simulation.render(graph);
-});
-
-simulation.onNewEdge((source, target) => {
-	const link = {
-		source: source.id,
-		target: target.id,
-		type: "solid",
-		directed: true,
-		label: "",
-	};
-	graph.links.push(link);
-	simulation.render(graph);
-});
-
-simulation.onDragEnd((e, d, pos) => {
-	// change satellite angle
-	if (d.satellite) {
-		const position = { x: d.x, y: d.y };
-		const sourcePos = { x: d.satellite.source.x, y: d.satellite.source.y };
-		const angle = Math.atan2(position.y - sourcePos.y, position.x - sourcePos.x);
-		const degrees = angle * (180 / Math.PI) + 90;
-		d.satellite.angle = degrees;
-	}
-
-	// set anchor
-	if (!d.anchor) d.anchor = {};
-	d.anchor.type = "soft";
-	d.anchor.x = pos.x;
-	d.anchor.y = pos.y;
-	simulation.render(graph);
-});
-
-simulation.setZoomBoundaries(0.1, 3);
+};
+boundsBtn.onclick = () => {
+	const x = parseFloat(boundsX.value);
+	const y = parseFloat(boundsY.value);
+	const w = parseFloat(boundsWidth.value);
+	const h = parseFloat(boundsHeight.value);
+	simulation.moveTo({
+		boundaries: [{ x, y, width: w, height: h }],
+	});
+};
+showNodesBtn.onclick = () => {
+	simulation.moveTo({
+		nodes: graph.nodes,
+	});
+};
+includeNodesBtn.onclick = () => {
+	simulation.moveTo({
+		boundaries: [simulation.worldBounds],
+		nodes: graph.nodes,
+	});
+};
 
 fetch("./demo-data.json")
 	.then((response) => response.json())
@@ -127,7 +102,8 @@ fetch("./demo-data.json")
 function resize() {
 	const width = window.innerWidth;
 	const height = window.innerHeight;
-	svg.attr("width", width).attr("height", height);
+	svg.setAttribute("width", width.toString());
+	svg.setAttribute("height", height.toString());
 }
 
 window.onresize = resize;

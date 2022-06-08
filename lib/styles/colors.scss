@@ -1,25 +1,25 @@
-$background-color-light: #fafbfd;
-$background-color-dark: #151618;
+$gly-fg-color-light: #404040;
+$gly-fg-color-dark: #e5e5e5;
 
-$foreground-color-light: #404040;
-$foreground-color-dark: #e5e5e5;
+$gly-bg-color-light: #fafbfd;
+$gly-bg-color-dark: #151618;
 
-$node-fill-color-light: #ffffff;
-$node-fill-color-dark: #222326;
-$node-stroke-color: #a6a6a6;
+$gly-node-fill-color-light: #ffffff;
+$gly-node-fill-color-dark: #222326;
+$gly-node-stroke-color: #a6a6a6;
 
-$selection-color: #4fc3f7;
+$gly-selection-color: #4fc3f7;
 
 svg {
 	.n_node_fill {
-		fill: $node-fill-color-light;
+		fill: $gly-node-fill-color-light;
 	}
 	.n_node_stroke {
-		stroke: $node-stroke-color;
+		stroke: $gly-node-stroke-color;
 	}
 	&.dark {
 		.n_node_fill {
-			fill: $node-fill-color-dark;
+			fill: $gly-node-fill-color-dark;
 		}
 	}
 }
