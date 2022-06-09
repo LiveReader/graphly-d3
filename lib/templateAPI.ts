@@ -1,6 +1,5 @@
-import Shape from "./shape/Shape";
-import ShapeStyle from "./shape/utils/ShapeStyle";
-import { OnZoom, LODStyle } from "./shape/utils/LODStyle";
+import Shape from "./shape/shape";
+import { OnZoom } from "./shape/utils/LODStyle";
 import { EmitEvent } from "./shape/utils/event";
 import PathShape from "./shape/shapes/PathShape";
 import SVGShape from "./shape/shapes/SVGShape";
@@ -19,7 +18,6 @@ export {
 	TagShape,
 	TextShape,
 	// Styles
-	ShapeStyle,
 	TagStyle,
 	CollectionStyle,
 	// Collections
@@ -29,7 +27,7 @@ export {
 	TextCollection,
 	// LOD
 	OnZoom,
-	LODStyle,
-	// Event
 	EmitEvent,
 };
+
+export * from "./shape/utils/styleModifier";

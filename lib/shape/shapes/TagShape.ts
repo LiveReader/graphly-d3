@@ -1,5 +1,6 @@
 import * as d3 from "d3";
-import Shape from "../Shape";
+import Shape from "../shape";
+import { ShapeStyle, applyStyles } from "../utils/styleModifier";
 
 /**
  * @param  {Number[]} padding padding of tag [x,y]
@@ -9,8 +10,8 @@ import Shape from "../Shape";
  */
 function TagStyle(
 	padding: number[] = [0, 0],
-	textStyles: any[] = [],
-	backgroundStyles: any[] = [],
+	textStyles: ShapeStyle[] = [],
+	backgroundStyles: ShapeStyle[] = [],
 	cornerRadius: number = 0
 ) {
 	return {
@@ -30,15 +31,7 @@ function TagShape(text: string, style: any): d3.Selection<SVGElement, any, any, 
 	const shape = Shape.create("g").classed("tag", true);
 
 	const textShape = shape.append("text").text(text).attr("dy", "0.35em");
-	style.textStyles.forEach((s: any) => {
-		if (s.key == "class") {
-			s.value.split(".").forEach((c: any) => {
-				textShape.classed(c, s.condition());
-			});
-		} else if (s.condition()) {
-			textShape.style(s.key, s.value);
-		}
-	});
+	applyStyles(textShape, style.textStyles);
 	const textBBox = Shape.getBBox(shape);
 
 	const width = textBBox.width + style.padding[0] * 2;
@@ -59,16 +52,7 @@ function TagShape(text: string, style: any): d3.Selection<SVGElement, any, any, 
 				`A ${cr} ${cr} 0 0 1 ${-width / 2 + cr} ${-height / 2} ` +
 				`Z`
 		);
-	style.backgroundStyles.forEach((s: any) => {
-		if (s.key == "class") {
-			s.value.split(".").forEach((c: any) => {
-				backgroundShape.classed(c, s.condition());
-			});
-		} else if (s.condition()) {
-			backgroundShape.style(s.key, s.value);
-		}
-	});
-
+	applyStyles(backgroundShape, style.backgroundStyles);
 	textShape.remove();
 	shape.append(() => textShape.node());
 	return shape;

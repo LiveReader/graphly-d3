@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import Shape from "./Shape";
+import Shape from "./shape";
 import * as TemplateAPI from "../templateAPI";
 import { Node } from "../types/Node";
 

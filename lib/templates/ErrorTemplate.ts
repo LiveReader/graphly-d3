@@ -9,8 +9,8 @@ import {
 	LODStyle,
 	TextCollection,
 	CollectionStyle,
-	ShapeStyle,
 	Alignment,
+	ShapeStyle,
 } from "../templateAPI";
 
 const ErrorTemplate: Template = {
@@ -58,9 +58,9 @@ function shapeBuilder(data: Node, _TemplateAPI: any): d3.Selection<SVGElement, a
 	function addTitle() {
 		const bbox = Shape.getBBox(shape);
 		const title = TextCollection("Template Error", CollectionStyle(100, bbox.width, 0, 140, 20, 20, 1), [
-			ShapeStyle("class", "n_text.n_dark_text", true),
-			ShapeStyle("font-weight", "bold", true),
-			ShapeStyle("font-size", "44pt", true),
+			ShapeStyle("class", "n_text.n_dark_text"),
+			ShapeStyle("font-weight", "bold"),
+			ShapeStyle("font-size", "44pt"),
 		]);
 		shape.append(() => title.node());
 		return title;
@@ -71,7 +71,7 @@ function shapeBuilder(data: Node, _TemplateAPI: any): d3.Selection<SVGElement, a
 		const description = TextCollection(
 			data?.errorMessage ?? "Something went wrong while rendering the template!",
 			CollectionStyle(250, bbox.width, 0, bbox.height * 0.6, 15, 20, 4, Alignment.Center, [80, 130, 180, 230]),
-			[ShapeStyle("class", "n_text.n_dark_text", true), ShapeStyle("font-size", "32pt", true)]
+			[ShapeStyle("class", "n_text.n_dark_text"), ShapeStyle("font-size", "32pt")]
 		);
 		shape.append(() => description.node());
 		return description;
