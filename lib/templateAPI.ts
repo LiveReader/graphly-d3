@@ -1,6 +1,5 @@
 
 import * as Shape from "./shape/shape";
-import { OnZoom } from "./shape/utils/LODStyle";
 import { Alignment, CollectionStyle, ShapeCollection } from "./shape/collections/ShapeCollection";
 import TagCollection from "./shape/collections/TagCollection";
 import TextCollection from "./shape/collections/TextCollection";
@@ -15,8 +14,6 @@ export {
 	ShapeCollection,
 	TagCollection,
 	TextCollection,
-	// LOD
-	OnZoom,
 };
 
 export * from "./shape/utils/styleModifier";
@@ -30,6 +27,7 @@ export * from "./shape/shapes/TextShape";
 // collections
 
 // lod
+export * from "./shape/utils/levelOfDetail";
 
 // events
 export * from "./shape/utils/event";
