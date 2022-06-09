@@ -46,6 +46,15 @@ export default class ForceSimulation {
 		return this._simulation;
 	}
 
+	private _selectedNodes: string[] = [];
+	get selectedNodes() {
+		return this._selectedNodes;
+	}
+	set selectedNodes(ids: string[]) {
+		this._selectedNodes = ids;
+		this.selectNodes();
+	}
+
 	private _zoom: d3.ZoomBehavior<Element, any>;
 	public worldTransform: { x: number; y: number; k: number } = { x: 0, y: 0, k: 1 };
 	get worldBounds(): Boundary {
@@ -160,6 +169,18 @@ export default class ForceSimulation {
 		});
 	}
 
+	private selectNodes() {
+		this.selectionGroups.nodes.selectAll(".gly-selectable").classed("gly-selected", false);
+		this.selectionGroups.nodes
+			.selectAll("[data-object='node']")
+			.filter((d: any) => {
+				console.log(this.selectedNodes, d.id, this.selectedNodes.includes((d as Node).id));
+				return this.selectedNodes.includes((d as Node).id);
+			})
+			.selectAll(".gly-selectable")
+			.classed("gly-selected", true);
+	}
+
 	public async render(this: ForceSimulation, graph: Graph, alpha: number = 0.05) {
 		this.graph = graph;
 		indexLinks(graph);
@@ -174,15 +195,7 @@ export default class ForceSimulation {
 		}, 100);
 
 		this._onZoomRegister.forEach((registration) => registration.callback(this.worldTransform.k));
-	}
-
-	public select(nodeIDs: string[]) {
-		this.selectionGroups.nodes.selectAll(".gly-selectable").classed("gly-selected", false);
-		this.selectionGroups.nodes
-			.selectAll("[data-object='node']")
-			.filter((d: any) => nodeIDs.includes((d as Node).id))
-			.selectAll(".gly-selectable")
-			.classed("gly-selected", true);
+		this.selectNodes();
 	}
 
 	public exportGraph() {
