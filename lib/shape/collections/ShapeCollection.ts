@@ -134,7 +134,7 @@ function ShapeCollection(
 					pos = comulatedWidth + itemWidth / 2 + (width - widthSum) / 2;
 					break;
 				case Alignment.Right:
-					pos = width - comulatedWidth - itemWidth / 2;
+					pos = comulatedWidth + itemWidth / 2 + (width - widthSum);
 					break;
 			}
 			item.attr("transform", `translate(${pos}, 0)`);
