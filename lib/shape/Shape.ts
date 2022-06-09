@@ -42,3 +42,12 @@ export function transform(shape: d3.Selection<SVGElement, any, any, any>, size: 
 	};
 	shape.attr("transform", `translate(${translate.x}, ${translate.y}) scale(${scale || 1})`);
 }
+
+export function Circle(radius: number): d3.Selection<SVGElement, any, any, any> {
+	const shape = create("g");
+	const circle = create("circle");
+	circle.attr("r", radius);
+	circle.attr("transform", `translate(${radius}, ${radius})`);
+	shape.append(() => circle.node());
+	return shape;
+}
