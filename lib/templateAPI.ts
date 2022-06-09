@@ -1,7 +1,7 @@
 import Shape from "./shape/Shape";
 import ShapeStyle from "./shape/utils/ShapeStyle";
 import { OnZoom, LODStyle } from "./shape/utils/LODStyle";
-import { FireEvent } from "./shape/utils/Event";
+import { EmitEvent } from "./shape/utils/event";
 import PathShape from "./shape/shapes/PathShape";
 import SVGShape from "./shape/shapes/SVGShape";
 import { TagStyle, TagShape } from "./shape/shapes/TagShape";
@@ -31,5 +31,5 @@ export {
 	OnZoom,
 	LODStyle,
 	// Event
-	FireEvent,
+	EmitEvent,
 };

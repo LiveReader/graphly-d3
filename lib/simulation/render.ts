@@ -1,5 +1,5 @@
 import ForceSimulation from "./forceSimulation";
-import NodeLoader from "../shape/NodeLoader";
+import NodeLoader from "../shape/nodeLoader";
 import { Template } from "../types/Template";
 import { dragNode } from "./drag";
 import { Event } from "./eventStore";

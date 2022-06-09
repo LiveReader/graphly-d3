@@ -16,7 +16,7 @@ function shapeBuilder(data, TemplateAPI) {
 		TagCollection,
 		TagShape,
 		TagStyle,
-		FireEvent,
+		EmitEvent,
 	} = TemplateAPI;
 
 	const shape = Shape.create("g");
@@ -210,7 +210,7 @@ function shapeBuilder(data, TemplateAPI) {
 			]
 		);
 		ageShape.on("click", (e) => {
-			FireEvent("age-click", data, e, text);
+			EmitEvent("age-click", data, e, text);
 		});
 		ageShape.classed("age-indicator", true);
 		shape.append(() => ageShape.node());
