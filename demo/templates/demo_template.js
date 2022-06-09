@@ -48,7 +48,6 @@ function shapeBuilder(data, TemplateAPI) {
 		LODStyle(accessibilityTag, "class", "hidden", (k) => k < 0.7),
 	]);
 
-	Shape.transform(shape, true, data.shape.scale * DemoTemplate.shapeSize);
 	return shape;
 
 	function addBaseShape() {
@@ -125,7 +124,7 @@ function shapeBuilder(data, TemplateAPI) {
 				ShapeStyle("class", "n_text", true),
 				ShapeStyle("font-size", "160", true),
 				ShapeStyle("class", "n_dark_text", true),
-				ShapeStyle("class", "n_gray.lighten-1", placeholder),
+				ShapeStyle("class", "n_gray.lighten-1", !!placeholder),
 			]
 		);
 		nameShape.classed("full-name", true);
@@ -152,7 +151,7 @@ function shapeBuilder(data, TemplateAPI) {
 				ShapeStyle("class", "n_text", true),
 				ShapeStyle("font-size", "440", true),
 				ShapeStyle("class", "n_dark_text", true),
-				ShapeStyle("class", "n_gray.lighten-1", placeholder),
+				ShapeStyle("class", "n_gray.lighten-1", !!placeholder),
 			]
 		);
 		initials.classed("initials", true);
@@ -166,7 +165,7 @@ function shapeBuilder(data, TemplateAPI) {
 				ShapeStyle("class", "n_text", true),
 				ShapeStyle("font-size", "680", true),
 				ShapeStyle("class", "n_dark_text", true),
-				ShapeStyle("class", "n_gray.lighten-1", placeholder),
+				ShapeStyle("class", "n_gray.lighten-1", !!placeholder),
 			]
 		);
 		largeInitials.classed("large-initials", true);
@@ -229,7 +228,7 @@ function shapeBuilder(data, TemplateAPI) {
 		const accessibilityTag = TagShape(
 			data.payload?.accessibility ?? " – ",
 			TagStyle(
-				[120, 40],
+				[40, 120],
 				[ShapeStyle("class", "n_text.n_white", true), ShapeStyle("font-size", "140", true)],
 				[ShapeStyle("class", "n_black", true)],
 				120
@@ -244,7 +243,7 @@ function shapeBuilder(data, TemplateAPI) {
 		const largeAccessibilityTag = TagShape(
 			data.payload?.accessibility ?? " – ",
 			TagStyle(
-				[160, 50],
+				[50, 160],
 				[ShapeStyle("class", "n_text.n_white", true), ShapeStyle("font-size", "180", true)],
 				[ShapeStyle("class", "n_black", true)],
 				160
@@ -267,7 +266,7 @@ function shapeBuilder(data, TemplateAPI) {
 			data.payload?.tags ?? [],
 			CollectionStyle(800, bbox.width, 0, bbox.height * 0.72, 60, 60, 3, Alignment.Center, [370, 540, 710]),
 			TagStyle(
-				[100, 40],
+				[40, 100],
 				[ShapeStyle("class", "n_text.n_dark_text", true), ShapeStyle("font-size", "120", true)],
 				[ShapeStyle("class", "n_gray", true), ShapeStyle("class", "demo_template_tag_text", true)],
 				110

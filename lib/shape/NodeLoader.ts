@@ -29,13 +29,17 @@ export default function Node(this: any, data: Node) {
 		return throwError(e.message);
 	}
 
+	Shape.transform(nodeShape.select("[data-object=shape]"), data.shape.template?.shapeSize ?? 300);
 	return nodeShape.node();
 
 	function throwError(this: any, message: string) {
 		data.errorMessage = message;
-		nodeShape.append(() =>
-			data.forceSimulation.templateStore.errorTemplate.shapeBuilder.bind(this)(data, TemplateAPI).node()
-		);
+		nodeShape
+			.append(() =>
+				data.forceSimulation.templateStore.errorTemplate.shapeBuilder.bind(this)(data, TemplateAPI).node()
+			)
+			.attr("data-object", "shape");
+		Shape.transform(nodeShape.select("[data-object=shape]"), data.shape.template?.shapeSize ?? 300);
 		return nodeShape.node();
 	}
 }

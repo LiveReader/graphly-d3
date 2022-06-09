@@ -32,7 +32,6 @@ function shapeBuilder(data: Node, _TemplateAPI: any): d3.Selection<SVGElement, a
 		LODStyle(icon_large, "class", "hidden", (k) => k > 0.7),
 	]);
 
-	Shape.transform(shape, true, data.shape.scale * ErrorTemplate.shapeSize);
 	return shape;
 
 	function addBody() {
