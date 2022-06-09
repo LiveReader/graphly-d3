@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import Shape from "../shape";
+import * as Shape from "../shape";
 import { ShapeStyle, applyStyles } from "../utils/styleModifier";
 
 /**

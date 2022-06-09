@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-function prerender(shape: d3.Selection<SVGElement, any, any, any>, onElement: (el: SVGGraphicsElement) => void) {
+export function prerender(shape: d3.Selection<SVGElement, any, any, any>, onElement: (el: SVGGraphicsElement) => void) {
 	if (!document.getElementById("PRERENDER_SVG")) {
 		let el: SVGSVGElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		el.setAttribute("id", "PRERENDER_SVG");
@@ -16,7 +16,7 @@ function prerender(shape: d3.Selection<SVGElement, any, any, any>, onElement: (e
 	svg.innerHTML = "";
 }
 
-function getBBox(shape: d3.Selection<SVGElement, any, any, any>): SVGRect {
+export function getBBox(shape: d3.Selection<SVGElement, any, any, any>): SVGRect {
 	let bbox: SVGRect = {
 		x: 0,
 		y: 0,
@@ -29,11 +29,11 @@ function getBBox(shape: d3.Selection<SVGElement, any, any, any>): SVGRect {
 	return bbox;
 }
 
-function create(type: string): d3.Selection<SVGElement, any, any, any> {
+export function create(type: string): d3.Selection<SVGElement, any, any, any> {
 	return d3.select(document.createElementNS("http://www.w3.org/2000/svg", type));
 }
 
-function transform(shape: d3.Selection<SVGElement, any, any, any>, centered: boolean, size: number) {
+export function transform(shape: d3.Selection<SVGElement, any, any, any>, centered: boolean, size: number) {
 	const bbox = getBBox(shape);
 	const scale = size / Math.max(bbox.width, bbox.height);
 	const translate = centered
@@ -41,10 +41,3 @@ function transform(shape: d3.Selection<SVGElement, any, any, any>, centered: boo
 		: { x: 0, y: 0 };
 	shape.attr("transform", `translate(${translate.x}, ${translate.y}) scale(${scale || 1})`);
 }
-
-export default {
-	prerender,
-	getBBox,
-	create,
-	transform,
-};

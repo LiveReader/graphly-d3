@@ -1,4 +1,4 @@
-import Shape from "../shape";
+import * as Shape from "../shape";
 
 function PathShape(path: string): d3.Selection<SVGElement, any, any, any> {
 	const shape = Shape.create("path");

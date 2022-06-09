@@ -1,4 +1,5 @@
-import Shape from "./shape/shape";
+
+import * as Shape from "./shape/shape";
 import { OnZoom } from "./shape/utils/LODStyle";
 import { EmitEvent } from "./shape/utils/event";
 import PathShape from "./shape/shapes/PathShape";
