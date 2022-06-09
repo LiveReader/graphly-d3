@@ -1,17 +1,12 @@
 
 import * as Shape from "./shape/shape";
-import { Alignment, CollectionStyle, ShapeCollection } from "./shape/collections/ShapeCollection";
 import TagCollection from "./shape/collections/TagCollection";
 import TextCollection from "./shape/collections/TextCollection";
 import "./styles/shapeStyles.scss";
 
 export {
 	Shape,
-	// Styles
-	CollectionStyle,
 	// Collections
-	Alignment,
-	ShapeCollection,
 	TagCollection,
 	TextCollection,
 };
@@ -25,6 +20,7 @@ export * from "./shape/shapes/TagShape";
 export * from "./shape/shapes/TextShape";
 
 // collections
+export * from "./shape/collections/ShapeCollection";
 
 // lod
 export * from "./shape/utils/levelOfDetail";
