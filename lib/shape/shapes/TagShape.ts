@@ -2,54 +2,72 @@ import * as d3 from "d3";
 import * as Shape from "../shape";
 import { ShapeStyle, applyStyles } from "../utils/styleModifier";
 
-/**
- * @param  {Number[]} padding padding of tag [x,y]
- * @param  {ShapeStyle[]} textStyles array of css classes
- * @param  {ShapeStyle[]} backgroundStyles array of css classes
- * @param  {Number} cornerRadius radius of the corners
- */
-function TagStyle(
-	padding: number[] = [0, 0],
+export interface TagStyle {
+	padding: {
+		top: number;
+		right: number;
+		bottom: number;
+		left: number;
+	};
+	textStyles: ShapeStyle[];
+	backgroundStyles: ShapeStyle[];
+	cornerRadius: number;
+}
+
+export function TagStyle(
+	padding: number | [number, number] | [number, number, number, number],
 	textStyles: ShapeStyle[] = [],
 	backgroundStyles: ShapeStyle[] = [],
 	cornerRadius: number = 0
-) {
+): TagStyle {
+	let p = {
+		top: 0,
+		right: 0,
+		bottom: 0,
+		left: 0,
+	};
+	if (typeof padding === "number") {
+		p = { top: padding, right: padding, bottom: padding, left: padding };
+	} else if (Array.isArray(padding) && padding.length === 2) {
+		p = { top: padding[0], right: padding[1], bottom: padding[0], left: padding[1] };
+	} else if (Array.isArray(padding) && padding.length === 4) {
+		p = { top: padding[0], right: padding[1], bottom: padding[2], left: padding[3] };
+	}
 	return {
-		padding: typeof padding === "number" ? [padding, padding] : padding,
+		padding: p,
 		textStyles: textStyles,
 		backgroundStyles: backgroundStyles,
 		cornerRadius: cornerRadius,
 	};
 }
 
-/**
- * @param  {String} text text of tag
- * @param  {TagStyle} style of the tag
- * @return {Object} shape
- */
-function TagShape(text: string, style: any): d3.Selection<SVGElement, any, any, any> {
+export function TagShape(text: string, style: TagStyle): d3.Selection<SVGElement, any, any, any> {
 	const shape = Shape.create("g").classed("tag", true);
 
 	const textShape = shape.append("text").text(text).attr("dy", "0.35em");
 	applyStyles(textShape, style.textStyles);
 	const textBBox = Shape.getBBox(shape);
 
-	const width = textBBox.width + style.padding[0] * 2;
-	const height = textBBox.height + style.padding[1] * 2;
+	const width = textBBox.width;
+	const height = textBBox.height;
+	const pt = style.padding.top;
+	const pr = style.padding.right;
+	const pb = style.padding.bottom;
+	const pl = style.padding.left;
 	const cr = style.cornerRadius;
 	const backgroundShape = shape
 		.append("path")
 		.attr(
 			"d",
-			`M ${0} ${-height / 2} ` +
-				`L ${width / 2 - cr} ${-height / 2} ` +
-				`A ${cr} ${cr} 0 0 1 ${width / 2} ${-(height / 2) + cr} ` +
-				`L ${width / 2} ${height / 2 - cr} ` +
-				`A ${cr} ${cr} 0 0 1 ${width / 2 - cr} ${height / 2} ` +
-				`L ${-width / 2 + cr} ${height / 2} ` +
-				`A ${cr} ${cr} 0 0 1 ${-width / 2} ${height / 2 - cr} ` +
-				`L ${-width / 2} ${-height / 2 + cr} ` +
-				`A ${cr} ${cr} 0 0 1 ${-width / 2 + cr} ${-height / 2} ` +
+			`M ${0} ${-(height / 2) - pt} ` +
+				`L ${width / 2 + pr - cr} ${-(height / 2) - pt} ` +
+				`A ${cr} ${cr} 0 0 1 ${width / 2 + pr} ${-(height / 2) - pt + cr} ` +
+				`L ${width / 2 + pr} ${height / 2 + pb - cr} ` +
+				`A ${cr} ${cr} 0 0 1 ${width / 2 + pr - cr} ${height / 2 + pb} ` +
+				`L ${-(width / 2) - pl + cr} ${height / 2 + pb} ` +
+				`A ${cr} ${cr} 0 0 1 ${-(width / 2) - pl} ${height / 2 + pb - cr} ` +
+				`L ${-(width / 2) - pl} ${-(height / 2) - pt + cr} ` +
+				`A ${cr} ${cr} 0 0 1 ${-(width / 2) - pl + cr} ${-(height / 2) - pt} ` +
 				`Z`
 		);
 	applyStyles(backgroundShape, style.backgroundStyles);
@@ -57,5 +75,3 @@ function TagShape(text: string, style: any): d3.Selection<SVGElement, any, any, 
 	shape.append(() => textShape.node());
 	return shape;
 }
-
-export { TagStyle, TagShape };
