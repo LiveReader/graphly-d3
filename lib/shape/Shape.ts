@@ -51,3 +51,14 @@ export function Circle(radius: number): d3.Selection<SVGElement, any, any, any> 
 	shape.append(() => circle.node());
 	return shape;
 }
+
+export function Rectangle(width: number, height: number, cornerRadius: number = 0): d3.Selection<SVGElement, any, any, any> {
+	const shape = create("g");
+	const rect = create("rect");
+	rect.attr("width", width);
+	rect.attr("height", height);
+	rect.attr("rx", cornerRadius);
+	rect.attr("ry", cornerRadius);
+	shape.append(() => rect.node());
+	return shape;
+}
