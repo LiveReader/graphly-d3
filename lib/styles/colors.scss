@@ -29,19 +29,19 @@ $gly-teal-lighten: #b2dfdb;
 $gly-teal-darken: #00796b;
 .gly_teal_fill {
 	fill: $gly-teal;
-	&.light {
+	&.lighten {
 		fill: $gly-teal-lighten;
 	}
-	&.dark {
+	&.darken {
 		fill: $gly-teal-darken;
 	}
 }
 .gly_teal_stroke {
 	stroke: $gly-teal;
-	&.light {
+	&.lighten {
 		stroke: $gly-teal-lighten;
 	}
-	&.dark {
+	&.darken {
 		stroke: $gly-teal-darken;
 	}
 }
@@ -51,19 +51,19 @@ $gly-lime-lighten: #f0f4c3;
 $gly-lime-darken: #afb42b;
 .gly_lime_fill {
 	fill: $gly-lime;
-	&.light {
+	&.lighten {
 		fill: $gly-lime-lighten;
 	}
-	&.dark {
+	&.darken {
 		fill: $gly-lime-darken;
 	}
 }
 .gly_lime_stroke {
 	stroke: $gly-lime;
-	&.light {
+	&.lighten {
 		stroke: $gly-lime-lighten;
 	}
-	&.dark {
+	&.darken {
 		stroke: $gly-lime-darken;
 	}
 }
@@ -73,19 +73,19 @@ $gly-green-lighten: #c8e6c9;
 $gly-green-darken: #388e3c;
 .gly_green_fill {
 	fill: $gly-green;
-	&.light {
+	&.lighten {
 		fill: $gly-green-lighten;
 	}
-	&.dark {
+	&.darken {
 		fill: $gly-green-darken;
 	}
 }
 .gly_green_stroke {
 	stroke: $gly-green;
-	&.light {
+	&.lighten {
 		stroke: $gly-green-lighten;
 	}
-	&.dark {
+	&.darken {
 		stroke: $gly-green-darken;
 	}
 }
@@ -95,19 +95,19 @@ $gly-red-lighten: #ffcdd2;
 $gly-red-darken: #d32f2f;
 .gly_red_fill {
 	fill: $gly-red;
-	&.light {
+	&.lighten {
 		fill: $gly-red-lighten;
 	}
-	&.dark {
+	&.darken {
 		fill: $gly-red-darken;
 	}
 }
 .gly_red_stroke {
 	stroke: $gly-red;
-	&.light {
+	&.lighten {
 		stroke: $gly-red-lighten;
 	}
-	&.dark {
+	&.darken {
 		stroke: $gly-red-darken;
 	}
 }
@@ -117,19 +117,19 @@ $gly-magenta-lighten: #f8bbd0;
 $gly-magenta-darken: #c2185b;
 .gly_magenta_fill {
 	fill: $gly-magenta;
-	&.light {
+	&.lighten {
 		fill: $gly-magenta-lighten;
 	}
-	&.dark {
+	&.darken {
 		fill: $gly-magenta-darken;
 	}
 }
 .gly_magenta_stroke {
 	stroke: $gly-magenta;
-	&.light {
+	&.lighten {
 		stroke: $gly-magenta-lighten;
 	}
-	&.dark {
+	&.darken {
 		stroke: $gly-magenta-darken;
 	}
 }
@@ -139,19 +139,19 @@ $gly-orange-lighten: #ffe0b2;
 $gly-orange-darken: #f57c00;
 .gly_orange_fill {
 	fill: $gly-orange;
-	&.light {
+	&.lighten {
 		fill: $gly-orange-lighten;
 	}
-	&.dark {
+	&.darken {
 		fill: $gly-orange-darken;
 	}
 }
 .gly_orange_stroke {
 	stroke: $gly-orange;
-	&.light {
+	&.lighten {
 		stroke: $gly-orange-lighten;
 	}
-	&.dark {
+	&.darken {
 		stroke: $gly-orange-darken;
 	}
 }
@@ -161,19 +161,19 @@ $gly-blue-lighten: #b3e5fc;
 $gly-blue-darken: #1486c9;
 .gly_blue_fill {
 	fill: $gly-blue;
-	&.light {
+	&.lighten {
 		fill: $gly-blue-lighten;
 	}
-	&.dark {
+	&.darken {
 		fill: $gly-blue-darken;
 	}
 }
 .gly_blue_stroke {
 	stroke: $gly-blue;
-	&.light {
+	&.lighten {
 		stroke: $gly-blue-lighten;
 	}
-	&.dark {
+	&.darken {
 		stroke: $gly-blue-darken;
 	}
 }
@@ -183,19 +183,19 @@ $gly-purple-lighten: #d1c4e9;
 $gly-purple-darken: #4c3b8f;
 .gly_purple_fill {
 	fill: $gly-purple;
-	&.light {
+	&.lighten {
 		fill: $gly-purple-lighten;
 	}
-	&.dark {
+	&.darken {
 		fill: $gly-purple-darken;
 	}
 }
 .gly_purple_stroke {
 	stroke: $gly-purple;
-	&.light {
+	&.lighten {
 		stroke: $gly-purple-lighten;
 	}
-	&.dark {
+	&.darken {
 		stroke: $gly-purple-darken;
 	}
 }
@@ -205,19 +205,19 @@ $gly-gray-lighten: #e5e5e5;
 $gly-gray-darken: #595959;
 .gly_gray_fill {
 	fill: $gly-gray;
-	&.light {
+	&.lighten {
 		fill: $gly-gray-lighten;
 	}
-	&.dark {
+	&.darken {
 		fill: $gly-gray-darken;
 	}
 }
 .gly_gray_stroke {
 	stroke: $gly-gray;
-	&.light {
+	&.lighten {
 		stroke: $gly-gray-lighten;
 	}
-	&.dark {
+	&.darken {
 		stroke: $gly-gray-darken;
 	}
 }
