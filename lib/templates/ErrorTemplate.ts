@@ -13,7 +13,7 @@ function shapeBuilder(data: Node): d3.Selection<SVGElement, any, any, any> {
 	const shape = Shape.create("g");
 
 	const { icon_large } = addBody(shape);
-	icogly_large.classed("hidden", true);
+	icon_large.classed("hidden", true);
 	addTitle(shape);
 	addDescription(data, shape);
 
