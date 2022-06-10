@@ -44,7 +44,7 @@ export function TagStyle(
 export function TagShape(text: string, style: TagStyle): d3.Selection<SVGElement, any, any, any> {
 	const shape = Shape.create("g").classed("tag", true);
 
-	const textShape = shape.append("text").text(text).attr("dy", "0.35em");
+	const textShape = shape.append("text").text(text).attr("dy", "0.35em").attr("text-anchor", "middle");
 	applyStyles(textShape, style.textStyles);
 	const textBBox = Shape.getBBox(shape);
 

@@ -34,39 +34,12 @@ svg {
 
 	&.dark {
 		.gly_text {
-			&.gly_light_text {
+			&.light {
 				fill: $gly-fg-color-light;
 			}
-			&.gly_dark_text {
+			&.dark {
 				fill: $gly-fg-color-dark;
 			}
 		}
 	}
-}
-
-.gly_title {
-	@extend .gly_text;
-	font-size: 120px;
-	font-weight: normal;
-	&.xl {
-		font-size: 180px;
-	}
-	&.xxl {
-		font-size: 240px;
-	}
-}
-.gly_subtitle {
-	@extend .gly_text;
-	font-size: 80px;
-	font-weight: lighter;
-}
-.gly_description {
-	@extend .gly_text;
-	font-size: 48px;
-	font-weight: lighter;
-}
-.gly_tag {
-	@extend .gly_text;
-	font-size: 48px;
-	font-weight: lighter;
 }

@@ -10,6 +10,7 @@ function TextShape(text: string, styles: ShapeStyle[] = []): d3.Selection<SVGEle
 	const shape = Shape.create("g").classed("text", true);
 	const textShape = shape.append("text").text(text);
 	applyStyles(textShape, styles);
+	shape.attr("text-anchor", "middle");
 	return shape;
 }
 
