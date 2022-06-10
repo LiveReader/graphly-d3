@@ -10,38 +10,42 @@
 }
 .hidden {
 	opacity: 0;
-	transition: opacity 0.1s ease-in-out;
+	transition: opacity 0.2s ease-in-out;
 }
-.n_animated {
-	transition: fill 0.3s ease-in-out;
+.gly_animated {
+	transition: fill 0.2s ease-in-out;
 }
 
 svg {
-	.n_light_text {
-		fill: $gly-node-fill-color-light;
-	}
-	.n_dark_text {
-		fill: $gly-fg-color-light;
+	.gly_text {
+		color: $gly-fg-color-light;
+		font-family: "Roboto";
+		text-anchor: middle;
+		stroke: none;
+		&.light,
+		&.white {
+			fill: $gly-fg-color-dark;
+		}
+		&.dark,
+		&.black {
+			fill: $gly-fg-color-light;
+		}
 	}
 
 	&.dark {
-		.n_light_text {
-			fill: $gly-node-fill-color-dark;
-		}
-		.n_dark_text {
-			fill: $gly-fg-color-dark;
+		.gly_text {
+			&.gly_light_text {
+				fill: $gly-fg-color-light;
+			}
+			&.gly_dark_text {
+				fill: $gly-fg-color-dark;
+			}
 		}
 	}
 }
 
-.n_text {
-	color: $gly-fg-color-light;
-	font-family: "Roboto";
-	text-anchor: middle;
-	stroke: none;
-}
-.n_title {
-	@extend .n_text;
+.gly_title {
+	@extend .gly_text;
 	font-size: 120px;
 	font-weight: normal;
 	&.xl {
@@ -51,18 +55,18 @@ svg {
 		font-size: 240px;
 	}
 }
-.n_subtitle {
-	@extend .n_text;
+.gly_subtitle {
+	@extend .gly_text;
 	font-size: 80px;
 	font-weight: lighter;
 }
-.n_description {
-	@extend .n_text;
+.gly_description {
+	@extend .gly_text;
 	font-size: 48px;
 	font-weight: lighter;
 }
-.n_tag {
-	@extend .n_text;
+.gly_tag {
+	@extend .gly_text;
 	font-size: 48px;
 	font-weight: lighter;
 }
