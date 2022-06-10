@@ -97,7 +97,6 @@ function shapeBuilder(data, TemplateAPI) {
 	}
 
 	function setState(state) {
-		console.log(state);
 		const status = data.payload?.status ?? "unkown";
 		state
 			.classed("gly_gray_fill", false)

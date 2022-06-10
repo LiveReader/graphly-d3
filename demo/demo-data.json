@@ -4,7 +4,7 @@
 			{
 				"id": "n0",
 				"shape": {
-					"type": "demo_templat",
+					"type": "demo_template",
 					"scale": 1
 				},
 				"anchor": {
