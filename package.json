@@ -22,7 +22,7 @@
 	},
 	"homepage": "https://github.com/livereader/graphly-d3-docs#readme",
 	"devDependencies": {
-		"vitepress": "^0.22.4"
+		"vitepress": "1.0.0-alpha.1"
 	},
 	"dependencies": {
 		"@livereader/graphly-d3": "^0.4.7",
