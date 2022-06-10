@@ -31,10 +31,10 @@ simulation.on("template:demo_template:age-click", (data, event, age) => {
 	event.stopPropagation();
 });
 simulation.on(Event.EnvironmentClick, (e) => {
-	simulation.select([]);
+	simulation.selectedNodes = [];
 });
 simulation.on(Event.NodeClick, (e, d) => {
-	simulation.select([d.id]);
+	simulation.selectedNodes = [d.id];
 });
 simulation.on(Event.NodeDragStart, (e, d, pos) => {
 	// create a new link when holding the alt key down

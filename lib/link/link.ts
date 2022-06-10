@@ -1,4 +1,4 @@
-import Shape from "../shape/Shape";
+import * as Shape from "../shape/shape";
 import { Node } from "../types/Node";
 import { Link } from "../types/Link";
 
