@@ -80,7 +80,7 @@ function shapeBuilder(data, TemplateAPI) {
 				</g>
 			</g>
 			`);
-		frame.classed("frame", true).classed("n_animated", true);
+		frame.classed("frame", true).classed("gly_animated", true);
 		shape.append(() => frame.node());
 		const body = frame.select("#body");
 		const border = frame.select("#border");
@@ -97,17 +97,18 @@ function shapeBuilder(data, TemplateAPI) {
 	}
 
 	function setState(state) {
+		console.log(state);
 		const status = data.payload?.status ?? "unkown";
 		state
-			.classed("n_gray", false)
-			.classed("lighten-3", false)
-			.classed("n_gray", status === "deceased")
-			.classed("darken-3", status === "deceased")
-			.classed("n_red", status == "immediate")
-			.classed("n_orange", status === "delayed")
-			.classed("n_green", status === "minor");
+			.classed("gly_gray_fill", false)
+			.classed("lighten", false)
+			.classed("gly_gray_fill", status === "deceased")
+			.classed("darken", status === "deceased")
+			.classed("gly_red_fill", status == "immediate")
+			.classed("gly_orange_fill", status === "delayed")
+			.classed("gly_green_fill", status === "minor");
 		if (status != "deceased" && status != "immediate" && status != "delayed" && status != "minor") {
-			state.classed("n_gray", true).classed("lighten-3", true);
+			state.classed("gly_gray_fill", true).classed("lighten", true);
 		}
 	}
 
@@ -121,10 +122,10 @@ function shapeBuilder(data, TemplateAPI) {
 			placeholder ? placeholder : text,
 			CollectionStyle(300, bbox.width, 0, bbox.height * 0.25, 80, 80, 2, Alignment.Center, [800, 800]),
 			[
-				ShapeStyle("class", "n_text", true),
+				ShapeStyle("class", "gly_text", true),
+				ShapeStyle("class", "dark", true),
 				ShapeStyle("font-size", "160", true),
-				ShapeStyle("class", "n_dark_text", true),
-				ShapeStyle("class", "n_gray.lighten-1", !!placeholder),
+				ShapeStyle("class", "gly_gray_fill.lighten", !!placeholder),
 			]
 		);
 		nameShape.classed("full-name", true);
@@ -148,10 +149,10 @@ function shapeBuilder(data, TemplateAPI) {
 			placeholder ? placeholder : text,
 			CollectionStyle(300, bbox.width, 0, bbox.height * 0.33, 80, 80, 1),
 			[
-				ShapeStyle("class", "n_text", true),
+				ShapeStyle("class", "gly_text", true),
+				ShapeStyle("class", "dark", true),
 				ShapeStyle("font-size", "440", true),
-				ShapeStyle("class", "n_dark_text", true),
-				ShapeStyle("class", "n_gray.lighten-1", !!placeholder),
+				ShapeStyle("class", "gly_gray_fill.lighten", !!placeholder),
 			]
 		);
 		initials.classed("initials", true);
@@ -162,10 +163,10 @@ function shapeBuilder(data, TemplateAPI) {
 			placeholder ? placeholder : text,
 			CollectionStyle(600, bbox.width, 0, bbox.height * 0.6, 80, 80, 1),
 			[
-				ShapeStyle("class", "n_text", true),
+				ShapeStyle("class", "gly_text", true),
+				ShapeStyle("class", "dark", true),
 				ShapeStyle("font-size", "680", true),
-				ShapeStyle("class", "n_dark_text", true),
-				ShapeStyle("class", "n_gray.lighten-1", !!placeholder),
+				ShapeStyle("class", "gly_gray_fill.lighten", !!placeholder),
 			]
 		);
 		largeInitials.classed("large-initials", true);
@@ -182,9 +183,9 @@ function shapeBuilder(data, TemplateAPI) {
 			text,
 			CollectionStyle(300, bbox.width * 0.2, bbox.width * 0.2, bbox.height * 0.16, 80, 80, 1, Alignment.Center),
 			[
-				ShapeStyle("class", "n_text", true),
+				ShapeStyle("class", "gly_text", true),
+				ShapeStyle("class", "white", true),
 				ShapeStyle("font-size", "280", true),
-				ShapeStyle("class", "n_white", true),
 				ShapeStyle("opacity", "0.5", true),
 			]
 		);
@@ -202,9 +203,9 @@ function shapeBuilder(data, TemplateAPI) {
 			text,
 			CollectionStyle(300, bbox.width * 0.2, bbox.width * 0.6, bbox.height * 0.16, 80, 80, 1, Alignment.Center),
 			[
-				ShapeStyle("class", "n_text", true),
+				ShapeStyle("class", "gly_text", true),
+				ShapeStyle("class", "white", true),
 				ShapeStyle("font-size", "280", true),
-				ShapeStyle("class", "n_white", true),
 				ShapeStyle("opacity", "0.5", true),
 			]
 		);
@@ -229,8 +230,8 @@ function shapeBuilder(data, TemplateAPI) {
 			data.payload?.accessibility ?? " – ",
 			TagStyle(
 				[40, 120],
-				[ShapeStyle("class", "n_text.n_white", true), ShapeStyle("font-size", "140", true)],
-				[ShapeStyle("class", "n_black", true)],
+				[ShapeStyle("class", "gly_text.white", true), ShapeStyle("font-size", "140", true)],
+				[ShapeStyle("class", "gly_black_fill", true)],
 				120
 			)
 		);
@@ -244,8 +245,8 @@ function shapeBuilder(data, TemplateAPI) {
 			data.payload?.accessibility ?? " – ",
 			TagStyle(
 				[50, 160],
-				[ShapeStyle("class", "n_text.n_white", true), ShapeStyle("font-size", "180", true)],
-				[ShapeStyle("class", "n_black", true)],
+				[ShapeStyle("class", "gly_text.white", true), ShapeStyle("font-size", "180", true)],
+				[ShapeStyle("class", "gly_black_fill", true)],
 				160
 			)
 		);
@@ -267,8 +268,8 @@ function shapeBuilder(data, TemplateAPI) {
 			CollectionStyle(800, bbox.width, 0, bbox.height * 0.72, 60, 60, 3, Alignment.Center, [370, 540, 710]),
 			TagStyle(
 				[40, 100],
-				[ShapeStyle("class", "n_text.n_dark_text", true), ShapeStyle("font-size", "120", true)],
-				[ShapeStyle("class", "n_gray", true), ShapeStyle("class", "demo_template_tag_text", true)],
+				[ShapeStyle("class", "gly_text.dark", true), ShapeStyle("font-size", "120", true)],
+				[ShapeStyle("class", "gly_gray_fill", true), ShapeStyle("class", "demo_template_tag", true)],
 				110
 			)
 		);
