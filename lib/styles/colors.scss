@@ -1,5 +1,5 @@
-$gly-fg-color-light: #404040;
-$gly-fg-color-dark: #e5e5e5;
+$gly-fg-color-light: #1a1a1a;
+$gly-fg-color-dark: #f4f4f4;
 
 $gly-bg-color-light: #fafbfd;
 $gly-bg-color-dark: #151618;
@@ -11,232 +11,229 @@ $gly-node-stroke-color: #a6a6a6;
 $gly-selection-color: #4fc3f7;
 
 svg {
-	.n_node_fill {
+	.gly_node_fill {
 		fill: $gly-node-fill-color-light;
 	}
-	.n_node_stroke {
+	.gly_node_stroke {
 		stroke: $gly-node-stroke-color;
 	}
 	&.dark {
-		.n_node_fill {
+		.gly_node_fill {
 			fill: $gly-node-fill-color-dark;
 		}
 	}
 }
 
-// Teal
-.n_teal {
-	fill: #4db6ac;
-	&.lighten-3 {
-		fill: #e0f2f1;
+$gly-teal: #4db6ac;
+$gly-teal-lighten: #b2dfdb;
+$gly-teal-darken: #00796b;
+.gly_teal_fill {
+	fill: $gly-teal;
+	&.lighten {
+		fill: $gly-teal-lighten;
 	}
-	&.lighten-2 {
-		fill: #b2dfdb;
+	&.darken {
+		fill: $gly-teal-darken;
 	}
-	&.lighten-1 {
-		fill: #80cbc4;
+}
+.gly_teal_stroke {
+	stroke: $gly-teal;
+	&.lighten {
+		stroke: $gly-teal-lighten;
 	}
-	&.darken-1 {
-		fill: #009688;
-	}
-	&.darken-2 {
-		fill: #00796b;
-	}
-	&.darken-3 {
-		fill: #004d40;
+	&.darken {
+		stroke: $gly-teal-darken;
 	}
 }
 
-// Lime
-.n_lime {
-	fill: #dce775;
-	&.lighten-3 {
-		fill: #f9fbe7;
+$gly-lime: #dce775;
+$gly-lime-lighten: #f0f4c3;
+$gly-lime-darken: #afb42b;
+.gly_lime_fill {
+	fill: $gly-lime;
+	&.lighten {
+		fill: $gly-lime-lighten;
 	}
-	&.lighten-2 {
-		fill: #f0f4c3;
+	&.darken {
+		fill: $gly-lime-darken;
 	}
-	&.lighten-1 {
-		fill: #e6ee9c;
+}
+.gly_lime_stroke {
+	stroke: $gly-lime;
+	&.lighten {
+		stroke: $gly-lime-lighten;
 	}
-	&.darken-1 {
-		fill: #cddc39;
-	}
-	&.darken-2 {
-		fill: #afb42b;
-	}
-	&.darken-3 {
-		fill: #827717;
+	&.darken {
+		stroke: $gly-lime-darken;
 	}
 }
 
-// Green
-.n_green {
-	fill: #81c784;
-	&.lighten-3 {
-		fill: #e8f5e9;
+$gly-green: #81c784;
+$gly-green-lighten: #c8e6c9;
+$gly-green-darken: #388e3c;
+.gly_green_fill {
+	fill: $gly-green;
+	&.lighten {
+		fill: $gly-green-lighten;
 	}
-	&.lighten-2 {
-		fill: #c8e6c9;
+	&.darken {
+		fill: $gly-green-darken;
 	}
-	&.lighten-1 {
-		fill: #a5d6a7;
+}
+.gly_green_stroke {
+	stroke: $gly-green;
+	&.lighten {
+		stroke: $gly-green-lighten;
 	}
-	&.darken-1 {
-		fill: #4caf50;
-	}
-	&.darken-2 {
-		fill: #388e3c;
-	}
-	&.darken-3 {
-		fill: #1b5e20;
+	&.darken {
+		stroke: $gly-green-darken;
 	}
 }
 
-// Red
-.n_red {
-	fill: #e57373;
-	&.lighten-3 {
-		fill: #ffebee;
+$gly-red: #e57373;
+$gly-red-lighten: #ffcdd2;
+$gly-red-darken: #d32f2f;
+.gly_red_fill {
+	fill: $gly-red;
+	&.lighten {
+		fill: $gly-red-lighten;
 	}
-	&.lighten-2 {
-		fill: #ffcdd2;
+	&.darken {
+		fill: $gly-red-darken;
 	}
-	&.lighten-1 {
-		fill: #ef9a9a;
+}
+.gly_red_stroke {
+	stroke: $gly-red;
+	&.lighten {
+		stroke: $gly-red-lighten;
 	}
-	&.darken-1 {
-		fill: #f44336;
-	}
-	&.darken-2 {
-		fill: #d32f2f;
-	}
-	&.darken-3 {
-		fill: #b71c1c;
+	&.darken {
+		stroke: $gly-red-darken;
 	}
 }
 
-// Magenta
-.n_magenta {
-	fill: #f06292;
-	&.lighten-3 {
-		fill: #fce4ec;
+$gly-magenta: #f06292;
+$gly-magenta-lighten: #f8bbd0;
+$gly-magenta-darken: #c2185b;
+.gly_magenta_fill {
+	fill: $gly-magenta;
+	&.lighten {
+		fill: $gly-magenta-lighten;
 	}
-	&.lighten-2 {
-		fill: #f8bbd0;
+	&.darken {
+		fill: $gly-magenta-darken;
 	}
-	&.lighten-1 {
-		fill: #f48fb1;
+}
+.gly_magenta_stroke {
+	stroke: $gly-magenta;
+	&.lighten {
+		stroke: $gly-magenta-lighten;
 	}
-	&.darken-1 {
-		fill: #e91e63;
-	}
-	&.darken-2 {
-		fill: #c2185b;
-	}
-	&.darken-3 {
-		fill: #880e4f;
+	&.darken {
+		stroke: $gly-magenta-darken;
 	}
 }
 
-// Orange
-.n_orange {
-	fill: #ffb74d;
-	&.lighten-3 {
-		fill: #fff3e0;
+$gly-orange: #ffb74d;
+$gly-orange-lighten: #ffe0b2;
+$gly-orange-darken: #f57c00;
+.gly_orange_fill {
+	fill: $gly-orange;
+	&.lighten {
+		fill: $gly-orange-lighten;
 	}
-	&.lighten-2 {
-		fill: #ffe0b2;
+	&.darken {
+		fill: $gly-orange-darken;
 	}
-	&.lighten-1 {
-		fill: #ffcc80;
+}
+.gly_orange_stroke {
+	stroke: $gly-orange;
+	&.lighten {
+		stroke: $gly-orange-lighten;
 	}
-	&.darken-1 {
-		fill: #f49619;
-	}
-	&.darken-2 {
-		fill: #f57c00;
-	}
-	&.darken-3 {
-		fill: #e65100;
+	&.darken {
+		stroke: $gly-orange-darken;
 	}
 }
 
-// Blue
-.n_blue {
-	fill: #4fc3f7;
-	&.lighten-3 {
-		fill: #e1f5fe;
+$gly-blue: #4fc3f7;
+$gly-blue-lighten: #b3e5fc;
+$gly-blue-darken: #1486c9;
+.gly_blue_fill {
+	fill: $gly-blue;
+	&.lighten {
+		fill: $gly-blue-lighten;
 	}
-	&.lighten-2 {
-		fill: #b3e5fc;
+	&.darken {
+		fill: $gly-blue-darken;
 	}
-	&.lighten-1 {
-		fill: #81d4fa;
+}
+.gly_blue_stroke {
+	stroke: $gly-blue;
+	&.lighten {
+		stroke: $gly-blue-lighten;
 	}
-	&.darken-1 {
-		fill: #37a3dd;
-	}
-	&.darken-2 {
-		fill: #1486c9;
-	}
-	&.darken-3 {
-		fill: #0277bd;
+	&.darken {
+		stroke: $gly-blue-darken;
 	}
 }
 
-// Purple
-.n_purple {
-	fill: #9575cd;
-	&.lighten-3 {
-		fill: #ede7f6;
+$gly-purple: #9575cd;
+$gly-purple-lighten: #d1c4e9;
+$gly-purple-darken: #4c3b8f;
+.gly_purple_fill {
+	fill: $gly-purple;
+	&.lighten {
+		fill: $gly-purple-lighten;
 	}
-	&.lighten-2 {
-		fill: #d1c4e9;
+	&.darken {
+		fill: $gly-purple-darken;
 	}
-	&.lighten-1 {
-		fill: #b39ddb;
+}
+.gly_purple_stroke {
+	stroke: $gly-purple;
+	&.lighten {
+		stroke: $gly-purple-lighten;
 	}
-	&.darken-1 {
-		fill: #5a4495;
-	}
-	&.darken-2 {
-		fill: #4c3b8f;
-	}
-	&.darken-3 {
-		fill: #312c84;
+	&.darken {
+		stroke: $gly-purple-darken;
 	}
 }
 
-// Gray
-.n_gray {
-	fill: #a6a6a6;
-	&.lighten-3 {
-		fill: #f4f4f4;
+$gly-gray: #a6a6a6;
+$gly-gray-lighten: #e5e5e5;
+$gly-gray-darken: #595959;
+.gly_gray_fill {
+	fill: $gly-gray;
+	&.lighten {
+		fill: $gly-gray-lighten;
 	}
-	&.lighten-2 {
-		fill: #e5e5e5;
+	&.darken {
+		fill: $gly-gray-darken;
 	}
-	&.lighten-1 {
-		fill: #cccccc;
+}
+.gly_gray_stroke {
+	stroke: $gly-gray;
+	&.lighten {
+		stroke: $gly-gray-lighten;
 	}
-	&.darken-1 {
-		fill: #808080;
-	}
-	&.darken-2 {
-		fill: #595959;
-	}
-	&.darken-3 {
-		fill: #404040;
+	&.darken {
+		stroke: $gly-gray-darken;
 	}
 }
 
-// Black
-.n_black {
-	fill: #1a1a1a;
+$gly-black: #1a1a1a;
+.gly_black_fill {
+	fill: $gly-black;
+}
+.gly_black_stroke {
+	stroke: $gly-black;
 }
 
-// White
-.n_white {
-	fill: #ffffff;
+$gly-white: #ffffff;
+.gly_white_fill {
+	fill: $gly-white;
+}
+.gly_white_stroke {
+	stroke: $gly-white;
 }

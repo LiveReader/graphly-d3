@@ -146,9 +146,19 @@ export default class ForceSimulation {
 	}
 
 	private setEvents() {
-		this.svgSelection.on("click", (e: any) => this.eventStore.emit(Event.EnvironmentClick, e));
-		this.svgSelection.on("dblclick", (e: any) => this.eventStore.emit(Event.EnvironmentDoubleClick, e));
-		this.svgSelection.on("contextmenu", (e: any) => this.eventStore.emit(Event.EnvironmentContextMenu, e));
+		function pos(this: ForceSimulation, e: any): { x: number; y: number } {
+			return {
+				x: this.worldBounds.x + e.offsetX / this.worldTransform.k,
+				y: this.worldBounds.y + e.offsetY / this.worldTransform.k,
+			};
+		}
+		this.svgSelection.on("click", (e: any) => this.eventStore.emit(Event.EnvironmentClick, e, pos.bind(this)(e)));
+		this.svgSelection.on("dblclick", (e: any) =>
+			this.eventStore.emit(Event.EnvironmentDoubleClick, e, pos.bind(this)(e))
+		);
+		this.svgSelection.on("contextmenu", (e: any) =>
+			this.eventStore.emit(Event.EnvironmentContextMenu, e, pos.bind(this)(e))
+		);
 	}
 
 	public registerOnZoom(id: string, threshold: number, callback: (k: number) => boolean) {

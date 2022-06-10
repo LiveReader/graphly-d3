@@ -1,7 +1,7 @@
 {
 	"name": "@livereader/graphly-d3",
-	"version": "0.7.0",
-	"description": "Library ontop of d3.js for creating interactive graphs. It uses a shape templating system to dynamically define and use SVG shapes.",
+	"version": "0.8.0",
+	"description": "Library for creating powerful and interactive graph visualizations with ease.",
 	"main": "./dist/main.umd.js",
 	"module": "./dist/main.es.js",
 	"types": "./dist/main.d.ts",
@@ -21,7 +21,7 @@
 		"type": "git",
 		"url": "git+https://github.com/LiveReader/graphly-d3.git"
 	},
-	"author": "LiveReader GmbH (http://livereader.com)",
+	"author": "LiveReader GmbH (https://livereader.com)",
 	"contributors": [
 		"Jason Rietzke <jason.rietzke@livereader.de> (https://github.com/jason-rietzke)",
 		"Luisa Schmidt (https://github.com/luisa-schmidt)"
@@ -48,6 +48,11 @@
 		"lib": "lib"
 	},
 	"keywords": [
-		"d3-visualization"
+		"d3",
+		"d3-visualization",
+		"svg",
+		"graph",
+		"visualization",
+		"data-driven-design"
 	]
 }
