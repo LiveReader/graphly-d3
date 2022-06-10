@@ -23,3 +23,217 @@ svg {
 		}
 	}
 }
+
+$gly-teal: #4db6ac;
+$gly-teal-lighten: #b2dfdb;
+$gly-teal-darken: #00796b;
+.gly_teal_fill {
+	fill: $gly-teal;
+	&.light {
+		fill: $gly-teal-lighten;
+	}
+	&.dark {
+		fill: $gly-teal-darken;
+	}
+}
+.gly_teal_stroke {
+	stroke: $gly-teal;
+	&.light {
+		stroke: $gly-teal-lighten;
+	}
+	&.dark {
+		stroke: $gly-teal-darken;
+	}
+}
+
+$gly-lime: #dce775;
+$gly-lime-lighten: #f0f4c3;
+$gly-lime-darken: #afb42b;
+.gly_lime_fill {
+	fill: $gly-lime;
+	&.light {
+		fill: $gly-lime-lighten;
+	}
+	&.dark {
+		fill: $gly-lime-darken;
+	}
+}
+.gly_lime_stroke {
+	stroke: $gly-lime;
+	&.light {
+		stroke: $gly-lime-lighten;
+	}
+	&.dark {
+		stroke: $gly-lime-darken;
+	}
+}
+
+$gly-green: #81c784;
+$gly-green-lighten: #c8e6c9;
+$gly-green-darken: #388e3c;
+.gly_green_fill {
+	fill: $gly-green;
+	&.light {
+		fill: $gly-green-lighten;
+	}
+	&.dark {
+		fill: $gly-green-darken;
+	}
+}
+.gly_green_stroke {
+	stroke: $gly-green;
+	&.light {
+		stroke: $gly-green-lighten;
+	}
+	&.dark {
+		stroke: $gly-green-darken;
+	}
+}
+
+$gly-red: #e57373;
+$gly-red-lighten: #ffcdd2;
+$gly-red-darken: #d32f2f;
+.gly_red_fill {
+	fill: $gly-red;
+	&.light {
+		fill: $gly-red-lighten;
+	}
+	&.dark {
+		fill: $gly-red-darken;
+	}
+}
+.gly_red_stroke {
+	stroke: $gly-red;
+	&.light {
+		stroke: $gly-red-lighten;
+	}
+	&.dark {
+		stroke: $gly-red-darken;
+	}
+}
+
+$gly-magenta: #f06292;
+$gly-magenta-lighten: #f8bbd0;
+$gly-magenta-darken: #c2185b;
+.gly_magenta_fill {
+	fill: $gly-magenta;
+	&.light {
+		fill: $gly-magenta-lighten;
+	}
+	&.dark {
+		fill: $gly-magenta-darken;
+	}
+}
+.gly_magenta_stroke {
+	stroke: $gly-magenta;
+	&.light {
+		stroke: $gly-magenta-lighten;
+	}
+	&.dark {
+		stroke: $gly-magenta-darken;
+	}
+}
+
+$gly-orange: #ffb74d;
+$gly-orange-lighten: #ffe0b2;
+$gly-orange-darken: #f57c00;
+.gly_orange_fill {
+	fill: $gly-orange;
+	&.light {
+		fill: $gly-orange-lighten;
+	}
+	&.dark {
+		fill: $gly-orange-darken;
+	}
+}
+.gly_orange_stroke {
+	stroke: $gly-orange;
+	&.light {
+		stroke: $gly-orange-lighten;
+	}
+	&.dark {
+		stroke: $gly-orange-darken;
+	}
+}
+
+$gly-blue: #4fc3f7;
+$gly-blue-lighten: #b3e5fc;
+$gly-blue-darken: #1486c9;
+.gly_blue_fill {
+	fill: $gly-blue;
+	&.light {
+		fill: $gly-blue-lighten;
+	}
+	&.dark {
+		fill: $gly-blue-darken;
+	}
+}
+.gly_blue_stroke {
+	stroke: $gly-blue;
+	&.light {
+		stroke: $gly-blue-lighten;
+	}
+	&.dark {
+		stroke: $gly-blue-darken;
+	}
+}
+
+$gly-purple: #9575cd;
+$gly-purple-lighten: #d1c4e9;
+$gly-purple-darken: #4c3b8f;
+.gly_purple_fill {
+	fill: $gly-purple;
+	&.light {
+		fill: $gly-purple-lighten;
+	}
+	&.dark {
+		fill: $gly-purple-darken;
+	}
+}
+.gly_purple_stroke {
+	stroke: $gly-purple;
+	&.light {
+		stroke: $gly-purple-lighten;
+	}
+	&.dark {
+		stroke: $gly-purple-darken;
+	}
+}
+
+$gly-gray: #a6a6a6;
+$gly-gray-lighten: #e5e5e5;
+$gly-gray-darken: #595959;
+.gly_gray_fill {
+	fill: $gly-gray;
+	&.light {
+		fill: $gly-gray-lighten;
+	}
+	&.dark {
+		fill: $gly-gray-darken;
+	}
+}
+.gly_gray_stroke {
+	stroke: $gly-gray;
+	&.light {
+		stroke: $gly-gray-lighten;
+	}
+	&.dark {
+		stroke: $gly-gray-darken;
+	}
+}
+
+$gly-black: #1a1a1a;
+.gly_black_fill {
+	fill: $gly-black;
+}
+.gly_black_stroke {
+	stroke: $gly-black;
+}
+
+$gly-white: #ffffff;
+.gly_white_fill {
+	fill: $gly-white;
+}
+.gly_white_stroke {
+	stroke: $gly-white;
+}
