@@ -87,12 +87,15 @@ const Events: { [key in Event]: { [key: string]: (...args: any[]) => void } } = 
 
 	[Event.EnvironmentClick]: {
 		event: (d: any) => d,
+		pos: (x: number, y: number) => ({ x, y }),
 	},
 	[Event.EnvironmentDoubleClick]: {
 		event: (d: any) => d,
+		pos: (x: number, y: number) => ({ x, y }),
 	},
 	[Event.EnvironmentContextMenu]: {
 		event: (d: any) => d,
+		pos: (x: number, y: number) => ({ x, y }),
 	},
 	[Event.EnvironmentMove]: {
 		pos: (t: Transform) => t,

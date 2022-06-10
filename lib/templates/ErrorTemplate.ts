@@ -33,7 +33,7 @@ function addBody(shape: d3.Selection<SVGElement, any, any, any>) {
 	`);
 
 	shape.append(() => body.node());
-	shape.classed("gly_animated", true)
+	shape.classed("gly_animated", true);
 
 	return {
 		border: body.select("#border") as d3.Selection<SVGElement, any, any, any>,
