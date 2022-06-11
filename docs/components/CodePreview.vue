@@ -44,14 +44,14 @@ const emits = defineEmits(["editorContentChange"]);
 <style scoped>
 .codePreview {
 	border-radius: 1em;
-	background-color: var(--c-divider-light);
+	background-color: var(--vp-c-divider-light);
 }
 .codePreview .graphly {
 	margin: 0;
 	border-top-right-radius: 1em;
 	border-top-left-radius: 1em;
 	height: 50%;
-	border-bottom: 1px solid var(--c-divider-dark);
+	border-bottom: 1px solid var(--vp-c-divider-dark);
 }
 .codePreview .monaco-editor {
 	border-bottom-right-radius: 1em;
