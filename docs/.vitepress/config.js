@@ -2,7 +2,8 @@ import fs from "fs";
 
 const title = "Graphly D3";
 const description = "Library for creating powerful and interactive graph visualizations with ease.";
-const imageURL = "/social-banner.png";
+const socialImgURL = "/social-banner.png";
+const tiwtterImgURL = "/twitter-banner.png";
 
 module.exports = {
 	lang: "en-US",
@@ -10,22 +11,21 @@ module.exports = {
 	description: "Documentation for the Graphly D3 library",
 	head: [
 		["meta", { name: "theme-color", content: "#9575cd" }],
-		["link", { rel: "icon", href: "/favicon.ico" }],
 		["meta", { name: "author", content: "Jason Rietzke – LiveReader" }],
 		["meta", { name: "keywords", content: "visualization, d3, svg, graph, data-driven-design, d3-visualization" }],
 		["meta", { property: "og:title", content: title }],
 		["meta", { property: "og:description", content: description }],
-		["meta", { property: "og:url", content: imageURL }],
-		["meta", { property: "og:image", content: imageURL }],
+		["meta", { property: "og:url", content: "https://graphly-d3.livereader.com/" }],
+		["meta", { property: "og:image", content: socialImgURL }],
 		["meta", { name: "twitter:title", content: title }],
 		["meta", { name: "twitter:description", content: description }],
-		["meta", { name: "twitter:image", content: imageURL }],
+		["meta", { name: "twitter:image", content: tiwtterImgURL }],
 		["meta", { name: "twitter:card", content: "summary_large_image" }],
 	],
 	lastUpdated: true,
 	themeConfig: {
 		siteTitle: "Graphly D3",
-		logo: "/icons/graphly-d3-icon-dark-round.svg",
+		logo: "/icons/graphly-d3-icon.svg",
 		nav: [
 			{ text: "Introduction", link: "/" },
 			{ text: "Tutorial", link: "/tutorial/" },
