@@ -1,8 +1,7 @@
 # Graphly D3 Docs
 
 <p align="center">
-  <img src="./docs/public/icons/graphly-d3-icon-dark-round.svg#gh-dark-mode-only" width="30%">
-  <img src="./docs/public/icons/graphly-d3-icon-light-round.svg#gh-light-mode-only" width="30%">
+  <img src="./docs/public/icons/graphly-d3-icon.svg#gh-dark-mode-only" width="30%">
 </p>
 
 This is the repository for the official documentation for the [Graphly D3](https://github.com/livereader/graphly-d3) library.
