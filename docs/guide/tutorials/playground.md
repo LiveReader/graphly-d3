@@ -15,7 +15,7 @@ Add, change or remove nodes and links to immediately see the changes in the prev
 
 <script setup>
 import { ref, onMounted } from "vue";
-import CodePreview from "./components/CodePreview.vue";
+import CodePreview from "../../components/CodePreview.vue";
 let graph = ref({
 	nodes: [],
 	links: [],

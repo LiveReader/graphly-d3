@@ -27,11 +27,10 @@ module.exports = {
 		siteTitle: "Graphly D3",
 		logo: "/icons/graphly-d3-icon.svg",
 		nav: [
-			{ text: "Introduction", link: "/" },
-			{ text: "Tutorial", link: "/tutorial/" },
-			{ text: "Data Structure", link: "/data-structure/" },
-			{ text: "Simulation API", link: "/simulation-api/" },
-			{ text: "Template API", link: "/template-api/" },
+			{ text: "Guide", link: "/guide/introduction/_what_is_graphly_d3", activeMatch: "/guide/" },
+			{ text: "Data Structure", link: "/data-structure/", activeMatch: "/data-structure/" },
+			{ text: "Simulation API", link: "/simulation-api/", activeMatch: "/simulation-api/" },
+			{ text: "Template API", link: "/template-api/", activeMatch: "/template-api/" },
 			{
 				text: "LiveReader",
 				items: [
@@ -51,7 +50,10 @@ module.exports = {
 			{ icon: "github", link: "https://github.com/livereader/graphly-d3" },
 		],
 		sidebar: {
-			"/tutorial/": sidebarItem("Tutorial", "/tutorial/"),
+			"/guide/": [
+				sidebarItem("Introduction", "/guide/introduction/")[0],
+				sidebarItem("Tutorials", "/guide/tutorials/")[0],
+			],
 			"/data-structure/": sidebarItem("Data Structure", "/data-structure/"),
 			"/simulation-api/": sidebarItem("Simulation API", "/simulation-api/"),
 			"/template-api/": sidebarItem("Template API", "/template-api/"),
