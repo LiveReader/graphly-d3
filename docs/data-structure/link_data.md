@@ -171,17 +171,17 @@ let graph = ref({
 });
 
 let editorContent = [
-	"const links = [",
-	"	{",
-	"		source: \"node1\",",
-	"		target: \"node2\",",
-	"		type: \"solid\",",
-	"		directed: true,",
-	"		label: \"links to\",",
-	"		strength: \"strong\",",
-	"		padding: 10,",
-	"	},",
-	"];",
+	'const links = [',
+	'	{',
+	'		source: "node1",',
+	'		target: "node2",',
+	'		type: "solid",',
+	'		directed: true,',
+	'		label: "links to",',
+	'		strength: "strong",',
+	'		padding: 10,',
+	'	},',
+	'];',
 ].join("\n");
 
 function editorContentChange(value) {

@@ -1,5 +1,5 @@
 <template>
-	<div class="codePreview" :style="{ height: props.height }">
+	<div className="codePreview" :style="{ height: props.height }">
 		<Graphly class="graphly" :graph="props.graph" />
 		<MonacoEditor
 			class="monaco-editor"
@@ -10,7 +10,7 @@
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, defineProps, defineEmits } from "vue";
 import Graphly from "../components/Graphly.vue";
 import MonacoEditor from "../components/MonacoEditor.vue";
