@@ -1,7 +1,7 @@
 import fs from "fs";
 
 const title = "Graphly D3";
-const description = "Library for creating powerful and interactive graph visualizations with ease.";
+const description = "Open source library to create outstanding graph visualizations with ease.";
 const socialImgURL = "/social-banner.png";
 const tiwtterImgURL = "/twitter-banner.png";
 
@@ -10,7 +10,6 @@ export default {
 	title: "Graphly D3 Docs",
 	description: "Documentation for the Graphly D3 library",
 	head: [
-		["meta", { name: "theme-color", content: "#9575cd" }],
 		["meta", { name: "author", content: "Jason Rietzke – LiveReader" }],
 		["meta", { name: "keywords", content: "visualization, d3, svg, graph, data-driven-design, d3-visualization" }],
 		["meta", { property: "og:title", content: title }],

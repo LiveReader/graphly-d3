@@ -53,7 +53,7 @@ onMounted(async () => {
 		simulation.moveTo({
 			nodes: props.graph.nodes,
 			padding: 50,
-		})
+		});
 	});
 });
 watch(
@@ -98,6 +98,7 @@ watch(
 	display: inline-block;
 }
 .graphlyMoveTo:hover {
+	color: var(--vp-c-white-mute);
 	background-color: var(--vp-c-brand);
 }
 .graphlyMoveTo:hover span {

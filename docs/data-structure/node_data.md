@@ -290,7 +290,7 @@ payload: {
 	title: "Hello\nWorld",
 	color: "teal",
 }
-````
+```
 :::
 
 <script setup>

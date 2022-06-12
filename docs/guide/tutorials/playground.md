@@ -13,6 +13,18 @@ Add, change or remove nodes and links to immediately see the changes in the prev
 
 <CodePreview :graph="graph" editor-language="javascript" :editor-content="editorContent" @editorContentChange="editorContentChange" />
 
+::: info
+This template uses data about `title` and `color` to render the node.
+
+```js
+payload: {
+	title: "Hello\nWorld",
+	color: "teal",
+}
+```
+
+:::
+
 <script setup>
 import { ref, onMounted } from "vue";
 import CodePreview from "../../components/CodePreview.vue";
@@ -39,8 +51,8 @@ let editorContent = [
 	'				y: 30,',
 	'			},',
 	'			payload: {',
-	'				title: "Node 1",',
-	'				color: "#4db6ac",',
+	'				title: "Hello\\nWorld",',
+	'				color: "teal",',
 	'			},',
 	'		},',
 	'		{',
