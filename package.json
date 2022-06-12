@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "vitepress dev docs --host",
 		"build": "vitepress build docs",
-		"serve": "vitepress serve docs --port 80 --host"
+		"serve": "vitepress serve docs --port 80 --host",
+		"format": "prettier --ignore-path .gitignore --write ."
 	},
 	"repository": {
 		"type": "git",
@@ -21,11 +22,14 @@
 		"url": "https://github.com/livereader/graphly-d3-docs/issues"
 	},
 	"homepage": "https://github.com/livereader/graphly-d3-docs#readme",
-	"devDependencies": {
-		"vitepress": "1.0.0-alpha.1"
-	},
 	"dependencies": {
-		"@livereader/graphly-d3": "^0.4.7",
+		"@livereader/graphly-d3": "^0.8.0",
+		"d3": "^7.4.4",
 		"vite-plugin-monaco-editor": "^1.0.10"
+	},
+	"devDependencies": {
+		"@types/node": "^17.0.42",
+		"prettier": "^2.6.2",
+		"vitepress": "1.0.0-alpha.1"
 	}
 }

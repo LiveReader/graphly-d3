@@ -5,7 +5,7 @@ const description = "Library for creating powerful and interactive graph visuali
 const socialImgURL = "/social-banner.png";
 const tiwtterImgURL = "/twitter-banner.png";
 
-module.exports = {
+export default {
 	lang: "en-US",
 	title: "Graphly D3 Docs",
 	description: "Documentation for the Graphly D3 library",
@@ -51,8 +51,8 @@ module.exports = {
 		],
 		sidebar: {
 			"/guide/": [
-				sidebarItem("Introduction", "/guide/introduction/")[0],
-				sidebarItem("Tutorials", "/guide/tutorials/")[0],
+				sidebarItem("Introduction", "/guide/introduction/")![0],
+				sidebarItem("Tutorials", "/guide/tutorials/")![0],
 			],
 			"/data-structure/": sidebarItem("Data Structure", "/data-structure/"),
 			"/simulation-api/": sidebarItem("Simulation API", "/simulation-api/"),
@@ -65,12 +65,12 @@ module.exports = {
 	},
 };
 
-function sidebarItem(title, route) {
-	const path = __dirname + "/.." + route;
-	const files = fs.readdirSync(path);
+function sidebarItem(title: string, route: string) {
+	const filesPath = __dirname + "/.." + route;
+	const files = fs.readdirSync(filesPath);
 	const items = [];
 	for (const file of files) {
-		if (fs.statSync(path + "/" + file).isDirectory() || !file.endsWith(".md")) return;
+		if (fs.statSync(filesPath + "/" + file).isDirectory() || !file.endsWith(".md")) return;
 		const fileName = file.split(".")[0];
 		const index = fileName === "index" ? -1 : 0;
 		const words = file.split(".")[0].split("_");

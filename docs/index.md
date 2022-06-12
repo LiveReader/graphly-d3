@@ -1,5 +1,7 @@
 ---
 layout: home
+title: Home
+lang: en-US
 
 hero:
     name: Graphly D3

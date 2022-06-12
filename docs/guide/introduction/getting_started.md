@@ -95,7 +95,7 @@ This setup should be enough to get you started and embed Graphly D3 into your pr
 ::: info
 Without any templates this example should display a simple red circle in the center of the `svg` element.
 
-Take a look at the [Tutorial](/tutorial/) to learn more about how to use Graphly D3 or dig deeper into the documentation on the [Simulation API](/simulation-api/) and [Template API](/template-api/).
+Take a look at the [Tutorial](../tutorials/) to learn more about how to use Graphly D3 or dig deeper into the documentation on the [Simulation API](/simulation-api/) and [Template API](/template-api/).
 :::
 
 <script setup>
