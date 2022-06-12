@@ -188,7 +188,8 @@ export default class ForceSimulation {
 			.classed("gly-selected", true);
 	}
 
-	public async render(this: ForceSimulation, graph: Graph, alpha: number = 0.05) {
+	public async render(this: ForceSimulation, graph: Graph, alpha: number = 0.05, forced: boolean = false) {
+		if (forced) this.nodeDataStore.clear();
 		this.graph = graph;
 		indexLinks(graph);
 		await renderNodes.bind(this)(this.graph);

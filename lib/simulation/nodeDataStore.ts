@@ -12,6 +12,10 @@ interface StoreNode {
 export default class NodeDataStore {
 	private nodes: { [id: string]: StoreNode } = {};
 
+	public clear() {
+		this.nodes = {};
+	}
+
 	public add(id: string, node: Node) {
 		this.nodes[id] = this.storeNode(node);
 	}
