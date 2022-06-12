@@ -5,109 +5,53 @@ lang: en-US
 
 # Getting Started
 
-::: warning
-Please keep in mind that this library is still in development and API changes may occur.
-There are also a few minor features still to come.
+Getting started with Graphly D3 is easy.
 
-Version 1.0 target release data: **20th of June 2022**
-:::
+## Step 1: Create a new project
 
-Graphly D3 is an [open source](https://github.com/livereader/graphly-d3) frontend library for creating conplex and interactive graph visualizations.
-It is built on top of [D3.js](https://d3js.org/) and empowers developers to use svg to display any data in a simple and intuitive way.
-
-This is accomplished by providing a shape template system that allows to develop any required node visualization and simply using it by refering to it in the input graph data.
-
-The graph visualization itself is implemented as a force-directed graph.
-Each `node` object in the input data contains a `shape` property with a `type` to determine which shape template to use to display the node data.
-Every part of the graph is rendered as svg element, which allows to create complex shapes while keeping perfect quality and minimal file size.
-
-Templates can be delivered from any (possibly distributed) source and are imported on demand.
-This combines the possibility for as many different shape types as needed while keeping the load time as low as possible.
-
-<Graphly :graph="graph" style="height: 25em; border-radius: 1em; background-color: var(--vp-c-divider-light);"/>
-
-## Getting Started
-
-To use Graphly D3 in your project, you need to install the package.
+The first step is to create a new web project with the tooling you want to use.
+You just need to install the npm package for `graphly-d3`.
 
 ```bash
 npm install @livereader/graphly-d3
 ```
 
-To use the `ForceSimulation` your DOM needs to have a `<svg>` element you can pass as `d3 selection` to the constructor.
-
-The `ForceSimulation` needs to know where to load the templates from. This can be specified with the `setTemplateOrigin()` method.
-(Here we choose a local folder, but you can also use a remote url.)
-
-To render a graph you need to pass a `graph` object to the `render()` method.
-
-::: details HTML
+Your DOM has to contain a `<svg>` element that will be used to render the force-directed graph.
 
 ```html
-<!-- index.html -->
-<html>
-	<head></head>
-	<body>
-		<svg id="mySVG"></svg>
-		<style>
-			#mySVG {
-				width: 100%;
-				height: 100%;
-			}
-		</style>
-		<script src="./app.js"></script>
-	</body>
-</html>
+<svg id="mySVG" width="100%" height="100%"></svg>
 ```
 
-:::
+## Step 2: Embed Graphly D3
 
-::: details JavaScript
+In your script you need to import the `ForceSimulation` class from `graphly-d3`.
+Instantiate a new `ForceSimulation` and pass it the `<svg>` element you want to render the graph in.
+
+You will also want to import the `style.css` file from the `graphly-d3` package.
+This provides the necessary styles for the graph visualization.
 
 ```js
-// app.js
 import { ForceSimulation } from "@livereader/graphly-d3";
-import * as d3 from "d3";
+import "@livereader/graphly-d3/style.css";
 
-const svg = d3.select("#mySVG");
-const simulation = new ForceSimulation(svg);
-simulation.setTemplateOrigin("http://" + document.location.host + "/templates/");
-
-const graph = {
-	nodes: [
-		{
-			id: "node1",
-			shape: {
-				type: "myShape",
-				scale: 1,
-			},
-		},
-	],
-	links: [],
-};
-simulation.render(graph);
+const mySVG = document.getElementById("mySVG");
+const simulation = new ForceSimulation(mySVG);
 ```
 
-:::
+## Step 3: Create a graph
 
-This setup should be enough to get you started and embed Graphly D3 into your project.
+Now create a graph object that contains the nodes and links following the [required format](../../data-structure/).
+To render this graph you need to call the `render()` method of the `ForceSimulation` instance and pass the graph object as an argument.
 
-::: info
-Without any templates this example should display a simple red circle in the center of the `svg` element.
-
-Take a look at the [Tutorial](../tutorials/) to learn more about how to use Graphly D3 or dig deeper into the documentation on the [Simulation API](/simulation-api/) and [Template API](/template-api/).
-:::
-
-<script setup>
-import { ref, onMounted } from "vue";
-import Graphly from "../../components/Graphly.vue";
-let graph = ref({
+```js
+const graph = {
 	nodes: [
 		{
 			id: "node1",
 			shape: {
 				type: "hexagon",
 				scale: 1,
+				url: "https://graphly-d3.livereader.com/templates/hexagon.js",
 			},
 			x: -150,
 			y: 30,
@@ -117,6 +61,7 @@ let graph = ref({
 			shape: {
 				type: "hexagon",
 				scale: 1,
+				url: "https://graphly-d3.livereader.com/templates/hexagon.js",
 			},
 			x: 150,
 			y: -30,
@@ -130,9 +75,125 @@ let graph = ref({
 			strength: "weak",
 		},
 	],
-	hasUpdate: false,
-});
-onMounted(() => {
-	graph.value.hasUpdate = true;
-})
+};
+
+simulation.render(graph);
+```
+
+That's it! This should render a graph with two nodes and a link between them.
+
+## Full Example
+
+```html
+<!-- index.html -->
+<html>
+	<head>
+		<title>Graphly D3</title>
+	</head>
+	<body>
+		<svg id="mySVG" width="100%" height="100%"></svg>
+		<script src="./app.js" type="module"></script>
+	</body>
+</html>
+```
+
+```js
+// app.js
+import { ForceSimulation } from "@livereader/graphly-d3";
+import "@livereader/graphly-d3/style.css";
+
+const mySVG = document.getElementById("mySVG");
+const simulation = new ForceSimulation(mySVG);
+
+const graph = {
+	nodes: [
+		{
+			id: "node1",
+			shape: {
+				type: "hexagon",
+				scale: 1,
+				url: "https://graphly-d3.livereader.com/templates/hexagon.js",
+			},
+			x: -150,
+			y: 30,
+		},
+		{
+			id: "node2",
+			shape: {
+				type: "hexagon",
+				scale: 1,
+				url: "https://graphly-d3.livereader.com/templates/hexagon.js",
+			},
+			x: 150,
+			y: -30,
+		},
+	],
+	links: [
+		{
+			source: "node1",
+			target: "node2",
+			directed: true,
+			strength: "weak",
+		},
+	],
+};
+
+simulation.render(graph);
+```
+
+## Expected Result
+
+After you are done with these simple steps, your result should look something like this:
+
+<svg id="mySVG" style="width: 100%; height: 25em; border-radius: 1em; background-color: var(--vp-c-divider-light);"></svg>
+
+::: info
+Take a look at the [Tutorial](../tutorials/) to learn more about how to use Graphly D3 or dig deeper into the documentation on the [Data Structure](/data-structure/), [Simulation API](/simulation-api/) and [Template API](/template-api/).
+:::
+
+<script setup>
+	import { onMounted } from "vue";
+	import "@livereader/graphly-d3/style.css";
+
+	const graph = {
+		nodes: [
+			{
+				id: "node1",
+				shape: {
+					type: "hexagon",
+					scale: 1,
+				},
+				x: -150,
+				y: 30,
+			},
+			{
+				id: "node2",
+				shape: {
+					type: "hexagon",
+					scale: 1,
+				},
+				x: 150,
+				y: -30,
+			},
+		],
+		links: [
+			{
+				source: "node1",
+				target: "node2",
+				directed: true,
+				strength: "weak",
+			},
+		],
+	}
+
+	onMounted(() => {
+		import("@livereader/graphly-d3").then(({ ForceSimulation }) => {
+			const mySVG = document.getElementById("mySVG");
+			const simulation = new ForceSimulation(mySVG);
+			simulation.linkDistance = 250;
+			simulation.envGravity = -5000;
+			simulation.templateStore.remoteOrigin = window.location.protocol + "//" + window.location.host + "/templates/";
+			simulation.render(graph);
+		});
+	})
 </script>
