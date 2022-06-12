@@ -154,6 +154,7 @@ const link = {
 	strength: "strong",
 };
 ```
+
 ```ts
 import { LinkStrength } from "@livereader/graphly-d3";
 const link = {
@@ -184,7 +185,7 @@ const link = {
 Give it a try and see how the different properties influence the appearance and behavior of links.
 You can also try to set multiple links.
 
-::: info
+::: warning
 Dont change the `links` array name since the playground context depends on it.
 :::
 

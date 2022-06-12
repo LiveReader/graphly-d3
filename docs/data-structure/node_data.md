@@ -19,10 +19,13 @@ A simple example for a node object with all possible properties. Check the sub-s
 ```js
 const node = {
 	id: "node1",
+	x: 150,
+	y: -30,
 	shape: {
 		type: "myShape",
 		scale: 1,
 	},
+	gravity: -5000,
 	spawn: {
 		source: "node2",
 		angle: 45,
@@ -46,25 +49,37 @@ const node = {
 
 :::
 
----
+## Interface
 
-**Table of Contents**
+```ts
+interface Node {
+	id: string;
+	x?: number;
+	y?: number;
+	shape: Shape;
+	gravity?: number;
+	spawn?: Spawn;
+	anchor?: Anchor;
+	satellite?: Satellite;
+	payload?: any;
+}
+```
 
-[[toc]]
+## Id & Position
 
----
-
-## Id
-
-The node `id` property is a string to uniquely identify a node in the graph.
+The node `id` property is a string to uniquely identify a node in the graph.  
+The node `x` and `y` properties are optional and define the position of the node.
+If not defined the simulation will place them at `0,0` by default except [spawn](#spawn), [anchor](#anchor) or [satellite](#satellite) properties are set.
 
 ::: info
-This is the only property required by the vanilla d3 force-simulation data structure.
+Those is the only property by the vanilla d3 force-simulation data structure.
 :::
 
 ```js
 const node = {
 	id: "node1",
+	x: 150,
+	y: -30,
 };
 ```
 
@@ -72,7 +87,20 @@ const node = {
 
 The node `shape` object property defines the appearance of the node.
 It requires a `type` and a `scale` property to tell Graphly D3 how to render the node.
-`template` refers to the shape template (see [Template API](/template-api/)) and `scale` is a number that defines the relative scale of the node (`1` by default).
+
+```ts
+interface Shape {
+	type: string;
+	scale: number;
+	url?: string;
+}
+```
+
+| Property | Description                                                                       |
+| -------- | --------------------------------------------------------------------------------- |
+| `type`   | defines which template to use to render the node ([Template API](/template-api/)) |
+| `scale`  | defines the relative scale of the node (`1` by default)                           |
+| `url?`   | can be used to define a custom remote origin for this specific shape type         |
 
 ::: tip
 You can use the `scale` property to create a visual hierachy of nodes by decreasing the size of less important nodes.
@@ -80,6 +108,7 @@ You can use the `scale` property to create a visual hierachy of nodes by decreas
 
 ```js
 const node = {
+	id: "node1",
 	shape: {
 		type: "myShape",
 		scale: 1,
@@ -87,25 +116,51 @@ const node = {
 };
 ```
 
-## Spawn
+## Gravity
 
-The node `spawn` object property is optional and describes how the node should be placed when it is created the first time.
-This property is used when no coordinates are defined yet and the node should be spawned in relative position to another node.
+The node `gravity` property is optional and defines the gravitational force this node applies to other nodes.
+If not set the `envGravity` of the force simulation is used.
 
-This data object requires the following properties:
+::: tip
+This proeprty is handy to fine-tune the forces within the simulation.
+Otherwise, the default value will suffice and you can just ignore it.
 
-| Property   | Type   | Description                                                                      |
-| ---------- | ------ | -------------------------------------------------------------------------------- |
-| `source`   | string | The `id` of the source node to spawn the new node in relative position to        |
-| `angle`    | number | The angle in degrees. Rotation is clockwise with `0` being above the source node |
-| `distance` | number | The distance between the center of the source node and the new node's center     |
-
-::: info
-This property only gets applied on `render()` when the node object does not have a `x`, `y` or `fx`, `fy` property.
+In most cases you want to use a negative value to make the nodes push away from each other since this counteracts the link pulling forces.
 :::
 
 ```js
 const node = {
+	id: "node1",
+	gravity: -5000,
+};
+```
+
+## Spawn
+
+The node `spawn` object property is optional and describes how the node should be placed when it is created the first time.
+This property is used when no position are defined yet and the node should be spawned in relative position to another node.
+
+```ts
+interface Spawn {
+	source: string;
+	angle: number;
+	distance: number;
+}
+```
+
+| Property   | Description                                                           |
+| ---------- | --------------------------------------------------------------------- |
+| `source`   | `id` of the source node to spawn the new node in relative position to |
+| `angle`    | angle in degrees. Rotation is clockwise. `0` is above the source node |
+| `distance` | distance between the centers of the source node and the new node      |
+
+::: info
+This property only gets applied on `render()` when the node object does not have `x`, `y` or `fx`, `fy` properties set.
+:::
+
+```js
+const node = {
+	id: "node1",
 	spawn: {
 		source: "node2",
 		angle: 45,
@@ -116,23 +171,36 @@ const node = {
 
 ## Anchor
 
-The node `anchor` object property is optional and describes the position to which the node is heading.
-This data object requires the following properties:
+The node `anchor` object property is optional and describes the position to which the node is constantly heading towards.
 
-| Property | Type   | Description                                 |
-| -------- | ------ | ------------------------------------------- |
-| `type`   | string | The type of anchor. Can be `soft` or `hard` |
-| `x`      | number | The x position of the anchor                |
-| `y`      | number | The y position of the anchor                |
+```ts
+enum AnchorType {
+	Soft = "soft",
+	Hard = "hard",
+}
+interface Anchor {
+	type: AnchorType;
+	x: number;
+	y: number;
+}
+```
+
+| Property | Description                                                                   |
+| -------- | ----------------------------------------------------------------------------- |
+| `type`   | defines whether the node moves softly towards the position or is locked to it |
+| `x`      | the x position of the anchor                                                  |
+| `y`      | the y position of the anchor                                                  |
 
 ::: info
-`soft` anchors are only heading towards the anchor position and will be affected by the other forces applied to the node.  
+`soft` anchors are only heading towards the anchor position and will be affected by the other forces applied to the node.
+
 `hard` anchors are fixing the node to the anchor position and will not be affected by any other forces.
 (This will set `fx` and `fy` properties on the node object)
 :::
 
 ```js
 const node = {
+	id: "node1",
 	anchor: {
 		type: "soft",
 		x: 300,
@@ -141,25 +209,46 @@ const node = {
 };
 ```
 
+```ts
+import { AnchorType } from "@livereader/graphly-d3";
+const node = {
+	id: "node1",
+	anchor: {
+		type: AnchorType.Soft,
+		x: 300,
+		y: 100,
+	},
+};
+```
+
 ## Satellite
 
-The node `satellite` object property is optional and can be used to bind a node to another node.
+The node `satellite` object property is optional and can be used to bind one node to another.
 It will keep a relative position to the source node at all times.
-This data object requires the following properties:
 
-| Property   | Type   |  Description                                                                     |
-| ---------- | ------ | -------------------------------------------------------------------------------- |
-| `source`   | string | The `id` of the source node to bind the new node to                              |
-| `angle`    | number | The angle in degrees. Rotation is clockwise with `0` being above the source node |
-| `distance` | number | The distance between the center of the source node and the new node's center     |
+```ts
+interface Satellite {
+	source: string;
+	angle: number;
+	distance: number;
+}
+```
+
+| Property   |  Description                                                          |
+| ---------- | --------------------------------------------------------------------- |
+| `source`   | `id` of the source node to spawn the new node in relative position to |
+| `angle`    | angle in degrees. Rotation is clockwise. `0` is above the source node |
+| `distance` | distance between the centers of the source node and the new node      |
 
 ::: info
-The satellite nodes will be affected by the other forces like (e.g. gravity or collision) but strive towards the computed position simmilar to a `soft` `anchor`.
+The satellite nodes will be affected by the other forces like (e.g. gravity or collision) but strive towards the computed position simmilar to a `soft anchor`.
+
 In case of multiple satellites with a similar target position, the satellites will all strive towards their target position and collide with each other.
 :::
 
 ```js
 const node = {
+	id: "node1",
 	satellite: {
 		source: "node2",
 		angle: 45,
@@ -170,12 +259,10 @@ const node = {
 
 ## Payload
 
-It is considered best practice to encapsulate your custom data in the `payload` object.
-This makes it easy to read and write your data to the node object.
-This also prevents name collisions with other data properties and avoids side effects.
+Put all your custom data behind the `payload` object property and use this data in a [template](/template-api/) to render the node in the desired way.
 
 ::: info
-Technically it is not required and the data could be placed directly in the node object but we strongly recommend to use some kind of encapsulation to avoid naming conflicts.
+To encapsulate and efficiently monitor data changes to perform the necessary re-rendering of nodes, the node `payload` is optional.
 :::
 
 ```js
@@ -190,11 +277,21 @@ const node = {
 
 Give it a try and see how the different properties influence the appearance and behavior of nodes.
 
-::: info
+::: warning
 Dont change the `nodes` array name since the playground context depends on it.
 :::
 
 <CodePreview height="40em" :graph="graph" editor-language="javascript" :editor-content="editorContent" @editorContentChange="editorContentChange" />
+
+::: info
+This template uses data about `title` and `color` to render the node.
+```js
+payload: {
+	title: "Hello\nWorld",
+	color: "teal",
+}
+````
+:::
 
 <script setup>
 import { ref, onMounted } from "vue";
@@ -225,6 +322,10 @@ let editorContent = [
 	'		},',
 	'		x: -150,',
 	'		y: 30,',
+	'		payload: {',
+	'			title: "Hello\\nWorld",',
+	'			color: "teal",',
+	'		},',
 	'	},',
 	'	{',
 	'		id: "node2",',
