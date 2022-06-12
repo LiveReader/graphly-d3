@@ -16,12 +16,11 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, onMounted, Ref, ref, watch } from "vue";
 import "@livereader/graphly-d3/style.css";
-import { ForceSimulation, Graph, Node } from "@livereader/graphly-d3";
 
 let theme = ref("dark");
-let graphlyElement: Ref<HTMLElement> = ref({} as HTMLElement);
+let graphlyElement: Ref<SVGSVGElement> = ref({} as SVGSVGElement);
 let graphlyMoveTo: Ref<HTMLElement> = ref({} as HTMLElement);
-let simulation: ForceSimulation;
+let simulation: any;
 
 const props = defineProps({
 	graph: {
@@ -33,34 +32,37 @@ const props = defineProps({
 	},
 });
 onMounted(async () => {
-	theme.value = document.getElementsByTagName("html")[0].classList.contains("dark") ? "dark" : "light";
-	simulation = new ForceSimulation(graphlyElement.value);
-	simulation.templateStore.remoteOrigin = window.location.protocol + "//" + window.location.host + "/templates/";
-	simulation.envGravity = -5000;
-	simulation.linkDistance = 250;
-	simulation.render(props.graph as Graph);
-
-	const themeObserver = new MutationObserver(() => {
+	import("@livereader/graphly-d3").then(({ ForceSimulation }) => {
 		theme.value = document.getElementsByTagName("html")[0].classList.contains("dark") ? "dark" : "light";
-		if (!graphlyElement.value) return;
-		(graphlyElement.value as HTMLElement).classList.toggle("dark", theme.value === "dark");
-	});
-	themeObserver.observe(document.getElementsByTagName("html")[0], { attributes: true });
-	if (!graphlyElement.value) return;
-	graphlyElement.value.classList.toggle("dark", theme.value === "dark");
+		simulation = new ForceSimulation(graphlyElement.value);
+		simulation.templateStore.remoteOrigin = window.location.protocol + "//" + window.location.host + "/templates/";
+		simulation.envGravity = -5000;
+		simulation.linkDistance = 250;
+		simulation.render(props.graph);
 
-	graphlyMoveTo.value.addEventListener("click", () => {
-		simulation.moveTo({
-			nodes: props.graph.nodes,
-			padding: 50,
+		const themeObserver = new MutationObserver(() => {
+			theme.value = document.getElementsByTagName("html")[0].classList.contains("dark") ? "dark" : "light";
+			if (!graphlyElement.value) return;
+			graphlyElement.value.classList.toggle("dark", theme.value === "dark");
+		});
+		themeObserver.observe(document.getElementsByTagName("html")[0], { attributes: true });
+		if (!graphlyElement.value) return;
+		graphlyElement.value.classList.toggle("dark", theme.value === "dark");
+
+		graphlyMoveTo.value.addEventListener("click", () => {
+			simulation.moveTo({
+				nodes: props.graph.nodes,
+				padding: 50,
+			});
 		});
 	});
 });
 watch(
 	() => props.graph,
 	() => {
+		if (!simulation) return;
 		if (props.graph.hasUpdate) {
-			simulation.render(props.graph as Graph);
+			simulation.render(props.graph);
 			// eslint-disable-next-line vue/no-mutating-props
 			props.graph.hasUpdate = false;
 		}
