@@ -16,6 +16,7 @@ export interface Shape {
 	scale: number;
 	url?: string;
 	template?: Template;
+	failed?: boolean;
 }
 
 export interface Spawn {

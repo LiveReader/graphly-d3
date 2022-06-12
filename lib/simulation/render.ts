@@ -141,13 +141,13 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 	linkShape.attr("opacity", 0).transition().duration(this.animationDuration).attr("opacity", 1);
 
 	linkShapes.exit().transition().duration(this.animationDuration).attr("opacity", 0).remove();
-	linkShapes.attr("opacity", 1).transition().duration(this.animationDuration);
+	linkShapes.attr("opacity", 1);
 }
 
 async function getNodeTemplates(this: ForceSimulation, graph: Graph) {
 	for (let i in graph.nodes) {
 		const node = graph.nodes[i];
-		await this.templateStore.get(node).then((template: Template) => {
+		await this.templateStore.get(node).then((template: Template | undefined) => {
 			node.shape.template = template;
 		});
 	}

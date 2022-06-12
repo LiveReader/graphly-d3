@@ -19,13 +19,13 @@ export default class TemplateStore {
 		this._templates[id] = template;
 	}
 
-	public async get(node: Node): Promise<Template> {
+	public async get(node: Node): Promise<Template | undefined> {
 		const id = node.shape.type;
 		if (this.templates[id]) return this.templates[id];
 		if (this.failed.includes(id)) return this.errorTemplate;
 		const template = await this.load(node.shape.url ?? this.remoteOrigin + id + ".js", id).then(() => {
 			if (this.templates[id]) return this.templates[id];
-			return this.errorTemplate;
+			return undefined;
 		});
 		return template;
 	}
