@@ -36,7 +36,6 @@ export interface Anchor {
 }
 
 export interface Satellite {
-	// type?
 	x?: number;
 	y?: number;
 	source: string | Node;
@@ -45,8 +44,8 @@ export interface Satellite {
 }
 
 export interface Node extends D3Node {
-	forceSimulation: ForceSimulation;
 	shape: Shape;
+	forceSimulation?: ForceSimulation;
 	gravity?: number;
 	spawn?: Spawn;
 	anchor?: Anchor;

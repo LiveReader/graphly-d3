@@ -4,6 +4,9 @@ import * as TemplateAPI from "../templateAPI";
 import { Node } from "../types/Node";
 
 export default function Node(this: any, data: Node) {
+	if (!data.forceSimulation) {
+		return null;
+	}
 	const exists = data.forceSimulation.nodeDataStore.hasNode(data.id);
 	const nodeShape = exists ? (d3.select(this) as d3.Selection<SVGElement, any, any, any>) : Shape.create("g");
 	const hasChanges = data.forceSimulation.nodeDataStore.hasPayloadChanges(data.id, data);
@@ -35,9 +38,12 @@ export default function Node(this: any, data: Node) {
 	function throwError(this: any, message: string) {
 		data.errorMessage = message;
 		nodeShape
-			.append(() =>
-				data.forceSimulation.templateStore.errorTemplate.shapeBuilder.bind(this)(data, TemplateAPI).node()
-			)
+			.append(() => {
+				if (!data.forceSimulation) return null;
+				return data.forceSimulation.templateStore.errorTemplate.shapeBuilder
+					.bind(this)(data, TemplateAPI)
+					.node();
+			})
 			.attr("data-object", "shape");
 		Shape.transform(nodeShape.select("[data-object=shape]"), data.shape.template?.shapeSize ?? 300);
 		return nodeShape.node();
