@@ -5,12 +5,12 @@ lang: en-US
 
 # Introduction
 
-Graphly D3 uses the Force Simulation of d3 and builds on top of it to make shape templates possible.
+Graphly D3 utilizes the force simulation of d3 and builds on top of it to make shape templates possible.
 To enable those additional features, Graphly takes the data structure of the force simulation and adds a number of further data properties to it.
 
 The data structure extensions are described in more detail on the following pages.
 
-## Baseline Data Structure
+## Original Data Structure
 
 The data required by the vanilla d3 force simulation is an array of `nodes` and an array of `links` with very rudimentary properties.
 
