@@ -14,7 +14,7 @@ function shapeBuilder(data, Template) {
 		</g>
 	`);
 
-	shape.select("path").style("fill", data.payload?.color ?? "#f06292");
+	shape.select("path").style("fill", data.payload?.color ?? "#9575cd");
 
 	shape.select(".title").remove();
 	const bbox = Shape.getBBox(shape);

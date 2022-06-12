@@ -51,12 +51,11 @@ const emits = defineEmits(["editorContentChange"]);
 	border-top-right-radius: 1em;
 	border-top-left-radius: 1em;
 	height: 50%;
-	border-bottom: 1px solid var(--vp-c-divider-dark);
+	border-bottom: 2px solid var(--vp-c-bg);
 }
 .codePreview .monaco-editor {
 	border-bottom-right-radius: 1em;
 	border-bottom-left-radius: 1em;
 	height: 50%;
-	transform: translateY(-5px);
 }
 </style>
