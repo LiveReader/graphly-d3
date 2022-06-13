@@ -2,8 +2,8 @@ import fs from "fs";
 
 const title = "Graphly D3";
 const description = "Open source library to create outstanding graph visualizations with ease.";
-const socialImgURL = "/social-banner.png";
-const tiwtterImgURL = "/twitter-banner.png";
+const socialImgURL = "https://graphly-d3.livereader.com/social-banner.png";
+const tiwtterImgURL = "https://graphly-d3.livereader.com/twitter-banner.png";
 
 export default {
 	lang: "en-US",
