@@ -64,5 +64,5 @@ const body = shape.select("#body");
 body.classed("selectable", true);
 ```
 
-More about how to tell graphly which nodes are selected can be found [here](/simulation-api/environment_API#selec-nodes)
+More about how to tell graphly which nodes are selected can be found [here]()
 :::
