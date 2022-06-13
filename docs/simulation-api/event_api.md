@@ -306,10 +306,8 @@ simulation.on(Event.SimulationTickEnd, () => {
 
 ## Custom Template Events
 
-<!-- // TODO add EmitEvent link -->
-
 The template events are special events that can be triggered by shape templates.
-More detailed information about how to fire these events can be found in the [EmitEvent]() section of the [Template API](/template-api/).
+More detailed information about how to fire these events can be found in the [EmitEvent](/template-api/events#emit-event) section of the [Template API](/template-api/).
 
 You can also listen to these events by using the `on` method and using a special event name pattern: `"template:<template-name>:<event-name>"`.
 
