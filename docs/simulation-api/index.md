@@ -20,7 +20,7 @@ You will also want to import the `style.css` from the `graphly-d3` package.
 This provides the necessary styles for the graph visualization.
 
 To render a graph you need to call the `render()` method of the `ForceSimulation` instance and pass the graph object as an argument.
-The graph needs to meed the [required format](../../data-structure/) with nodes and links.
+The graph needs to meed the [required format](/data-structure/) with nodes and links.
 
 ```js
 import { ForceSimulation } from "@livereader/graphly-d3";
