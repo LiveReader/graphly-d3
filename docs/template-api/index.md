@@ -61,7 +61,7 @@ export default myTemplate;
 
 ```ts
 // typescript
-import { TemplateAPI } from "@livereader/graphly-d3";
+import { TemplateAPI, Node } from "@livereader/graphly-d3";
 const myTemplate = {
 	shapeSize: 300,
 	shapeBuilder: shapeBuilder,
