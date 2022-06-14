@@ -5,6 +5,7 @@ import { Graph } from "../types/Graph";
 import { Node, AnchorType } from "../types/Node";
 import { DraggableNode } from "./drag";
 import { ArrowPosition, line, arrow, labelPosition } from "../link/link";
+import { position, strength } from "./forces";
 
 export function ticked(this: ForceSimulation) {
 	for (let i in this.graph.nodes) {
@@ -26,6 +27,8 @@ export function ticked(this: ForceSimulation) {
 		const label = d.select("[data-object='link-label']");
 		label.attr("transform", labelPosition);
 	});
+	(this.simulation.force("forceX") as any).x((d: Node) => position(d).x).strength((d: Node) => strength(d));
+	(this.simulation.force("forceY") as any).y((d: Node) => position(d).y).strength((d: Node) => strength(d));
 
 	this.eventStore.emit(Event.SimulationTick);
 }
@@ -40,8 +43,8 @@ function processSatellite(graph: Graph, d: Node) {
 	const distance = d.satellite.distance ?? 400;
 	const angle = d.satellite.angle ?? 0;
 	const pos: { x: number; y: number } = {
-		x: d.satellite?.source?.x ?? 0 + distance * Math.cos((angle * Math.PI) / 180 - Math.PI / 2),
-		y: d.satellite?.source?.y ?? 0 + distance * Math.sin((angle * Math.PI) / 180 - Math.PI / 2),
+		x: (d.satellite?.source?.x ?? 0) + distance * Math.cos((angle * Math.PI) / 180 - Math.PI / 2),
+		y: (d.satellite?.source?.y ?? 0) + distance * Math.sin((angle * Math.PI) / 180 - Math.PI / 2),
 	};
 	d.satellite.x = pos.x;
 	d.satellite.y = pos.y;

@@ -58,13 +58,13 @@ export function circleCollide(): d3.Force<Node, Link> {
 	return force;
 }
 
-function position(d: Node): { x: number; y: number } {
+export function position(d: Node): { x: number; y: number } {
 	if (d.satellite) return { x: d.satellite.x ?? 0, y: d.satellite.y ?? 0 };
 	if (d.anchor) return { x: d.anchor.x ?? 0, y: d.anchor.y ?? 0 };
 	return { x: 0, y: 0 };
 }
 
-function strength(d: Node): number {
+export function strength(d: Node): number {
 	if (d.satellite) return 6;
 	if (d.anchor) {
 		switch (d.anchor.type) {
