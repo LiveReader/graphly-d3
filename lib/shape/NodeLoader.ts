@@ -31,7 +31,10 @@ export default function Node(this: any, data: Node) {
 	}
 
 	data.shape.failed = false;
-	Shape.transform(nodeShape.select("[data-object=shape]"), data.shape.template?.shapeSize ?? 300);
+	Shape.transform(
+		nodeShape.select("[data-object=shape]"),
+		data.shape.scale * (data.shape.template?.shapeSize ?? 300)
+	);
 	return nodeShape.node();
 
 	function throwError(this: any, message: string) {
