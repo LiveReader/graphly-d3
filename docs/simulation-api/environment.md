@@ -136,13 +136,3 @@ The default value is `true`.
 ```ts
 simulation.draggableNodes = false;
 ```
-
----
-
-## Template Origin
-
-The `setTemplateOrigin` method sets the url from which the templates will be imported dynamically during the rendering process.
-
-```js
-simulation.setTemplateOrigin("http://" + document.location.host + "/templates/");
-```
