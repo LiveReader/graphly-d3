@@ -1,6 +1,6 @@
 {
 	"name": "graphly-d3-docs",
-	"version": "0.9.0",
+	"version": "0.9.1",
 	"description": "Documentation for Graphly-D3 library",
 	"main": "index.js",
 	"scripts": {
