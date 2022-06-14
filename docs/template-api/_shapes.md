@@ -1,26 +1,51 @@
 ---
-title: Template Shapes
+title: Shapes
 lang: en-US
 ---
 
 # Shapes
+
+The `TemplateAPI` contains a number of useful modules to create and manipulate different SVG shapes.
 
 ## Shape
 
 The `Shape` module provides numerous methods to create, modify and manage svg elements.
 But for templates they are broken down to three methods of interest:
 
-| Method                                       | Description                                                                      |
-| -------------------------------------------- | -------------------------------------------------------------------------------- |
-| `Shape.create(type)`                         | takes a string of the `type` and returns a new d3 selection of the given type    |
-| `Shape.getBBox(selection)`                   | takes a d3 `selection` and returns the bounding box of the selection             |
-| `Shape.transform(selection, centered, size)` | transforms the given `selection` to the given `size` and `centers` it if desired |
+| Method                             | Description                                                                   |
+| ---------------------------------- | ----------------------------------------------------------------------------- |
+| `Shape.create(type)`               | takes a string of the `type` and returns a new d3 selection of the given type |
+| `Shape.getBBox(selection)`         | takes a d3 `selection` and returns the bounding box of the selection          |
+| `Shape.transform(selection, size)` | transforms the given `selection` to the given `size`                          |
 
 ```js
 const shape = Shape.create("g"); // returns a new svg g element
 const bbox = Shape.getBBox(shape); // returns the bounding box of the shape
-let centered = true;
-Shape.transform(shape, centered, 300); // centers the shape and scales it to 300px
+Shape.transform(shape, 300); // scales the shape to 300px
+```
+
+## Shape Circle
+
+The `Shape.Circle()` method creates a circle with the given radius.
+
+```js
+const circle = Shape.Circle(150);
+```
+
+## Shape Rectangle
+
+The `Shape.Rectangle()` method creates a rectangle with the given width, height and corner radius.
+
+```js
+const rectangle = Shape.Rectangle(150, 100, 10);
+```
+
+## Shape Polygon
+
+The `Shape.Polygon()` method creates a polygon with the given number of corners in the given radius and applies the given corner radius to the corners.
+
+```js
+const polygon = Shape.Polygon(3, 150, 10);
 ```
 
 ## Path Shape
@@ -54,12 +79,12 @@ const shape = SVGShape(`
 ## Tag Shape
 
 The `TagShape` method builds a tag and returns a d3 selection of the created svg element.
-It takes 2 parameters to output tag shape.
+It takes 2 parameters to output a tag shape.
 
-| Parameter  | Type                                         | Description                       |
-| ---------- | -------------------------------------------- | --------------------------------- |
-| `text`     | string                                       | text to be display as tag         |
-| `TagStyle` | [TagStyle](/template-api/_styling#tag-style) | determines the styling of the tag |
+| Parameter  | Type                                        | Description                       |
+| ---------- | ------------------------------------------- | --------------------------------- |
+| `text`     | string                                      | text to be display as tag         |
+| `TagStyle` | [TagStyle](/template-api/styling#tag-style) | determines the styling of the tag |
 
 ::: info
 This method is primarily used within the [TagCollection](/template-api/collections#tag-collection) module.
@@ -74,10 +99,10 @@ const tag = TagShape("Hello World", TagStyle(...));
 The `TextShape` method builds a text and returns a d3 selection of the created svg element.
 It works similar to the [TagShape](#tag-shape) and takes 2 parameters to output text shape.
 
-| Parameter    | Type                                               | Description                           |
-| ------------ | -------------------------------------------------- | ------------------------------------- |
-| `text`       | string                                             | text to be display as text element    |
-| `ShapeStyle` | [ShapeStyle](/template-api/_styling#shape-style)[] | determines the styling of the element |
+| Parameter    | Type                                              | Description                           |
+| ------------ | ------------------------------------------------- | ------------------------------------- |
+| `text`       | string                                            | text to be display as text element    |
+| `ShapeStyle` | [ShapeStyle](/template-api/styling#shape-style)[] | determines the styling of the element |
 
 ::: info
 This method is primarily used within the [TextCollection](/template-api/collections#text-collection) module.

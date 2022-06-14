@@ -5,64 +5,84 @@ lang: en-US
 
 # Introduction
 
-Graphly D3 works by developing templates that are used to render the data for each node. Templates can be imported from any source.
-Those imports are dynamically done on demand to allow high flexibility combined with minimal load times.
+Graphly D3 works by developing templates that are used to render the data for each node.
 
 The template API exposes a number of methods and modules to help creating the SVG shape templates for Graphly D3.
 They are following a functional paradigm and can be used as a building block to create complex and highly performant svg representations.  
-More detailed information can be found on the next pages.
+More detailed information about the different modules can be found on the next pages.
 
 ## Setup
 
-To use templates the corosponding origin needs to be set. This can be done by calling the `.setTemplateOrigin()` method on the `ForceSimulation` instance.
-By doing so, all shape types refered in the input data will be tried to be imported from the given origin.
+To use a template you need to add it to the [templateStore](/simulation-api/environment#template-store) with the corrosponding `type` name.
+Alternatively you can also set a `remoteOrigin` to load the templates from dynamically. More about this in the [Simulation API](/simulation-api/environment#template-store)
 
-::: tip
-The easiest location for the templates to begin with is within the project itself. E.g. in a vue project a templates folder within the public directory could be refered to.
-:::
+```ts
+import MyTemplate from "./templates/myTemplate";
+simulation.templateStore.add("myTemplate", MyTemplate);
+```
 
 ## Template File
 
-Each template should be a dedicated `.js` file that exports a function.
-This function will be called in the render process of Graphly to create the proper SVG element.
-The file needs to be called the same as the shape type which is used to refer to it.
+Each template file needs to `default export` a object with the `Template` scema.
 
-Lets take a look at a fundamental file structure needed to create a template. There are a few requirements to be met:
+-   `shapeSize` is the size of the shape on a scale of 1.
+-   `shapeBuilder` is a function that returns a `SVGShape` selection that will be used to render the shape.
 
-```js
-someShape.shapeSize = 300;
-function someShape(data, initialShape, changes, Template) {
-	// data 			delivers the data from the input graph data regarding the current node.
-	// initialShape 	the initial shape of the node if it is already rendered.
-	// changes 			the changes that occured on the node data since the last render.
-	// Template 		the template API injection to draw all the modules and modifiers from.
-	const shape = Template.Shape.create("g");
-	return shape;
+```ts
+interface Template {
+	shapeSize: number;
+	shapeBuilder: (data: Node, TemplateAPI: any) => d3.Selection<SVGElement, any, any, any>;
 }
-export default someShape;
 ```
 
-## Properties
+The `shapeBuilder` function will be called in the render process of Graphly to create the proper SVG element.
 
-Any template has to have the `shapeSize` property which defined the default render size of the shape.
-The function itself takes 4 parameters and returns a d3 selection of the shape.
-This file gets handled as a module and has to default export the shape function accordingly.
+## Example Template
 
-| Property     | Description                                                                                                                                                                     |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| data         | passes the data from the input graph data regarding the current node. This grants access to the properties of the node which define the content it is supposed to display       |
-| initialShape | is the initial shape of the node if it is already rendered. This gives the opportunity to reuse the shape and only re-render those parts effected by data changes               |
-| changes      | is a subset of the data object that contains only the changed properties. This in conjunction with the initial shape provides a powerful way to get the most out of a template  |
-| Template     | passes the template API module from which all methods, modules and modifiers can be drawn from. Which components are available gets described in the next section               |
+::: tip
+If you use `typescript` we recommend to import the desired Template API modules from `@livereader/graphly-d3` and ignoring the `TemplateAPI` parameter.
+This leads to a better developer experience and type safety.
+:::
 
-::: info IMPORTANT
-The template should have at least one element (often some body element that defines the outer shape) classed with `selectable`.
+```js
+// javascript
+const myTemplate = {
+	shapeSize: 300,
+	shapeBuilder: shapeBuilder,
+};
+function shapeBuilder(data, TemplateAPI) {
+	const shape = TemplateAPI.Shape.Circle(150);
+	shape.classed("gly_teal_fill", true);
+	shape.classed("gly-selectable", true);
+	return shape;
+}
+export default myTemplate;
+```
+
+```ts
+// typescript
+import { TemplateAPI } from "@livereader/graphly-d3";
+const myTemplate = {
+	shapeSize: 300,
+	shapeBuilder: shapeBuilder,
+};
+function shapeBuilder(data: Node) {
+	const shape = TemplateAPI.Shape.Circle(150);
+	shape.classed("gly_teal_fill", true);
+	shape.classed("gly-selectable", true);
+	return shape;
+}
+export default myTemplate;
+```
+
+::: tip IMPORTANT
+The template should have at least one element (often some body element that defines the outer shape) classed with `gly-selectable`.
 This way Graphly D3 cares about the proper highlighting of the nodes.
 
 ```js
 const body = shape.select("#body");
-body.classed("selectable", true);
+body.classed("gly-selectable", true);
 ```
 
-More about how to tell graphly which nodes are selected can be found [here](/simulation-api/environment_API#selec-nodes)
+More about how to tell graphly which nodes are selected can be found [here](/simulation-api/environment#selected-nodes)
 :::

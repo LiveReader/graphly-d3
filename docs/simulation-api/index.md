@@ -5,33 +5,34 @@ lang: en-US
 
 # Introduction
 
-The `ForceSimulation` class is the main entry point for Graphly D3.
-It provides the d3 force simulation as well as an enhanced API to interact with the graph.
+The `ForceSimulation` class is the heart of the force-directed graph simulation.
+It is responsible for rendering and updated the visualization of nodes and links.
+To achieve this, it uses d3's force-simulation under the hood and appends further features and an enhanced API.
 
-More detailed information can be found on the next pages.
+More detailed infromation about the specific features are available on the following pages.
 
 ## Setup
 
-To use the force simulation within a project you need to import the `ForceSimulation` class.
-It creates the directed-force graph and requires a d3 selection of the svg element as initial parameter.
+To use the force simulation within a project you need to import the `ForceSimulation` class from `graphly-d3`.
+Instantiate a new `ForceSimulation` and pass it the `<svg>` DOM element you want to render the graph in.
 
-The `ForceSimulation` needs to know where to load the templates from.
-This can be specified with the `.setTemplateOrigin()` method. (Here we choose a local folder that gets exposed, but you can also use a remote url.)
+You will also want to import the `style.css` from the `graphly-d3` package.
+This provides the necessary styles for the graph visualization.
 
-To display the data as a graph the `.render()` method is used.
-It takes the data as input and renders the proper nodes and links.
+To render a graph you need to call the `render()` method of the `ForceSimulation` instance and pass the graph object as an argument.
+The graph needs to meed the [required format](/data-structure/) with nodes and links.
 
 ```js
-import * as d3 from "d3";
 import { ForceSimulation } from "@livereader/graphly-d3";
+import "@livereader/graphly-d3/style.css";
 
 const graph = {
-	nodes: [],
-	links: [],
+	nodes: [...],
+	links: [...],
 };
-const svg = d3.select("svg");
 
+const svg = document.getElementById("mySVG");
 const simulation = new ForceSimulation(svg);
-simulation.setTemplateOrigin("http://" + document.location.host + "/templates/");
+
 simulation.render(graph);
 ```

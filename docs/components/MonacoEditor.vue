@@ -12,7 +12,7 @@ async function init() {
 	monaco.editor.defineTheme("dark", editorDarkTheme);
 
 	self.MonacoEnvironment = {
-		getWorkerUrl: function(moduleId, label) {
+		getWorkerUrl: function (moduleId, label) {
 			if (label === "json") {
 				return "/monacoeditorwork/json.worker.bundle.js";
 			}
@@ -26,14 +26,14 @@ async function init() {
 				return "/monacoeditorwork/ts.worker.bundle.js";
 			}
 			return "/monacoeditorwork/editor.worker.bundle.js";
-		}
+		},
 	};
 
 	const editor = monaco.editor.create(document.getElementsByClassName("monacoEditor")[0], {
 		value: props.editorContent,
 		language: props.editorLanguage,
 		automaticLayout: true,
-		theme: theme.value
+		theme: theme.value,
 	});
 
 	editor.onDidChangeModelContent(() => {
@@ -41,7 +41,7 @@ async function init() {
 	});
 
 	const themeObserver = new MutationObserver(() => {
-		theme.value = document.getElementsByTagName("html")[0].getAttribute("color-mode");
+		theme.value = document.getElementsByTagName("html")[0].classList.contains("dark") ? "dark" : "light";
 		monaco.editor.setTheme(theme.value);
 	});
 	themeObserver.observe(document.getElementsByTagName("html")[0], { attributes: true });
@@ -50,12 +50,12 @@ async function init() {
 const props = defineProps({
 	editorLanguage: {
 		type: String,
-		default: "javascript"
+		default: "javascript",
 	},
 	editorContent: {
 		type: String,
-		default: ""
-	}
+		default: "",
+	},
 });
 
 const emits = defineEmits(["editorContentChange"]);
@@ -67,8 +67,8 @@ const editorLightTheme = {
 	rules: [],
 	colors: {
 		"editor.background": "#00000000",
-		"minimap.background": "#00000010"
-	}
+		"minimap.background": "#00000010",
+	},
 };
 const editorDarkTheme = {
 	base: "vs-dark",
@@ -76,12 +76,12 @@ const editorDarkTheme = {
 	rules: [],
 	colors: {
 		"editor.background": "#00000000",
-		"minimap.background": "#00000010"
-	}
+		"minimap.background": "#00000010",
+	},
 };
 
 onMounted(async () => {
-	theme.value = document.getElementsByTagName("html")[0].getAttribute("color-mode");
+	theme.value = document.getElementsByTagName("html")[0].classList.contains("dark") ? "dark" : "light";
 	if (!monaco) {
 		monaco = await import("monaco-editor");
 		setTimeout(async () => {
@@ -94,14 +94,14 @@ onMounted(async () => {
 
 watch(
 	() => props.editorContent,
-	newValue => {
+	(newValue) => {
 		if (monaco == null) return;
 		editor.setValue(newValue);
 	}
 );
 watch(
 	() => props.editorLanguage,
-	newValue => {
+	(newValue) => {
 		if (monaco == null) return;
 		editor.setModel(monaco.editor.createModel(props.editorContent, newValue));
 	}

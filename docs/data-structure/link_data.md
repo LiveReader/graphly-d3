@@ -9,7 +9,7 @@ The original `link` properties are only required by d3 to calculate the respecti
 Graphly D3 extends this data structure with properties to further describe appearance and force behavior of any link.
 
 ::: info
-Links are rendered as a clockwise curved line from the `source` and `target` node.
+Links are rendered as a clockwise curved line from the `source` to `target` node.
 If there are multiple links between two nodes, the curvature of the line is incremented for each additional link.
 :::
 
@@ -30,13 +30,19 @@ const link = {
 
 :::
 
----
+## Interface
 
-**Table of Contents**
-
-[[toc]]
-
----
+```ts
+interface Link {
+	source: string | Node;
+	target: string | Node;
+	type?: LinkType;
+	directed?: boolean;
+	label?: string;
+	strength?: number | LinkStrength;
+	padding?: number;
+}
+```
 
 ## Source & Target
 
@@ -57,10 +63,19 @@ const link = {
 
 The link `type` property defines the appearance of the link. It takes a string value and can be one of the following:
 
+```ts
+enum LinkType {
+	Solid = "solid",
+	Dashed = "dashed",
+	Dotted = "dotted",
+	Hidden = "hidden",
+}
+```
+
 -   `solid`: A solid path with rounded ends.
 -   `dashed`: A dashed path.
 -   `dotted`: A dotted path.
--   `hidden`: The entire link is invisible. (including the label and arrow)
+-   `hidden`: The entire link is invisible. (including the [label](#label) and [arrow](#directed))
 
 ::: info
 If not set or specified with a falsy value, the `solid` type is used as fallback.
@@ -68,17 +83,30 @@ If not set or specified with a falsy value, the `solid` type is used as fallback
 
 ```js
 const link = {
+	source: "node1",
+	target: "node2",
 	type: "solid",
+};
+```
+
+```ts
+import { LinkType } from "@livereader/graphly-d3";
+const link = {
+	source: "node1",
+	target: "node2",
+	type: LinkType.Solid,
 };
 ```
 
 ## Directed
 
 The link `directed` property takes a boolean value and defines whether the link represents a directed relationship.
-Default is `false`. If `true`, an arrow gets drawn at the tail of the line, directed towards the `target` node.
+Default is `false`. If `true`, an arrow gets drawn at the head of the line, directed towards the `target` node.
 
 ```js
 const link = {
+	source: "node1",
+	target: "node2",
 	directed: true,
 };
 ```
@@ -90,6 +118,8 @@ The text position takes the curvature of the line into account to be placed at t
 
 ```js
 const link = {
+	source: "node1",
+	target: "node2",
 	label: "links to",
 };
 ```
@@ -98,6 +128,14 @@ const link = {
 
 The link `strength` property is used to control the force that the link applies to its nodes.
 It can be a numeric value to define the strength or one of the following predefinitions as string value:
+
+```ts
+enum LinkStrength {
+	Strong = "strong",
+	Weak = "weak",
+	Loose = "loose",
+}
+```
 
 -   `strong`: Predefinition for the strength `0.5`.
 -   `weak`: Predefinition for the strength `0.3`.
@@ -111,7 +149,18 @@ Negative values drive the nodes apart and positive values pull the nodes towards
 
 ```js
 const link = {
+	source: "node1",
+	target: "node2",
 	strength: "strong",
+};
+```
+
+```ts
+import { LinkStrength } from "@livereader/graphly-d3";
+const link = {
+	source: "node1",
+	target: "node2",
+	strength: LinkStrength.Strong,
 };
 ```
 
@@ -136,7 +185,7 @@ const link = {
 Give it a try and see how the different properties influence the appearance and behavior of links.
 You can also try to set multiple links.
 
-::: info
+::: warning
 Dont change the `links` array name since the playground context depends on it.
 :::
 
@@ -171,17 +220,17 @@ let graph = ref({
 });
 
 let editorContent = [
-	"const links = [",
-	"	{",
-	"		source: \"node1\",",
-	"		target: \"node2\",",
-	"		type: \"solid\",",
-	"		directed: true,",
-	"		label: \"links to\",",
-	"		strength: \"strong\",",
-	"		padding: 10,",
-	"	},",
-	"];",
+	'const links = [',
+	'	{',
+	'		source: "node1",',
+	'		target: "node2",',
+	'		type: "solid",',
+	'		directed: true,',
+	'		label: "links to",',
+	'		strength: "strong",',
+	'		padding: 10,',
+	'	},',
+	'];',
 ].join("\n");
 
 function editorContentChange(value) {
