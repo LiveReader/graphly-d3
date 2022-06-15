@@ -76,7 +76,15 @@ export async function renderNodes(this: ForceSimulation, graph: Graph) {
 		.attr("opacity", 1);
 
 	// remove deleted nodes
-	nodeShapes.exit().transition().duration(this.animationDuration).attr("opacity", 0).remove();
+	nodeShapes
+		.exit()
+		.transition()
+		.duration(this.animationDuration)
+		.attr("opacity", 0)
+		.each((d: any) => {
+			this.nodeDataStore.remove(d.id);
+		})
+		.remove();
 
 	// update existing nodes
 	nodeShapes
@@ -141,6 +149,7 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 	linkShape.attr("opacity", 0).transition().duration(this.animationDuration).attr("opacity", 1);
 
 	linkShapes.exit().transition().duration(this.animationDuration).attr("opacity", 0).remove();
+
 	linkShapes.attr("opacity", 1);
 }
 

@@ -20,6 +20,10 @@ export default class NodeDataStore {
 		this.nodes[id] = this.storeNode(node);
 	}
 
+	public remove(id: string) {
+		delete this.nodes[id];
+	}
+
 	public hasNode(id: string): boolean {
 		return this.nodes[id] !== undefined;
 	}
