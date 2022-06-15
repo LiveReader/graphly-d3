@@ -9,6 +9,19 @@ import { Node } from "../types/Node";
 import { Link, LinkType } from "../types/Link";
 
 export function indexLinks(graph: Graph) {
+	graph.links = graph.links.filter((l: Link) => {
+		const source =
+			typeof l.source === "string"
+				? graph.nodes.find((n: Node) => n.id === l.source)
+				: graph.nodes.find((n: Node) => n.id === (l.source as Node).id);
+		const target =
+			typeof l.target === "string"
+				? graph.nodes.find((n: Node) => n.id === l.target)
+				: graph.nodes.find((n: Node) => n.id === (l.target as Node).id);
+		if (!source || !target) return false;
+		return true;
+	});
+
 	graph.nodes.forEach((node: Node) => {
 		const links: Link[] = [];
 		graph.links.forEach((link: Link) => {
@@ -151,6 +164,17 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 	linkShapes.exit().transition().duration(this.animationDuration).attr("opacity", 0).remove();
 
 	linkShapes.attr("opacity", 1);
+	linkShapes
+		.select("[data-object='link-line']")
+		.classed("solid", (d: Link) => (!d.type ? true : d.type === LinkType.Solid))
+		.classed("dashed", (d: Link) => d.type === LinkType.Dashed)
+		.classed("dotted", (d: Link) => d.type === LinkType.Dotted)
+		.classed("hidden", (d: Link) => d.type === LinkType.Hidden);
+	linkShapes.select("[data-object='link-arrow-head']").classed("hidden", (d: Link) => d.type === LinkType.Hidden);
+	linkShapes.select("[data-object='link-arrow-tail']").classed("hidden", (d: Link) => d.type === LinkType.Hidden);
+	linkShapes
+		.select("[data-object='link-label']")
+		.text((d: Link) => (d.type !== LinkType.Hidden ? d.label ?? "" : ""));
 }
 
 async function getNodeTemplates(this: ForceSimulation, graph: Graph) {
