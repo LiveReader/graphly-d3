@@ -48,7 +48,10 @@ export default function Node(this: any, data: Node) {
 					.node();
 			})
 			.attr("data-object", "shape");
-		Shape.transform(nodeShape.select("[data-object=shape]"), data.shape.template?.shapeSize ?? 300);
+		Shape.transform(
+			nodeShape.select("[data-object=shape]"),
+			data.shape.scale * (data.forceSimulation?.templateStore?.errorTemplate?.shapeSize ?? 300)
+		);
 		return nodeShape.node();
 	}
 }

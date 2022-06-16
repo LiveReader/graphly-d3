@@ -189,21 +189,28 @@ export default class ForceSimulation {
 	}
 
 	public async render(this: ForceSimulation, graph: Graph, alpha: number = 0.05, forced: boolean = false) {
-		if (forced) this.nodeDataStore.clear();
+		if (forced) {
+			this.nodeDataStore.clear();
+			this.selectionGroups.nodes.selectAll("*").remove();
+			this.selectionGroups.links.selectAll("*").remove();
+		}
 		this.graph = graph;
-		indexLinks(graph);
-		await renderNodes.bind(this)(this.graph);
-		renderLinks.bind(this)(this.graph);
+		await renderNodes
+			.bind(this)(this.graph)
+			.then(() => {
+				indexLinks(graph);
+				renderLinks.bind(this)(this.graph);
 
-		this.simulation.nodes(this.graph.nodes);
-		(this.simulation.force("link") as d3.ForceLink<Node, Link>).links(graph.links);
-		this.simulation.alphaTarget(alpha).restart();
-		setTimeout(() => {
-			this.simulation.alphaTarget(0);
-		}, 100);
+				this.simulation.nodes(this.graph.nodes);
+				(this.simulation.force("link") as d3.ForceLink<Node, Link>).links(graph.links);
+				this.simulation.alphaTarget(alpha).restart();
+				setTimeout(() => {
+					this.simulation.alphaTarget(0);
+				}, 100);
 
-		this._onZoomRegister.forEach((registration) => registration.callback(this.worldTransform.k));
-		this.selectNodes();
+				this._onZoomRegister.forEach((registration) => registration.callback(this.worldTransform.k));
+				this.selectNodes();
+			});
 	}
 
 	public exportGraph() {

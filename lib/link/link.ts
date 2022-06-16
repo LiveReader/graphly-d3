@@ -123,10 +123,14 @@ function getSurfacePoints(
 		.attr("d", `M ${start.x} ${start.y}` + `Q ${center.x}, ${center.y}` + ` ${end.x} ${end.y}`)
 		.node();
 	if (!path) return { start, end, center: off };
-	if (!link.source.shape.template) return { start, end, center: off };
-	if (!link.target.shape.template) return { start, end, center: off };
-	const startDistance = (link.source.shape.scale ?? 1) * ((link.source.shape.template.shapeSize ?? 300) / 2);
-	const endDistance = (link.target.shape.scale ?? 1) * ((link.target.shape.template.shapeSize ?? 300) / 2);
+	const sourceSize = link.source.shape.failed
+		? link.source.forceSimulation?.templateStore.errorTemplate.shapeSize
+		: link.source.shape.template?.shapeSize ?? 300;
+	const targetSize = link.target.shape.failed
+		? link.target.forceSimulation?.templateStore.errorTemplate.shapeSize
+		: link.target.shape.template?.shapeSize ?? 300;
+	const startDistance = (link.source.shape.scale ?? 1) * ((sourceSize ?? 300) / 2);
+	const endDistance = (link.target.shape.scale ?? 1) * ((targetSize ?? 300) / 2);
 	const surfaceStart = path.getPointAtLength(startDistance + distance);
 	const surfaceEnd = path.getPointAtLength(path.getTotalLength() - endDistance - distance - arrowDistance);
 	const surfaceOffset = offset(link, surfaceStart, surfaceEnd, 0.1);
