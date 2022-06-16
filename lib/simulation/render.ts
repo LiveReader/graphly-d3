@@ -189,8 +189,8 @@ async function getNodeTemplates(this: ForceSimulation, graph: Graph) {
 function spawnNodes(nodes: Node[]) {
 	for (let i in nodes) {
 		const node = nodes[i];
-		if (!node.x && !node.y) continue;
-		if (!node.fx && !node.fy) continue;
+		if (node.x || node.y) continue;
+		if (node.fx || node.fy) continue;
 		if (node.anchor?.x || node.anchor?.y) continue;
 		if (node.satellite?.x || node.satellite?.y) continue;
 		if (node.spawn) {
