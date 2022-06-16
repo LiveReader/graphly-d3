@@ -1,5 +1,5 @@
 <template>
-	<div className="codePreview" :style="{ height: props.height }">
+	<div class="codePreview" :style="{ height: props.height }">
 		<Graphly class="graphly" :graph="props.graph" />
 		<MonacoEditor
 			class="monaco-editor"

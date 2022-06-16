@@ -1,7 +1,7 @@
 <template>
-	<div className="graphlyContainer">
-		<svg ref="graphlyElement" className="graphly" height="100%" width="100%"></svg>
-		<button ref="graphlyMoveTo" className="graphlyMoveTo">
+	<div class="graphlyContainer">
+		<svg ref="graphlyElement" class="graphly" height="100%" width="100%"></svg>
+		<button ref="graphlyMoveTo" class="graphlyMoveTo">
 			<span>Show Nodes</span>
 			<svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
 				<path
@@ -81,8 +81,11 @@ watch(
 }
 .graphlyContainer {
 	position: relative;
+	height: 100%;
+	width: 100%;
 }
 .graphlyMoveTo {
+	/* in the top right corner of the container */
 	position: absolute;
 	top: 0;
 	right: 0;
