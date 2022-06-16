@@ -1,6 +1,6 @@
 {
 	"name": "@livereader/graphly-d3",
-	"version": "0.9.1",
+	"version": "1.0.0",
 	"description": "Library for creating powerful and interactive graph visualizations with ease.",
 	"main": "./dist/main.umd.js",
 	"module": "./dist/main.es.js",
