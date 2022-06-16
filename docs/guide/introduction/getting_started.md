@@ -189,6 +189,7 @@ Take a look at the [Tutorial](../tutorials/) to learn more about how to use Grap
 	onMounted(() => {
 		import("@livereader/graphly-d3").then(({ ForceSimulation }) => {
 			const mySVG = document.getElementById("mySVG");
+			mySVG.innerHTML = "";
 			const simulation = new ForceSimulation(mySVG);
 			simulation.linkDistance = 250;
 			simulation.envGravity = -5000;
