@@ -1,8 +1,8 @@
-# Graphly D3 Docs
-
 <p align="center">
-  <img src="./docs/public/icons/graphly-d3-icon.svg#gh-dark-mode-only" width="30%">
+  <img src="./docs/public/icons/graphly-d3-icon.png" width="30%">
 </p>
+
+# Graphly D3 Docs
 
 This is the repository for the official documentation for the [Graphly D3](https://github.com/livereader/graphly-d3) library.
 It documents the API and how to use the library by providing examples and tutorials to try out in place.  
