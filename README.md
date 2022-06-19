@@ -1,16 +1,110 @@
-# Vue 3 + TypeScript + Vite
+<p align="center">
+  <img src="https://graphly-d3.livereader.com/icons/graphly-d3-icon.png" width="30%">
+</p>
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+# Graphly D3 Vue
 
-## Recommended IDE Setup
+This is a Vue component library implementing a wrapper component around [Graphly D3](https://graphly-d3.livereader.com) for an easy way to utilize it in a Vue application.
 
--   [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+## How to use
 
-## Type Support For `.vue` Imports in TS
+1. install the component library with `npm install graphly-d3-vue` in your Vue project.
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+```shell
+npm install @livereader/graphly-d3-vue
+```
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+2. import the `GraphlyD3` component and style from the library.
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+```js
+import { GraphlyD3 } from "@livereader/graphly-d3-vue";
+import "@livereader/graphly-d3-vue/style.css";
+```
+
+3. embed the component in your Vue file with the `<GraphlyD3 />` tag.
+
+```html
+<GraphlyD3 ref="graphly" />
+```
+
+4. access the ref to the Graphly D3 ForceSimulation instance and use it to control the simulation.
+
+```js
+<template>
+  <GraphlyD3 ref="graphly" />
+</template>
+
+<script setup>
+	import { onMounted } from "vue";
+	import { GraphlyD3 } from "@livereader/graphly-d3-vue";
+	import "@livereader/graphly-d3-vue/style.css";
+
+	const graphly = ref(null);
+
+	onMounted(() => {
+		const simulation = graphly.value.simulation;
+		simulation.render({
+			nodes: [],
+			links: [],
+		})
+	});
+</script>
+```
+
+To learn more about the `simulation` reference, take a look at the [Graphly D3](https://graphly-d3.livereader.com/simulation-api/#setup) documentation and learn which methods and properties are available.
+
+## GraphlyD3 Props
+
+The `GraphlyD3` Vue component accepts the following properties:
+
+| Property          | Type           | Description                                     | Reference                                                                                     |
+| ----------------- | -------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| dark              | `Boolean`      | whether to use the dark theme                   | [Docs](https://graphly-d3.livereader.com/template-api/template_styles.html#dark-mode)         |
+| remoteOrigin      | `String`       | the remote origin from where to fetch templates | [Docs](https://graphly-d3.livereader.com/simulation-api/environment.html#remote-origin)       |
+| selectedNodes     | `Array<sring>` | the selected nodes                              | [Docs](https://graphly-d3.livereader.com/simulation-api/environment.html#selected-nodes)      |
+| envGravity        | `Number`       | the gravity of the environment                  | [Docs](https://graphly-d3.livereader.com/simulation-api/environment.html#env-gravity)         |
+| linkDistance      | `Number`       | the minimum distance of links                   | [Docs](https://graphly-d3.livereader.com/simulation-api/environment.html#link-distance)       |
+| animationDuration | `Number`       | the duration of animations                      | [Docs](https://graphly-d3.livereader.com/simulation-api/environment.html#animation-duration)  |
+| draggableNodes    | `Boolean`      | whether nodes can be dragged                    | [Docs](https://graphly-d3.livereader.com/simulation-api/environment.html#draggable-nodes)     |
+| zoomEnabled       | `Boolean`      | whether the zoom is enabled                     | [Docs](https://graphly-d3.livereader.com/simulation-api/move_and_zoom.html#zoom-enabled)      |
+| zoomScaleExtent   | `Array<nmber>` | the zoom scale extent                           | [Docs](https://graphly-d3.livereader.com/simulation-api/move_and_zoom.html#zoom-scale-extent) |
+
+Example:
+
+```html
+<GraphlyD3 ref="graphly" :dark="true" />
+```
+
+## GraphlyD3 Emits
+
+The `GraphlyD3` Vue component also emits all [Event API](https://graphly-d3.livereader.com/simulation-api/event_api.html#event-api) events.
+
+| Emit                   | Description                                  | Reference                                                                                        |
+| ---------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| nodeClick              | user click on node shape                     | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#node-click)               |
+| nodeDoubleClick        | user double click on node shape              | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#node-double-click)        |
+| nodeContextMenu        | user right click on node shape               | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#node-context-menu)        |
+| nodeDragStart          | user started dragging a node shape           | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#node-drag-start)          |
+| nodeDragMove           | user dragging a node shape                   | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#node-drag-move)           |
+| nodeDragEnd            | user released dragging a node shape          | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#node-drag-end)            |
+|                        |                                              |                                                                                                  |
+| linkClick              | user click on link shape                     | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#link-click)               |
+| linkDoubleClick        | user double click on link shape              | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#link-double-click)        |
+| linkContextMenu        | user right click on link shape               | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#link-context-menu)        |
+| linkDragStart          | user started dragging a link shape           | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#link-drag-start)          |
+| linkDragMove           | user dragging a link shape                   | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#link-drag-move)           |
+| linkDragEnd            | user released dragging a link shape          | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#link-drag-end)            |
+|                        |                                              |                                                                                                  |
+| environmentClick       | user click on svg background                 | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#environment-click)        |
+| environmentDoubleClick | user double click on svg background          | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#environment-double-click) |
+| environmentContextMenu | user right click on svg background           | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#environment-context-menu) |
+| environmentMove        | svg world moved by user or moveTo method     | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#environment-move)         |
+|                        |                                              |                                                                                                  |
+| simulationTick         | simulation ticked one simulation step        | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#simulation-tick)          |
+| simulationTickEnd      | simulation finished ticking simulation steps | [Docs](https://graphly-d3.livereader.com/simulation-api/event_api.html#simulation-tick-end)      |
+
+Example
+
+```html
+<GraphlyD3 ref="graphly" @node-click="(e, d) => console.log(d.id)" />
+```
