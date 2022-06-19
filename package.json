@@ -46,5 +46,16 @@
 	},
 	"directories": {
 		"src": "src"
-	}
+	},
+	"keywords": [
+		"d3",
+		"d3-visualization",
+		"svg",
+		"graph",
+		"visualization",
+		"data-driven-design",
+		"vue",
+		"vue-component",
+		"graphly-d3"
+	]
 }
