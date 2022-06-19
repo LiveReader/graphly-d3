@@ -1,5 +1,5 @@
 {
-	"name": "graphly-d3-vue",
+	"name": "@livereader/graphly-d3-vue",
 	"version": "1.0.0",
 	"description": "A Vue component library implementing Graphly D3",
 	"main": "./dist/graphly-d3-vue.umd.js",
@@ -11,7 +11,7 @@
 	},
 	"exports": {
 		".": {
-			"import": "./dist/graphly-d3-vue.umd.js",
+			"import": "./dist/graphly-d3-vue.es.js",
 			"require": "./dist/graphly-d3-vue.umd.js"
 		},
 		"./style.css": "./dist/style.css"
