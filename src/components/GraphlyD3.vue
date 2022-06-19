@@ -1,7 +1,6 @@
 <template>
-	<div class="gly-container">
-		<svg ref="svg" :class="{ dark: props.dark }"></svg>
-		<slot></slot>
+	<div class="gly-container" style="width: 100%; height: 100%">
+		<svg ref="svg" style="width: 100%; height: 100%" :class="{ dark: props.dark }"></svg>
 	</div>
 </template>
 
@@ -195,13 +194,4 @@ watch(
 );
 </script>
 
-<style scoped lang="scss">
-.gly-container {
-	width: 100%;
-	height: 100%;
-	svg {
-		width: 100%;
-		height: 100%;
-	}
-}
-</style>
+<style scoped lang="scss"></style>
