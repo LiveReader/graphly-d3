@@ -44,6 +44,7 @@ export default {
 			},
 		],
 		socialLinks: [
+			{ icon: "discord", link: "https://discord.gg/NdtkFFRuXa" },
 			{ icon: "twitter", link: "https://twitter.com/LiveReaderCom" },
 			{ icon: "linkedin", link: "https://www.linkedin.com/company/livereader-gmbh" },
 			{ icon: "github", link: "https://github.com/livereader/graphly-d3" },
