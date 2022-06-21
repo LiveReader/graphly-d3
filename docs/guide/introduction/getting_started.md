@@ -53,7 +53,7 @@ simulation.templateStore.add("hexagon", Hexagon);
 ```js
 // hexagon.js
 export default {
-	shapeSize: 300,
+	shapeSize: 120,
 	shapeBuilder: shapeBuilder,
 };
 
@@ -67,7 +67,7 @@ function shapeBuilder(data, TemplateAPI) {
 			</g>
 		</g>
 	`);
-	shape.select("path").style("fill", data.payload?.color ?? "#000");
+	shape.select("path").style("fill", data.payload?.color ?? "#9575cd");
 
 	const titleShape = TextCollection(data.payload?.title ?? "", CollectionStyle(200, 240, 30, 100, 10, 10, 2), [
 		ShapeStyle("class", "gly_text.light"),
@@ -183,7 +183,7 @@ simulation.render(graph);
 ```js
 // hexagon.js
 export default {
-	shapeSize: 300,
+	shapeSize: 120,
 	shapeBuilder: shapeBuilder,
 };
 
@@ -197,7 +197,7 @@ function shapeBuilder(data, TemplateAPI) {
 			</g>
 		</g>
 	`);
-	shape.select("path").style("fill", data.payload?.color ?? "#000");
+	shape.select("path").style("fill", data.payload?.color ?? "#9575cd");
 
 	const titleShape = TextCollection(data.payload?.title ?? "", CollectionStyle(200, 240, 30, 100, 10, 10, 2), [
 		ShapeStyle("class", "gly_text.light"),
