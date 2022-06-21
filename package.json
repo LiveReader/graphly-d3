@@ -33,7 +33,7 @@
 		"dist"
 	],
 	"dependencies": {
-		"@livereader/graphly-d3": "^1.0.0",
+		"@livereader/graphly-d3": "^1.0.1",
 		"vue": "^3.2.25"
 	},
 	"devDependencies": {
