@@ -14,7 +14,13 @@ export default function Node(this: any, data: Node) {
 	const hasTemplateChange = data.forceSimulation.nodeDataStore.hasTemplateChange(data.id, data);
 	data.forceSimulation.nodeDataStore.add(data.id, data);
 
-	if (!hasChanges && !hasTemplateChange && !data.shape.failed) return nodeShape.node();
+	if (!hasChanges && !hasTemplateChange && !data.shape.failed) {
+		Shape.transform(
+			nodeShape.select("[data-object=shape]"),
+			data.shape.scale * (data.shape.template?.shapeSize ?? 300)
+		);
+		return nodeShape.node();
+	}
 	nodeShape.selectAll("*").remove();
 	nodeShape.classed("gly-node", true).attr("data-id", data.id);
 
