@@ -123,7 +123,7 @@ function shapeBuilder(data, TemplateAPI) {
 			[
 				ShapeStyle("class", "gly_text", true),
 				ShapeStyle("class", "dark", true),
-				ShapeStyle("font-size", "160", true),
+				ShapeStyle("font-size", "160px", true),
 				ShapeStyle("class", "gly_gray_fill.lighten", !!placeholder),
 			]
 		);
@@ -150,7 +150,7 @@ function shapeBuilder(data, TemplateAPI) {
 			[
 				ShapeStyle("class", "gly_text", true),
 				ShapeStyle("class", "dark", true),
-				ShapeStyle("font-size", "440", true),
+				ShapeStyle("font-size", "440px", true),
 				ShapeStyle("class", "gly_gray_fill.lighten", !!placeholder),
 			]
 		);
@@ -164,7 +164,7 @@ function shapeBuilder(data, TemplateAPI) {
 			[
 				ShapeStyle("class", "gly_text", true),
 				ShapeStyle("class", "dark", true),
-				ShapeStyle("font-size", "680", true),
+				ShapeStyle("font-size", "680px", true),
 				ShapeStyle("class", "gly_gray_fill.lighten", !!placeholder),
 			]
 		);
@@ -184,7 +184,7 @@ function shapeBuilder(data, TemplateAPI) {
 			[
 				ShapeStyle("class", "gly_text", true),
 				ShapeStyle("class", "white", true),
-				ShapeStyle("font-size", "280", true),
+				ShapeStyle("font-size", "280px", true),
 				ShapeStyle("opacity", "0.5", true),
 			]
 		);
@@ -204,7 +204,7 @@ function shapeBuilder(data, TemplateAPI) {
 			[
 				ShapeStyle("class", "gly_text", true),
 				ShapeStyle("class", "white", true),
-				ShapeStyle("font-size", "280", true),
+				ShapeStyle("font-size", "280px", true),
 				ShapeStyle("opacity", "0.5", true),
 			]
 		);
@@ -229,7 +229,7 @@ function shapeBuilder(data, TemplateAPI) {
 			data.payload?.accessibility ?? " – ",
 			TagStyle(
 				[40, 120],
-				[ShapeStyle("class", "gly_text.white", true), ShapeStyle("font-size", "140", true)],
+				[ShapeStyle("class", "gly_text.white", true), ShapeStyle("font-size", "140px", true)],
 				[ShapeStyle("class", "gly_black_fill", true)],
 				120
 			)
@@ -244,7 +244,7 @@ function shapeBuilder(data, TemplateAPI) {
 			data.payload?.accessibility ?? " – ",
 			TagStyle(
 				[50, 160],
-				[ShapeStyle("class", "gly_text.white", true), ShapeStyle("font-size", "180", true)],
+				[ShapeStyle("class", "gly_text.white", true), ShapeStyle("font-size", "180px", true)],
 				[ShapeStyle("class", "gly_black_fill", true)],
 				160
 			)
@@ -267,7 +267,7 @@ function shapeBuilder(data, TemplateAPI) {
 			CollectionStyle(800, bbox.width, 0, bbox.height * 0.72, 60, 60, 3, Alignment.Center, [370, 540, 710]),
 			TagStyle(
 				[40, 100],
-				[ShapeStyle("class", "gly_text.dark", true), ShapeStyle("font-size", "120", true)],
+				[ShapeStyle("class", "gly_text.dark", true), ShapeStyle("font-size", "120px", true)],
 				[ShapeStyle("class", "gly_gray_fill", true), ShapeStyle("class", "demo_template_tag", true)],
 				110
 			)
