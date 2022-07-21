@@ -28,5 +28,6 @@ export interface Link extends D3Link {
 	strength?: number | LinkStrength;
 	padding?: number;
 	width?: number;
+	curvature?: number;
 	payload?: any;
 }

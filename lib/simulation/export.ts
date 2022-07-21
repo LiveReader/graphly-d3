@@ -10,6 +10,7 @@ interface ExportLink {
 	strength?: number | string;
 	padding?: number;
 	width?: number;
+	curvature?: number;
 	payload?: any;
 }
 
@@ -83,6 +84,7 @@ export function exportGraph(this: ForceSimulation): ExportGraph {
 			strength: link.strength,
 			padding: link.padding,
 			width: link.width,
+			curvature: link.curvature,
 			payload: link.payload,
 		};
 		links.push(exportLink);

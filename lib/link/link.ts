@@ -79,8 +79,10 @@ function offset(
 	const dX = dx(start, end);
 	const dY = dy(start, end);
 	const normal = normalize(dX, dY);
-	const x = bezierCurveFactor * (dY / normal) * normal * ((link.i ?? 0) + 1);
-	const y = bezierCurveFactor * (dX / normal) * normal * ((link.i ?? 0) + 1);
+	const curvature = isNaN(link.curvature) ? bezierCurveFactor : link.curvature;
+	const indexFactor = isNaN(link.curvature) ? (link.i ?? 0) + 1 : 1;
+	const x = curvature * (dY / normal) * normal * indexFactor;
+	const y = curvature * (dX / normal) * normal * indexFactor;
 	return { x: x, y: y };
 }
 
