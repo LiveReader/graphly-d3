@@ -3,11 +3,15 @@ import ForceSimulation from "./forceSimulation";
 interface ExportLink {
 	source: string;
 	target: string;
+	id?: string;
 	type?: string;
 	directed?: boolean;
 	label?: string;
 	strength?: number | string;
 	padding?: number;
+	width?: number;
+	curvature?: number;
+	payload?: any;
 }
 
 interface ExportNode {
@@ -73,11 +77,15 @@ export function exportGraph(this: ForceSimulation): ExportGraph {
 		const exportLink: ExportLink = {
 			source: typeof link.source === "string" ? link.source : link.source.id,
 			target: typeof link.target === "string" ? link.target : link.target.id,
+			id: link.id,
 			type: link.type,
 			directed: link.directed,
 			label: link.label,
 			strength: link.strength,
 			padding: link.padding,
+			width: link.width,
+			curvature: link.curvature,
+			payload: link.payload,
 		};
 		links.push(exportLink);
 	});
