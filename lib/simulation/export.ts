@@ -9,6 +9,7 @@ interface ExportLink {
 	label?: string;
 	strength?: number | string;
 	padding?: number;
+	width?: number;
 	payload?: any;
 }
 
@@ -81,6 +82,7 @@ export function exportGraph(this: ForceSimulation): ExportGraph {
 			label: link.label,
 			strength: link.strength,
 			padding: link.padding,
+			width: link.width,
 			payload: link.payload,
 		};
 		links.push(exportLink);
