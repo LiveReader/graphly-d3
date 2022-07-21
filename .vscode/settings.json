@@ -7,5 +7,5 @@
 	"[javascript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"githubIssues.issueBranchTitle": "${sanitizedIssueTitle}-${issueNumber}"
+	"githubIssues.issueBranchTitle": "${sanitizedIssueTitle}-#${issueNumber}"
 }
