@@ -38,6 +38,7 @@ svg {
 			stroke-width: 2;
 			stroke-dasharray: none;
 			stroke-linecap: round;
+			stroke-linejoin: round;
 			&.hidden {
 				stroke-opacity: 0;
 			}
