@@ -117,6 +117,7 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.enter()
 		.append("g")
 		.attr("data-object", "link")
+		.attr("data-id", (d: any) => linkID(d))
 		.classed("gly-link", true)
 		.on("click", (e: any, d: Link) => {
 			this.eventStore.emit(Event.LinkClick, e, d);
