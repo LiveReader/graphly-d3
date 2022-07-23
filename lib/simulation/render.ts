@@ -222,7 +222,7 @@ function spawnNodes(nodes: Node[]) {
 	}
 }
 
-function linkID(link: Link): string {
+export function linkID(link: Link): string {
 	if (link.id) return link.id;
 	return (
 		(typeof link.source === "string" ? link.source : link.source.id) +
