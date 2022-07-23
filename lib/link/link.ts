@@ -49,12 +49,12 @@ export function labelPosition(link: Link) {
 
 function lineStart(link: Link): { x: number; y: number } {
 	if (typeof link.source === "string" || typeof link.target === "string") return { x: 0, y: 0 };
-	return calculateIntersection(link.target, link.source);
+	return calculateStartpoint(link.target, link.source);
 }
 
 function lineEnd(link: Link): { x: number; y: number } {
 	if (typeof link.source === "string" || typeof link.target === "string") return { x: 0, y: 0 };
-	return calculateIntersection(link.source, link.target);
+	return calculateStartpoint(link.source, link.target);
 }
 
 function lineCenter(start: { x: number; y: number }, end: { x: number; y: number }): { x: number; y: number } {
@@ -98,7 +98,7 @@ function normalize(dx: number, dy: number): number {
 	return Math.sqrt(dx * dx + dy * dy);
 }
 
-function calculateIntersection(source: Node, target: Node): { x: number; y: number } {
+function calculateStartpoint(source: Node, target: Node): { x: number; y: number } {
 	const dx = (target.x ?? 0) - (source.x ?? 0);
 	const dy = (target.y ?? 0) - (source.y ?? 0);
 	const length = Math.sqrt(dx * dx + dy * dy);
