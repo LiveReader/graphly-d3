@@ -33,7 +33,10 @@ export function create(type: string): d3.Selection<SVGElement, any, any, any> {
 	return d3.select(document.createElementNS("http://www.w3.org/2000/svg", type));
 }
 
-export function transform(shape: d3.Selection<SVGElement, any, any, any>, size: number) {
+export function transform(
+	shape: d3.Selection<SVGElement, any, any, any>,
+	size: number
+): { scale: number; translate: { x: number; y: number } } {
 	const bbox = getBBox(shape);
 	const scale = size / Math.max(bbox.width, bbox.height);
 	const translate = {
@@ -41,6 +44,10 @@ export function transform(shape: d3.Selection<SVGElement, any, any, any>, size: 
 		y: (-bbox.height * scale) / 2 || 0,
 	};
 	shape.attr("transform", `translate(${translate.x}, ${translate.y}) scale(${scale || 1})`);
+	return {
+		scale: scale,
+		translate: translate,
+	};
 }
 
 export function Circle(radius: number): d3.Selection<SVGElement, any, any, any> {

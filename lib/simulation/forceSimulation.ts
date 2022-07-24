@@ -23,6 +23,14 @@ interface SelectionGroups {
 }
 
 export default class ForceSimulation {
+	public debug = {
+		enabled: false,
+		bodyPoints: {
+			enabled: true,
+			color: "#00ffff",
+		},
+	};
+
 	private _svgElement: SVGElement;
 	get svgElement(): SVGElement {
 		return this._svgElement;

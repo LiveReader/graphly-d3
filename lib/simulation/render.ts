@@ -117,6 +117,7 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.enter()
 		.append("g")
 		.attr("data-object", "link")
+		.attr("data-id", (d: any) => linkID(d))
 		.classed("gly-link", true)
 		.on("click", (e: any, d: Link) => {
 			this.eventStore.emit(Event.LinkClick, e, d);
@@ -131,6 +132,7 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 			e.stopPropagation();
 		});
 
+	linkShape.append("path").attr("data-object", "link-line-full").attr("fill", "none").attr("stroke", "none");
 	linkShape
 		.append("path")
 		.attr("data-object", "link-line")
@@ -222,7 +224,8 @@ function spawnNodes(nodes: Node[]) {
 	}
 }
 
-function linkID(link: Link): string {
+export function linkID(link: Link): string {
+	if (!link.id) link.id = Math.random().toString(36).substring(2, 34) + Math.random().toString(36).substring(2, 34);
 	if (link.id) return link.id;
 	return (
 		(typeof link.source === "string" ? link.source : link.source.id) +
