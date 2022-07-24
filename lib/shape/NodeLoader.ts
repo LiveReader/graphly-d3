@@ -63,6 +63,17 @@ export default function Node(this: any, data: Node) {
 		points.forEach((p) => {
 			p.x = (p.x - pointsXmin) * pointsScale.x + bbox.x - (pointsWidth * pointsScale.x) / 2 + shapeSize;
 			p.y = (p.y - pointsYmin) * pointsScale.y + bbox.y - (pointsHeight * pointsScale.y) / 2 + shapeSize;
+			if (data.forceSimulation?.debug?.enabled && data.forceSimulation?.debug?.bodyPoints?.enabled) {
+				nodeShape
+					.select("[data-object=shape]")
+					.append("circle")
+					.classed("gly-body-points", true)
+					.attr("cx", p.x + (pointsWidth * pointsScale.x) / 2 - shapeSize)
+					.attr("cy", p.y + (pointsHeight * pointsScale.y) / 2 - shapeSize)
+					.attr("r", 40)
+					.attr("fill", data.forceSimulation?.debug?.bodyPoints?.color)
+					.attr("stroke", "none");
+			}
 		});
 		data.shape.bodyPoints = points;
 	}
