@@ -156,7 +156,7 @@ function getSurfacePoints(
 	const endIntersection = calculateIntersectionDistance(link.source, link.target, link, true);
 
 	const startDistance = startIntersection || (link.source.shape.scale ?? 1) * ((sourceSize ?? 300) / 2);
-	const endDistance = endIntersection || (link.target.shape.scale ?? 1) * ((targetSize ?? 300) / 2); // TODO end not working!
+	const endDistance = endIntersection || (link.target.shape.scale ?? 1) * ((targetSize ?? 300) / 2);
 
 	const surfaceStart = path.getPointAtLength(startDistance + distance);
 	const surfaceEnd = path.getPointAtLength(path.getTotalLength() - endDistance - distance - arrowDistance);
@@ -182,6 +182,7 @@ function calculateIntersectionDistance(
 	if (!linePath) return 0;
 
 	const bodyPoints = sourceNode.shape.bodyPoints ?? [];
+	if (bodyPoints.length === 0) return 0;
 	const lineLength = linePath.getTotalLength();
 
 	const stepSize = reversed
@@ -203,7 +204,9 @@ function calculateIntersectionDistance(
 		};
 	}
 
-	while (pointInPolygon(localPoint, bodyPoints) && length <= lineLength) {
+	let iterations = 0;
+	while (pointInPolygon(localPoint, bodyPoints) && length <= lineLength && iterations < 30) {
+		iterations++;
 		length += stepSize;
 		globalPoint = linePath.getPointAtLength(length);
 		if (!reversed) {
@@ -218,7 +221,10 @@ function calculateIntersectionDistance(
 			};
 		}
 	}
-	while (!pointInPolygon(localPoint, bodyPoints) && length >= 0) {
+
+	iterations = 0;
+	while (!pointInPolygon(localPoint, bodyPoints) && length >= 0 && iterations < 30) {
+		iterations++;
 		length = reversed ? length + 1 : length - 1;
 		globalPoint = linePath.getPointAtLength(length);
 		if (!reversed) {
