@@ -7,6 +7,23 @@ export enum ArrowPosition {
 	Tail = "tail",
 }
 
+export function lineFull(link: Link) {
+	const start = lineStart(link);
+	const end = lineEnd(link);
+	const center = lineCenterWithOffset(start, end, offset(link, start, end, 0.1));
+	const points = {
+		start: start,
+		center: center,
+		end: end,
+	};
+	if (!points) return;
+	return (
+		`M ${points.start.x} ${points.start.y}` +
+		`Q ${points.center.x}, ${points.center.y}` +
+		` ${points.end.x} ${points.end.y}`
+	);
+}
+
 export function line(link: Link) {
 	const points = getSurfacePoints(link, link.padding ?? 10);
 	if (!points) return;
@@ -79,8 +96,8 @@ function offset(
 	const dX = dx(start, end);
 	const dY = dy(start, end);
 	const normal = normalize(dX, dY);
-	const curvature = link.curvature && isNaN(link.curvature) ? bezierCurveFactor : link.curvature ?? bezierCurveFactor;
-	const indexFactor = link.curvature && isNaN(link.curvature) ? (link.i ?? 0) + 1 : 1;
+	const curvature = link.curvature || bezierCurveFactor;
+	const indexFactor = link.curvature ? 1 : (link.i ?? 0) + 1;
 	const x = curvature * (dY / normal) * normal * indexFactor;
 	const y = curvature * (dX / normal) * normal * indexFactor;
 	return { x: x, y: y };
