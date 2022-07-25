@@ -75,6 +75,7 @@ export function Rectangle(width: number, height: number, cr: number = 0): d3.Sel
 			`A ${cr} ${cr} 0 0 1 ${-(width / 2) + cr} ${-(height / 2)} ` +
 			`Z`
 	);
+	rect.attr("transform", `translate(${width / 2}, ${height / 2})`);
 	shape.append(() => rect.node());
 	return shape;
 }
