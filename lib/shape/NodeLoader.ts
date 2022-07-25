@@ -70,7 +70,7 @@ export default function Node(this: any, data: Node) {
 					.classed("gly-body-points", true)
 					.attr("cx", p.x + (pointsWidth * pointsScale.x) / 2 - shapeSize)
 					.attr("cy", p.y + (pointsHeight * pointsScale.y) / 2 - shapeSize)
-					.attr("r", 5)
+					.attr("r", Math.max(bbox.height, bbox.width) / shapeSize * 5)
 					.attr("fill", data.forceSimulation?.debug?.bodyPoints?.color)
 					.attr("stroke", "none");
 			}

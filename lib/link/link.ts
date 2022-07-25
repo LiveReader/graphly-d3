@@ -181,7 +181,7 @@ function calculateIntersectionDistance(
 		.node() as SVGPathElement;
 	if (!linePath) return 0;
 
-	const bodyPoints = sourceNode.shape.bodyPoints ?? [];
+	const bodyPoints = reversed ? targetNode.shape.bodyPoints ?? [] : sourceNode.shape.bodyPoints ?? [];
 	if (bodyPoints.length === 0) return 0;
 	const lineLength = linePath.getTotalLength();
 
