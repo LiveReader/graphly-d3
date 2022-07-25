@@ -100,7 +100,7 @@ By default collision and link positioning is calculated by d3 as a circular shap
 (This continues to be the fallback method if the body points can not be calculated).
 
 ::: tip
-Using the [bodyResolution](data-structure/node_data#shape) property you can change how many points are calculated on the body path.
+Using the [bodyResolution](/data-structure/node_data#shape) property you can change how many points are calculated on the body path.
 :::
 
 ![Gly Body](/assets/img/gly-body.png)
