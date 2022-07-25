@@ -155,8 +155,8 @@ function getSurfacePoints(
 	const startIntersection = calculateIntersectionDistance(link.source, link.target, link, false);
 	const endIntersection = calculateIntersectionDistance(link.source, link.target, link, true);
 
-	const startDistance = startIntersection || (link.source.shape.scale ?? 1) * ((sourceSize ?? 300) / 2);
-	const endDistance = endIntersection || (link.target.shape.scale ?? 1) * ((targetSize ?? 300) / 2);
+	const startDistance = startIntersection || link.source.shape.scale * ((sourceSize ?? 300) / 2);
+	const endDistance = endIntersection || link.target.shape.scale * ((targetSize ?? 300) / 2);
 
 	const surfaceStart = path.getPointAtLength(startDistance + distance);
 	const surfaceEnd = path.getPointAtLength(path.getTotalLength() - endDistance - distance - arrowDistance);
@@ -243,7 +243,7 @@ function calculateIntersectionDistance(
 	return distance;
 }
 
-function pointInPolygon(point: { x: number; y: number }, polygon: { x: number; y: number }[]) {
+export function pointInPolygon(point: { x: number; y: number }, polygon: { x: number; y: number }[]) {
 	var inside = false;
 	for (var i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
 		var xi = polygon[i].x,
