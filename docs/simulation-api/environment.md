@@ -136,3 +136,27 @@ The default value is `true`.
 ```ts
 simulation.draggableNodes = false;
 ```
+
+## Debug
+
+::: warning available since version 1.1.0
+:::
+
+The `ForceSimulation` debug object can be used to enable certain additional debug features.
+It supports displaying the calculated [`gly-body`](/template-api/index#graphly-body) points of the nodes.
+
+Just enable debug mode with `simulation.debug.enabled = true;`
+
+```js
+simulation.debug = {
+	enabled: false,
+	bodyPoints: {
+		enabled: true,
+		color: "#00ffff",
+	},
+};
+```
+
+::: tip
+This is useful if you want to check if the template is configured correctly to support the [`gly-body`](/template-api/index#graphly-body) feature.
+:::
