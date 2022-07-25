@@ -53,6 +53,7 @@
 		"svg",
 		"graph",
 		"visualization",
-		"data-driven-design"
+		"data-driven-design",
+		"graphly-d3"
 	]
 }
