@@ -14,7 +14,7 @@ More about defining them on the [Template API](/template-api/) documenation.
 :::
 
 ::: details Example
-A simple example for a node object with all possible properties. Check the sub-sections for more details.
+A simple example for a node object with most possible properties. Check the sub-sections for more details.
 
 ```js
 const node = {
@@ -93,14 +93,20 @@ interface Shape {
 	type: string;
 	scale: number;
 	url?: string;
+	bodyResolution?: number;
 }
 ```
 
-| Property | Description                                                                       |
-| -------- | --------------------------------------------------------------------------------- |
-| `type`   | defines which template to use to render the node ([Template API](/template-api/)) |
-| `scale`  | defines the relative scale of the node (`1` by default)                           |
-| `url?`   | can be used to define a custom remote origin for this specific shape type         |
+| Property          | Description                                                                                                                                                                      |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`            | defines which template to use to render the node ([Template API](/template-api/))                                                                                                |
+| `scale`           | defines the relative scale of the node (`1` by default)                                                                                                                          |
+| `url?`            | can be used to define a custom remote origin for this specific shape type                                                                                                        |
+| `bodyResolution?` | can be used to define the resolution of the [gly-body](/template-api/index#graphly-body) path and how detailed collisions and link distances can be calculated (default is `32`) |
+
+::: warning
+bodyResolution is only available since version 1.1.0
+:::
 
 ::: tip
 You can use the `scale` property to create a visual hierachy of nodes by decreasing the size of less important nodes.
@@ -285,12 +291,14 @@ Dont change the `nodes` array name since the playground context depends on it.
 
 ::: info
 This template uses data about `title` and `color` to render the node.
+
 ```js
 payload: {
 	title: "Hello\nWorld",
 	color: "teal",
 }
 ```
+
 :::
 
 <script setup>
