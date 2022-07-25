@@ -41,7 +41,7 @@ export default function Node(this: any, data: Node) {
 	data.shape.bodyPoints = [];
 	const glyBody = nodeShape.select(".gly-body").node() as SVGPathElement;
 	const points = [];
-	if (glyBody) {
+	if (glyBody && glyBody.getTotalLength) {
 		let n = data.shape?.bodyResolution || 32;
 		const totalLength = glyBody.getTotalLength();
 		for (let i = 0; i < n; i++) {
@@ -70,7 +70,7 @@ export default function Node(this: any, data: Node) {
 					.classed("gly-body-points", true)
 					.attr("cx", p.x + (pointsWidth * pointsScale.x) / 2 - shapeSize)
 					.attr("cy", p.y + (pointsHeight * pointsScale.y) / 2 - shapeSize)
-					.attr("r", 40)
+					.attr("r", 5)
 					.attr("fill", data.forceSimulation?.debug?.bodyPoints?.color)
 					.attr("stroke", "none");
 			}
