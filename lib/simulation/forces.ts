@@ -2,6 +2,7 @@ import * as d3 from "d3";
 
 import { Node, AnchorType } from "../types/Node";
 import { Link, LinkStrength } from "../types/Link";
+import { pointInPolygon } from "../link/link";
 
 export function linkForce(distance: number): d3.ForceLink<Node, Link> {
 	const force = d3
@@ -77,3 +78,46 @@ export function strength(d: Node): number {
 	}
 	return 0;
 }
+
+export function shapeCollide(_alpha: number, nodes: Node[]) {
+	for (let i = 0; i < nodes.length; i++) {
+		for (let j = i + 1; j < nodes.length; j++) {
+			const a = nodes[i];
+			const b = nodes[j];
+			if (nearBy(a, b)) {
+				if (polygonsIntersect(a, b)) {
+					const angle = Math.atan2((b.y ?? 0) - (a.y ?? 0), (b.x ?? 0) - (a.x ?? 0));
+					const dx = Math.cos(angle) * 6;
+					const dy = Math.sin(angle) * 6;
+					a.vx = (a.vx ?? 0) - dx;
+					a.vy = (a.vy ?? 0) - dy;
+					b.vx = (b.vx ?? 0) + dx;
+					b.vy = (b.vy ?? 0) + dy;
+				}
+			}
+		}
+	}
+}
+
+function nearBy(n1: Node, n2: Node) {
+	const n1Pos = { x: n1.x ?? 0, y: n1.y ?? 0 };
+	const n1Radius = ((n1.shape?.template?.shapeSize ?? 300) / 2) * (n1.shape.scale * 1.5);
+	const n2Pos = { x: n2.x ?? 0, y: n2.y ?? 0 };
+	const n2Radius = ((n2.shape?.template?.shapeSize ?? 300) / 2) * (n2.shape.scale * 1.5);
+	const distance = Math.sqrt(Math.pow(n1Pos.x - n2Pos.x, 2) + Math.pow(n1Pos.y - n2Pos.y, 2));
+	return distance < n1Radius + n2Radius;
+}
+
+function polygonsIntersect(n1: Node, n2: Node): boolean {
+	const n1p = (n1.shape.bodyPoints ?? []).map((p) => ({ x: p.x - (n1.x ?? 0), y: p.y - (n1.y ?? 0) }));
+	const n2p = (n2.shape.bodyPoints ?? []).map((p) => ({ x: p.x - (n2.x ?? 0), y: p.y - (n2.y ?? 0) }));
+	for (let i = 0; i < n1p.length; i++) {
+		const point = {
+			x: n1p[i].x,
+			y: n1p[i].y,
+		};
+		if (pointInPolygon(point, n2p)) return true;
+	}
+	return false;
+}
+
