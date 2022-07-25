@@ -35,7 +35,7 @@ import "@livereader/graphly-d3-vue/style.css";
 </template>
 
 <script setup>
-	import { onMounted } from "vue";
+	import { ref, onMounted } from "vue";
 	import { GraphlyD3 } from "@livereader/graphly-d3-vue";
 	import "@livereader/graphly-d3-vue/style.css";
 
