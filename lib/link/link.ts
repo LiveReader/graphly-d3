@@ -155,8 +155,8 @@ function getSurfacePoints(
 	const startIntersection = calculateIntersectionDistance(link.source, link.target, link, false);
 	const endIntersection = calculateIntersectionDistance(link.source, link.target, link, true);
 
-	const startDistance = startIntersection || link.source.shape.scale * ((sourceSize ?? 300) / 2);
-	const endDistance = endIntersection || link.target.shape.scale * ((targetSize ?? 300) / 2);
+	const startDistance = startIntersection || (link.source.shape.scale ?? 1) * ((sourceSize ?? 300) / 2);
+	const endDistance = endIntersection || (link.target.shape.scale ?? 1) * ((targetSize ?? 300) / 2);
 
 	const surfaceStart = path.getPointAtLength(startDistance + distance);
 	const surfaceEnd = path.getPointAtLength(path.getTotalLength() - endDistance - distance - arrowDistance);
@@ -186,8 +186,8 @@ function calculateIntersectionDistance(
 	const lineLength = linePath.getTotalLength();
 
 	const stepSize = reversed
-		? -((targetNode.shape.template?.shapeSize ?? 300) * targetNode.shape.scale) / 20
-		: ((sourceNode.shape.template?.shapeSize ?? 300) * sourceNode.shape.scale) / 20;
+		? -((targetNode.shape.template?.shapeSize ?? 300) * (targetNode.shape.scale ?? 1)) / 20
+		: ((sourceNode.shape.template?.shapeSize ?? 300) * (sourceNode.shape.scale ?? 1)) / 20;
 	let length = reversed ? lineLength : 0;
 	let globalPoint = linePath.getPointAtLength(length);
 	let localPoint = { x: 0, y: 0 };
@@ -239,7 +239,8 @@ function calculateIntersectionDistance(
 			};
 		}
 	}
-	const distance = reversed ? lineLength - length : length;
+	const ditanceFactor = reversed ? (targetNode.shape.scale ?? 1) / (sourceNode.shape.scale ?? 1) : 1;
+	const distance = (reversed ? lineLength - length : length) * ditanceFactor;
 	return distance;
 }
 
