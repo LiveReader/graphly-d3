@@ -117,6 +117,7 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.enter()
 		.append("g")
 		.attr("data-object", "link")
+		.attr("data-id", (d: any) => linkID(d))
 		.classed("gly-link", true)
 		.on("click", (e: any, d: Link) => {
 			this.eventStore.emit(Event.LinkClick, e, d);
@@ -131,6 +132,7 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 			e.stopPropagation();
 		});
 
+	linkShape.append("path").attr("data-object", "link-line-full").attr("fill", "none").attr("stroke", "none");
 	linkShape
 		.append("path")
 		.attr("data-object", "link-line")
@@ -138,19 +140,22 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.classed("solid", (d: Link) => (!d.type ? true : d.type === LinkType.Solid))
 		.classed("dashed", (d: Link) => d.type === LinkType.Dashed)
 		.classed("dotted", (d: Link) => d.type === LinkType.Dotted)
-		.classed("hidden", (d: Link) => d.type === LinkType.Hidden);
+		.classed("hidden", (d: Link) => d.type === LinkType.Hidden)
+		.style("stroke-width", (d: Link) => d.width ?? null);
 	linkShape
 		.append("path")
 		.attr("data-object", "link-arrow-head")
 		.classed("gly-link-arrow", true)
 		.classed("gly-link-arrow-head", true)
-		.classed("hidden", (d: Link) => d.type === LinkType.Hidden);
+		.classed("hidden", (d: Link) => d.type === LinkType.Hidden)
+		.style("stroke-width", (d: Link) => d.width ?? null);
 	linkShape
 		.append("path")
 		.attr("data-object", "link-arrow-tail")
 		.classed("gly-link-arrow", true)
 		.classed("gly-link-arrow-tail", true)
-		.classed("hidden", (d: Link) => d.type === LinkType.Hidden);
+		.classed("hidden", (d: Link) => d.type === LinkType.Hidden)
+		.style("stroke-width", (d: Link) => d.width ?? null);
 	linkShape
 		.append("text")
 		.attr("data-object", "link-label")
@@ -169,9 +174,16 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.classed("solid", (d: Link) => (!d.type ? true : d.type === LinkType.Solid))
 		.classed("dashed", (d: Link) => d.type === LinkType.Dashed)
 		.classed("dotted", (d: Link) => d.type === LinkType.Dotted)
-		.classed("hidden", (d: Link) => d.type === LinkType.Hidden);
-	linkShapes.select("[data-object='link-arrow-head']").classed("hidden", (d: Link) => d.type === LinkType.Hidden);
-	linkShapes.select("[data-object='link-arrow-tail']").classed("hidden", (d: Link) => d.type === LinkType.Hidden);
+		.classed("hidden", (d: Link) => d.type === LinkType.Hidden)
+		.style("stroke-width", (d: Link) => d.width ?? null);
+	linkShapes
+		.select("[data-object='link-arrow-head']")
+		.classed("hidden", (d: Link) => d.type === LinkType.Hidden)
+		.style("stroke-width", (d: Link) => d.width ?? null);
+	linkShapes
+		.select("[data-object='link-arrow-tail']")
+		.classed("hidden", (d: Link) => d.type === LinkType.Hidden)
+		.style("stroke-width", (d: Link) => d.width ?? null);
 	linkShapes
 		.select("[data-object='link-label']")
 		.text((d: Link) => (d.type !== LinkType.Hidden ? d.label ?? "" : ""));
@@ -212,7 +224,9 @@ function spawnNodes(nodes: Node[]) {
 	}
 }
 
-function linkID(link: Link): string {
+export function linkID(link: Link): string {
+	if (!link.id) link.id = Math.random().toString(36).substring(2, 34) + Math.random().toString(36).substring(2, 34);
+	if (link.id) return link.id;
 	return (
 		(typeof link.source === "string" ? link.source : link.source.id) +
 		(typeof link.target === "string" ? link.target : link.target.id) +

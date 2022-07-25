@@ -16,6 +16,8 @@ export interface Shape {
 	scale: number;
 	url?: string;
 	template?: Template;
+	bodyPoints?: { x: number; y: number }[];
+	bodyResolution?: number;
 	failed?: boolean;
 }
 

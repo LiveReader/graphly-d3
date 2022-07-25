@@ -13,6 +13,7 @@ svg {
 			stroke: $gly-node-stroke-color;
 			fill: none;
 			stroke-width: 2;
+			stroke-linecap: round;
 
 			&.solid {
 				stroke-width: 2;
@@ -36,6 +37,8 @@ svg {
 			fill: none;
 			stroke-width: 2;
 			stroke-dasharray: none;
+			stroke-linecap: round;
+			stroke-linejoin: round;
 			&.hidden {
 				stroke-opacity: 0;
 			}

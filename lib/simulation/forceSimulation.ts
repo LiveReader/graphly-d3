@@ -6,7 +6,7 @@ import { Graph } from "../types/Graph";
 import { Node } from "../types/Node";
 import { Link } from "../types/Link";
 
-import { linkForce, xForce, yForce, gravity, circleCollide } from "./forces";
+import { linkForce, xForce, yForce, gravity, shapeCollide } from "./forces";
 import { ticked } from "./ticked";
 import { indexLinks, renderNodes, renderLinks } from "./render";
 import { createZoom, onZoom } from "./zoom";
@@ -23,6 +23,14 @@ interface SelectionGroups {
 }
 
 export default class ForceSimulation {
+	public debug = {
+		enabled: false,
+		bodyPoints: {
+			enabled: true,
+			color: "#00ffff",
+		},
+	};
+
 	private _svgElement: SVGElement;
 	get svgElement(): SVGElement {
 		return this._svgElement;
@@ -129,7 +137,7 @@ export default class ForceSimulation {
 			.force("forceX", xForce())
 			.force("forceY", yForce())
 			.force("gravity", gravity(-10_000))
-			.force("collide", circleCollide())
+			.force("shapeCollide", (alpha: any) => shapeCollide(alpha, this.graph.nodes))
 			.on("tick", ticked.bind(this))
 			.on("end", () => {
 				this.eventStore.emit(Event.SimulationTickEnd);

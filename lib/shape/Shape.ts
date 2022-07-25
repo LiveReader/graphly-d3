@@ -33,7 +33,10 @@ export function create(type: string): d3.Selection<SVGElement, any, any, any> {
 	return d3.select(document.createElementNS("http://www.w3.org/2000/svg", type));
 }
 
-export function transform(shape: d3.Selection<SVGElement, any, any, any>, size: number) {
+export function transform(
+	shape: d3.Selection<SVGElement, any, any, any>,
+	size: number
+): { scale: number; translate: { x: number; y: number } } {
 	const bbox = getBBox(shape);
 	const scale = size / Math.max(bbox.width, bbox.height);
 	const translate = {
@@ -41,6 +44,10 @@ export function transform(shape: d3.Selection<SVGElement, any, any, any>, size: 
 		y: (-bbox.height * scale) / 2 || 0,
 	};
 	shape.attr("transform", `translate(${translate.x}, ${translate.y}) scale(${scale || 1})`);
+	return {
+		scale: scale,
+		translate: translate,
+	};
 }
 
 export function Circle(radius: number): d3.Selection<SVGElement, any, any, any> {
@@ -52,17 +59,23 @@ export function Circle(radius: number): d3.Selection<SVGElement, any, any, any> 
 	return shape;
 }
 
-export function Rectangle(
-	width: number,
-	height: number,
-	cornerRadius: number = 0
-): d3.Selection<SVGElement, any, any, any> {
+export function Rectangle(width: number, height: number, cr: number = 0): d3.Selection<SVGElement, any, any, any> {
 	const shape = create("g");
-	const rect = create("rect");
-	rect.attr("width", width);
-	rect.attr("height", height);
-	rect.attr("rx", cornerRadius);
-	rect.attr("ry", cornerRadius);
+	const rect = create("path");
+	rect.attr(
+		"d",
+		`M ${0} ${-(height / 2)} ` +
+			`L ${width / 2 - cr} ${-(height / 2)} ` +
+			`A ${cr} ${cr} 0 0 1 ${width / 2} ${-(height / 2) + cr} ` +
+			`L ${width / 2} ${height / 2 - cr} ` +
+			`A ${cr} ${cr} 0 0 1 ${width / 2 - cr} ${height / 2} ` +
+			`L ${-(width / 2) + cr} ${height / 2} ` +
+			`A ${cr} ${cr} 0 0 1 ${-(width / 2)} ${height / 2 - cr} ` +
+			`L ${-(width / 2)} ${-(height / 2) + cr} ` +
+			`A ${cr} ${cr} 0 0 1 ${-(width / 2) + cr} ${-(height / 2)} ` +
+			`Z`
+	);
+	rect.attr("transform", `translate(${width / 2}, ${height / 2})`);
 	shape.append(() => rect.node());
 	return shape;
 }

@@ -21,9 +21,13 @@ export enum LinkStrength {
 }
 
 export interface Link extends D3Link {
+	id?: string;
 	type?: LinkType;
 	directed?: boolean;
 	label?: string;
 	strength?: number | LinkStrength;
 	padding?: number;
+	width?: number;
+	curvature?: number;
+	payload?: any;
 }
