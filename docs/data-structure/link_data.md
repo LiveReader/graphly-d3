@@ -14,10 +14,11 @@ If there are multiple links between two nodes, the curvature of the line is incr
 :::
 
 ::: details Example
-A simple example for a link object with all possible properties. Check the sub-sections for more details.
+A simple example for a link object with most possible properties. Check the sub-sections for more details.
 
 ```js
 const link = {
+	id: "link1",
 	source: "node1",
 	target: "node2",
 	type: "solid",
@@ -25,6 +26,10 @@ const link = {
 	label: "links to",
 	strength: "strong",
 	padding: 10,
+	width: 3,
+	payload: {
+		// put your custom data here
+	},
 };
 ```
 
@@ -34,6 +39,7 @@ const link = {
 
 ```ts
 interface Link {
+	id?: string;
 	source: string | Node;
 	target: string | Node;
 	type?: LinkType;
@@ -41,7 +47,29 @@ interface Link {
 	label?: string;
 	strength?: number | LinkStrength;
 	padding?: number;
+	width?: number;
+	curvature?: number;
+	payload?: any;
 }
+```
+
+## Id
+
+::: warning available since version 1.1.0
+:::
+
+The `id` property is optional but recommended. It is used to identify the link in the graph and it can be used to easily search for a link in custom processing steps.
+
+::: info
+If no id property is set, the link will be assigned a random id in the first render loop.
+:::
+
+```js
+const link = {
+	id: "link1",
+	source: "node1",
+	target: "node2",
+};
 ```
 
 ## Source & Target
@@ -176,7 +204,63 @@ Otherwise, the default value will suffice and you can just ignore it.
 
 ```js
 const link = {
+	source: "node1",
+	target: "node2",
 	padding: 10,
+};
+```
+
+## Width
+
+::: warning available since version 1.1.0
+:::
+
+The link `width` property is an optional number value that defines the width of the link and arrow paths.
+The default value is `2`.
+
+```js
+const link = {
+	source: "node1",
+	target: "node2",
+	width: 2,
+};
+```
+
+## Curvature
+
+::: warning available since version 1.1.0
+:::
+
+The link `curvature` property is an optional number value that defines the curvature of the link.
+It can be handy to fine-tune the appearance of your graph but it is strongly recommended to leave this value unset since it is automatically calculated.
+
+```js
+const link = {
+	source: "node1",
+	target: "node2",
+	curvature: 0.1,
+};
+```
+
+::: tip
+By not setting the curvature, the calculation takes the number of links between the two nodes into account and increases the curvature accordingly.
+:::
+
+## Payload
+
+::: warning available since version 1.1.0
+:::
+
+The link `payload` property is an optional object that can be used to store custom data and use it in custom processing steps. 
+It has no effect on the graph visualization.
+
+```js
+const link = {
+	source: "node1",
+	target: "node2",
+	payload: {
+		// put your custom data here
+	},
 };
 ```
 

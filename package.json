@@ -1,6 +1,6 @@
 {
 	"name": "graphly-d3-docs",
-	"version": "1.0.5",
+	"version": "1.1.0",
 	"description": "Documentation for Graphly-D3 library",
 	"main": "index.js",
 	"scripts": {
@@ -23,7 +23,7 @@
 	},
 	"homepage": "https://github.com/livereader/graphly-d3-docs#readme",
 	"dependencies": {
-		"@livereader/graphly-d3": "^1.0.1",
+		"@livereader/graphly-d3": "^1.1.1",
 		"vite-plugin-monaco-editor": "^1.0.10"
 	},
 	"devDependencies": {

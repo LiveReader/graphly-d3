@@ -86,3 +86,25 @@ body.classed("gly-selectable", true);
 
 More about how to tell graphly which nodes are selected can be found [here](/simulation-api/environment#selected-nodes)
 :::
+
+## Graphly Body
+
+::: warning available since version 1.1.0
+:::
+
+By adding the class `gly-body` to an svg path element you can tell graphly that this element is the body of the node.
+This element will be used to calculate a less accurate polygon shape for the node and uses it to calculate shape approaching
+collisions and link positioning.
+
+By default collision and link positioning is calculated by d3 as a circular shape with the diameter of the template `shapeSize` property.
+(This continues to be the fallback method if the body points can not be calculated).
+
+::: tip
+Using the [bodyResolution](/data-structure/node_data#shape) property you can change how many points are calculated on the body path.
+:::
+
+![Gly Body](/assets/img/gly-body.png)
+
+::: info
+On the left side the `gly-body` class is set and on the right side the `gly-body` class is not set.
+:::
