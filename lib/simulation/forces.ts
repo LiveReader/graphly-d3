@@ -133,11 +133,15 @@ function circularCollision(n1: Node, n2: Node) {
 	const distance = Math.sqrt(Math.pow(n1Pos.x - n2Pos.x, 2) + Math.pow(n1Pos.y - n2Pos.y, 2));
 	if (distance < n1Radius + n2Radius) {
 		const angle = Math.atan2(n2Pos.y - n1Pos.y, n2Pos.x - n1Pos.x);
-		const dx = Math.cos(angle) * 6;
-		const dy = Math.sin(angle) * 6;
+		const dx = Math.cos(angle) * 30;
+		const dy = Math.sin(angle) * 30;
 		n1.vx = (n1.vx ?? 0) - dx;
 		n1.vy = (n1.vy ?? 0) - dy;
 		n2.vx = (n2.vx ?? 0) + dx;
 		n2.vy = (n2.vy ?? 0) + dy;
+		n1.x = n1Pos.x + dx;
+		n1.y = n1Pos.y + dy;
+		n2.x = n2Pos.x - dx;
+		n2.y = n2Pos.y - dy;
 	}
 }
