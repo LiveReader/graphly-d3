@@ -59,17 +59,22 @@ export function Circle(radius: number): d3.Selection<SVGElement, any, any, any> 
 	return shape;
 }
 
-export function Rectangle(
-	width: number,
-	height: number,
-	cornerRadius: number = 0
-): d3.Selection<SVGElement, any, any, any> {
+export function Rectangle(width: number, height: number, cr: number = 0): d3.Selection<SVGElement, any, any, any> {
 	const shape = create("g");
-	const rect = create("rect");
-	rect.attr("width", width);
-	rect.attr("height", height);
-	rect.attr("rx", cornerRadius);
-	rect.attr("ry", cornerRadius);
+	const rect = create("path");
+	rect.attr(
+		"d",
+		`M ${0} ${-(height / 2)} ` +
+			`L ${width / 2 - cr} ${-(height / 2)} ` +
+			`A ${cr} ${cr} 0 0 1 ${width / 2} ${-(height / 2) + cr} ` +
+			`L ${width / 2} ${height / 2 - cr} ` +
+			`A ${cr} ${cr} 0 0 1 ${width / 2 - cr} ${height / 2} ` +
+			`L ${-(width / 2) + cr} ${height / 2} ` +
+			`A ${cr} ${cr} 0 0 1 ${-(width / 2)} ${height / 2 - cr} ` +
+			`L ${-(width / 2)} ${-(height / 2) + cr} ` +
+			`A ${cr} ${cr} 0 0 1 ${-(width / 2) + cr} ${-(height / 2)} ` +
+			`Z`
+	);
 	shape.append(() => rect.node());
 	return shape;
 }
