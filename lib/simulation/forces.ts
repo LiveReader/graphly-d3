@@ -85,6 +85,10 @@ export function shapeCollide(_alpha: number, nodes: Node[]) {
 			const a = nodes[i];
 			const b = nodes[j];
 			if (nearBy(a, b)) {
+				if (a.shape.bodyPoints?.length == 0 || b.shape.bodyPoints?.length == 0) {
+					circularCollision(a, b);
+					continue;
+				}
 				if (polygonsIntersect(a, b)) {
 					const angle = Math.atan2((b.y ?? 0) - (a.y ?? 0), (b.x ?? 0) - (a.x ?? 0));
 					const dx = Math.cos(angle) * 6;
@@ -121,3 +125,19 @@ function polygonsIntersect(n1: Node, n2: Node): boolean {
 	return false;
 }
 
+function circularCollision(n1: Node, n2: Node) {
+	const n1Pos = { x: n1.x ?? 0, y: n1.y ?? 0 };
+	const n1Radius = ((n1.shape?.template?.shapeSize ?? 300) / 2) * n1.shape.scale;
+	const n2Pos = { x: n2.x ?? 0, y: n2.y ?? 0 };
+	const n2Radius = ((n2.shape?.template?.shapeSize ?? 300) / 2) * n2.shape.scale;
+	const distance = Math.sqrt(Math.pow(n1Pos.x - n2Pos.x, 2) + Math.pow(n1Pos.y - n2Pos.y, 2));
+	if (distance < n1Radius + n2Radius) {
+		const angle = Math.atan2(n2Pos.y - n1Pos.y, n2Pos.x - n1Pos.x);
+		const dx = Math.cos(angle) * 6;
+		const dy = Math.sin(angle) * 6;
+		n1.vx = (n1.vx ?? 0) - dx;
+		n1.vy = (n1.vy ?? 0) - dy;
+		n2.vx = (n2.vx ?? 0) + dx;
+		n2.vy = (n2.vy ?? 0) + dy;
+	}
+}
