@@ -158,8 +158,12 @@ function getSurfacePoints(
 	const startDistance = startIntersection || (link.source.shape.scale ?? 1) * ((sourceSize ?? 300) / 2);
 	const endDistance = endIntersection || (link.target.shape.scale ?? 1) * ((targetSize ?? 300) / 2);
 
-	const surfaceStart = path.getPointAtLength(startDistance + distance);
-	const surfaceEnd = path.getPointAtLength(path.getTotalLength() - endDistance - distance - arrowDistance);
+	const surfaceStart: any = (path.getAttribute("d") as string).includes("NaN")
+		? 0
+		: path.getPointAtLength(startDistance + distance);
+	const surfaceEnd: any = (path.getAttribute("d") as string).includes("NaN")
+		? 0
+		: path.getPointAtLength(path.getTotalLength() - endDistance - distance - arrowDistance);
 	const surfaceOffset = offset(link, surfaceStart, surfaceEnd, 0.1);
 	const surfaceCenter = lineCenterWithOffset(surfaceStart, surfaceEnd, surfaceOffset);
 	return {
@@ -179,7 +183,7 @@ function calculateIntersectionDistance(
 		.select("[data-id='" + linkID(link) + "']")
 		.select("[data-object='link-line-full']")
 		.node() as SVGPathElement;
-	if (!linePath) return 0;
+	if (!linePath || !linePath.getPointAtLength || (linePath.getAttribute("d") as string).includes("NaN")) return 0;
 
 	const bodyPoints = reversed ? targetNode.shape.bodyPoints ?? [] : sourceNode.shape.bodyPoints ?? [];
 	if (bodyPoints.length === 0) return 0;
