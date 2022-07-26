@@ -137,7 +137,7 @@ export default class ForceSimulation {
 			.force("forceX", xForce())
 			.force("forceY", yForce())
 			.force("gravity", gravity(-10_000))
-			.force("shapeCollide", (alpha: any) => shapeCollide(alpha, this.graph.nodes))
+			.force("shapeCollide", shapeCollide.bind(this))
 			.on("tick", ticked.bind(this))
 			.on("end", () => {
 				this.eventStore.emit(Event.SimulationTickEnd);

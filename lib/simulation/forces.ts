@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import { Node, AnchorType } from "../types/Node";
 import { Link, LinkStrength } from "../types/Link";
 import { pointInPolygon } from "../link/link";
+import ForceSimulation from "./forceSimulation";
 
 export function linkForce(distance: number): d3.ForceLink<Node, Link> {
 	const force = d3
@@ -79,28 +80,59 @@ export function strength(d: Node): number {
 	return 0;
 }
 
-export function shapeCollide(_alpha: number, nodes: Node[]) {
-	for (let i = 0; i < nodes.length; i++) {
-		for (let j = i + 1; j < nodes.length; j++) {
-			const a = nodes[i];
-			const b = nodes[j];
-			if (nearBy(a, b)) {
-				if (a.shape.bodyPoints?.length == 0 || b.shape.bodyPoints?.length == 0) {
-					circularCollision(a, b);
-					continue;
-				}
-				if (polygonsIntersect(a, b)) {
-					const angle = Math.atan2((b.y ?? 0) - (a.y ?? 0), (b.x ?? 0) - (a.x ?? 0));
-					const dx = Math.cos(angle) * 6;
-					const dy = Math.sin(angle) * 6;
-					a.vx = (a.vx ?? 0) - dx;
-					a.vy = (a.vy ?? 0) - dy;
-					b.vx = (b.vx ?? 0) + dx;
-					b.vy = (b.vy ?? 0) + dy;
+export function shapeCollide(this: ForceSimulation, alpha: number): any {
+	const nodes = this.graph.nodes;
+	var quadtree = d3
+		.quadtree()
+		.x((d: any) => d.x)
+		.y((d: any) => d.y)
+		.addAll(nodes as any);
+
+	nodes.forEach((d: Node) => {
+		d.x = d.x || 0;
+		d.y = d.y || 0;
+		var r = (d.shape.template?.shapeSize ?? 300) * d.shape.scale;
+		var nx1 = d.x - r;
+		var nx2 = d.x + r;
+		var ny1 = d.y - r;
+		var ny2 = d.y + r;
+		quadtree.visit((quad: any, x1: number, y1: number, x2: number, y2: number) => {
+			if (quad.data && quad.data !== d) {
+				var x = (d.x ?? 0) - quad.data.x;
+				var y = (d.y ?? 0) - quad.data.y;
+				var l = Math.sqrt(x * x + y * y);
+				const r = (d.shape.template?.shapeSize ?? 300) * d.shape.scale;
+				if (nearBy(d, quad.data)) {
+					if (d.shape.bodyPoints?.length == 0 || quad.data.shape.bodyPoints?.length == 0) {
+						// collision with circle
+						if (l < r) {
+							l = ((l - r) / l) * alpha;
+							d.x = d.x || 0;
+							d.y = d.y || 0;
+							d.x -= x *= l;
+							d.y -= y *= l;
+							quad.data.x += x;
+							quad.data.y += y;
+						}
+					} else {
+						// collision with body polygon
+						console.log(d);
+						console.log(d, quad.data);
+						if (polygonsIntersect(d, quad.data)) {
+							l = ((l - r) / l) * alpha;
+							d.x = d.x || 0;
+							d.y = d.y || 0;
+							d.x -= x *= l;
+							d.y -= y *= l;
+							quad.data.x += x;
+							quad.data.y += y;
+						}
+					}
 				}
 			}
-		}
-	}
+			return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+		});
+	});
 }
 
 function nearBy(n1: Node, n2: Node) {
@@ -123,25 +155,4 @@ function polygonsIntersect(n1: Node, n2: Node): boolean {
 		if (pointInPolygon(point, n2p)) return true;
 	}
 	return false;
-}
-
-function circularCollision(n1: Node, n2: Node) {
-	const n1Pos = { x: n1.x ?? 0, y: n1.y ?? 0 };
-	const n1Radius = ((n1.shape?.template?.shapeSize ?? 300) / 2) * n1.shape.scale;
-	const n2Pos = { x: n2.x ?? 0, y: n2.y ?? 0 };
-	const n2Radius = ((n2.shape?.template?.shapeSize ?? 300) / 2) * n2.shape.scale;
-	const distance = Math.sqrt(Math.pow(n1Pos.x - n2Pos.x, 2) + Math.pow(n1Pos.y - n2Pos.y, 2));
-	if (distance < n1Radius + n2Radius) {
-		const angle = Math.atan2(n2Pos.y - n1Pos.y, n2Pos.x - n1Pos.x);
-		const dx = Math.cos(angle) * 30;
-		const dy = Math.sin(angle) * 30;
-		n1.vx = (n1.vx ?? 0) - dx;
-		n1.vy = (n1.vy ?? 0) - dy;
-		n2.vx = (n2.vx ?? 0) + dx;
-		n2.vy = (n2.vy ?? 0) + dy;
-		n1.x = n1Pos.x + dx;
-		n1.y = n1Pos.y + dy;
-		n2.x = n2Pos.x - dx;
-		n2.y = n2Pos.y - dy;
-	}
 }
