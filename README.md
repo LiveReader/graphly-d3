@@ -21,3 +21,7 @@ Check out the full [documentation](https://graphly-d3.livereader.com) for more d
 
 Graphly D3 is built with TypeScript and [Vite](https://vitejs.dev).
 The library is available as a [npm package](https://www.npmjs.com/package/@livereader/graphly-d3) and the source code is available on [GitHub](https://github.com/livereader/graphly-d3)
+
+## Community
+
+You are very welcome to join our [Discord Server](https://discord.gg/NdtkFFRuXa) and ask questions or discuss ideas on how to use Graphly D3 in your projects.
