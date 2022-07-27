@@ -108,3 +108,7 @@ Example
 ```html
 <GraphlyD3 ref="graphly" @node-click="(e, d) => console.log(d.id)" />
 ```
+
+## Community
+
+You are very welcome to join our [Discord Server](https://discord.gg/NdtkFFRuXa) and ask questions or discuss ideas on how to use Graphly D3 in your projects.
