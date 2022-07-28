@@ -116,8 +116,6 @@ export function shapeCollide(this: ForceSimulation, alpha: number): any {
 						}
 					} else {
 						// collision with body polygon
-						console.log(d);
-						console.log(d, quad.data);
 						if (polygonsIntersect(d, quad.data)) {
 							l = ((l - r) / l) * alpha;
 							d.x = d.x || 0;
