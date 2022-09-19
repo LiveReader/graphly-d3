@@ -7,7 +7,7 @@ export function prerender(shape: d3.Selection<SVGElement, any, any, any>, onElem
 		el.setAttribute("pointer-events", "none");
 		el.setAttribute("width", "0");
 		el.setAttribute("height", "0");
-		el.setAttribute("style", "opacity: 0;");
+		el.setAttribute("style", "opacity: 0; position: absolute; top: 0; left: 0; width: 0; height: 0;");
 		document.body.appendChild(el);
 	}
 	let svg: HTMLElement = document.getElementById("PRERENDER_SVG") as HTMLElement;
