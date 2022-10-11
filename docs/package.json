@@ -7,7 +7,7 @@
 		"format": "prettier --ignore-path ../gitignore --write ."
 	},
 	"dependencies": {
-		"@livereader/graphly-d3": "file:../",
+		"@livereader/graphly-d3": "^1.1.4",
 		"vite-plugin-monaco-editor": "^1.0.10"
 	},
 	"devDependencies": {
