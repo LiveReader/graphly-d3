@@ -1,0 +1,18 @@
+{
+	"private": true,
+	"scripts": {
+		"dev": "vitepress dev . --host",
+		"build": "vitepress build .",
+		"serve": "vitepress serve . --port 80 --host",
+		"format": "prettier --ignore-path ../gitignore --write ."
+	},
+	"dependencies": {
+		"@livereader/graphly-d3": "file:../",
+		"vite-plugin-monaco-editor": "^1.0.10"
+	},
+	"devDependencies": {
+		"@types/node": "^17.0.42",
+		"prettier": "^2.6.2",
+		"vitepress": "^1.0.0-alpha.4"
+	}
+}
