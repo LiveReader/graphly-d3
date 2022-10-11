@@ -6,6 +6,7 @@ const socialImgURL = "https://graphly-d3.livereader.com/social-banner.png";
 const tiwtterImgURL = "https://graphly-d3.livereader.com/twitter-banner.png";
 
 export default {
+	base: "/graphly-d3/",
 	lang: "en-US",
 	title: "Graphly D3 Docs",
 	description: "Documentation for the Graphly D3 library",
