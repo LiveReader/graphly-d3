@@ -68,7 +68,7 @@ export default {
 function sidebarItem(title: string, route: string) {
 	const filesPath = __dirname + "/.." + route;
 	const files = fs.readdirSync(filesPath);
-	const items = [];
+	const items: { index: number; text: string; link: string }[] = [];
 	for (const file of files) {
 		if (fs.statSync(filesPath + "/" + file).isDirectory() || !file.endsWith(".md")) return;
 		const fileName = file.split(".")[0];
