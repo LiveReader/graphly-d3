@@ -2,7 +2,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vitepress dev . --host",
-		"build": "vitepress build . && rm -r Users",
+		"build": "vitepress build .",
 		"serve": "vitepress serve . --port 80 --host",
 		"format": "prettier --ignore-path ../gitignore --write ."
 	},

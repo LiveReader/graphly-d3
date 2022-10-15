@@ -6,7 +6,7 @@ export default defineConfig({
 	plugins: [
 		// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
 		monacoEditorPlugin({
-			languageWorkers: ["typescript", "json", "css", "html"],
+			languageWorkers: [],
 		}),
 	],
 	define: { "process.env": {} },
