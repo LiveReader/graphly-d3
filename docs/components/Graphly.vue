@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, onMounted, Ref, ref, watch } from "vue";
+import { defineProps, onMounted, Ref, ref, watch } from "vue";
 import "@livereader/graphly-d3/style.css";
 
 let theme = ref("dark");
@@ -91,12 +91,14 @@ watch(
 	right: 0;
 	padding: 0.3em;
 	margin: 0.3em;
+	height: 2.5em;
 	border-radius: 0.6em;
 	background-color: var(--vp-c-bg);
 	transition: all 0.1s ease-in-out;
 }
 .graphlyMoveTo span {
 	margin: 0 0.3em;
+	transform: translateY(-0.5em);
 	display: none;
 }
 .graphlyMoveTo svg {
