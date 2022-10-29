@@ -31,22 +31,22 @@ function shapeBuilder(data, TemplateAPI) {
 	const { accessibilityTag, largeAccessibilityTag } = addAccessibilityTag();
 	const tagCollection = addTagCollection();
 
-	OnZoom(data, 0.35, [
-		LODStyle(largeDiamond, "class", "hidden", (k) => k > 0.35),
-		LODStyle(largeInitials, "class", "hidden", (k) => k > 0.35),
-		LODStyle(diamond, "class", "hidden", (k) => k < 0.35),
-		LODStyle(initials, "class", "hidden", (k) => k > 0.7 || k < 0.35),
-		LODStyle(largeAccessibilityTag, "class", "hidden", (k) => k > 0.7 || k < 0.35),
-	]);
-	OnZoom(data, 0.7, [
-		LODStyle(tagCollection, "class", "hidden", (k) => k < 0.7),
-		LODStyle(fullName, "class", "hidden", (k) => k < 0.7),
-		LODStyle(sexIndicator, "class", "hidden", (k) => k < 0.7),
-		LODStyle(ageIndicator, "class", "hidden", (k) => k < 0.7),
-		LODStyle(initials, "class", "hidden", (k) => k > 0.7 || k < 0.35),
-		LODStyle(largeAccessibilityTag, "class", "hidden", (k) => k > 0.7 || k < 0.35),
-		LODStyle(accessibilityTag, "class", "hidden", (k) => k < 0.7),
-	]);
+	OnZoom(
+		data,
+		[0.35, 0.7],
+		[
+			LODStyle(largeDiamond, "class", "hidden", (k) => k > 0.35),
+			LODStyle(largeInitials, "class", "hidden", (k) => k > 0.35),
+			LODStyle(diamond, "class", "hidden", (k) => k < 0.35),
+			LODStyle(initials, "class", "hidden", (k) => k > 0.7 || k < 0.35),
+			LODStyle(largeAccessibilityTag, "class", "hidden", (k) => k > 0.7 || k < 0.35),
+			LODStyle(tagCollection, "class", "hidden", (k) => k < 0.7),
+			LODStyle(fullName, "class", "hidden", (k) => k < 0.7),
+			LODStyle(sexIndicator, "class", "hidden", (k) => k < 0.7),
+			LODStyle(ageIndicator, "class", "hidden", (k) => k < 0.7),
+			LODStyle(accessibilityTag, "class", "hidden", (k) => k < 0.7),
+		]
+	);
 
 	return shape;
 
