@@ -23,6 +23,18 @@ OnZoom(data, 0.6, [
 ])
 ```
 
+::: tip
+It is also possible to pass and array of thresholds to the `OnZoom` method to easily create multiple LOD steps.
+
+```js
+OnZoom(data, [0.6, 0.8], [
+	LODStyle(...),
+	LODStyle(...),
+	LODStyle(...),
+])
+```
+:::
+
 ## Emit Event
 
 The `EmitEvent` method emits an event with the given name and data. It can be listened to by the `ForceSimulation` `on()` method as described in the [Event API](/simulation-api/event_api#custom-template-events).
