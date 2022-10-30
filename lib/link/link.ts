@@ -98,8 +98,8 @@ function offset(
 	const dX = dx(start, end);
 	const dY = dy(start, end);
 	const normal = normalize(dX, dY);
-	const curvature = link.curvature || bezierCurveFactor;
-	const indexFactor = link.curvature ? 1 : (link.i ?? 0) + 1;
+	const curvature = link.curvature !== undefined ? link.curvature : bezierCurveFactor;
+	const indexFactor = link.curvature !== undefined ? 1 : (link.i ?? 0) + 1;
 	const x = curvature * (dY / normal) * normal * indexFactor;
 	const y = curvature * (dX / normal) * normal * indexFactor;
 	return { x: x, y: y };
