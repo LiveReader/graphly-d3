@@ -26,6 +26,7 @@ OnZoom(data, 0.6, [
 ::: tip
 It is also possible to pass and array of thresholds to the `OnZoom` method to easily create multiple LOD steps.
 
+
 ```js
 OnZoom(data, [0.6, 0.8], [
 	LODStyle(...),
@@ -33,6 +34,9 @@ OnZoom(data, [0.6, 0.8], [
 	LODStyle(...),
 ])
 ```
+
+::: warning
+this feature is only available in verion 1.1.5 and above
 :::
 
 ## Emit Event
