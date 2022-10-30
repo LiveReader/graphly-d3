@@ -205,8 +205,7 @@ async function getNodeTemplates(this: ForceSimulation, graph: Graph) {
 }
 
 function spawnNodes(nodes: Node[]) {
-	for (let i in nodes) {
-		const node = nodes[i];
+	for (let node of nodes) {
 		if (node.x || node.y) continue;
 		if (node.fx || node.fy) continue;
 		if (node.anchor?.x || node.anchor?.y) continue;
@@ -226,8 +225,19 @@ function spawnNodes(nodes: Node[]) {
 			};
 			node.x = pos.x;
 			node.y = pos.y;
+			continue;
 		}
+		const { x, y } = defaultPlacement(nodes);
+		node.x = x;
+		node.y = y;
 	}
+}
+
+function defaultPlacement(nodes: Node[], pos = { x: 0, y: 0 }): { x: number; y: number } {
+	if (!nodes.find((n: Node) => n.x === pos.x && n.y === pos.y)) {
+		return pos;
+	}
+	return defaultPlacement(nodes, { x: pos.x + 1, y: pos.y });
 }
 
 export function linkID(link: Link): string {
