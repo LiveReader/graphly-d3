@@ -36,7 +36,7 @@ OnZoom(data, [0.6, 0.8], [
 ```
 
 ::: warning
-this feature is only available in verion 1.1.5 and above
+this feature is only available in verion 1.2.0 and above
 :::
 
 ## Emit Event
