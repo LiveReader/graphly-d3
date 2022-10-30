@@ -135,6 +135,7 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 	linkShape.append("path").attr("data-object", "link-line-full").attr("fill", "none").attr("stroke", "none");
 	linkShape
 		.append("path")
+		.attr("id", (d: any) => `link-path-${linkID(d)}`)
 		.attr("data-object", "link-line")
 		.classed("gly-link-line", true)
 		.classed("solid", (d: Link) => (!d.type ? true : d.type === LinkType.Solid))
@@ -156,14 +157,19 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.classed("gly-link-arrow-tail", true)
 		.classed("hidden", (d: Link) => d.type === LinkType.Hidden)
 		.style("stroke-width", (d: Link) => d.width ?? null);
-	linkShape
+	const linkLabel = linkShape
 		.append("text")
 		.attr("data-object", "link-label")
 		.classed("gly-link-label", true)
-		.text((d: Link) => (d.type !== LinkType.Hidden ? d.label ?? "" : ""))
 		.attr("text-anchor", "middle")
-		.attr("dominant-baseline", "central")
-		.attr("dy", "0.35em");
+		.attr("dy", "-0.5em")
+		.attr("dominant-baseline", "central");
+	linkLabel
+		.append("textPath")
+		.attr("data-object", "link-label-path")
+		.attr("xlink:href", (d: Link) => `#link-path-${linkID(d)}`)
+		.attr("startOffset", "50%")
+		.text((d: Link) => (d.type !== LinkType.Hidden ? d.label ?? "" : ""));
 	linkShape.attr("opacity", 0).transition().duration(this.animationDuration).attr("opacity", 1);
 
 	linkShapes.exit().transition().duration(this.animationDuration).attr("opacity", 0).remove();
@@ -185,7 +191,7 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.classed("hidden", (d: Link) => d.type === LinkType.Hidden)
 		.style("stroke-width", (d: Link) => d.width ?? null);
 	linkShapes
-		.select("[data-object='link-label']")
+		.select("[data-object='link-label-path']")
 		.text((d: Link) => (d.type !== LinkType.Hidden ? d.label ?? "" : ""));
 }
 

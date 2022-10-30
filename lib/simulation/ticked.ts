@@ -4,7 +4,7 @@ import { Event } from "./eventStore";
 import { Graph } from "../types/Graph";
 import { Node, AnchorType } from "../types/Node";
 import { DraggableNode } from "./drag";
-import { ArrowPosition, lineFull, line, arrow, labelPosition } from "../link/link";
+import { ArrowPosition, lineFull, line, arrow, labelDy } from "../link/link";
 import { position, strength } from "./forces";
 
 export function ticked(this: ForceSimulation) {
@@ -27,7 +27,7 @@ export function ticked(this: ForceSimulation) {
 		const tailArrow = d.select("[data-object='link-arrow-tail']");
 		tailArrow.attr("d", (d: any) => arrow(d, ArrowPosition.Tail));
 		const label = d.select("[data-object='link-label']");
-		label.attr("transform", labelPosition);
+		label.attr("dy", labelDy);
 	});
 	(this.simulation.force("forceX") as any).x((d: Node) => position(d).x).strength((d: Node) => strength(d));
 	(this.simulation.force("forceY") as any).y((d: Node) => position(d).y).strength((d: Node) => strength(d));

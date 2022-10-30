@@ -29,11 +29,16 @@ export function lineFull(link: Link) {
 export function line(link: Link) {
 	const points = getSurfacePoints(link, link.padding ?? 10);
 	if (!points) return;
-	return (
-		`M ${points.start.x} ${points.start.y}` +
-		`Q ${points.center.x}, ${points.center.y}` +
-		` ${points.end.x} ${points.end.y}`
-	);
+	const left = points.start.x > points.end.x;
+	const start = {
+		x: left ? points.end.x : points.start.x,
+		y: left ? points.end.y : points.start.y,
+	};
+	const end = {
+		x: left ? points.start.x : points.end.x,
+		y: left ? points.start.y : points.end.y,
+	};
+	return `M ${start.x} ${start.y}` + `Q ${points.center.x}, ${points.center.y}` + ` ${end.x} ${end.y}`;
 }
 
 export function arrow(link: Link, _arrowPos: ArrowPosition = ArrowPosition.Head) {
@@ -57,13 +62,10 @@ export function arrow(link: Link, _arrowPos: ArrowPosition = ArrowPosition.Head)
 	return `M ${arrowStart.x} ${arrowStart.y}` + `L ${arrowTip.x} ${arrowTip.y}` + `L ${arrowEnd.x} ${arrowEnd.y}`;
 }
 
-export function labelPosition(link: Link) {
+export function labelDy(link: Link) {
 	const points = getSurfacePoints(link, link.padding ?? 10);
 	if (!points) return;
-	const edgeCenter = lineCenter(points.start, points.end);
-	const x = points.center.x + (edgeCenter.x - points.center.x) / 2;
-	const y = points.center.y + (edgeCenter.y - points.center.y) / 2;
-	return "translate(" + x + "," + y + ")";
+	return points.start.x > points.end.x ? "0.5em" : "-0.5em";
 }
 
 function lineStart(link: Link): { x: number; y: number } {
