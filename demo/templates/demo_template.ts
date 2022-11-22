@@ -12,8 +12,29 @@ interface Schema {
 	tags: string[];
 }
 
+const schema = {
+	type: "object",
+	properties: {
+		status: { type: "string", enum: ["deceased", "immediate", "delayed", "minor", ""] },
+		name: {
+			type: "object",
+			properties: {
+				first: { type: "string" },
+				last: { type: "string" },
+			},
+			required: ["first", "last"],
+		},
+		sex: { type: "string", enum: ["male", "female", "diverse"] },
+		age: { type: "number" },
+		accessibility: { type: "string" },
+		tags: { type: "array", items: { type: "string" } },
+	},
+	required: ["status", "name", "sex", "age", "accessibility", "tags"],
+};
+
 export default {
 	shapeSize: 300,
+	shapePayload: schema,
 	shapeBuilder: shapeBuilder,
 };
 
