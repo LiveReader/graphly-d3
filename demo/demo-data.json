@@ -18,10 +18,16 @@
 						"first": "Emily",
 						"last": "Hardy"
 					},
-					"sex": "Weiblich",
-					"age": "23",
-					"accessibility": "Im Gelände",
-					"tags": ["bewusstlos", "Diabetes", "atmend", "Puls schwach", "Verletzung: Kopf"]
+					"sex": "female",
+					"age": 23,
+					"accessibility": "freely accessibile",
+					"tags": [
+						"unconscious",
+						"diabetes",
+						"breathing",
+						"pulse weak",
+						"injury: head"
+					]
 				}
 			},
 			{
@@ -36,10 +42,12 @@
 						"first": "Tony",
 						"last": "Hawkins"
 					},
-					"sex": "Männlich",
-					"age": "34",
-					"accessibility": "Im Gelände",
-					"tags": ["leichter Schwindel"]
+					"sex": "male",
+					"age": 34,
+					"accessibility": "freely accessibile",
+					"tags": [
+						"light dizziness"
+					]
 				}
 			}
 		],
