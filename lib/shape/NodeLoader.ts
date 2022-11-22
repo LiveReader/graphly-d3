@@ -3,6 +3,9 @@ import * as Shape from "./shape";
 import * as TemplateAPI from "../templateAPI";
 import { Node } from "../types/Node";
 
+import Ajv from "ajv";
+const ajv = new Ajv({ allErrors: true });
+
 export default function Node(this: any, data: Node) {
 	if (!data.forceSimulation) {
 		data.shape.failed = true;
@@ -27,12 +30,24 @@ export default function Node(this: any, data: Node) {
 	if (!data.shape.template) {
 		return throwError(`Template "${data.shape.type}" not found!`);
 	}
+
+	const validate = ajv.compile(data.shape.template.shapePayload);
+	const isValid = validate(data.payload);
+	if (!isValid) {
+		console.error(
+			`[graphly-d3] ${data.shape.type} \n • ${validate.errors
+				?.map((e) => `${e.instancePath} ${e.message}`)
+				.join("\n • ")}`
+		);
+		return throwError(`"${data.shape.type}" ${validate.errors?.[0].message}`);
+	}
+
 	try {
 		nodeShape
 			.append(() => data.shape.template!.shapeBuilder.bind(this)(data, TemplateAPI).node())
 			.attr("data-object", "shape");
 	} catch (e: any) {
-		console.error(e);
+		console.error(`[graphly-d3] ${e}`);
 		return throwError(e.message);
 	}
 
@@ -70,7 +85,7 @@ export default function Node(this: any, data: Node) {
 					.classed("gly-body-points", true)
 					.attr("cx", p.x + (pointsWidth * pointsScale.x) / 2 - shapeSize)
 					.attr("cy", p.y + (pointsHeight * pointsScale.y) / 2 - shapeSize)
-					.attr("r", Math.max(bbox.height, bbox.width) / shapeSize * 5)
+					.attr("r", (Math.max(bbox.height, bbox.width) / shapeSize) * 5)
 					.attr("fill", data.forceSimulation?.debug?.bodyPoints?.color)
 					.attr("stroke", "none");
 			}
