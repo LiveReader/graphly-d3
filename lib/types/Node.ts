@@ -46,7 +46,7 @@ export interface Satellite {
 	distance: number;
 }
 
-export interface Node extends D3Node {
+export interface Node<T = any> extends D3Node {
 	shape: Shape;
 	forceSimulation?: ForceSimulation;
 	gravity?: number;
@@ -54,5 +54,5 @@ export interface Node extends D3Node {
 	anchor?: Anchor;
 	satellite?: Satellite;
 	errorMessage?: string;
-	payload?: any;
+	payload?: T;
 }
