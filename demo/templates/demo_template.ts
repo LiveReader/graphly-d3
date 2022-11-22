@@ -1,11 +1,23 @@
 import type { Node } from "../../lib/main";
 
+interface Schema {
+	status: "deceased" | "immediate" | "delayed" | "minor" | "";
+	name: {
+		first: string;
+		last: string;
+	};
+	sex: "male" | "female" | "diverse";
+	age: number;
+	accessibility: string;
+	tags: string[];
+}
+
 export default {
 	shapeSize: 300,
 	shapeBuilder: shapeBuilder,
 };
 
-function shapeBuilder(data: Node, TemplateAPI) {
+function shapeBuilder(data: Node<Schema>, TemplateAPI) {
 	const {
 		Shape,
 		SVGShape,
