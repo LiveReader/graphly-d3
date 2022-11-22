@@ -35,6 +35,7 @@
 		"dist"
 	],
 	"dependencies": {
+		"ajv": "^8.11.2",
 		"d3": "^7.6.1"
 	},
 	"devDependencies": {
