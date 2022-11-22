@@ -1,4 +1,5 @@
-import { ForceSimulation, Event } from "../lib/main";
+import { ForceSimulation, Event, Node, Link } from "../lib/main";
+import DemoTemplate from "./templates/demo_template";
 
 const svg = document.getElementsByTagName("svg")[0];
 const themeButton = document.getElementById("theme-button");
@@ -18,13 +19,13 @@ const showNodesBtn = document.getElementById("show-nodes-btn");
 const includeNodesBtn = document.getElementById("include-nodes-btn");
 
 resize();
-let graph = {
+let graph: { nodes: Node[]; links: Link[] } = {
 	nodes: [],
 	links: [],
 };
 
 const simulation = new ForceSimulation(svg);
-simulation.templateStore.remoteOrigin = "http://" + document.location.host + "/demo/templates/";
+simulation.templateStore.add("demo_template", DemoTemplate);
 
 simulation.on("template:demo_template:age-click", (data, event, age) => {
 	console.log(age);
@@ -40,7 +41,7 @@ simulation.on(Event.NodeDragStart, (e, d, pos) => {
 	// create a new link when holding the alt key down
 	if (e.sourceEvent.altKey) return "newlink";
 });
-simulation.on(Event.LinkDragEnd, (e, source, target, pos) => {
+simulation.on(Event.LinkDragEnd, (e, source: Node, target: Node, pos) => {
 	if (target) {
 		const link = {
 			source: source.id,
@@ -52,7 +53,7 @@ simulation.on(Event.LinkDragEnd, (e, source, target, pos) => {
 });
 
 let theme = "light";
-themeButton.onclick = toggleTheme;
+if (themeButton) themeButton.onclick = toggleTheme;
 function toggleTheme() {
 	if (theme === "light") {
 		theme = "dark";
@@ -63,34 +64,38 @@ function toggleTheme() {
 	simulation.render(graph);
 }
 
-transformBtn.onclick = () => {
-	const x = parseFloat(transformX.value);
-	const y = parseFloat(transformY.value);
-	const k = parseFloat(transformK.value);
-	simulation.moveTo({
-		transform: { x, y, k },
-	});
-};
-boundsBtn.onclick = () => {
-	const x = parseFloat(boundsX.value);
-	const y = parseFloat(boundsY.value);
-	const w = parseFloat(boundsWidth.value);
-	const h = parseFloat(boundsHeight.value);
-	simulation.moveTo({
-		boundaries: [{ x, y, width: w, height: h }],
-	});
-};
-showNodesBtn.onclick = () => {
-	simulation.moveTo({
-		nodes: graph.nodes,
-	});
-};
-includeNodesBtn.onclick = () => {
-	simulation.moveTo({
-		boundaries: [simulation.worldBounds],
-		nodes: graph.nodes,
-	});
-};
+if (transformBtn)
+	transformBtn.onclick = () => {
+		const x = parseFloat((transformX as any).value);
+		const y = parseFloat((transformY as any).value);
+		const k = parseFloat((transformK as any).value);
+		simulation.moveTo({
+			transform: { x, y, k },
+		});
+	};
+if (boundsBtn)
+	boundsBtn.onclick = () => {
+		const x = parseFloat((boundsX as any).value);
+		const y = parseFloat((boundsY as any).value);
+		const w = parseFloat((boundsWidth as any).value);
+		const h = parseFloat((boundsHeight as any).value);
+		simulation.moveTo({
+			boundaries: [{ x, y, width: w, height: h }],
+		});
+	};
+if (showNodesBtn)
+	showNodesBtn.onclick = () => {
+		simulation.moveTo({
+			nodes: graph.nodes,
+		});
+	};
+if (includeNodesBtn)
+	includeNodesBtn.onclick = () => {
+		simulation.moveTo({
+			boundaries: [simulation.worldBounds],
+			nodes: graph.nodes,
+		});
+	};
 
 fetch("./demo-data.json")
 	.then((response) => response.json())

@@ -1,9 +1,11 @@
-const DemoTemplate = {
+import type { Node } from "../../lib/main";
+
+export default {
 	shapeSize: 300,
 	shapeBuilder: shapeBuilder,
 };
 
-function shapeBuilder(data, TemplateAPI) {
+function shapeBuilder(data: Node, TemplateAPI) {
 	const {
 		Shape,
 		SVGShape,
@@ -277,5 +279,3 @@ function shapeBuilder(data, TemplateAPI) {
 		return tagCollection;
 	}
 }
-
-export default DemoTemplate;
