@@ -31,15 +31,19 @@ export default function Node(this: any, data: Node) {
 		return throwError(`Template "${data.shape.type}" not found!`);
 	}
 
-	const validate = ajv.compile(data.shape.template.shapePayload);
-	const isValid = validate(data.payload);
-	if (!isValid) {
-		console.error(
-			`[graphly-d3] ${data.shape.type} \n • ${validate.errors
-				?.map((e) => `${e.instancePath} ${e.message}`)
-				.join("\n • ")}`
-		);
-		return throwError(`"${data.shape.type}" ${validate.errors?.[0].message}`);
+	if (data.shape?.template?.shapePayload) {
+		const validate = ajv.compile(data.shape.template.shapePayload);
+		const isValid = validate(data.payload);
+		if (!isValid) {
+			console.error(
+				`[graphly-d3] ${data.shape.type} \n • ${validate.errors
+					?.map((e) => `${e.instancePath} ${e.message}`)
+					.join("\n • ")}`
+			);
+			return throwError(`"${data.shape.type}" ${validate.errors?.[0].message}`);
+		}
+	} else {
+		console.warn(`[graphly-d3] "${data.shape.type}" has no payload schema defined!`);
 	}
 
 	try {
