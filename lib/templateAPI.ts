@@ -1,4 +1,4 @@
-import * as Shape from "./shape/shape";
+import * as Shape from "./shape/Shape";
 import "./styles/shapeStyles.scss";
 
 export { Shape };
@@ -20,4 +20,4 @@ export * from "./shape/collections/TagCollection";
 export * from "./shape/utils/levelOfDetail";
 
 // events
-export * from "./shape/utils/event";
+export * from "./shape/utils/Event";
