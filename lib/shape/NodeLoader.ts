@@ -40,7 +40,9 @@ export default function Node(this: any, data: Node) {
 					?.map((e) => `${e.instancePath} ${e.message}`)
 					.join("\n • ")}`
 			);
-			return throwError(`"${data.shape.type}" ${validate.errors?.[0].message}`);
+			return throwError(
+				`"${data.shape.type}" ${validate.errors?.[0].instancePath} ${validate.errors?.[0].message}`
+			);
 		}
 	} else {
 		console.warn(`[graphly-d3] "${data.shape.type}" has no payload schema defined!`);
