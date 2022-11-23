@@ -23,14 +23,16 @@ simulation.templateStore.add("myTemplate", MyTemplate);
 
 ## Template File
 
-Each template file needs to `default export` a object with the `Template` scema.
+Each template file needs to `default export` a object with the `Template` definition.
 
 -   `shapeSize` is the size of the shape on a scale of 1.
+-   [`shapePayload`](/template-api/shape_payload) is a optional [ajv schema](https://ajv.js.org/) that can be used to define what the payload of the node should look like.
 -   `shapeBuilder` is a function that returns a `SVGShape` selection that will be used to render the shape.
 
 ```ts
 interface Template {
 	shapeSize: number;
+	shapePayload?: AJVSchema;
 	shapeBuilder: (data: Node, TemplateAPI: any) => d3.Selection<SVGElement, any, any, any>;
 }
 ```

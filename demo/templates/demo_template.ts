@@ -1,9 +1,44 @@
-const DemoTemplate = {
+import type { Node } from "../../lib/main";
+
+interface Schema {
+	status: "deceased" | "immediate" | "delayed" | "minor" | "";
+	name: {
+		first: string;
+		last: string;
+	};
+	sex: "male" | "female" | "diverse";
+	age: number;
+	accessibility: string;
+	tags: string[];
+}
+
+const schema = {
+	type: "object",
+	properties: {
+		status: { type: "string", enum: ["deceased", "immediate", "delayed", "minor", ""] },
+		name: {
+			type: "object",
+			properties: {
+				first: { type: "string" },
+				last: { type: "string" },
+			},
+			required: ["first", "last"],
+		},
+		sex: { type: "string", enum: ["male", "female", "diverse"] },
+		age: { type: "number" },
+		accessibility: { type: "string" },
+		tags: { type: "array", items: { type: "string" } },
+	},
+	required: ["status", "name", "sex", "age", "accessibility", "tags"],
+};
+
+export default {
 	shapeSize: 300,
+	shapePayload: schema,
 	shapeBuilder: shapeBuilder,
 };
 
-function shapeBuilder(data, TemplateAPI) {
+function shapeBuilder(data: Node<Schema>, TemplateAPI) {
 	const {
 		Shape,
 		SVGShape,
@@ -277,5 +312,3 @@ function shapeBuilder(data, TemplateAPI) {
 		return tagCollection;
 	}
 }
-
-export default DemoTemplate;

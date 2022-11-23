@@ -1,6 +1,19 @@
 /* eslint-disable max-len */
+
+const schema = {
+	type: "object",
+	properties: {
+		title: { type: "string" },
+		color: { type: "string" },
+		tags: { type: "array", items: { type: "string" } },
+		category: { type: "string", enum: ["A", "B", "C"] },
+	},
+	required: ["title", "color"],
+};
+
 const Hexaong = {
 	shapeSize: 120,
+	shapePayload: schema,
 	shapeBuilder: shapeBuilder,
 };
 
