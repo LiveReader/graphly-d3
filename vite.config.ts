@@ -14,10 +14,11 @@ export default defineConfig({
 			fileName: (format) => `main.${format}.js`,
 		},
 		rollupOptions: {
-			external: ["d3"],
+			external: ["d3", "ajv"],
 			output: {
 				globals: {
 					d3: "d3",
+					ajv: "ajv",
 				},
 			},
 		},
