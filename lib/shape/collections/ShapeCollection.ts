@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import * as Shape from "../shape";
+import * as Shape from "../Shape";
 
 export type BreakLine = "break-line";
 export function BreakLine(): BreakLine {
