@@ -95,6 +95,10 @@ const graph = {
 			},
 			x: -150,
 			y: 30,
+			payload: {
+				title: "",
+				color: "#9575cd"
+			}
 		},
 		{
 			id: "node2",
@@ -104,6 +108,10 @@ const graph = {
 			},
 			x: 150,
 			y: -30,
+			payload: {
+				title: "",
+				color: "#9575cd"
+			}
 		},
 	],
 	links: [
@@ -156,6 +164,10 @@ const graph = {
 			},
 			x: -150,
 			y: 30,
+			payload: {
+				title: "",
+				color: "#9575cd"
+			}
 		},
 		{
 			id: "node2",
@@ -165,6 +177,10 @@ const graph = {
 			},
 			x: 150,
 			y: -30,
+			payload: {
+				title: "",
+				color: "#9575cd"
+			}
 		},
 	],
 	links: [
@@ -233,6 +249,10 @@ Take a look at the [Tutorial](../tutorials/) to learn more about how to use Grap
 				},
 				x: -150,
 				y: 30,
+			payload: {
+				title: "",
+				color: "#9575cd"
+			}
 			},
 			{
 				id: "node2",
@@ -242,6 +262,10 @@ Take a look at the [Tutorial](../tutorials/) to learn more about how to use Grap
 				},
 				x: 150,
 				y: -30,
+			payload: {
+				title: "",
+				color: "#9575cd"
+			}
 			},
 		],
 		links: [

@@ -43,6 +43,10 @@ let graph = ref({
 			},
 			x: -150,
 			y: 30,
+			payload: {
+				title: "",
+				color: "#9575cd"
+			}
 		},
 		{
 			id: "node2",
@@ -52,6 +56,10 @@ let graph = ref({
 			},
 			x: 150,
 			y: -30,
+			payload: {
+				title: "",
+				color: "#9575cd"
+			}
 		},
 	],
 	links: [

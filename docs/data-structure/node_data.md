@@ -343,6 +343,10 @@ let editorContent = [
 	'		},',
 	'		x: 150,',
 	'		y: -30,',
+	'		payload: {',
+	'			title: "",',
+	'			color: "#9575cd",',
+	'		},',
 	'	},',
 	'];',
 ].join("\n");
