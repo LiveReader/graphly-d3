@@ -18,7 +18,7 @@ export default {
 
 The `shapePayload` is a optional property of a template definition that can be used to define what the payload for a template should look like.
 
-This is done by defining a [ajv JSON schema](https://ajv.js.org/) that will be used to validate the payload of a node at runtime before the shape is rendered.
+This is done by defining a [JSON schema](https://json-schema.org/) that will be used to validate the payload of a node (using [AJV](https://ajv.js.org/)) before the shape is rendered.
 Take a look at the [ajv documentation](https://ajv.js.org/json-schema.html#json-data-type) for more information on how to define a schema.
 
 ## Example
