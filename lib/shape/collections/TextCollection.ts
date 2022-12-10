@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import TextShape from "../shapes/TextShape";
+import { TextShape } from "../shapes/TextShape";
 import { ShapeStyle } from "../utils/styleModifier";
 import { ShapeCollection, CollectionStyle, BreakLine } from "./ShapeCollection";
 
