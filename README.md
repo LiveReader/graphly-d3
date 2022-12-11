@@ -4,6 +4,13 @@
 
 # Graphly D3
 
+[![npm version](https://badge.fury.io/js/%40livereader%2Fgraphly-d3.svg)](https://www.npmjs.com/package/@livereader/graphly-d3)
+[![npm](https://img.shields.io/npm/dm/@livereader/graphly-d3)](https://www.npmjs.com/package/@livereader/graphly-d3)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/livereader/graphly-d3/Publish%20Package%20to%20npmjs)](https://www.npmjs.com/package/@livereader/graphly-d3)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/livereader/graphly-d3/Deploy%20Docs?label=docs)](https://graphly-d3.livereader.com)
+[![GitHub Repo stars](https://img.shields.io/github/stars/LiveReader/graphly-d3)](https://github.com/LiveReader/graphly-d3)
+
+
 ## Powerful Graph Visualization
 
 Create outstanding graph visualizations with ease
