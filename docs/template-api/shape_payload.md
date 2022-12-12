@@ -10,9 +10,9 @@ lang: en-US
 
 ```ts
 export default {
-	shapeSize: 300;
-	shapePayload: schema; // [!code focus]
-	shapeBuilder: shapeBuilder;
+	shapeSize: 300,
+	shapePayload: schema, // [!code focus]
+	shapeBuilder: shapeBuilder,
 }
 ```
 
@@ -30,15 +30,15 @@ const schema = { // [!code ++]
 		title: { type: "string" }, // [!code ++]
 		color: { type: "string" }, // [!code ++]
 		tags: { type: "array", items: { type: "string" } }, // [!code ++]
-		category: { type: "string", enum: ["A", "B", "C"] }, // [!code ++]
+		category: { enum: ["A", "B", "C"] }, // [!code ++]
 	}, // [!code ++]
 	required: ["title", "color"], // [!code ++]
 }; // [!code ++]
 
 export default {
-	shapeSize: 300;
-	shapePayload: schema; // [!code ++]
-	shapeBuilder: shapeBuilder;
+	shapeSize: 300,
+	shapePayload: schema, // [!code ++]
+	shapeBuilder: shapeBuilder,
 }
 
 function shapeBuilder(data, Template) {
