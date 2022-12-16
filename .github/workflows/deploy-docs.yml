@@ -16,7 +16,7 @@ jobs:
             - name: Build Docs
               run: cd docs && npm install && npm run build
             - name: Add CNAME
-              run: echo "graphly-d3.livereader.com" > docs/.vitepress/dist/CNAME
+              run: echo "docs.graphly.dev" > docs/.vitepress/dist/CNAME
             - name: Deploy Docs
               uses: peaceiris/actions-gh-pages@v3
               with:

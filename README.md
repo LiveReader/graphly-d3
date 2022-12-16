@@ -7,9 +7,8 @@
 [![npm version](https://badge.fury.io/js/%40livereader%2Fgraphly-d3.svg)](https://www.npmjs.com/package/@livereader/graphly-d3)
 [![npm](https://img.shields.io/npm/dm/@livereader/graphly-d3)](https://www.npmjs.com/package/@livereader/graphly-d3)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/livereader/graphly-d3/Publish%20Package%20to%20npmjs)](https://www.npmjs.com/package/@livereader/graphly-d3)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/livereader/graphly-d3/Deploy%20Docs?label=docs)](https://graphly-d3.livereader.com)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/livereader/graphly-d3/Deploy%20Docs?label=docs)](https://docs.graphly.dev)
 [![GitHub Repo stars](https://img.shields.io/github/stars/LiveReader/graphly-d3)](https://github.com/LiveReader/graphly-d3)
-
 
 ## Powerful Graph Visualization
 
@@ -20,7 +19,7 @@ It is built on top of [D3.js](https://d3js.org/) and empowers developers to use 
 
 This is accomplished by providing a shape template system that allows to develop any required node visualization and simply using it in a data-driven manner.
 
-Check out the full [documentation](https://graphly-d3.livereader.com) for more details and examples and a guide to get started.
+Check out the full [documentation](https://docs.graphly.dev) for more details and examples and a guide to get started.
 
 ![](./assets/graphly-d3-preview-dark.png)
 

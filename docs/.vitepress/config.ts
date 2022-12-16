@@ -2,8 +2,8 @@ import fs from "fs";
 
 const title = "Graphly D3";
 const description = "Open source library to create outstanding graph visualizations with ease.";
-const socialImgURL = "https://graphly-d3.livereader.com/social-banner.png";
-const tiwtterImgURL = "https://graphly-d3.livereader.com/twitter-banner.png";
+const socialImgURL = "https://docs.graphly.dev/social-banner.png";
+const tiwtterImgURL = "https://docs.graphly.dev/twitter-banner.png";
 
 export default {
 	lang: "en-US",
@@ -14,7 +14,7 @@ export default {
 		["meta", { name: "keywords", content: "visualization, d3, svg, graph, data-driven-design, d3-visualization" }],
 		["meta", { property: "og:title", content: title }],
 		["meta", { property: "og:description", content: description }],
-		["meta", { property: "og:url", content: "https://graphly-d3.livereader.com/" }],
+		["meta", { property: "og:url", content: "https://docs.graphly.dev/" }],
 		["meta", { property: "og:image", content: socialImgURL }],
 		["meta", { name: "twitter:title", content: title }],
 		["meta", { name: "twitter:description", content: description }],

@@ -30,7 +30,7 @@
 	"bugs": {
 		"url": "https://github.com/LiveReader/graphly-d3/issues"
 	},
-	"homepage": "https://graphly-d3.livereader.com",
+	"homepage": "https://docs.graphly.dev",
 	"files": [
 		"dist"
 	],
