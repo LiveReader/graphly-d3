@@ -52,6 +52,12 @@ export default function Node(this: any, data: Node) {
 		nodeShape
 			.append(() => data.shape.template!.shapeBuilder.bind(this)(data, TemplateAPI).node())
 			.attr("data-object", "shape");
+		data.forceSimulation.onZoomRegister
+			.filter((r) => r.id.startsWith(data.id))
+			.forEach((r) => {
+				if (!data.forceSimulation) return;
+				r.callback(data.forceSimulation.worldTransform.k);
+			});
 	} catch (e: any) {
 		console.error(`[graphly-d3] ${e}`);
 		return throwError(e.message);

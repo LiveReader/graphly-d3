@@ -95,6 +95,7 @@ export async function renderNodes(this: ForceSimulation, graph: Graph) {
 		.duration(this.animationDuration)
 		.attr("opacity", 0)
 		.each((d: any) => {
+			this.deregisterOnZoom(d.id);
 			this.nodeDataStore.remove(d.id);
 		})
 		.remove();

@@ -216,7 +216,6 @@ export default class ForceSimulation {
 					this.simulation.alphaTarget(0);
 				}, 100);
 
-				this._onZoomRegister.forEach((registration) => registration.callback(this.worldTransform.k));
 				this.selectNodes();
 			});
 	}
