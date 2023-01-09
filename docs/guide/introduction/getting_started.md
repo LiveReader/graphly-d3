@@ -44,13 +44,6 @@ const simulation = new ForceSimulation(mySVG);
 Now create a new file containing your template code and add it to the `ForceSimulation` `templateStore`.
 
 ```js
-// app.js
-import Hexagon from "./hexagon";
-
-simulation.templateStore.add("hexagon", Hexagon);
-```
-
-```js
 // hexagon.js
 export default {
 	shapeSize: 120,
@@ -77,6 +70,13 @@ function shapeBuilder(data, TemplateAPI) {
 
 	return shape;
 }
+```
+
+```js
+// app.js
+import Hexagon from "./hexagon";
+
+simulation.templateStore.add("hexagon", Hexagon);
 ```
 
 ## Step 4: Create a graph
