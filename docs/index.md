@@ -20,8 +20,8 @@ hero:
         - theme: alt
           text: Playground
           link: /guide/tutorials/playground
-        - theme: alt
-          text: View on GitHub
+        - theme: brand
+          text: Star on GitHub
           link: https://github.com/livereader/graphly-d3
 
 features:
