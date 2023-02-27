@@ -33,7 +33,7 @@ export enum AnchorType {
 }
 
 export interface Anchor {
-	type: AnchorType;
+	type: AnchorType | "soft" | "hard";
 	x: number;
 	y: number;
 }
