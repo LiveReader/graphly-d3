@@ -143,6 +143,7 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.classed("dashed", (d: Link) => d.type === LinkType.Dashed)
 		.classed("dotted", (d: Link) => d.type === LinkType.Dotted)
 		.classed("hidden", (d: Link) => d.type === LinkType.Hidden)
+		.style("stroke", (d: Link) => d.color ?? null)
 		.style("stroke-width", (d: Link) => d.width ?? null);
 	linkShape
 		.append("path")
@@ -150,6 +151,7 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.classed("gly-link-arrow", true)
 		.classed("gly-link-arrow-head", true)
 		.classed("hidden", (d: Link) => d.type === LinkType.Hidden)
+		.style("stroke", (d: Link) => d.color ?? null)
 		.style("stroke-width", (d: Link) => d.width ?? null);
 	linkShape
 		.append("path")
@@ -157,6 +159,7 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.classed("gly-link-arrow", true)
 		.classed("gly-link-arrow-tail", true)
 		.classed("hidden", (d: Link) => d.type === LinkType.Hidden)
+		.style("stroke", (d: Link) => d.color ?? null)
 		.style("stroke-width", (d: Link) => d.width ?? null);
 	const linkLabel = linkShape
 		.append("text")
@@ -164,7 +167,8 @@ export function renderLinks(this: ForceSimulation, graph: Graph) {
 		.classed("gly-link-label", true)
 		.attr("text-anchor", "middle")
 		.attr("dy", "-0.5em")
-		.attr("dominant-baseline", "central");
+		.attr("dominant-baseline", "central")
+		.style("fill", (d: Link) => d.color ?? null);
 	linkLabel
 		.append("textPath")
 		.attr("data-object", "link-label-path")

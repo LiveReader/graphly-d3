@@ -35,5 +35,6 @@ export interface Link extends D3Link {
 	padding?: number;
 	width?: number;
 	curvature?: number;
+	color?: string;
 	payload?: any;
 }
