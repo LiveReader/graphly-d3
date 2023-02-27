@@ -2,12 +2,7 @@ import * as d3 from "d3";
 import * as Shape from "../shape/Shape";
 import { linkID } from "../simulation/render";
 import { Node } from "../types/Node";
-import { Link } from "../types/Link";
-
-export enum ArrowPosition {
-	Head = "head",
-	Tail = "tail",
-}
+import { Link, ArrowDirection } from "../types/Link";
 
 export function lineFull(link: Link) {
 	const start = lineStart(link);
@@ -41,7 +36,7 @@ export function line(link: Link) {
 	return `M ${start.x} ${start.y}` + `Q ${points.center.x}, ${points.center.y}` + ` ${end.x} ${end.y}`;
 }
 
-export function arrow(link: Link, _arrowPos: ArrowPosition = ArrowPosition.Head) {
+export function arrow(link: Link, arrowPos: ArrowDirection = ArrowDirection.Head) {
 	if (!link.directed) return "";
 	const points = getSurfacePoints(link, link.padding ?? 10);
 	if (!points) return;
