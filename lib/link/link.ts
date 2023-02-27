@@ -38,22 +38,60 @@ export function line(link: Link) {
 
 export function arrow(link: Link, arrowPos: ArrowDirection = ArrowDirection.Head) {
 	if (!link.directed) return "";
-	const points = getSurfacePoints(link, link.padding ?? 10);
+	if (
+		arrowPos == ArrowDirection.Head &&
+		link.directed !== true &&
+		arrowPos == ArrowDirection.Head &&
+		link.directed != ArrowDirection.Head &&
+		arrowPos == ArrowDirection.Head &&
+		link.directed != ArrowDirection.Both
+	)
+		return "";
+	if (
+		arrowPos == ArrowDirection.Tail &&
+		link.directed != ArrowDirection.Tail &&
+		arrowPos == ArrowDirection.Tail &&
+		link.directed != ArrowDirection.Both
+	)
+		return "";
+	const padding = link.padding ?? 10;
+	const points = getSurfacePoints(link, padding);
 	if (!points) return;
-	const arrowAngle = Math.atan2(points.end.y - points.center.y, points.end.x - points.center.x);
+	const arrowAngle =
+		arrowPos == ArrowDirection.Head
+			? Math.atan2(points.end.y - points.center.y, points.end.x - points.center.x)
+			: Math.atan2(points.start.y - points.center.y, points.start.x - points.center.x);
 	const arrowRadius = 10;
-	const arrowStart = {
-		x: points.end.x + arrowRadius * Math.cos(arrowAngle + Math.PI / 2),
-		y: points.end.y + arrowRadius * Math.sin(arrowAngle + Math.PI / 2),
-	};
-	const arrowTip = {
-		x: points.end.x + arrowRadius * Math.cos(arrowAngle),
-		y: points.end.y + arrowRadius * Math.sin(arrowAngle),
-	};
-	const arrowEnd = {
-		x: points.end.x + arrowRadius * Math.cos(arrowAngle - Math.PI / 2),
-		y: points.end.y + arrowRadius * Math.sin(arrowAngle - Math.PI / 2),
-	};
+	const arrowStart =
+		arrowPos == ArrowDirection.Head
+			? {
+					x: points.end.x + arrowRadius * Math.cos(arrowAngle + Math.PI / 2),
+					y: points.end.y + arrowRadius * Math.sin(arrowAngle + Math.PI / 2),
+			  }
+			: {
+					x: points.start.x + arrowRadius * Math.cos(arrowAngle + Math.PI / 2),
+					y: points.start.y + arrowRadius * Math.sin(arrowAngle + Math.PI / 2),
+			  };
+	const arrowTip =
+		arrowPos == ArrowDirection.Head
+			? {
+					x: points.end.x + arrowRadius * Math.cos(arrowAngle),
+					y: points.end.y + arrowRadius * Math.sin(arrowAngle),
+			  }
+			: {
+					x: points.start.x + arrowRadius * Math.cos(arrowAngle),
+					y: points.start.y + arrowRadius * Math.sin(arrowAngle),
+			  };
+	const arrowEnd =
+		arrowPos == ArrowDirection.Head
+			? {
+					x: points.end.x + arrowRadius * Math.cos(arrowAngle - Math.PI / 2),
+					y: points.end.y + arrowRadius * Math.sin(arrowAngle - Math.PI / 2),
+			  }
+			: {
+					x: points.start.x + arrowRadius * Math.cos(arrowAngle - Math.PI / 2),
+					y: points.start.y + arrowRadius * Math.sin(arrowAngle - Math.PI / 2),
+			  };
 	return `M ${arrowStart.x} ${arrowStart.y}` + `L ${arrowTip.x} ${arrowTip.y}` + `L ${arrowEnd.x} ${arrowEnd.y}`;
 }
 
@@ -135,7 +173,9 @@ function getSurfacePoints(
 		{ x: link.target.x ?? 0, y: link.target.y ?? 0 },
 		off
 	);
-	const arrowDistance = link.directed ? 20 : 0;
+	const arrowHeadDistance =
+		link.directed === true || link.directed == ArrowDirection.Head || link.directed == ArrowDirection.Both ? 20 : 0;
+	const arrowTailDistance = link.directed == ArrowDirection.Tail || link.directed == ArrowDirection.Both ? 20 : 0;
 	const path = Shape.create("g")
 		.append("path")
 		.attr("d", `M ${start.x} ${start.y}` + `Q ${center.x}, ${center.y}` + ` ${end.x} ${end.y}`)
@@ -157,10 +197,10 @@ function getSurfacePoints(
 
 	const surfaceStart: any = (path.getAttribute("d") as string).includes("NaN")
 		? 0
-		: path.getPointAtLength(startDistance + distance);
+		: path.getPointAtLength(startDistance + distance + arrowTailDistance);
 	const surfaceEnd: any = (path.getAttribute("d") as string).includes("NaN")
 		? 0
-		: path.getPointAtLength(path.getTotalLength() - endDistance - distance - arrowDistance);
+		: path.getPointAtLength(path.getTotalLength() - endDistance - distance - arrowHeadDistance);
 	const surfaceOffset = offset(link, surfaceStart, surfaceEnd, 0.1);
 	const surfaceCenter = lineCenterWithOffset(surfaceStart, surfaceEnd, surfaceOffset);
 	return {
