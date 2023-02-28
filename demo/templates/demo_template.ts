@@ -52,6 +52,7 @@ function shapeBuilder(data: Node<Schema>, TemplateAPI) {
 		TagShape,
 		TagStyle,
 		EmitEvent,
+		OnThemeChange,
 	} = TemplateAPI;
 
 	const shape = Shape.create("g");
@@ -65,6 +66,16 @@ function shapeBuilder(data: Node<Schema>, TemplateAPI) {
 	const ageIndicator = addAgeIndicator();
 	const { accessibilityTag, largeAccessibilityTag } = addAccessibilityTag();
 	const tagCollection = addTagCollection();
+
+	OnThemeChange(data, (theme) => {
+		if (theme == "light") {
+			shape.select("#diamond").attr("fill", "lightblue");
+			shape.select("#large-diamond").attr("fill", "lightblue");
+		} else if (theme == "dark") {
+			shape.select("#diamond").attr("fill", "darkred");
+			shape.select("#large-diamond").attr("fill", "darkred");
+		}
+	});
 
 	OnZoom(
 		data,
