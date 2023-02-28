@@ -22,6 +22,7 @@ export enum Event {
 	EnvironmentDoubleClick = "environment:doubleclick",
 	EnvironmentContextMenu = "environment:contextmenu",
 	EnvironmentMove = "environment:move",
+	ThemeChange = "theme:change",
 
 	SimulationTick = "simulation:tick",
 	SimulationTickEnd = "simulation:tickend",
@@ -99,6 +100,9 @@ const Events: { [key in Event]: { [key: string]: (...args: any[]) => void } } = 
 	},
 	[Event.EnvironmentMove]: {
 		pos: (t: Transform) => t,
+	},
+	[Event.ThemeChange]: {
+		theme: (t: "light" | "dark") => t,
 	},
 
 	[Event.SimulationTick]: {},
