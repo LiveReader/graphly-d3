@@ -1,4 +1,21 @@
-import type { Node } from "../../lib/main";
+import { Node, TemplateAPI } from "../../lib/main";
+
+const {
+	Shape,
+	SVGShape,
+	ShapeStyle,
+	OnZoom,
+	LODStyle,
+	Alignment,
+	CollectionStyle,
+	TextCollection,
+	TagCollection,
+	TagShape,
+	TagStyle,
+	EmitEvent,
+	OnThemeChange,
+	ThemeStyle,
+} = TemplateAPI;
 
 interface Schema {
 	status: "deceased" | "immediate" | "delayed" | "minor" | "";
@@ -38,23 +55,7 @@ export default {
 	shapeBuilder: shapeBuilder,
 };
 
-function shapeBuilder(data: Node<Schema>, TemplateAPI) {
-	const {
-		Shape,
-		SVGShape,
-		ShapeStyle,
-		OnZoom,
-		LODStyle,
-		Alignment,
-		CollectionStyle,
-		TextCollection,
-		TagCollection,
-		TagShape,
-		TagStyle,
-		EmitEvent,
-		OnThemeChange,
-	} = TemplateAPI;
-
+function shapeBuilder(data: Node<Schema>) {
 	const shape = Shape.create("g");
 
 	const { body, border, state, diamond, largeDiamond } = addBaseShape();
@@ -167,8 +168,7 @@ function shapeBuilder(data: Node<Schema>, TemplateAPI) {
 			placeholder ? placeholder : text,
 			CollectionStyle(300, bbox.width, 0, bbox.height * 0.25, 80, 80, 2, Alignment.Center, [800, 800]),
 			[
-				ShapeStyle("class", "gly_text", true),
-				ShapeStyle("class", "dark", true),
+				ShapeStyle("class", "gly_text.dark", true),
 				ShapeStyle("font-size", "160px", true),
 				ShapeStyle("class", "gly_gray_fill.lighten", !!placeholder),
 			]
@@ -249,7 +249,7 @@ function shapeBuilder(data: Node<Schema>, TemplateAPI) {
 			CollectionStyle(300, bbox.width * 0.2, bbox.width * 0.6, bbox.height * 0.16, 80, 80, 1, Alignment.Center),
 			[
 				ShapeStyle("class", "gly_text", true),
-				ShapeStyle("class", "white", true),
+				ShapeStyle("fill", ThemeStyle(data, "#ff0", "#0ff")),
 				ShapeStyle("font-size", "280px", true),
 				ShapeStyle("opacity", "0.5", true),
 			]
