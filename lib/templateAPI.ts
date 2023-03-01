@@ -20,7 +20,7 @@ export * from "./shape/collections/TagCollection";
 export * from "./shape/utils/levelOfDetail";
 
 // theme changes
-export * from "./shape/utils/ThemeChange";
+export * from "./shape/utils/themes";
 
 // events
 export * from "./shape/utils/Event";
