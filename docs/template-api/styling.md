@@ -209,3 +209,58 @@ LODStyle(shape, "class", "title.xl.dark_text", (k) => k < 0.6);
 
 This applies the css classes "title", "xl" and "dark_text" to the shape if the zoom factor is below 0.6.
 :::
+
+## Theme Style
+
+::: warning available since version 1.4.0
+:::
+
+The `ThemeStyle` object is meant to by used in conjunction with the [`ShapeStyle`](#shape-style) object to apply certain styles to any shape based on the current theme.
+
+```ts
+export interface ThemeStyle {
+	data: Node;
+	lightValue: string;
+	darkValue: string;
+}
+```
+
+The `ThemeStyle()` method can be passed as a parameter to the `ShapeStyle()` `value` parameter and defines the values to be applied wheather the theme is `light` or `dark`.
+
+<!-- prettier-ignore -->
+```ts
+function ThemeStyle(
+	data: Node,
+	lightValue: string,
+	darkValue: string
+): ThemeStyle;
+```
+
+| Parameter  | Description                       |
+| ---------- | --------------------------------- |
+| data       | the node data object of the shape |
+| lightValue | the value to apply in light mode  |
+| darkValue  | the value to apply in dark mode   |
+
+```js
+ShapeStyle("fill", ThemeStyle("white", "black"));
+```
+
+::: tip
+
+For a more generic access to the current theme take a look at the [`OnThemeChange`](/template-api/events#on-theme-change) event hook.
+
+:::
+
+::: info EXAMPLE
+
+This example shows a use case where custom colors are applied to the [`TextCollection`](/template-api/collections#text-collection) based on the current theme.
+
+```js{3}
+const someText = TextCollection("Hello World", CollectionStyle(0, 0, 200, 200, 20, 20, 1), [
+	ShapeStyle("class", "gly_text", true),
+	ShapeStyle("fill", ThemeStyle(data, "#00796b", "#b2dfdb")),
+]);
+```
+
+:::
