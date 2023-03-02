@@ -264,3 +264,50 @@ const someText = TextCollection("Hello World", CollectionStyle(0, 0, 200, 200, 2
 ```
 
 :::
+
+## Coloring Utilities
+
+::: warning available since version 1.4.0
+:::
+
+Besides theme controlled coloring there are some use cases where certain coloring is dictated by some custom logic (e.g. the `payload` of a node).
+Since elements like text should be easily readable the coloring should be determined by the background color.
+
+The `TemplateAPI` now provides a few utility functions to help with this.
+
+### Brightness
+
+`brightness()` takes a color string and returns the brightness of the color as a number between 0 and 1.
+The function expects a color string in the format `#rrggbb` or `rgb(r, g, b)`.
+
+```js
+const { brightness } = TemplateAPI;
+brightness("#4db6ac"); // 0.5861372549019608
+brightness("rgb(77, 182, 172)"); // 0.5861372549019608
+```
+
+### Is Light
+
+`isLight()` is a wrapper around `brightness()` and returns `true` if the color is determined to be light and `false` if it is dark.
+
+```js
+const { isLight } = TemplateAPI;
+isLight("#4db6ac"); // true
+isLight("rgb(77, 182, 172)"); // true
+```
+
+### Is Dark
+
+`isDark()` is a wrapper around `brightness()` and returns `true` if the color is determined to be dark and `false` if it is light.
+
+```js
+const { isDark } = TemplateAPI;
+isDark("#4db6ac"); // false
+isDark("rgb(77, 182, 172)"); // false
+```
+
+::: tip
+
+Using these functions to determine what color to apply to a text element for instance can be done fairly easily and improves the template accessibility a lot.
+
+:::
