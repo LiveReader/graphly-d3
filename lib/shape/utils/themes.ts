@@ -17,9 +17,11 @@ export function brightness(color: string) {
 		const b = hasFullHex ? parseInt(color.substring(5, 7), 16) : parseInt(color.substring(3, 4), 16);
 		return (r * 299 + g * 587 + b * 114) / 1000 / 255;
 	} else if (isRGB) {
-		const r = parseInt(color.substring(5, 7), 16);
-		const g = parseInt(color.substring(7, 9), 16);
-		const b = parseInt(color.substring(9, 11), 16);
+		const rgb = color.match(/\d+/g);
+		if (!rgb || rgb.length < 3) return -1;
+		const r = parseInt(rgb[0]);
+		const g = parseInt(rgb[1]);
+		const b = parseInt(rgb[2]);
 		return (r * 299 + g * 587 + b * 114) / 1000 / 255;
 	}
 	return -1;
