@@ -26,7 +26,6 @@ OnZoom(data, 0.6, [
 ::: tip
 It is also possible to pass and array of thresholds to the `OnZoom` method to easily create multiple LOD steps.
 
-
 ```js
 OnZoom(data, [0.6, 0.8], [
 	LODStyle(...),
@@ -37,6 +36,27 @@ OnZoom(data, [0.6, 0.8], [
 
 ::: warning
 this feature is only available in verion 1.2.0 and above
+:::
+
+## On Theme Change
+
+::: warning available since version 1.4.0
+:::
+
+The `OnThemeChange` method registers a callback function within the force simulation's `theme:change` event.
+It fires when the theme changes and provides a hook for the template to react to the change if necessary.  
+The method takes the node `data` object and a callback function as parameters.
+
+```js
+OnThemeChange(data, (theme) => {
+	// do something with the theme
+});
+```
+
+::: tip
+This is a very powerful but generic method to react to theme changes.
+If you want to change shape styles based on the theme, you should take a look at the [ThemeStyle](/template-api/styling#theme-style) method instead.
+This makes it more convenient to change things like text color on theme change.
 :::
 
 ## Emit Event

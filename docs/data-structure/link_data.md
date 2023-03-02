@@ -142,6 +142,24 @@ const link = {
 };
 ```
 
+::: tip MORE FEATURES
+
+> ::: warning available since version 1.4.0
+> :::
+
+Since version 1.4.0, the `directed` property can also be one of the string values `head`, `tail` or `both`.
+This allows for more fine-grained control over the direction of the arrow and makes it possible to draw arrows at both ends of the link.
+
+```js
+const link = {
+	source: "node1",
+	target: "node2",
+	directed: "both", // or "head" or "tail"
+};
+```
+
+:::
+
 ## Label
 
 The link `label` property is optional and takes a string value that can be used to display a label at the center of the link.
