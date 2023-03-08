@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits } from "vue";
 import Graphly from "../components/Graphly.vue";
 import MonacoEditor from "../components/MonacoEditor.vue";
 
@@ -44,14 +44,17 @@ const emits = defineEmits(["editorContentChange"]);
 <style scoped>
 .codePreview {
 	border-radius: 1em;
-	background-color: var(--vp-c-divider-light);
+	background-color: var(--vp-custom-block-info-bg);
 }
 .codePreview .graphly {
 	margin: 0;
 	border-top-right-radius: 1em;
 	border-top-left-radius: 1em;
 	height: 50%;
-	border-bottom: 2px solid var(--vp-c-bg);
+	background-color: unset !important;
+	border-bottom: 2px solid var(--vp-custom-block-info-border) !important;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 }
 .codePreview .monaco-editor {
 	border-bottom-right-radius: 1em;
