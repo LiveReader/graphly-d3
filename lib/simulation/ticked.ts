@@ -2,7 +2,7 @@ import ForceSimulation from "./forceSimulation";
 import { Event } from "./eventStore";
 
 import { Graph } from "../types/Graph";
-import { Node, AnchorType } from "../types/Node";
+import { Node, AnchorType, SatelliteType } from "../types/Node";
 import { ArrowDirection } from "../types/Link";
 import { DraggableNode } from "./drag";
 import { lineFull, line, arrow, labelDy } from "../link/link";
@@ -51,6 +51,10 @@ function processSatellite(graph: Graph, d: Node) {
 	};
 	d.satellite.x = pos.x;
 	d.satellite.y = pos.y;
+	if (d.satellite.type === SatelliteType.Hard) {
+		d.fx = pos.x;
+		d.fy = pos.y;
+	}
 }
 
 function processAnchor(d: Node) {

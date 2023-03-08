@@ -28,7 +28,7 @@ const link = {
 	padding: 10,
 	width: 3,
 	curvature: 0.1,
-	color: "#a6a6a6";
+	color: "#a6a6a6",
 	payload: {
 		// put your custom data here
 	},
