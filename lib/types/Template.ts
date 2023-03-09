@@ -4,5 +4,5 @@ import { Node } from "./Node";
 export interface Template<T = any> {
 	shapeSize: number;
 	shapePayload?: T;
-	shapeBuilder: (data: Node<T>, TemplateAPI: any) => d3.Selection<SVGElement, any, any, any>;
+	shapeBuilder: (data: Node<T>, TemplateAPI: any) => d3.Selection<any, any, any, any>;
 }

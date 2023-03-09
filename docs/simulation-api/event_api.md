@@ -39,6 +39,8 @@ enum Event {
 
 	SimulationTick = "simulation:tick",
 	SimulationTickEnd = "simulation:tickend",
+
+	ThemeChange = "theme:change", // available since v1.4.0
 }
 ```
 
@@ -300,6 +302,21 @@ The `"simulation:tickend"` event is triggered when the simulation is finished an
 ```ts
 import { Event } from "@livereader/graphly-d3";
 simulation.on(Event.SimulationTickEnd, () => {
+	// do something
+});
+```
+
+## Theme Change
+
+::: warning available since version 1.4.0
+:::
+
+The `"theme:change"` event is triggered when the theme of the simulation is changed.
+It provides the argument about the current `theme` of the simulation. (either `"light"` or `"dark"`)
+
+```ts
+import { Event } from "@livereader/graphly-d3";
+simulation.on(Event.ThemeChange, (theme) => {
 	// do something
 });
 ```

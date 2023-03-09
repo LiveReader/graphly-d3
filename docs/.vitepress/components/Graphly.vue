@@ -78,6 +78,8 @@ watch(
 	position: relative;
 	height: 100%;
 	width: 100%;
+	background-color: var(--vp-custom-block-info-bg);
+	border-radius: 1em;
 }
 .graphlyContainer {
 	position: relative;
@@ -93,7 +95,7 @@ watch(
 	margin: 0.3em;
 	height: 2.5em;
 	border-radius: 0.6em;
-	background-color: var(--vp-c-bg);
+	background-color: var(--vp-custom-block-info-border);
 	transition: all 0.1s ease-in-out;
 }
 .graphlyMoveTo span {
@@ -105,7 +107,7 @@ watch(
 	display: inline-block;
 }
 .graphlyMoveTo:hover {
-	color: var(--vp-c-white-mute);
+	color: white;
 	background-color: var(--vp-c-brand);
 }
 .graphlyMoveTo:hover span {

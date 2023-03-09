@@ -40,6 +40,7 @@ export default class ForceSimulation {
 		this._svgSelection = d3.select(svgElement);
 		this.selectionGroups = this.createWorld();
 		this._zoom = createZoom.bind(this)();
+		this.themeChangeObserver.disconnect();
 		this.setEvents();
 		this.render(this.graph);
 	}
@@ -167,24 +168,30 @@ export default class ForceSimulation {
 		this.svgSelection.on("contextmenu", (e: any) =>
 			this.eventStore.emit(Event.EnvironmentContextMenu, e, pos.bind(this)(e))
 		);
+		this.themeChangeObserver.observe(this.svgElement, { attributes: true });
 	}
 
+	public theme: "light" | "dark" = "light";
+	private themeChangeObserver = new MutationObserver((mutations) => {
+		mutations.forEach((mutation) => {
+			if (mutation.attributeName === "class") {
+				const element = mutation.target as HTMLElement;
+				const theme = element.classList.contains("dark") ? "dark" : "light";
+				this.eventStore.emit(Event.ThemeChange, theme);
+			}
+		});
+	});
 	public registerOnZoom(id: string, threshold: number, callback: (k: number) => boolean) {
 		this.deregisterOnZoom(id);
 		this._onZoomRegister.push({ id, threshold, callback });
-		this.createOnZoomRoutines();
-	}
-
-	public deregisterOnZoom(id: string) {
-		this._onZoomRegister = this._onZoomRegister.filter(({ id: i }) => i !== id);
-	}
-
-	private createOnZoomRoutines() {
 		this._onZoomRoutines = {};
 		this._onZoomRegister.forEach((registration) => {
 			if (!this._onZoomRoutines[registration.threshold]) this._onZoomRoutines[registration.threshold] = [];
 			this._onZoomRoutines[registration.threshold].push(registration.callback);
 		});
+	}
+	public deregisterOnZoom(id: string) {
+		this._onZoomRegister = this._onZoomRegister.filter(({ id: i }) => i !== id);
 	}
 
 	private selectNodes() {
@@ -197,6 +204,7 @@ export default class ForceSimulation {
 	}
 
 	public async render(this: ForceSimulation, graph: Graph, alpha: number = 0.05, forced: boolean = false) {
+		this.theme = this.svgElement.classList.contains("dark") ? "dark" : "light";
 		if (forced) {
 			this.nodeDataStore.clear();
 			this.selectionGroups.nodes.selectAll("*").remove();

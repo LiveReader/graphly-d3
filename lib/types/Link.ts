@@ -14,6 +14,12 @@ export enum LinkType {
 	Hidden = "hidden",
 }
 
+export enum ArrowDirection {
+	Head = "head",
+	Tail = "tail",
+	Both = "both",
+}
+
 export enum LinkStrength {
 	Strong = "strong",
 	Weak = "weak",
@@ -22,12 +28,13 @@ export enum LinkStrength {
 
 export interface Link extends D3Link {
 	id?: string;
-	type?: LinkType;
-	directed?: boolean;
+	type?: LinkType | "solid" | "dashed" | "dotted" | "hidden";
+	directed?: boolean | ArrowDirection | "head" | "tail" | "both";
 	label?: string;
-	strength?: number | LinkStrength;
+	strength?: number | LinkStrength | "strong" | "weak" | "loose";
 	padding?: number;
 	width?: number;
 	curvature?: number;
+	color?: string;
 	payload?: any;
 }

@@ -13,7 +13,7 @@ export default {
 	shapeSize: 300,
 	shapePayload: schema, // [!code focus]
 	shapeBuilder: shapeBuilder,
-}
+};
 ```
 
 The `shapePayload` is a optional property of a template definition that can be used to define what the payload for a template should look like.
@@ -64,7 +64,7 @@ A valid payload would look like this:
 
 <script setup>
 import { ref, onMounted } from "vue";
-import CodePreview from "../components/CodePreview.vue";
+import CodePreview from "../.vitepress/components/CodePreview.vue";
 let graph = ref({
 	nodes: [],
 	links: [],

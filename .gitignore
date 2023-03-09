@@ -2,5 +2,7 @@
 node_modules
 dist
 docs/.vitepress/dist
+docs/.vitepress/cache
 docs/.vitepress/.temp
+docs/.vitepress/cache
 .VSCodeCounter

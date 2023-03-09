@@ -233,23 +233,35 @@ The node `satellite` object property is optional and can be used to bind one nod
 It will keep a relative position to the source node at all times.
 
 ```ts
+enum SatelliteType {
+	Soft = "soft",
+	Hard = "hard",
+}
+
 interface Satellite {
 	source: string;
 	angle: number;
 	distance: number;
+	type?: SatelliteType;
 }
 ```
 
-| Property   |  Description                                                          |
-| ---------- | --------------------------------------------------------------------- |
-| `source`   | `id` of the source node to spawn the new node in relative position to |
-| `angle`    | angle in degrees. Rotation is clockwise. `0` is above the source node |
-| `distance` | distance between the centers of the source node and the new node      |
+| Property   |  Description                                                                                     |
+| ---------- | ------------------------------------------------------------------------------------------------ |
+| `source`   | `id` of the source node to spawn the new node in relative position to                            |
+| `angle`    | angle in degrees. Rotation is clockwise. `0` is above the source node                            |
+| `distance` | distance between the centers of the source node and the new node                                 |
+| `type?`    | defines whether the node moves softly towards the position or is locked to it. `soft` by default |
+
+::: warning
+type is only available since version 1.4.0
+:::
 
 ::: info
-The satellite nodes will be affected by the other forces like (e.g. gravity or collision) but strive towards the computed position simmilar to a `soft anchor`.
-
+By default the satellite nodes will be of `type` `soft` and therefore affected by the other forces like (e.g. gravity or collision) but strive towards the computed position simmilar to a `soft anchor`.  
 In case of multiple satellites with a similar target position, the satellites will all strive towards their target position and collide with each other.
+
+Using `type` `hard` will fix the node to the computed relative position and will not be affected by any other forces. Multiple satellites with `type` `hard` will not collide with each other either.
 :::
 
 ```js
@@ -259,6 +271,7 @@ const node = {
 		source: "node2",
 		angle: 45,
 		distance: 600,
+		type: "soft",
 	},
 };
 ```
@@ -303,7 +316,7 @@ payload: {
 
 <script setup>
 import { ref, onMounted } from "vue";
-import CodePreview from "../components/CodePreview.vue";
+import CodePreview from "../.vitepress/components/CodePreview.vue";
 let graph = ref({
 	nodes: [],
 	links: [

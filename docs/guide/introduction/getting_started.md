@@ -97,8 +97,8 @@ const graph = {
 			y: 30,
 			payload: {
 				title: "",
-				color: "#9575cd"
-			}
+				color: "#9575cd",
+			},
 		},
 		{
 			id: "node2",
@@ -110,8 +110,8 @@ const graph = {
 			y: -30,
 			payload: {
 				title: "",
-				color: "#9575cd"
-			}
+				color: "#9575cd",
+			},
 		},
 	],
 	links: [
@@ -166,8 +166,8 @@ const graph = {
 			y: 30,
 			payload: {
 				title: "",
-				color: "#9575cd"
-			}
+				color: "#9575cd",
+			},
 		},
 		{
 			id: "node2",
@@ -179,8 +179,8 @@ const graph = {
 			y: -30,
 			payload: {
 				title: "",
-				color: "#9575cd"
-			}
+				color: "#9575cd",
+			},
 		},
 	],
 	links: [

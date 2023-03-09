@@ -27,6 +27,8 @@ const link = {
 	strength: "strong",
 	padding: 10,
 	width: 3,
+	curvature: 0.1,
+	color: "#a6a6a6",
 	payload: {
 		// put your custom data here
 	},
@@ -49,6 +51,7 @@ interface Link {
 	padding?: number;
 	width?: number;
 	curvature?: number;
+	color?: string;
 	payload?: any;
 }
 ```
@@ -138,6 +141,24 @@ const link = {
 	directed: true,
 };
 ```
+
+::: tip MORE FEATURES
+
+> ::: warning available since version 1.4.0
+> :::
+
+Since version 1.4.0, the `directed` property can also be one of the string values `head`, `tail` or `both`.
+This allows for more fine-grained control over the direction of the arrow and makes it possible to draw arrows at both ends of the link.
+
+```js
+const link = {
+	source: "node1",
+	target: "node2",
+	directed: "both", // or "head" or "tail"
+};
+```
+
+:::
 
 ## Label
 
@@ -246,12 +267,29 @@ const link = {
 By not setting the curvature, the calculation takes the number of links between the two nodes into account and increases the curvature accordingly.
 :::
 
+## Color
+
+::: warning available since version 1.4.0
+:::
+
+The link `color` property is an optional string value that defines the color of the link, arrow and label.
+It can be handy to fine-tune the appearance of your graph and enables you to define a color for each link individually.  
+By leaving this value unset, the color of the link is defined by the style sheet.
+
+```js
+const link = {
+	source: "node1",
+	target: "node2",
+	color: "#4db6ac",
+};
+```
+
 ## Payload
 
 ::: warning available since version 1.1.0
 :::
 
-The link `payload` property is an optional object that can be used to store custom data and use it in custom processing steps. 
+The link `payload` property is an optional object that can be used to store custom data and use it in custom processing steps.
 It has no effect on the graph visualization.
 
 ```js
@@ -277,7 +315,7 @@ Dont change the `links` array name since the playground context depends on it.
 
 <script setup>
 import { ref, onMounted } from "vue";
-import CodePreview from "../components/CodePreview.vue";
+import CodePreview from "../.vitepress/components/CodePreview.vue";
 let graph = ref({
 	nodes: [
 		{

@@ -33,14 +33,20 @@ export enum AnchorType {
 }
 
 export interface Anchor {
-	type: AnchorType;
+	type: AnchorType | "soft" | "hard";
 	x: number;
 	y: number;
+}
+
+export enum SatelliteType {
+	Soft = "soft",
+	Hard = "hard",
 }
 
 export interface Satellite {
 	x?: number;
 	y?: number;
+	type?: SatelliteType | "soft" | "hard";
 	source: string | Node;
 	angle: number;
 	distance: number;

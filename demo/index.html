@@ -2,76 +2,15 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link
 			rel="stylesheet"
 			href="https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
 		/>
-		<title>GraphlyD3 Playground</title>
-		<link rel="stylesheet" href="../lib/styles/style.scss" />
-
-		<style>
-			svg.dark {
-				background-color: #151618;
-				transition: background-color 0.3s ease;
-			}
-
-			svg .demo_template_tag {
-				fill: #f4f4f4;
-			}
-			svg.dark .demo_template_tag {
-				fill: #404040;
-			}
-			.configSpan {
-				position: fixed;
-				right: 0;
-				z-index: 100;
-				cursor: pointer;
-				padding: 10px;
-				font-size: 20px;
-				font-family: Roboto, sans-serif;
-			}
-		</style>
+		<title>Graphly D3 Demo</title>
 	</head>
-	<body style="margin: 0; padding: 0; overflow: hidden">
-		<svg style="margin: 0; padding: 0; width: 100vw; height: 100vh"></svg>
-		<span
-			id="theme-button"
-			style="position: fixed; top: 0; right: 0; z-index: 100; cursor: pointer; padding: 10px; font-size: 20px"
-		>
-			🌓
-		</span>
-
-		<span class="configSpan" style="top: 30px">
-			<input id="transform-x" style="padding: 3px; width: 30px" type="text" placeholder="x" />
-			<input id="transform-y" style="padding: 3px; width: 30px" type="text" placeholder="y" />
-			<input id="transform-k" style="padding: 3px; width: 30px" type="text" placeholder="k" />
-		</span>
-		<span class="configSpan" style="top: 60px">
-			<button id="transform-btn" style="padding: 3px; width: 130px">move to transfrom</button>
-		</span>
-
-		<span class="configSpan" style="top: 90px">
-			<input id="bounds-x" style="padding: 3px; width: 52px" type="text" placeholder="x" />
-			<input id="bounds-y" style="padding: 3px; width: 52px" type="text" placeholder="y" />
-		</span>
-		<span class="configSpan" style="top: 120px">
-			<input id="bounds-width" style="padding: 3px; width: 52px" type="text" placeholder="width" />
-			<input id="bounds-height" style="padding: 3px; width: 52px" type="text" placeholder="height" />
-		</span>
-		<span class="configSpan" style="top: 150px">
-			<button id="bounds-btn" style="padding: 3px; width: 130px">move to bounds</button>
-		</span>
-
-		<span class="configSpan" style="top: 180px">
-			<button id="show-nodes-btn" style="padding: 3px; width: 130px">show all nodes</button>
-		</span>
-
-		<span class="configSpan" style="top: 210px">
-			<button id="include-nodes-btn" style="padding: 3px; width: 130px">include all nodes</button>
-		</span>
-
-		<script type="module" src="./app.ts"></script>
+	<body>
+		<div id="app"></div>
+		<script type="module" src="/src/main.ts"></script>
 	</body>
 </html>

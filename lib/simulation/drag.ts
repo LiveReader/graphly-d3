@@ -22,7 +22,7 @@ export function dragNode(this: ForceSimulation): d3.DragBehavior<Element, any, a
 
 function dragStart(this: ForceSimulation, e: d3.D3DragEvent<Element, any, any>, d: DraggableNode) {
 	const emitResponse = this.eventStore.emit(Event.NodeDragStart, e, d as Node, { x: e.x, y: e.y });
-	if (emitResponse == "newlink") return dragNewLinkStart.bind(this)(e, d);
+	if (emitResponse.includes("newlink")) return dragNewLinkStart.bind(this)(e, d);
 	if (!this.draggableNodes) return;
 	this.simulation.alphaTarget(0.05).restart();
 	d.isDraged = true;
