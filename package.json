@@ -3,7 +3,7 @@
 	"version": "1.3.4",
 	"description": "Library for creating powerful and interactive graph visualizations with ease.",
 	"scripts": {
-		"dev": "vite --host",
+		"dev": "cd demo && npm start",
 		"build": "vite build && vue-tsc --emitDeclarationOnly",
 		"format": "prettier --ignore-path .gitignore --write ."
 	},

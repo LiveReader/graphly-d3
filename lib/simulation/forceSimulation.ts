@@ -42,7 +42,6 @@ export default class ForceSimulation {
 		this._zoom = createZoom.bind(this)();
 		this.themeChangeObserver.disconnect();
 		this.setEvents();
-		this.theme = svgElement.classList.contains("dark") ? "dark" : "light";
 		this.render(this.graph);
 	}
 
@@ -205,6 +204,7 @@ export default class ForceSimulation {
 	}
 
 	public async render(this: ForceSimulation, graph: Graph, alpha: number = 0.05, forced: boolean = false) {
+		this.theme = this.svgElement.classList.contains("dark") ? "dark" : "light";
 		if (forced) {
 			this.nodeDataStore.clear();
 			this.selectionGroups.nodes.selectAll("*").remove();

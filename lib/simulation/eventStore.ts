@@ -125,11 +125,13 @@ export class EventStore {
 	}
 
 	public emit(event: string, ...args: any[]): any {
-		if (!this.register[event]) return;
+		if (!this.register[event]) return [];
+		const res: any[] = [];
 		this.register[event].forEach((callback) => {
 			for (const c in callback) {
-				callback[c](...args);
+				res.push(callback[c](...args));
 			}
 		});
+		return res;
 	}
 }
