@@ -12,9 +12,9 @@
 			"import": "./dist/main.es.js",
 			"require": "./dist/main.cjs.js"
 		},
-		"./components": {
-			"import": "./dist/components/index.es.js",
-			"require": "./dist/components/index.cjs.js"
+		"./component/vue3": {
+			"import": "./dist/component-vue3.es.js",
+			"require": "./dist/components-vue3.cjs.js"
 		},
 		"./style.css": "./dist/style.css"
 	},
@@ -23,8 +23,8 @@
 			"/": [
 				"dist/lib/main.d.ts"
 			],
-			"components": [
-				"dist/components/index.d.ts"
+			"component/vue3": [
+				"dist/components/vue3/index.d.ts"
 			]
 		}
 	},

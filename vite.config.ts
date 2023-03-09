@@ -13,7 +13,7 @@ export default defineConfig({
 		lib: {
 			entry: {
 				main: resolve(__dirname, "lib/main.ts"),
-				components: resolve(__dirname, "components/index.ts"),
+				"component-vue3": resolve(__dirname, "components/vue3/index.ts"),
 			},
 			name: "Graphly D3",
 			fileName: (format, name) => `${name}.${format}.js`,

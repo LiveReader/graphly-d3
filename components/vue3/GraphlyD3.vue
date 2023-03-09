@@ -6,8 +6,8 @@
 
 <script setup lang="ts">
 import { ref, Ref, onMounted, watch } from "vue";
-import { Event, ForceSimulation, Node, Link } from "@livereader/graphly-d3";
-import "@livereader/graphly-d3/style.css";
+import { Event, ForceSimulation, Node, Link } from "../../lib/main";
+import "../../lib/styles/style.scss";
 
 let svg = ref<SVGSVGElement>();
 let simulation: Ref<ForceSimulation | null> = ref(null);
@@ -80,6 +80,7 @@ defineExpose({
 });
 
 onMounted(() => {
+	if (!svg.value) return;
 	simulation.value = new ForceSimulation(svg.value);
 
 	simulation.value.templateStore.remoteOrigin = props.remoteOrigin;
