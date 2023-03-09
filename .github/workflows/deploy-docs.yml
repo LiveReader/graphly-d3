@@ -13,6 +13,8 @@ jobs:
                   node-version: 16
             - name: Build Graphly D3
               run: npm install && npm run build
+            - name: Copy Changelog
+              run: cp CHANGELOG.md docs/
             - name: Build Docs
               run: cd docs && npm install && npm run build
             - name: Add CNAME

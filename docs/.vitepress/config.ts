@@ -38,6 +38,7 @@ export default {
 			{ text: "Simulation API", link: "/simulation-api/", activeMatch: "/simulation-api/" },
 			{ text: "Template API", link: "/template-api/", activeMatch: "/template-api/" },
 			{ text: "Components", link: "/components/vue3/", activeMatch: "/components/" },
+			{ text: "Changelog", link: "/CHANGELOG", activeMatch: "/CHANGELOG" },
 			{
 				text: "LiveReader",
 				items: [
