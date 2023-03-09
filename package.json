@@ -20,7 +20,7 @@
 	},
 	"typesVersions": {
 		"*": {
-			"/": [
+			"*": [
 				"dist/lib/main.d.ts"
 			],
 			"component/vue3": [
