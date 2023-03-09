@@ -15,11 +15,11 @@ hero:
           text: Get Started
           link: /guide/introduction/getting_started
         - theme: alt
-          text: Tutorials
-          link: /guide/tutorials/
-        - theme: alt
           text: Playground
           link: /guide/tutorials/playground
+        - theme: alt
+          text: Components
+          link: /components/vue3/
         - theme: brand
           text: Star on GitHub
           link: https://github.com/livereader/graphly-d3
