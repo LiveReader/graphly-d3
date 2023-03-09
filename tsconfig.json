@@ -18,5 +18,5 @@
 		"outDir": "dist",
 		"declaration": true
 	},
-	"include": ["lib"]
+	"include": ["lib", "components"]
 }
