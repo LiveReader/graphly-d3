@@ -64,7 +64,7 @@ A valid payload would look like this:
 
 <script setup>
 import { ref, onMounted } from "vue";
-import CodePreview from "../components/CodePreview.vue";
+import CodePreview from "../.vitepress/components/CodePreview.vue";
 let graph = ref({
 	nodes: [],
 	links: [],

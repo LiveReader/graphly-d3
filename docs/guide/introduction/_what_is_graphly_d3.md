@@ -32,7 +32,7 @@ This combines the possibility for as many different shape types as needed while 
 
 <script setup>
 import { ref, onMounted } from "vue";
-import Graphly from "../../components/Graphly.vue";
+import Graphly from "../../.vitepress/components/Graphly.vue";
 let graph = ref({
 	nodes: [
 		{
