@@ -56,7 +56,8 @@
 				"source": "n0",
 				"target": "n1",
 				"type": "solid",
-				"directed": true,
+				"directed": "both",
+				"color": "red",
 				"label": "weak link",
 				"strength": "weak"
 			}

@@ -5,7 +5,7 @@ interface ExportLink {
 	target: string;
 	id?: string;
 	type?: string;
-	directed?: boolean;
+	directed?: boolean | string;
 	label?: string;
 	strength?: number | string;
 	padding?: number;

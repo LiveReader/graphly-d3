@@ -22,6 +22,7 @@ export enum Event {
 	EnvironmentDoubleClick = "environment:doubleclick",
 	EnvironmentContextMenu = "environment:contextmenu",
 	EnvironmentMove = "environment:move",
+	ThemeChange = "theme:change",
 
 	SimulationTick = "simulation:tick",
 	SimulationTickEnd = "simulation:tickend",
@@ -100,6 +101,9 @@ const Events: { [key in Event]: { [key: string]: (...args: any[]) => void } } = 
 	[Event.EnvironmentMove]: {
 		pos: (t: Transform) => t,
 	},
+	[Event.ThemeChange]: {
+		theme: (t: "light" | "dark") => t,
+	},
 
 	[Event.SimulationTick]: {},
 	[Event.SimulationTickEnd]: {},
@@ -108,22 +112,24 @@ const Events: { [key in Event]: { [key: string]: (...args: any[]) => void } } = 
 export class EventStore {
 	public static readonly events: { [key: string]: { [key: string]: (...args: any[]) => void } } = Events;
 
-	private register: { [key: string]: { [key: string]: (...args: any[]) => void } } = {};
+	private register: { [key: string]: { [key: string]: (...args: any[]) => void }[] } = {};
 
 	public on(event: string, callback: (...args: any[]) => void) {
-		if (!this.register[event]) this.register[event] = {};
-		this.register[event][callback.name] = callback;
+		if (!this.register[event]) this.register[event] = [];
+		this.register[event].push({ [callback.name]: callback });
 	}
 
 	public off(event: string, callback: (...args: any[]) => void) {
 		if (!this.register[event]) return;
-		delete this.register[event][callback.name];
+		this.register[event] = this.register[event].filter((c) => c[callback.name] !== callback);
 	}
 
 	public emit(event: string, ...args: any[]): any {
 		if (!this.register[event]) return;
-		for (const callback in this.register[event]) {
-			return this.register[event][callback](...args);
-		}
+		this.register[event].forEach((callback) => {
+			for (const c in callback) {
+				callback[c](...args);
+			}
+		});
 	}
 }

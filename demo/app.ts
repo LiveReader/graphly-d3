@@ -37,6 +37,10 @@ simulation.on(Event.EnvironmentClick, (e) => {
 simulation.on(Event.NodeClick, (e, d) => {
 	simulation.selectedNodes = [d.id];
 });
+simulation.on(Event.NodeDoubleClick, (e, d) => {
+	graph.nodes = graph.nodes.filter((n) => n.id !== d.id);
+	simulation.render(graph);
+});
 simulation.on(Event.NodeDragStart, (e, d, pos) => {
 	// create a new link when holding the alt key down
 	if (e.sourceEvent.altKey) return "newlink";
@@ -50,6 +54,10 @@ simulation.on(Event.LinkDragEnd, (e, source: Node, target: Node, pos) => {
 		graph.links.push(link);
 		simulation.render(graph);
 	}
+});
+
+simulation.on(Event.ThemeChange, (theme) => {
+	console.log(theme);
 });
 
 let theme = "light";

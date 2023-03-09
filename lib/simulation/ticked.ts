@@ -2,9 +2,10 @@ import ForceSimulation from "./forceSimulation";
 import { Event } from "./eventStore";
 
 import { Graph } from "../types/Graph";
-import { Node, AnchorType } from "../types/Node";
+import { Node, AnchorType, SatelliteType } from "../types/Node";
+import { ArrowDirection } from "../types/Link";
 import { DraggableNode } from "./drag";
-import { ArrowPosition, lineFull, line, arrow, labelDy } from "../link/link";
+import { lineFull, line, arrow, labelDy } from "../link/link";
 import { position, strength } from "./forces";
 
 export function ticked(this: ForceSimulation) {
@@ -23,9 +24,9 @@ export function ticked(this: ForceSimulation) {
 		const l = d.select("[data-object='link-line']");
 		l.attr("d", line);
 		const headArrow = d.select("[data-object='link-arrow-head']");
-		headArrow.attr("d", (d: any) => arrow(d, ArrowPosition.Head));
+		headArrow.attr("d", (d: any) => arrow(d, ArrowDirection.Head));
 		const tailArrow = d.select("[data-object='link-arrow-tail']");
-		tailArrow.attr("d", (d: any) => arrow(d, ArrowPosition.Tail));
+		tailArrow.attr("d", (d: any) => arrow(d, ArrowDirection.Tail));
 		const label = d.select("[data-object='link-label']");
 		label.attr("dy", labelDy);
 	});
@@ -50,6 +51,10 @@ function processSatellite(graph: Graph, d: Node) {
 	};
 	d.satellite.x = pos.x;
 	d.satellite.y = pos.y;
+	if (d.satellite.type === SatelliteType.Hard) {
+		d.fx = pos.x;
+		d.fy = pos.y;
+	}
 }
 
 function processAnchor(d: Node) {
