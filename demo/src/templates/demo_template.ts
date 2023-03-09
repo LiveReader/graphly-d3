@@ -1,4 +1,4 @@
-import { Node, TemplateAPI } from "../../lib/main";
+import { Node, TemplateAPI } from "../../../lib/main";
 
 const {
 	Shape,
@@ -143,7 +143,7 @@ function shapeBuilder(data: Node<Schema>) {
 		};
 	}
 
-	function setState(state) {
+	function setState(state: any) {
 		const status = data.payload?.status ?? "unkown";
 		state
 			.classed("gly_gray_fill", false)
