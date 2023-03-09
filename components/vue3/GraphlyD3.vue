@@ -52,27 +52,28 @@ const props = defineProps({
 });
 
 const emit = defineEmits([
-	"nodeClick",
-	"nodeDoubleClick",
-	"nodeContextMenu",
-	"nodeDragStart",
-	"nodeDragMove",
-	"nodeDragEnd",
+	"node-click",
+	"node-double-click",
+	"node-context-menu",
+	"node-drag-start",
+	"node-drag-move",
+	"node-drag-end",
 
-	"linkClick",
-	"linkDoubleClick",
-	"linkContextMenu",
-	"linkDragStart",
-	"linkDragMove",
-	"linkDragEnd",
+	"link-click",
+	"link-double-click",
+	"link-context-menu",
+	"link-drag-start",
+	"link-drag-move",
+	"link-drag-end",
 
-	"environmentClick",
-	"environmentDoubleClick",
-	"environmentContextMenu",
-	"environmentMove",
+	"environment-click",
+	"environment-double-click",
+	"environment-context-menu",
+	"environment-move",
+	"theme-change",
 
-	"simulationTick",
-	"simulationTickEnd",
+	"simulation-tick",
+	"simulation-tick-end",
 ]);
 
 defineExpose({
@@ -92,49 +93,50 @@ onMounted(() => {
 	simulation.value.zoomEnabled = props.zoomEnabled;
 	simulation.value.zoomScaleExtent = [props.zoomScaleExtent[0], props.zoomScaleExtent[1]];
 
-	simulation.value.on(Event.NodeClick, (e: any, node: Node) => emit("nodeClick", e, node));
-	simulation.value.on(Event.NodeDoubleClick, (e: any, node: Node) => emit("nodeDoubleClick", e, node));
-	simulation.value.on(Event.NodeContextMenu, (e: any, node: Node) => emit("nodeContextMenu", e, node));
+	simulation.value.on(Event.NodeClick, (e: any, node: Node) => emit("node-click", e, node));
+	simulation.value.on(Event.NodeDoubleClick, (e: any, node: Node) => emit("node-double-click", e, node));
+	simulation.value.on(Event.NodeContextMenu, (e: any, node: Node) => emit("node-context-menu", e, node));
 	simulation.value.on(Event.NodeDragStart, (e: any, node: Node, position: { x: number; y: number }) =>
-		emit("nodeDragStart", e, node, position)
+		emit("node-drag-start", e, node, position)
 	);
 	simulation.value.on(Event.NodeDragMove, (e: any, node: Node, position: { x: number; y: number }) =>
-		emit("nodeDragMove", e, node, position)
+		emit("node-drag-move", e, node, position)
 	);
 	simulation.value.on(Event.NodeDragEnd, (e: any, node: Node, position: { x: number; y: number }) =>
-		emit("nodeDragEnd", e, node, position)
+		emit("node-drag-end", e, node, position)
 	);
 
-	simulation.value.on(Event.LinkClick, (e: any, link: Link) => emit("linkClick", e, link));
-	simulation.value.on(Event.LinkDoubleClick, (e: any, link: Link) => emit("linkDoubleClick", e, link));
-	simulation.value.on(Event.LinkContextMenu, (e: any, link: Link) => emit("linkContextMenu", e, link));
+	simulation.value.on(Event.LinkClick, (e: any, link: Link) => emit("link-click", e, link));
+	simulation.value.on(Event.LinkDoubleClick, (e: any, link: Link) => emit("link-double-click", e, link));
+	simulation.value.on(Event.LinkContextMenu, (e: any, link: Link) => emit("link-context-menu", e, link));
 	simulation.value.on(Event.LinkDragStart, (e: any, sourceNode: Node, position: { x: number; y: number }) =>
-		emit("linkDragStart", e, sourceNode, position)
+		emit("link-drag-start", e, sourceNode, position)
 	);
 	simulation.value.on(Event.LinkDragMove, (e: any, sourceNode: Node, position: { x: number; y: number }) =>
-		emit("linkDragMove", e, sourceNode, position)
+		emit("link-drag-move", e, sourceNode, position)
 	);
 	simulation.value.on(
 		Event.LinkDragEnd,
 		(e: any, sourceNode: Node, targetNode: Node, position: { x: number; y: number }) =>
-			emit("linkDragEnd", e, sourceNode, targetNode, position)
+			emit("link-drag-end", e, sourceNode, targetNode, position)
 	);
 
 	simulation.value.on(Event.EnvironmentClick, (e: any, position: { x: number; y: number }) =>
-		emit("environmentClick", e, position)
+		emit("environment-click", e, position)
 	);
 	simulation.value.on(Event.EnvironmentDoubleClick, (e: any, position: { x: number; y: number }) =>
-		emit("environmentDoubleClick", e, position)
+		emit("environment-double-click", e, position)
 	);
 	simulation.value.on(Event.EnvironmentContextMenu, (e: any, position: { x: number; y: number }) =>
-		emit("environmentContextMenu", e, position)
+		emit("environment-context-menu", e, position)
 	);
 	simulation.value.on(Event.EnvironmentMove, (transform: { x: number; y: number; k: number }) =>
-		emit("environmentMove", transform)
+		emit("environment-move", transform)
 	);
+	simulation.value.on(Event.ThemeChange, (theme: "light" | "dark") => emit("theme-change", theme))
 
-	simulation.value.on(Event.SimulationTick, () => emit("simulationTick"));
-	simulation.value.on(Event.SimulationTickEnd, () => emit("simulationTickEnd"));
+	simulation.value.on(Event.SimulationTick, () => emit("simulation-tick"));
+	simulation.value.on(Event.SimulationTickEnd, () => emit("simulation-tick-end"));
 });
 
 watch(
@@ -194,5 +196,3 @@ watch(
 	}
 );
 </script>
-
-<style scoped lang="scss"></style>
