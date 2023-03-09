@@ -21,7 +21,7 @@ hero:
           text: Components
           link: /components/vue3/
         - theme: brand
-          text: Star on GitHub
+          text: ⭐ on GitHub
           link: https://github.com/livereader/graphly-d3
 
 features:
