@@ -21,13 +21,7 @@
 					"sex": "female",
 					"age": 23,
 					"accessibility": "freely accessibile",
-					"tags": [
-						"unconscious",
-						"diabetes",
-						"breathing",
-						"pulse weak",
-						"injury: head"
-					]
+					"tags": ["unconscious", "diabetes", "breathing", "pulse weak", "injury: head"]
 				}
 			},
 			{
@@ -45,9 +39,7 @@
 					"sex": "male",
 					"age": 34,
 					"accessibility": "freely accessibile",
-					"tags": [
-						"light dizziness"
-					]
+					"tags": ["light dizziness"]
 				}
 			}
 		],

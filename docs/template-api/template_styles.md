@@ -16,6 +16,10 @@ The dark mode of Graphly D3 is applied if the containing `<svg>` element has the
 <svg class="dark">...</svg>
 ```
 
+::: tip
+Take a look at [`OnThemeChange`](/template-api/events.html#on-theme-change) and [`ThemeStyle`](/template-api/styling.html#theme-style) to get more control over your templates behavior on theme changes.
+:::
+
 ## Utilities
 
 Graphly D3 also provides a few utility classes that can be handy when styling the template.
@@ -48,7 +52,7 @@ Those classes can be paired with `.lighten` and `.darken` to access the light an
 <ColorPaletteTable :palettes="[black, white]" />
 
 <script setup>
-import ColorPaletteTable from "../components/ColorPaletteTable.vue";
+import ColorPaletteTable from "../.vitepress/components/ColorPaletteTable.vue";
 const teal = {
 	title: "teal",
 	primaryColor: "#4db6ac",
