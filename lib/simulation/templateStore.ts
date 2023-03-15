@@ -38,8 +38,9 @@ export default class TemplateStore {
 				this.add(id, template);
 			})
 			.catch((error) => {
-				console.error(`Template "${id}" not founnd – Fetched from "${url}"`);
-				console.error(error);
+				console.error(
+					`[graphly-d3] Template "${id}" not founnd - Fetched from "${url}"\n\nFailed with error:\n${error} \n\nTroubleshooting: https://docs.graphly.dev/troubleshooting/`
+				);
 				this.failed.push(id);
 			})
 			.finally(() => {});

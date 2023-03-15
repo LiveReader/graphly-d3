@@ -36,16 +36,18 @@ export default function Node(this: any, data: Node) {
 		const isValid = validate(data.payload);
 		if (!isValid) {
 			console.error(
-				`[graphly-d3] ${data.shape.type} \n • ${validate.errors
+				`[graphly-d3] Invalid payload for "${data.shape.type}"\n • ${validate.errors
 					?.map((e) => `${e.instancePath} ${e.message}`)
-					.join("\n • ")}`
+					.join("\n • ")} \n\nTroubleshooting: https://docs.graphly.dev/troubleshooting/`
 			);
 			return throwError(
 				`"${data.shape.type}" ${validate.errors?.[0].instancePath} ${validate.errors?.[0].message}`
 			);
 		}
 	} else {
-		console.warn(`[graphly-d3] "${data.shape.type}" has no payload schema defined!`);
+		console.warn(
+			`[graphly-d3] "${data.shape.type}" has no payload schema defined! \n\nIf you are the author of this template, you can find more details here: https://docs.graphly.dev/template-api/shape_payload`
+		);
 	}
 
 	try {
@@ -59,7 +61,9 @@ export default function Node(this: any, data: Node) {
 				r.callback(data.forceSimulation.worldTransform.k);
 			});
 	} catch (e: any) {
-		console.error(`[graphly-d3] ${e}`);
+		console.error(
+			`[graphly-d3] Template "${data.shape.type}" failed rendering with error: \n${e} \n\nTroubleshooting: https://docs.graphly.dev/troubleshooting/`
+		);
 		return throwError(e.message);
 	}
 
