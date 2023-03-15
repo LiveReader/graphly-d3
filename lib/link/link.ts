@@ -220,7 +220,13 @@ function calculateIntersectionDistance(
 		.select("[data-id='" + linkID(link) + "']")
 		.select("[data-object='link-line-full']")
 		.node() as SVGPathElement;
-	if (!linePath || !linePath.getPointAtLength || (linePath.getAttribute("d") as string).includes("NaN")) return 0;
+	if (
+		!linePath ||
+		!linePath.getPointAtLength ||
+		!linePath.getAttribute("d") ||
+		(linePath.getAttribute("d") as string).includes("NaN")
+	)
+		return 0;
 
 	const bodyPoints = reversed ? targetNode.shape.bodyPoints ?? [] : sourceNode.shape.bodyPoints ?? [];
 	if (bodyPoints.length === 0) return 0;
