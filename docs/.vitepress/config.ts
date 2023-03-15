@@ -38,11 +38,17 @@ export default {
 			{ text: "Simulation API", link: "/simulation-api/", activeMatch: "/simulation-api/" },
 			{ text: "Template API", link: "/template-api/", activeMatch: "/template-api/" },
 			{ text: "Components", link: "/components/vue3/", activeMatch: "/components/" },
-			{ text: "Changelog", link: "/CHANGELOG", activeMatch: "/CHANGELOG" },
 			{
-				text: "LiveReader",
+				text: "More",
 				items: [
 					{
+						items: [
+							{ text: "Changelog", link: "/CHANGELOG", activeMatch: "/CHANGELOG" },
+							{ text: "Troubleshooting", link: "/troubleshooting/", activeMatch: "/troubleshooting" },
+						],
+					},
+					{
+						text: "LiveReader",
 						items: [
 							{ text: "Home Page", link: "https://livereader.com/" },
 							{ text: "Legal Notice", link: "https://livereader.com/legal-notice" },
