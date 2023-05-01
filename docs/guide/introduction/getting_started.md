@@ -246,19 +246,21 @@ Take a look at the [Tutorial](../tutorials/) to learn more about how to use Grap
 				shape: {
 					type: "hexagon",
 					scale: 1,
+					url: "https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/1.0.0",
 				},
 				x: -150,
 				y: 30,
-			payload: {
-				title: "",
-				color: "#9575cd"
-			}
+				payload: {
+					title: "",
+					color: "#9575cd"
+				}
 			},
 			{
 				id: "node2",
 				shape: {
 					type: "hexagon",
 					scale: 1,
+					url: "https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/1.0.0",
 				},
 				x: 150,
 				y: -30,
