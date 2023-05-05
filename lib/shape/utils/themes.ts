@@ -1,6 +1,7 @@
 import { Node } from "../../types/Node";
 
 export function OnThemeChange(data: Node, callback: (theme: "light" | "dark") => void) {
+	callback(data.renderConfig?.theme ?? "light");
 	if (!data.simulation) return;
 	data.simulation.eventStore.on("theme:change", callback);
 }

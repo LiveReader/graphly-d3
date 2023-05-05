@@ -56,6 +56,9 @@ export function applyStyles(shape: d3.Selection<any, any, any, any>, styles: Sha
 			applyStyle(
 				shape,
 				style.key,
+				style.value.data.renderConfig?.theme ?? "light" == "light"
+					? style.value.lightValue
+					: style.value.darkValue,
 				style.condition
 			);
 			if (!style.value.data.simulation) return;

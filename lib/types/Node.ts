@@ -52,9 +52,14 @@ export type Satellite = {
 	distance: number;
 };
 
+export type RenderConfig = {
+	theme: "light" | "dark";
+	scale: number;
+};
 
 export type Node<T = any> = D3Node & {
 	shape: Shape;
+	renderConfig?: RenderConfig;
 	simulation?: ForceSimulation;
 	gravity?: number;
 	spawn?: Spawn;

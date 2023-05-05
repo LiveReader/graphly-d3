@@ -17,5 +17,6 @@ function register(data: Node, threshold: number, styles: LODStyle[] = []) {
 		applyLODStyles(relativeScale, styles);
 		return true;
 	};
+	if (data.renderConfig) callback(data.renderConfig.scale);
 	if (data.simulation) data.simulation.registerOnZoom(id, globalThreshold, callback);
 }
