@@ -19,7 +19,7 @@
 svg {
 	.gly_text {
 		color: $gly-fg-color-light;
-		font-family: "Roboto";
+		font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 		text-anchor: middle;
 		stroke: none;
 		&.light,

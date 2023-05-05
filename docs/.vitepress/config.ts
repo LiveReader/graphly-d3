@@ -44,6 +44,7 @@ export default {
 					{
 						items: [
 							{ text: "Changelog", link: "/CHANGELOG", activeMatch: "/CHANGELOG" },
+							{ text: "Render Template", link: "/render-template/", activeMatch: "/render-template" },
 							{ text: "Troubleshooting", link: "/troubleshooting/", activeMatch: "/troubleshooting" },
 						],
 					},

@@ -1,4 +1,4 @@
-import { Node, TemplateAPI } from "../../../lib/main";
+import { Template, Node, TemplateAPI } from "@livereader/graphly-d3";
 
 const {
 	Shape,

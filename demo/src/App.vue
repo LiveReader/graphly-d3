@@ -1,6 +1,7 @@
 <template>
 	<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0">
 		<GraphlyD3
+			v-show="rendering == 'simulation'"
 			ref="graphly"
 			:dark="theme == 'dark'"
 			:env-gravity="0"
@@ -10,6 +11,9 @@
 			@link-drag-end="linkDragEnd"
 			@theme-change="themeChange"
 		/>
+		<svg v-show="rendering == 'render'" :class="theme" style="width: 100%; height: 100%">
+			<g id="render-template"></g>
+		</svg>
 	</div>
 	<div v-if="showConfig" class="config" :class="{ dark: theme == 'dark' }">
 		<svg-icon
@@ -20,6 +24,11 @@
 			:size="24"
 			@click="theme = theme == 'dark' ? 'light' : 'dark'"
 		/>
+		<div class="group">
+			<h3>Rendering</h3>
+			<button @click="() => (rendering = 'simulation')">Simulation</button>
+			<button @click="() => (rendering = 'render')">Render Template</button>
+		</div>
 		<div class="group">
 			<h3>Settings</h3>
 			<input v-model="padding" type="number" placeholder="padding" />
@@ -52,7 +61,7 @@
 import { ref, computed, onMounted } from "vue";
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiThemeLightDark } from "@mdi/js";
-import { Event, ForceSimulation, Graph, Node } from "@livereader/graphly-d3";
+import { Event, ForceSimulation, renderTemplate, Graph, Node } from "@livereader/graphly-d3";
 import GraphlyD3 from "@livereader/graphly-d3/component/vue3";
 import "@livereader/graphly-d3/style.css";
 
@@ -65,6 +74,7 @@ let graph: Graph = {
 	nodes: [],
 	links: [],
 };
+const rendering = ref("simulation");
 const showConfig = ref(false);
 const theme = ref("dark");
 const padding = ref(0);
@@ -79,7 +89,37 @@ const boundsY = ref(0);
 const boundsW = ref(0);
 const boundsH = ref(0);
 
-onMounted(() => {
+onMounted(async () => {
+	const render = await renderTemplate(
+		DemoTemplate,
+		{
+			id: "n0",
+			shape: {
+				type: "demo_template",
+				scale: 1,
+			},
+			anchor: {
+				type: "soft",
+				x: 0,
+				y: 0,
+			},
+			payload: {
+				status: "immediate",
+				name: {
+					first: "Emily",
+					last: "Hardy",
+				},
+				sex: "female",
+				age: 23,
+				accessibility: "freely accessibile",
+				tags: ["unconscious", "diabetes", "breathing", "pulse weak", "injury: head"],
+			},
+		},
+		{ theme: "light", scale: 1 }
+	);
+	document.getElementById("render-template")!.appendChild(render);
+	document.getElementById("render-template")!.setAttribute("transform", "translate(500, 400) scale(1)");
+
 	showConfig.value = true;
 	simulation.value.templateStore.add("demo_template", DemoTemplate as any);
 	graph = demoData.graph as unknown as Graph;

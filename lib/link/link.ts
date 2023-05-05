@@ -182,18 +182,14 @@ function getSurfacePoints(
 		.node();
 	if (!path) return { start, end, center: off };
 
-	const sourceSize = link.source.shape.failed
-		? link.source.forceSimulation?.templateStore.errorTemplate.shapeSize
-		: link.source.shape.template?.shapeSize ?? 300;
-	const targetSize = link.target.shape.failed
-		? link.target.forceSimulation?.templateStore.errorTemplate.shapeSize
-		: link.target.shape.template?.shapeSize ?? 300;
+	const sourceSize: number = link.source.shape.failed ? 200 : link.source.shape.template?.shapeSize ?? 300;
+	const targetSize: number = link.target.shape.failed ? 200 : link.target.shape.template?.shapeSize ?? 300;
 
 	const startIntersection = calculateIntersectionDistance(link.source, link.target, link, false);
 	const endIntersection = calculateIntersectionDistance(link.source, link.target, link, true);
 
-	const startDistance = startIntersection || (link.source.shape.scale ?? 1) * ((sourceSize ?? 300) / 2);
-	const endDistance = endIntersection || (link.target.shape.scale ?? 1) * ((targetSize ?? 300) / 2);
+	const startDistance = startIntersection || (link.source.shape.scale ?? 1) * (sourceSize / 2);
+	const endDistance = endIntersection || (link.target.shape.scale ?? 1) * (targetSize / 2);
 
 	const surfaceStart: any = (path.getAttribute("d") as string).includes("NaN")
 		? 0

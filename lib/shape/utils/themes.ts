@@ -1,9 +1,9 @@
 import { Node } from "../../types/Node";
 
 export function OnThemeChange(data: Node, callback: (theme: "light" | "dark") => void) {
-	if (!data.forceSimulation) return;
-	callback(data.forceSimulation.theme);
-	data.forceSimulation.eventStore.on("theme:change", callback);
+	callback(data.renderConfig?.theme ?? "light");
+	if (!data.simulation) return;
+	data.simulation.eventStore.on("theme:change", callback);
 }
 
 export function brightness(color: string) {
