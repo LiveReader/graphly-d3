@@ -53,14 +53,13 @@ export function LODStyle(
 export function applyStyles(shape: d3.Selection<any, any, any, any>, styles: ShapeStyle[]) {
 	styles.forEach((style: ShapeStyle) => {
 		if (style.value instanceof Object) {
-			if (!style.value.data.forceSimulation) return;
 			applyStyle(
 				shape,
 				style.key,
-				style.value.data.forceSimulation.theme == "light" ? style.value.lightValue : style.value.darkValue,
 				style.condition
 			);
-			style.value.data.forceSimulation.on(Event.ThemeChange, (theme: "light" | "dark") => {
+			if (!style.value.data.simulation) return;
+			style.value.data.simulation.on(Event.ThemeChange, (theme: "light" | "dark") => {
 				if (typeof style.value === "string") return;
 				if (theme == "light") applyStyle(shape, style.key, style.value.lightValue, style.condition);
 				else if (theme == "dark") applyStyle(shape, style.key, style.value.darkValue, style.condition);

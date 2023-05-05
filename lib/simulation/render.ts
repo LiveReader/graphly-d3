@@ -56,7 +56,7 @@ export function indexLinks(graph: Graph) {
 export async function renderNodes(this: ForceSimulation, graph: Graph) {
 	await getNodeTemplates.bind(this)(graph);
 	graph.nodes.forEach((node: Node) => {
-		node.forceSimulation = this;
+		node.simulation = this;
 	});
 	spawnNodes(graph.nodes);
 
