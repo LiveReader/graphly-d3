@@ -18,9 +18,10 @@
 		},
 		"./style.css": "./dist/style.css"
 	},
+	"types": "./dist/lib/main.d.ts",
 	"typesVersions": {
 		"*": {
-			"*": [
+			"/": [
 				"dist/lib/main.d.ts"
 			],
 			"component/vue3": [

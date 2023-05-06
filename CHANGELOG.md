@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.5.0 (2023-05-06)
+
+### Documentation Changes
+
+-   add simulation-api snapshot section ([a46f9ba2](https://github.com/LiveReader/graphly-d3/commit/a46f9ba262adade540a6d1891e97ea6ac6f73d9d))
+-   add render-template page ([d259e634](https://github.com/LiveReader/graphly-d3/commit/d259e634ade412989ffc225e992b08686eff94a2))
+-   refactor to use graphly-cdn demo shape ([8879db73](https://github.com/LiveReader/graphly-d3/commit/8879db73e536f9936679bf70370aac5164b4e604))
+
+### New Features
+
+-   forceSimulation snapshot method ([e48d4cbf](https://github.com/LiveReader/graphly-d3/commit/e48d4cbfa082587d0e7f9c52f99bdf1a14720435))
+-   expose renderTemplate method ([74af7b5a](https://github.com/LiveReader/graphly-d3/commit/74af7b5aac8a9eaca7304beb5411562cc373131c))
+-   add Node type renderConfig object ([020cbaf1](https://github.com/LiveReader/graphly-d3/commit/020cbaf15644beb3fc1973cd40c83861eb083e00))
+-   refactor Node simulation reference ([4e702a2c](https://github.com/LiveReader/graphly-d3/commit/4e702a2ce77368b6e36aaf7c4b44f17a9297cc6a))
+-   link rendering independency from forceSimulation ([2ae6c73e](https://github.com/LiveReader/graphly-d3/commit/2ae6c73ee8fce500027f19c7a07ab89de7008676))
+-   font-family update ([c84216bb](https://github.com/LiveReader/graphly-d3/commit/c84216bb77c018bd1f9594b34a3bf02d3e293d92))
+-   expose Template type ([f404bcc1](https://github.com/LiveReader/graphly-d3/commit/f404bcc1f96ea9982722b9f17ffa60d136ee1065))
+
 ## 1.4.1 (2023-03-15)
 
 ### Documentation Changes

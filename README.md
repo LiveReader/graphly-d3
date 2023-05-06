@@ -7,7 +7,7 @@
 [![GitHub Repo stars](https://img.shields.io/github/stars/LiveReader/graphly-d3)](https://github.com/LiveReader/graphly-d3)
 [![npm version](https://badge.fury.io/js/%40livereader%2Fgraphly-d3.svg)](https://www.npmjs.com/package/@livereader/graphly-d3)
 [![npm](https://img.shields.io/npm/dm/@livereader/graphly-d3)](https://www.npmjs.com/package/@livereader/graphly-d3)
-[![GitHub Workflow Status Docs](https://img.shields.io/github/actions/workflow/status/livereader/graphly-d3/deploy-docs.yml?branch=main&label=docs)](https://docs.graphly.dev)
+[![Deploy Docs](https://github.com/LiveReader/graphly-d3/actions/workflows/deploy-docs.yml/badge.svg)](https://github.com/LiveReader/graphly-d3/actions/workflows/deploy-docs.yml)
 [![build](https://github.com/LiveReader/graphly-d3/actions/workflows/release.yml/badge.svg)](https://github.com/LiveReader/graphly-d3/actions/workflows/release.yml)
 
 ## Powerful Graph Visualization
