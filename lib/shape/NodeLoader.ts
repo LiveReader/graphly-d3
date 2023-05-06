@@ -5,16 +5,16 @@ import { Node } from "../types/Node";
 import { renderTemplate } from "./renderer";
 
 export default function Node(this: any, data: Node) {
-	if (!data.simulation) {
+	if (!data.forceSimulation) {
 		data.shape.failed = true;
 		return null;
 	}
-	const exists = data.simulation.nodeDataStore.hasNode(data.id);
+	const exists = data.forceSimulation.nodeDataStore.hasNode(data.id);
 	let nodeShape = exists ? (d3.select(this) as d3.Selection<SVGElement, any, any, any>) : Shape.create("g");
 	nodeShape.classed("gly-node", true).attr("data-id", data.id);
-	const hasChanges = data.simulation.nodeDataStore.hasPayloadChanges(data.id, data);
-	const hasTemplateChange = data.simulation.nodeDataStore.hasTemplateChange(data.id, data);
-	data.simulation.nodeDataStore.add(data.id, data);
+	const hasChanges = data.forceSimulation.nodeDataStore.hasPayloadChanges(data.id, data);
+	const hasTemplateChange = data.forceSimulation.nodeDataStore.hasTemplateChange(data.id, data);
+	data.forceSimulation.nodeDataStore.add(data.id, data);
 
 	if (!hasChanges && !hasTemplateChange && !data.shape.failed) {
 		Shape.transform(
@@ -30,11 +30,19 @@ export default function Node(this: any, data: Node) {
 	}
 
 	renderTemplate(data.shape.template, data, {
-		theme: data.simulation.theme ?? "light",
-		scale: data.simulation.worldTransform.k ?? 1,
+		theme: data.forceSimulation.theme ?? "light",
+		scale: data.forceSimulation.worldTransform.k ?? 1,
 	})
 		.then((render) => {
 			nodeShape.append(() => d3.select(render).select("[data-object=shape]").node()).attr("data-object", "shape");
+			if (data.forceSimulation) {
+				data.forceSimulation.onZoomRegister
+					.filter((r) => r.id.startsWith(data.id))
+					.forEach((r) => {
+						if (!data.forceSimulation) return;
+						r.callback(data.forceSimulation.worldTransform.k);
+					});
+			}
 			data.shape.failed = false;
 			buildGlyBody();
 		})
@@ -73,7 +81,7 @@ export default function Node(this: any, data: Node) {
 			points.forEach((p) => {
 				p.x = (p.x - pointsXmin) * pointsScale.x + bbox.x - (pointsWidth * pointsScale.x) / 2 + shapeSize;
 				p.y = (p.y - pointsYmin) * pointsScale.y + bbox.y - (pointsHeight * pointsScale.y) / 2 + shapeSize;
-				if (data.simulation?.debug?.enabled && data.simulation.debug.bodyPoints.enabled) {
+				if (data.forceSimulation?.debug?.enabled && data.forceSimulation.debug.bodyPoints.enabled) {
 					nodeShape
 						.select("[data-object=shape]")
 						.append("circle")
@@ -81,7 +89,7 @@ export default function Node(this: any, data: Node) {
 						.attr("cx", p.x + (pointsWidth * pointsScale.x) / 2 - shapeSize)
 						.attr("cy", p.y + (pointsHeight * pointsScale.y) / 2 - shapeSize)
 						.attr("r", (Math.max(bbox.height, bbox.width) / shapeSize) * 5)
-						.attr("fill", data.simulation.debug.bodyPoints.color)
+						.attr("fill", data.forceSimulation.debug.bodyPoints.color)
 						.attr("stroke", "none");
 				}
 			});
@@ -99,13 +107,15 @@ export default function Node(this: any, data: Node) {
 		data.errorMessage = message;
 		nodeShape
 			.append(() => {
-				if (!data.simulation) return null;
-				return data.simulation.templateStore.errorTemplate.shapeBuilder.bind(this)(data, TemplateAPI).node();
+				if (!data.forceSimulation) return null;
+				return data.forceSimulation.templateStore.errorTemplate.shapeBuilder
+					.bind(this)(data, TemplateAPI)
+					.node();
 			})
 			.attr("data-object", "shape");
 		Shape.transform(
 			nodeShape.select("[data-object=shape]"),
-			data.shape.scale * (data.simulation?.templateStore?.errorTemplate?.shapeSize ?? 300)
+			data.shape.scale * (data.forceSimulation?.templateStore?.errorTemplate?.shapeSize ?? 300)
 		);
 		return nodeShape.node();
 	}

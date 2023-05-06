@@ -60,7 +60,7 @@ export type RenderConfig = {
 export type Node<T = any> = D3Node & {
 	shape: Shape;
 	renderConfig?: RenderConfig;
-	simulation?: ForceSimulation;
+	forceSimulation?: ForceSimulation;
 	gravity?: number;
 	spawn?: Spawn;
 	anchor?: Anchor;

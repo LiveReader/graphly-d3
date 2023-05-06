@@ -61,8 +61,8 @@ export function applyStyles(shape: d3.Selection<any, any, any, any>, styles: Sha
 					: style.value.darkValue,
 				style.condition
 			);
-			if (!style.value.data.simulation) return;
-			style.value.data.simulation.on(Event.ThemeChange, (theme: "light" | "dark") => {
+			if (!style.value.data.forceSimulation) return;
+			style.value.data.forceSimulation.on(Event.ThemeChange, (theme: "light" | "dark") => {
 				if (typeof style.value === "string") return;
 				if (theme == "light") applyStyle(shape, style.key, style.value.lightValue, style.condition);
 				else if (theme == "dark") applyStyle(shape, style.key, style.value.darkValue, style.condition);
