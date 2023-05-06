@@ -14,6 +14,7 @@
 		<svg v-show="rendering == 'render'" :class="theme" style="width: 100%; height: 100%">
 			<g id="render-template"></g>
 		</svg>
+		<div v-show="rendering == 'snapshot'" id="snapshot" style="width: 100%; height: 100%"></div>
 	</div>
 	<div v-if="showConfig" class="config" :class="{ dark: theme == 'dark' }">
 		<svg-icon
@@ -28,6 +29,8 @@
 			<h3>Rendering</h3>
 			<button @click="() => (rendering = 'simulation')">Simulation</button>
 			<button @click="() => (rendering = 'render')">Render Template</button>
+			<button @click="() => (rendering = 'snapshot')">Show Snapshot</button>
+			<button @click="() => snapshot()">Make Snapshot</button>
 		</div>
 		<div class="group">
 			<h3>Settings</h3>
@@ -134,6 +137,16 @@ onMounted(async () => {
 		if (e.sourceEvent.altKey) return "newlink";
 	});
 });
+
+function snapshot() {
+	if (rendering.value != "simulation") return;
+	const snap = simulation.value.snapshot(500);
+	const snapshotEl = document.getElementById("snapshot");
+	if (!snapshotEl) return;
+	snapshotEl.innerHTML = "";
+	snapshotEl.appendChild(snap);
+	rendering.value = "snapshot";
+}
 
 function envClick() {
 	simulation.value.selectedNodes = [];
