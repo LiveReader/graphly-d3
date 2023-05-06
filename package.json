@@ -1,6 +1,6 @@
 {
 	"name": "@livereader/graphly-d3",
-	"version": "1.4.1",
+	"version": "1.5.0",
 	"description": "Library for creating powerful and interactive graph visualizations with ease.",
 	"scripts": {
 		"dev": "cd demo && npm start",
@@ -18,9 +18,10 @@
 		},
 		"./style.css": "./dist/style.css"
 	},
+	"types": "./dist/lib/main.d.ts",
 	"typesVersions": {
 		"*": {
-			"*": [
+			"/": [
 				"dist/lib/main.d.ts"
 			],
 			"component/vue3": [

@@ -1,7 +1,7 @@
-import ForceSimulation from "../simulation/forceSimulation";
+import { ForceSimulation } from "../main";
 import { Template } from "./Template";
 
-export interface D3Node {
+export type D3Node = {
 	id: string;
 	x?: number;
 	y?: number;
@@ -9,9 +9,9 @@ export interface D3Node {
 	vy?: number;
 	fx?: number | null;
 	fy?: number | null;
-}
+};
 
-export interface Shape {
+export type Shape = {
 	type: string;
 	scale: number;
 	url?: string;
@@ -19,41 +19,47 @@ export interface Shape {
 	bodyPoints?: { x: number; y: number }[];
 	bodyResolution?: number;
 	failed?: boolean;
-}
+};
 
-export interface Spawn {
+export type Spawn = {
 	source: string | Node;
 	angle: number;
 	distance: number;
-}
+};
 
 export enum AnchorType {
 	Soft = "soft",
 	Hard = "hard",
 }
 
-export interface Anchor {
+export type Anchor = {
 	type: AnchorType | "soft" | "hard";
 	x: number;
 	y: number;
-}
+};
 
 export enum SatelliteType {
 	Soft = "soft",
 	Hard = "hard",
 }
 
-export interface Satellite {
+export type Satellite = {
 	x?: number;
 	y?: number;
 	type?: SatelliteType | "soft" | "hard";
 	source: string | Node;
 	angle: number;
 	distance: number;
-}
+};
 
-export interface Node<T = any> extends D3Node {
+export type RenderConfig = {
+	theme: "light" | "dark";
+	scale: number;
+};
+
+export type Node<T = any> = D3Node & {
 	shape: Shape;
+	renderConfig?: RenderConfig;
 	forceSimulation?: ForceSimulation;
 	gravity?: number;
 	spawn?: Spawn;
@@ -61,4 +67,4 @@ export interface Node<T = any> extends D3Node {
 	satellite?: Satellite;
 	errorMessage?: string;
 	payload?: T;
-}
+};
