@@ -228,6 +228,13 @@ export default class ForceSimulation {
 			});
 	}
 
+	public snapshot(ticks: number = 0): SVGElement {
+		const simulation = this.simulation;
+		simulation.tick(ticks);
+		const clone = this.svgElement.cloneNode(true);
+		return clone as SVGElement;
+	}
+
 	public exportGraph() {
 		return exportGraph.bind(this)();
 	}

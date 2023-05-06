@@ -45,6 +45,21 @@ The `forced` flag is only to be used if you have reason to believe that the auto
 Besides that, it would harm the optimized performance of the simulation.
 :::
 
+## Snapshot
+
+::: warning available since version 1.5.0
+:::
+
+The `ForceSimulation`s `snapshot()` method is called to render a snapshot of the force simulation and returns a static SVGElement DOM node.
+
+```ts
+const snapshow = simulation.snapshot();
+```
+
+::: tip
+This is useful to render a static version of the graphly graph to use it as a preview or thumbnail for example.
+:::
+
 ## Template Store
 
 The `ForceSimulation` class contains and exposes the `templateStore` module which is used to store the shape templates that are used to render the nodes.
