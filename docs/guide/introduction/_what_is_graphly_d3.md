@@ -40,7 +40,7 @@ let graph = ref({
 			shape: {
 				type: "hexagon",
 				scale: 1,
-				url: "https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/1.0.0",
+				url: "https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/latest",
 			},
 			x: -150,
 			y: 30,
@@ -54,7 +54,7 @@ let graph = ref({
 			shape: {
 				type: "hexagon",
 				scale: 1,
-				url: "https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/1.0.0",
+				url: "https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/latest",
 			},
 			x: 150,
 			y: -30,

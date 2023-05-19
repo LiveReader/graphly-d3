@@ -87,7 +87,7 @@ let codeContent = (p) => {
 		'			shape: {',
 		'				type: "hexagon",',
 		'				scale: 1,',
-		'				url: "https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/1.0.0",',
+		'				url: "https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/latest",',
 		'			},',
 		'			anchor: {',
 		'				type: "soft",',

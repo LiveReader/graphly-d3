@@ -50,9 +50,8 @@ export default {
 	shapeBuilder: shapeBuilder,
 };
 
-function shapeBuilder(data, TemplateAPI) {
-	const { ShapeStyle, SVGShape, TextCollection, CollectionStyle } = TemplateAPI;
-
+function shapeBuilder(data, Template) {
+	const { Shape, SVGShape, TextCollection, CollectionStyle, ShapeStyle, Alignment, OnZoom, LODStyle } = Template;
 	const shape = SVGShape(`
 		<g transform="matrix(1,0,0,1,-101.915,-40.1924)">
 			<g transform="matrix(8.33117e-17,-1.36058,1.36058,8.33117e-17,9.05891,870.52)">
@@ -62,11 +61,15 @@ function shapeBuilder(data, TemplateAPI) {
 	`);
 	shape.select("path").style("fill", data.payload?.color ?? "#9575cd");
 
-	const titleShape = TextCollection(data.payload?.title ?? "", CollectionStyle(200, 240, 30, 100, 10, 10, 2), [
-		ShapeStyle("class", "gly_text.light"),
-		ShapeStyle("font-size", "5em"),
-	]);
+	const bbox = Shape.getBBox(shape);
+	const titleShape = TextCollection(
+		data.payload?.title ?? "",
+		CollectionStyle(200, bbox.width * 0.8, bbox.width * 0.1, bbox.height * 0.45, 10, 10, 2, Alignment.Center),
+		[ShapeStyle("class", "gly_text.light"), ShapeStyle("font-size", "5em")]
+	);
 	shape.append(() => titleShape.node());
+
+	OnZoom(data, [0.6], [LODStyle(titleShape, "class", "hidden", (k) => k < 0.6)]);
 
 	return shape;
 }
@@ -203,9 +206,8 @@ export default {
 	shapeBuilder: shapeBuilder,
 };
 
-function shapeBuilder(data, TemplateAPI) {
-	const { ShapeStyle, SVGShape, TextCollection, CollectionStyle } = TemplateAPI;
-
+function shapeBuilder(data, Template) {
+	const { Shape, SVGShape, TextCollection, CollectionStyle, ShapeStyle, Alignment, OnZoom, LODStyle } = Template;
 	const shape = SVGShape(`
 		<g transform="matrix(1,0,0,1,-101.915,-40.1924)">
 			<g transform="matrix(8.33117e-17,-1.36058,1.36058,8.33117e-17,9.05891,870.52)">
@@ -215,11 +217,15 @@ function shapeBuilder(data, TemplateAPI) {
 	`);
 	shape.select("path").style("fill", data.payload?.color ?? "#9575cd");
 
-	const titleShape = TextCollection(data.payload?.title ?? "", CollectionStyle(200, 240, 30, 100, 10, 10, 2), [
-		ShapeStyle("class", "gly_text.light"),
-		ShapeStyle("font-size", "5em"),
-	]);
+	const bbox = Shape.getBBox(shape);
+	const titleShape = TextCollection(
+		data.payload?.title ?? "",
+		CollectionStyle(200, bbox.width * 0.8, bbox.width * 0.1, bbox.height * 0.45, 10, 10, 2, Alignment.Center),
+		[ShapeStyle("class", "gly_text.light"), ShapeStyle("font-size", "5em")]
+	);
 	shape.append(() => titleShape.node());
+
+	OnZoom(data, [0.6], [LODStyle(titleShape, "class", "hidden", (k) => k < 0.6)]);
 
 	return shape;
 }
@@ -246,7 +252,7 @@ Take a look at the [Tutorial](../tutorials/) to learn more about how to use Grap
 				shape: {
 					type: "hexagon",
 					scale: 1,
-					url: "https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/1.0.0",
+					url: "https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/latest",
 				},
 				x: -150,
 				y: 30,
@@ -260,7 +266,7 @@ Take a look at the [Tutorial](../tutorials/) to learn more about how to use Grap
 				shape: {
 					type: "hexagon",
 					scale: 1,
-					url: "https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/1.0.0",
+					url: "https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/latest",
 				},
 				x: 150,
 				y: -30,

@@ -79,7 +79,7 @@ import { renderTemplate } from "@livereader/graphly-d3";
 import "@livereader/graphly-d3/style.css";
 
 onMounted(async () => {
-	await import("https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/1.0.0").then(async (template) => {
+	await import("https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/latest").then(async (template) => {
 		const render = await renderTemplate(
 			template.default,
 			{
