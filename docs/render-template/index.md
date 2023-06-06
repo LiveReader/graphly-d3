@@ -75,29 +75,30 @@ It does not use any simulation.
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { renderTemplate } from "@livereader/graphly-d3";
 import "@livereader/graphly-d3/style.css";
 
-onMounted(async () => {
-	await import("https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/latest").then(async (template) => {
-		const render = await renderTemplate(
-			template.default,
-			{
-				id: "node1",
-				shape: {
-					type: "my-template",
-					scale: 1,
+onMounted(() => {
+	import("@livereader/graphly-d3").then(({ renderTemplate }) => {
+		import("https://cdn.graphly.dev/@jason-rietzke/demo-hexagon/latest").then(async (template) => {
+			const render = await renderTemplate(
+				template.default,
+				{
+					id: "node1",
+					shape: {
+						type: "my-template",
+						scale: 1,
+					},
+					payload: {
+						title: "Hexagon",
+						color: "#9575cd",
+					},
 				},
-				payload: {
-					title: "Hexagon",
-					color: "#9575cd",
-				},
-			},
-			{ theme: "light", scale: 1 }
-		);
-		const g = document.getElementById("tpl-render");
-		document.getElementById("tpl-render")!.appendChild(render);
-		document.getElementById("tpl-render")!.setAttribute("transform", "translate(60, 60)");
+				{ theme: "light", scale: 1 }
+			);
+			const g = document.getElementById("tpl-render");
+			document.getElementById("tpl-render")!.appendChild(render);
+			document.getElementById("tpl-render")!.setAttribute("transform", "translate(60, 60)");
+		})
 	})
 })
 
