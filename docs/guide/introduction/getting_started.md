@@ -6,6 +6,10 @@ lang: en-US
 # Getting Started
 
 Getting started with Graphly D3 is easy.
+This is a step-by-step guide to get you started with Graphly D3 and create your first template.
+
+And feel free to checkout [Graphly Hub](https://graphly.dev) to get inspired by other templates.
+It is currently in closed beta but you are welcome to take a look and see how we and others use Graphly D3 and its template system.
 
 ## Step 1: Create a new project
 
