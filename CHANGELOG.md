@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.5.1 (2023-06-23)
+
+### Documentation Changes
+
+-   add Graphly Hub reference to the getting-started page ([b92fc990](https://github.com/LiveReader/graphly-d3/commit/b92fc99035edab9aec0125f1c762cda9502118e3))
+-   update getting-started template example ([b401bbd4](https://github.com/LiveReader/graphly-d3/commit/b401bbd42f48c3880c674cdc16673db5dc10da48))
+
+### New Features
+
+-   Template interface typed TemplateAPI injection ([e1ccd87f](https://github.com/LiveReader/graphly-d3/commit/e1ccd87f9cb6b2f2c8dca137ef2f086ec2169fed))
+
+### Bug Fixes
+
+-   templateStore error message typo fixed [#112](https://github.com/LiveReader/graphly-d3/pull/112) ([0b1ba126](https://github.com/LiveReader/graphly-d3/commit/0b1ba12659ef2cbea8e8a9f1631da6975664a54d))
+
 ## 1.5.0 (2023-05-06)
 
 ### Documentation Changes
