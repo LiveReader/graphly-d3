@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.2 (2023-09-03)
+
+### Chores
+
+-   package type export ([0a8dda1c](https://github.com/LiveReader/graphly-d3/commit/0a8dda1cc37fdc4dcd9b00ce04d8025af4b5b8de))
+-   vite build type definitions ([2be0419f](https://github.com/LiveReader/graphly-d3/commit/2be0419f0ece68f0b599e07fe0658c9f0835587e))
+
 ## 1.5.1 (2023-06-23)
 
 ### Documentation Changes
