@@ -8,25 +8,39 @@
 		"publint": "npx publint --strict",
 		"format": "prettier --ignore-path .gitignore --write ."
 	},
+	"main": "./dist/main.js",
+	"module": "./dist/main.mjs",
+	"types": "./dist/main.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/main.es.js",
-			"require": "./dist/main.cjs.js"
+			"import": {
+				"types": "./dist/main.d.mts",
+				"default": "./dist/main.mjs"
+			},
+			"require": {
+				"types": "./dist/main.d.ts",
+				"default": "./dist/main.js"
+			}
 		},
 		"./component/vue3": {
-			"import": "./dist/component-vue3.es.js",
-			"require": "./dist/components-vue3.cjs.js"
+			"import": {
+				"types": "./dist/component-vue3.d.mts",
+				"default": "./dist/component-vue3.mjs"
+			},
+			"require": {
+				"types": "./dist/component-vue3.d.ts",
+				"default": "./dist/component-vue3.js"
+			}
 		},
 		"./style.css": "./dist/style.css"
 	},
-	"types": "./dist/lib/main.d.ts",
 	"typesVersions": {
 		"*": {
-			"/": [
-				"dist/lib/main.d.ts"
+			".": [
+				"dist/main.d.ts"
 			],
 			"component/vue3": [
-				"dist/components/vue3/index.d.ts"
+				"dist/component-vue3.d.ts"
 			]
 		}
 	},
