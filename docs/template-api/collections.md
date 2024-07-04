@@ -27,7 +27,7 @@ It may get added using the `BreakLine()` function.
 ## Shape Collection
 
 The `ShapeCollection` builds, places and styles a collection of shapes and returns the d3 selection of the created svg group.
-It takes an array of d3 selection that represent the `shapes` to be displayed, requires a [CollectionStyle](/template-api/styling#collection-style) `style` object and takes an optional `ellipsis` parameter that defines a shape that should be displayed if there are more items than the collection cann't display.
+It takes an array of d3 selection that represent the `shapes` to be displayed, requires a [CollectionStyle](/template-api/styling#collection-style) `style` object and takes an optional `ellipsis` parameter that defines a shape that should be displayed if there are more items than the collection can display.
 
 This module tries to place the items according to the given `style` and stops if it exceeds the collection's boundaries.
 If set it will render the ellipsis shape at the end of the collection to indicate that there are more items.
