@@ -1,5 +1,5 @@
 <template>
-	<div class="gly-container" style="width: 100%; height: 100%;">
+	<div class="gly-container" style="width: 100%; height: 100%; overflow-y: hidden">
 		<svg ref="svg" style="width: 100%; height: 100%" :class="{ dark: props.dark }"></svg>
 	</div>
 </template>
